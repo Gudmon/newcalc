@@ -1,19 +1,21 @@
-import { Component  } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
-import { ProductListComponent } from "./components/product-list/product-list.component";
+import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api/menuitem';
-import { NavigationComponent } from "./components/navigation/navigation.component";
-
 
 @Component({
-    selector: 'app-root',
+    selector: 'app-navigation',
     standalone: true,
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.css',
-    imports: [RouterOutlet, RouterLink, RouterLinkActive, ProductListComponent, MenubarModule, NavigationComponent]
+    templateUrl: './navigation.component.html',
+    styleUrl: './navigation.component.css',
+    encapsulation: ViewEncapsulation.None,
+    imports: [RouterOutlet, MenubarModule, NavigationComponent]
 })
-export class AppComponent {
+export class NavigationComponent implements OnInit {
+constructor(){
+
+}
+
   items: MenuItem[] | undefined;
 
     ngOnInit() {
@@ -57,7 +59,8 @@ export class AppComponent {
                 label: 'Kalkulátorok',
                 items: [
                   {
-                      label: 'Krpan'
+                      label: 'Krpan',
+                      routerLink: '/krpan'
                   },
                   {
                       label: 'Palms'
