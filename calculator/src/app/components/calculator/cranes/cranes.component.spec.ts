@@ -12,6 +12,7 @@ describe('CranesComponent', () => {
     })
     .compileComponents();
     
+    
     fixture = TestBed.createComponent(CranesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
