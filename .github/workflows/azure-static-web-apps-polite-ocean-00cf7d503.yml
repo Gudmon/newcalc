@@ -19,7 +19,7 @@ jobs:
         with:
           submodules: true
           lfs: false
-          
+
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
@@ -27,7 +27,6 @@ jobs:
           
       - name: npm install and build
         run: |
-          rm package-lock.json
           npm cache clean --force
           rm -rf node_modules
           npm install -g @angular/cli@16.2.11 --legacy-peer-deps
