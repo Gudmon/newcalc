@@ -21,13 +21,13 @@ jobs:
       - name: Install Node.js and npm install
         uses: actions/setup-node@v4
         with:
-          node-version: '20.11.0'
+          node-version: '18.13'
 
       - name: npm install
         run: |
-            npm cache clean --force
-            npm install -g @angular/cli@16.2.11 --legacy-peer-deps
-            npm install --no-cache
+          npm cache clean --force
+          npm install -g @angular/cli@16.2.11 --legacy-peer-deps
+          npm install --no-cache
         working-directory: ./calculator
 
       - name: Build And Deploy
