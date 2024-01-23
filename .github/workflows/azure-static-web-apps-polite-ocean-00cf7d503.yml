@@ -23,12 +23,11 @@ jobs:
         with:
           node-version: '20.11.0'
 
-      - name: npm install and build
+      - name: npm install
         run: |
             npm cache clean --force
-            rm -rf node_modules
             npm install -g @angular/cli@16.2.11 --legacy-peer-deps
-            npm install --no-cache- name: npm install
+            npm install --no-cache
         working-directory: ./calculator
 
       - name: Build And Deploy
