@@ -17,9 +17,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
-        with:
-          submodules: true
-          lfs: false
 
       - name: Install Node.js and npm install
         uses: actions/setup-node@v4
