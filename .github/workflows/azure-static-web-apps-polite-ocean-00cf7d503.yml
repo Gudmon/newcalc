@@ -25,6 +25,7 @@ jobs:
 
       - name: npm install
         run: npm install
+        working-directory: ./calculator
 
       - name: Build And Deploy
         id: builddeploy
