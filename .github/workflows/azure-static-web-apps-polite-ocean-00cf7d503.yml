@@ -21,10 +21,10 @@ jobs:
       - name: Install Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16.x'
+          node-version: '18.13'
 
       - run: |
-          npm install -g @angular/cli@16.2.10
+          npm install -g @angular/cli@latest
           npm install
           ng build --prod
         name: npm install and build
