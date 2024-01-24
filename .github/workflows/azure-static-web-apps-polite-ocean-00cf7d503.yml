@@ -18,21 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Install Node.js and npm install
-        run: |
-          sudo apt-get -y install nodejs npm
-          npm cache clean --force
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16.x'
 
-          # Install nvm
-          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.1/install.sh | bash
-          export NVM_DIR="$HOME/.nvm"
-          [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-
-          # Install the desired Node.js version
-          nvm install 20.11.0
-          npm install -g @angular/cli@16.2.11 --legacy-peer-deps
-          npm install --no-cache
-        working-directory: ./calculator
+      - run: |
+          npm install -g @angular/cli@16.2.10
+          npm install
+          ng build --prod
+        name: npm install and build
 
       - name: Build And Deploy
         id: builddeploy
@@ -52,7 +47,7 @@ jobs:
 
     steps:
       - name: Close Pull Request
-        id: closepullrequest          
+        id: closepullrequest
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_POLITE_OCEAN_00CF7D503 }}
