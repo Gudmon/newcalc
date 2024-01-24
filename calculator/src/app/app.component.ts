@@ -4,6 +4,7 @@ import { ProductListComponent } from "./components/product-list/product-list.com
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api/menuitem';
 import { NavigationComponent } from "./components/navigation/navigation.component";
+import { LandingComponent } from "./landing/landing.component";
 
 
 @Component({
@@ -11,7 +12,7 @@ import { NavigationComponent } from "./components/navigation/navigation.componen
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
-    imports: [RouterOutlet, RouterLink, RouterLinkActive, ProductListComponent, MenubarModule, NavigationComponent]
+    imports: [RouterOutlet, RouterLink, RouterLinkActive, ProductListComponent, MenubarModule, NavigationComponent, LandingComponent]
 })
 export class AppComponent {
   items: MenuItem[] | undefined;

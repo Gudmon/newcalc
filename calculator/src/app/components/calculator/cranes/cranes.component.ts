@@ -45,6 +45,8 @@ export class CranesComponent implements OnInit{
   originalRotatorBrakePrice = 0;
   equipmentSelected = false;
 
+  formGroup: FormGroup | undefined;
+
   @ViewChild('oilCoolerCheckBox') oilCoolerCheckBox!: Checkbox;
   @ViewChild('backrestCheckBox') backrestCheckBox!: Checkbox;
   @ViewChild('ledCheckBox') ledCheckBox!: Checkbox;
@@ -77,10 +79,17 @@ export class CranesComponent implements OnInit{
     this.setRotatorBrakes();
     this.setConfigItems();
     this.setVehicleTypes();
+    this.setFormGroup();
   }
 
   navigateToMachine(machineId: string) {
     this.router.navigate(['/krpan', machineId]);
+  }
+
+  setFormGroup(){
+    this.formGroup = new FormGroup({
+      text: new FormControl<string | null>(null)
+    });
   }
 
   delete() {

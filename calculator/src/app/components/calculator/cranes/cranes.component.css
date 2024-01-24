@@ -2,6 +2,7 @@
     margin-left: 20px;
     margin-right: 50px;
     border-radius: 2px;
+    background-color: transparent;
 }
 
 ::ng-deep .custom-select .p-ripple.p-element.p-button.p-component.p-highlight {

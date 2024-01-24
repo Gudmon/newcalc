@@ -1,15 +1,29 @@
-<div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-40 md:grid-cols-1 md:mx-40 lg:grid-cols-2 lg:mx-40 xl:grid-cols-2 xl:mx-60">
+<div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-2 xl:mx-20">
     @for (crane of cranes; track crane.id){
-        <p-card class="mt-10" [header]="crane.name" [subheader]="formatPrice(crane.price)">
+        <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name" [subheader]="formatPrice(crane.price)">
             <ng-template pTemplate="header">
                 <img alt="Card" [src]="crane.imgUrl"/>
             </ng-template>
-            <span class="block">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</span>
-            <span class="block">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</span>
-            <span class="block">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</span>
+            <p class="block text-sm">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</p>
+            <p class="block text-sm">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</p>
+            <p class="block text-sm">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</p>
             <ng-template pTemplate="footer">
-                <p-button (onClick)="addToCalculator(crane)" label="Kalkulál" class="bg-blue-300 rounded-lg p-2 mx-2"></p-button>
-                <p-button (onClick)="navigateToMachine(crane.id)" label="További információ a termékről" class="bg-slate-300 rounded-lg p-2 mx-2"></p-button>
+                <div class="grid grid-cols-1 mb-4">
+                    
+                    <div class="col-start-1 col-end-3">
+                        <p-button (onClick)="navigateToMachine(crane.id)" label="További információ a termékről" class="bg-slate-300 rounded-lg p-2 mx-2"></p-button>
+
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 mt-4">
+                    <div class="col-start-1 col-end-3">
+
+                        <p-button (onClick)="addToCalculator(crane)" label="Kalkulál" class="bg-[#8ac73c] rounded-lg p-2 mx-2"></p-button>
+                    </div>
+                   
+                </div>
+                
+                
             </ng-template>
         </p-card>
     } 
@@ -18,7 +32,7 @@
     }
     </div>
     
-    <div #configElement *ngIf="equipmentSelected"  class="flex align-middle justify-center my-10">
+    <div #configElement *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
         <div class="justify-center w-9/12">
             <div class="justify-content-center my-4 py-4">
                 <span>Vezértömb</span>
@@ -66,3 +80,72 @@
             </div>      
         </div>
     </div>
+    
+
+    <section *ngIf="equipmentSelected" class="relative block mt-40 py-24 lg:pt-0 lg:mt-48 bg-slate-200">
+        <div class="container mx-auto px-4">
+          <div class="flex flex-wrap justify-center lg:-mt-64 -mt-48">
+            <div class="w-full lg:w-12/12 px-10">
+              <div
+                class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300"
+              >
+                <div class="flex-auto p-5 lg:p-10">
+                  <h4 class="text-2xl font-semibold">Kérdése van?</h4>
+                  <p class="leading-relaxed mt-1 mb-4 text-gray-600">
+                    Tegye fel nekünk üzenetben!
+                  </p>
+                  <div class="relative w-full mb-3 mt-8">
+                    <label
+                      class="block uppercase text-gray-700 text-xs font-bold mb-2"
+                      for="name"
+                      >Név</label
+                    ><input
+                      type="text"
+                      name="name"
+                      class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                      placeholder="Név"
+                      style="transition: all 0.15s ease 0s;"
+                    />
+                  </div>
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-gray-700 text-xs font-bold mb-2"
+                      for="email"
+                      >Email</label
+                    ><input
+                      type="email"
+                      name="email"
+                      class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                      placeholder="Email"
+                      style="transition: all 0.15s ease 0s;"
+                    />
+                  </div>
+                  <div class="relative w-full mb-3">
+                    <label
+                      class="block uppercase text-gray-700 text-xs font-bold mb-2"
+                      for="message"
+                      >Üzenet</label
+                    ><textarea
+                      name="message"
+                      rows="4"
+                      cols="80"
+                      class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                      placeholder="Kérem fogalmazza meg a kérdését..."
+                    ></textarea>
+                  </div>
+                  <div class="text-center mt-6">
+                    <button
+                      class="bg-[#8ac73c] text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
+                      type="button"
+                      style="transition: all 0.15s ease 0s;"
+                    >
+                      Küldés
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+ 

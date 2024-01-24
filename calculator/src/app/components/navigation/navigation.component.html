@@ -1,47 +1,60 @@
-<div class="">
-    <div class="flex justify-center">
-        <div class="flex justify-center bg-slate-700 w-full text-white py-4">
-            <div class="mx-6">
-                <i class="pi pi-home pt-1 mr-2"></i>
-                <span>2351 Alsónémedi, Somogyi B. u. 79.</span>
-            </div>
+
+
+
+<div class="bg-slate-200 border-gray-200 py-2.5 dark:bg-gray-900">
+    <div class="flex flex-wrap items-center justify-between max-w-screen-xl px-4 mx-auto">
+        <div class="flex items-center">
+        </div>
+        <div class="flex items-center lg:order-2">   
+        </div>
+        <div class="items-center justify-between w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
+            <ul class="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
+                <div class="mx-6 flex gap-2">
+                    <i class="pi pi-home"></i>
+                    <p class="text-sm">2351 Alsónémedi, Somogyi B. u. 79.</p>
+                </div>
+                
+                <div class="flex mx-6 gap-2">
+                    <i class="pi pi-phone"></i>
+                    <p class="text-sm">+36 30 681 1948 - GÉPEK</p>
+                    
+                </div>
+
+                <div class="flex mx-6 gap-2">
+                    <i class="pi pi-phone pt-1"></i>
+                    <p class="text-sm">+36 70 337 333 - IRODA</p>
+                </div>
+                
+                <div class="flex mx-6 gap-2 mt-2 lg:mt-0">
+                    <i class="pi pi-car pt-1"></i>
+                    <p>Használtautó</p>
+
+                    <i class="pi pi-truck pt-1"></i>
+                    <p>Agroinform</p>
+
+                    <i class="pi pi-info-circle pt-1"></i>
+                    <p>Jófogás</p>
+
+                    <i class="pi pi-facebook pt-1"></i>
+
+                    <i class="pi pi-youtube pt-1"></i>
+                </div>
+        
             
-            <div class="mx-6">
-                <i class="pi pi-phone pt-1 mr-2"></i>
-                <span>+36 30 681 1948 - GÉPEK | +36 70 337 333 - IRODA</span>
-            </div>
-            
-            <div class="mx-6">
-                <i class="pi pi-car pt-1 mr-2"></i>
-                <span>Használtautó</span>
-            </div>
-    
-            <div class="mx-6">
-                <i class="pi pi-truck pt-1 mr-2"></i>
-                <span>Agroinform</span>
-            </div>
-    
-            <div class="mx-6">
-                <i class="pi pi-info-circle pt-1 mr-2"></i>
-                <span>Jófogás</span>
-            </div>
-    
-            <div class="mx-6">
-                <i class="pi pi-facebook pt-1 mr-2"></i>
-            </div>
-    
-            <div class="mx-6">
-                <i class="pi pi-youtube pt-1 mr-2"></i>
-            </div>
+            </ul>
         </div>
     </div>
-    <div class="card flex justify-center ">
-        <p-menubar [model]="items" class="flex justify-center">
-          <ng-template pTemplate="start">
-            <img src="../assets/clear-g-icon_80.png"/>
-          </ng-template>
-        </p-menubar>
-    </div>
 </div>
+
+
+
+    <div class="card sticky top-0 z-10">
+        <p-menubar [model]="items">
+            <ng-template pTemplate="start">
+                <img src="../assets/clear-g-icon_80.png"/>
+            </ng-template>
+        </p-menubar>
+
+
 
   
