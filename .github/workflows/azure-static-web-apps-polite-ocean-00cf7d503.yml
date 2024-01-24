@@ -28,7 +28,7 @@ jobs:
           npm install
           ng build
         name: npm install and build
-        working-directory: ./calculator
+        working-directory: ./newcalc/calculator
 
       - name: Build And Deploy
         id: builddeploy
@@ -37,7 +37,7 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_POLITE_OCEAN_00CF7D503 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/calculator"
+          app_location: "/newcalc/calculator/dist"
           api_location: ""
           output_location: "/dist"
 
