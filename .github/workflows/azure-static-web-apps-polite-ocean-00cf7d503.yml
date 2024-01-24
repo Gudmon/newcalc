@@ -28,7 +28,7 @@ jobs:
           npm install
           ng build
         name: npm install and build
-        working-directory: ./newcalc/calculator
+        working-directory: newcalc/calculator
 
       - name: Build And Deploy
         id: builddeploy
