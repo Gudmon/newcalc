@@ -26,7 +26,7 @@ jobs:
       - run: |
           npm install -g @angular/cli@latest
           npm install
-          ng build --prod
+          ng build
         name: npm install and build
         working-directory: ./calculator
 
