@@ -24,10 +24,12 @@ jobs:
           node-version: '16.x'
 
       - run: |
+          cd calculator
           npm install -g @angular/cli@16.2.10
           npm install
           ng build --prod
         name: npm install and build
+        working-directory: ./calculator
 
       - name: Build And Deploy
         id: builddeploy
