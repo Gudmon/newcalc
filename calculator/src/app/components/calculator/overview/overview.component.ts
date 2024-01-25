@@ -6,11 +6,13 @@ import { CarouselModule } from 'primeng/carousel';
 import { CranesComponent } from '../cranes/cranes.component';
 import { TrailersComponent } from '../trailers/trailers.component';
 import { ButtonModule } from 'primeng/button';
+import { NavigationComponent } from '../../navigation/navigation.component';
+import { FooterComponent } from '../../footer/footer.component';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CranesComponent, TrailersComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, ButtonModule],
+  imports: [CranesComponent, TrailersComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, ButtonModule, NavigationComponent, FooterComponent],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
 })

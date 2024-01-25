@@ -1,38 +1,32 @@
-
-    
-    <!-- <div class="flex align-middle justify-center mt-40">
-        <div class="justify-center w-9/12">
-            <div class="justify-content-center my-4 py-4">
-                <span>Vezértömb</span>
-        
-            </div>
-    
-            
+<app-navigation></app-navigation>
+<div class="grid grid-cols-1 pb-8 gap-12 mx-5 mt-6 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-2 xl:mx-14 xl:mt-20">   
+    <div class="card flex justify-content-center bg-transparent">
+        <p-image [src]="crane.imgUrl" alt="Image" [preview]="true"></p-image>
+    </div>
+    <div class="grid mx-auto lg:mt-4">
+        <div class="my-2 xl:grid gap-2">
+            <p class="xl:text-3xl font-extrabold">{{crane.name}}</p>
         </div>
-    </div> -->
-
-    <div class="flex items-center justify-center">
-        <p>készülőben</p>
+        <div class="my-2 xl:grid gap-2">
+            <p class="font-bold">Max kinyúlás / nyitott kanállal</p>
+            <p class="lg:font-bold ml-2">{{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</p>
+        </div>
+        <div class="my-2 xl:grid gap-2">
+            <p class="font-bold">Nettó emelő nyomaték</p>
+            <p class="lg:font-bold ml-2">{{crane.liftingTorqueNet}} kNm</p>
+        </div>
+        <div class="my-2 xl:grid gap-2">
+            <p class="font-bold">Emelőképesség 4 m-es markolóval</p>
+            <p class="lg:font-bold ml-2">{{crane.liftingCapacityAtFourMeters}} kg</p>
+        </div>
     </div>
-    
-    <div class="w-10/12 m-auto mt-10"> 
-        <p-galleria  [containerStyle]="{ 'max-width': '1500px' }" [value]="images" [showItemNavigators]="true" [responsiveOptions]="responsiveOptions" [circular]="true" [numVisible]="9"> 
-            <ng-template pTemplate="item" let-item> 
-                <img
-                style="width: 50%; min-height: 400px; max-height: 400px;" 
-                    [src]="item.previewImageSrc"  
-                    [alt]="item.alt"  
-                    [title]="item.title"
-                /> 
-            </ng-template>
-            <ng-template pTemplate="thumbnail" let-item width="50%"> 
-                <div class="grid grid-nogutter justify-content-center"> 
-                    <img 
-                    style="width: 80%; display: block; max-height: 120px;"
-                        [src]="item.thumbnailImageSrc"  
-                        [alt]="item.alt"  
-                        [title]="item.title"/> 
-                </div> 
-            </ng-template> 
-        </p-galleria>    
-    </div>
+</div>
+<div class="grid grid-cols-1 gap-2 lg:grid-cols-2 col-span-4 lg:gap-6">
+    @for (dict of getCraneEntries(); track crane){
+        <p class="mx-20 mt-4 lg:mt-0 lg:mx-0 font-bold justify-self-center lg:justify-self-end">{{dict.key}}</p>
+        <p class="justify-self-center mb-4 lg:mb-0 lg:justify-self-start">{{dict.value}}</p>
+    } @empty{
+        <p>no values</p>
+    }
+</div>
+<app-footer></app-footer>

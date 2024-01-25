@@ -1,24 +1,25 @@
-<div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-2 xl:mx-20">
+<div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-2 xl:mx-14">
     @for (crane of cranes; track crane.id){
-        <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name" [subheader]="formatPrice(crane.price)">
+        <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name">
             <ng-template pTemplate="header">
                 <img alt="Card" [src]="crane.imgUrl"/>
             </ng-template>
-            <p class="block text-sm">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</p>
-            <p class="block text-sm">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</p>
-            <p class="block text-sm">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</p>
+            <p class="pb-4 text-lg font-extrabold lg:text-2xl">{{formatPrice(crane.price)}}</p>
+            <p class="block text-sm lg:text-lg">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</p>
+            <p class="block text-sm lg:text-lg">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</p>
+            <p class="block text-sm lg:text-lg">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</p>
             <ng-template pTemplate="footer">
                 <div class="grid grid-cols-1 mb-4">
                     
                     <div class="col-start-1 col-end-3">
-                        <p-button (onClick)="navigateToMachine(crane.id)" label="További információ a termékről" class="bg-slate-300 rounded-lg p-2 mx-2"></p-button>
+                        <p-button (onClick)="navigateToMachine(crane.id)" label="További információ a termékről" class="bg-slate-300 rounded-lg p-2"></p-button>
 
                     </div>
                 </div>
                 <div class="grid grid-cols-1 mt-4">
                     <div class="col-start-1 col-end-3">
 
-                        <p-button (onClick)="addToCalculator(crane)" label="Kalkulál" class="bg-[#8ac73c] rounded-lg p-2 mx-2"></p-button>
+                        <p-button (onClick)="addToCalculator(crane)" label="Kalkulál" class="bg-[#8ac73c] rounded-lg p-2"></p-button>
                     </div>
                    
                 </div>
@@ -30,10 +31,10 @@
     @empty {
         <p>There are no cranes.</p>
     }
-    </div>
+  </div>
     <form [formGroup]="formGroup">
-    <div #configElement *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
-        <div class="justify-center w-9/12">
+    <div #configElement class="flex align-middle justify-center my-10">
+        <div class="justify-center w-11/12">
             <div class="justify-content-center my-4 py-4">
               <span>Vezértömb</span>
               <p-listbox #controlBlockListBox (onChange)="handleControlBlockChange($event)" [options]="controlBlocks" formControlName="selectedControlBlock" optionLabel="name"></p-listbox>                   
@@ -72,20 +73,22 @@
       
     </div>
     
-    <div *ngIf="equipmentSelected" class="grid grid-cols-8 pb-20">
-        <div class="col-end-4 col-span-2 mb-10">
-            <button *ngIf="equipmentSelected" class="rounded-md p-2 bg-red-500" (click)="delete()">Törlés</button>
-            <div class="flex gap-1">
-                <p class="font-bold text-2xl pt-1">Kalkulált ár:</p>
-                <p class="font-bold text-2xl pt-1">{{formatPrice(calculatorService.price$ | async)}}</p>   
-            </div>      
-        </div>
+
+
+    <div class="w-full lg:w-4/12 px-4 mx-auto text-center mb-5 lg:mb-0 bg">
+      <span
+        class="block uppercase text-blueGray-500 text-sm font-extrabold lg:mb-12 mb-4"
+      >
+      Kalkulált ár:
+      </span>
+      <p class="font-semibold">{{formatPrice(calculatorService.price$ | async)}}</p>
+      <button class="rounded-md p-2 mt-4 bg-red-500" (click)="delete()">Törlés</button>
     </div>
     
 
-    <section *ngIf="equipmentSelected"  class="relative block mt-40 py-24 lg:pt-0 lg:mt-48 bg-slate-200">
+    <section class="relative block mt-40 py-24 lg:pt-0 lg:mt-20 bg-slate-200">
         <div class="container mx-auto px-4">
-          <div class="flex flex-wrap justify-center lg:-mt-64 -mt-48">
+          <div class="flex flex-wrap justify-center">
             <div class="w-full lg:w-12/12 px-10">
               <div
                 class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300"

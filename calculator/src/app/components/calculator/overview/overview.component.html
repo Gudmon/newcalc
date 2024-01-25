@@ -1,6 +1,8 @@
 
-<div class="grid gap-3 md:flex md:justify-around lg:align-middle my-10  rounded-3xl">
-        <button
+
+<app-navigation></app-navigation>
+<div class="grid gap-3 md:flex md:justify-around lg:align-middle my-10 rounded-3xl">
+        <!-- <button
             (click)="setSetelectedTab(1, $event)"
             [class.bg-[#8ac84c]]="selectedTab === 1"
             class="rounded-md p-2 bg-slate-400 text-black text-sm font-bold uppercase lg:px-16 lg:py-10 lg:rounded-s-2xl shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
@@ -25,109 +27,34 @@
             type="button"
         >
             Közelítő pótkocsik
-        </button>
-    </div>
+        </button> -->
+
+
+        <div class="border-b border-gray-200">
+            <nav class="-mb-0.5 flex flex-col md:flex-row mx-auto lg:justify-center xl:gap-80 bg-slate-300 rounded-xl xl:p-5"  aria-label="Tabs" role="tablist">
+                <button (click)="setSetelectedTab(1, $event)" type="button" [ngClass]="{'bg-[#8ac73c] text-white': selectedTab === 1}" class="rounded-xl font-semibold py-4 px-10 lg:p-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:text-blue-500" id="horizontal-alignment-item-1">
+                    Daruk
+                </button>
+                <button (click)="setSetelectedTab(2, $event)" type="button" [ngClass]="{'bg-[#8ac73c] text-white': selectedTab === 2}" class="rounded-xl font-semibold py-4 px-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:text-blue-500" id="horizontal-alignment-item-2">
+                    Pótkocsik
+                </button>
+                <button (click)="setSetelectedTab(3, $event)" type="button" [ngClass]="{'bg-[#8ac73c] text-white': selectedTab === 3}" class="rounded-xl font-semibold py-4 px-10  inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm whitespace-nowrap text-white focus:outline-none disabled:opacity-50 disabled:pointer-events-none dark:text-gray-400 dark:hover:text-blue-500" id="horizontal-alignment-item-3">
+                    Közelítő pótkocsik
+                </button>
+            </nav>
+        </div>
+        
+        
+          
+          
+        
+</div>
     
+
+    
+
     
 
 <app-cranes></app-cranes>
 <app-trailers *ngIf="calculatorService.selectedTab$ !== null && (calculatorService.selectedTab$ | async) === 2"></app-trailers>
-
-<!-- <div *ngIf="value === 1" class="grid grid-cols-1 pb-8 gap-8 mx-40 md:grid-cols-1 md:mx-40 lg:grid-cols-2 lg:mx-40 xl:grid-cols-2 xl:mx-60">
-@for (crane of cranes; track crane.id){
-    <p-card class="mt-10" [header]="crane.name" [subheader]="formatPrice(crane.price)">
-
-            <ng-template pTemplate="header">
-                <img alt="Card" [src]="'../../../assets/daru' + crane.id + '.png'"  />
-            </ng-template>
-            <span class="block">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</span>
-            <span class="block">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</span>
-            <span class="block">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</span>
-            <ng-template pTemplate="footer">
-                <p-button (onClick)="addToCalculator(crane)" label="Kalkulál" class="bg-blue-300 rounded-lg p-2 mx-2"></p-button>
-                <p-button label="További információ a termékről" class="bg-slate-300 rounded-lg p-2 mx-2"></p-button>
-            </ng-template>
-          </p-card>
-} 
-@empty {
-    <p>There are no cranes.</p>
-}
-</div>
-
-<div #configElement *ngIf="value === 1 && equipmentSelected"  class="flex align-middle justify-center my-10">
-    <div class="justify-center w-9/12">
-        <div class="justify-content-center my-4 py-4">
-            <span>Vezértömb</span>
-            <p-listbox #controlBlockListBox (onChange)="handleControlBlockChange($event)" [disabled]="!equipmentSelected" [options]="controlBlocks" [(ngModel)]="selectedControlBlock" optionLabel="name"></p-listbox>
-        </div>
-
-        <div class="justify-content-center my-4 py-4">
-            <span>Rotátor + közbetét</span>
-            <p-listbox #rotatorListBox (onChange)="handleRotatorChange($event)" [disabled]="!equipmentSelected" [options]="rotators" [(ngModel)]="selectedRotator" optionLabel="name"></p-listbox>
-        </div>
-
-        <div class="justify-content-center my-4 py-4">
-            <span>Rotátorfék</span>
-            <p-listbox #rotatorBrakeListBox (onChange)="handleRotatorBrakeChange($event)" [disabled]="!equipmentSelected" [options]="rotatorBrakes" [(ngModel)]="selectedRotatorBrake" optionLabel="name"></p-listbox>
-        </div>
-
-        <div class="flex gap-2 my-4">
-            <p-checkbox #backrestCheckBox [disabled]="!equipmentSelected" (onChange)="handleChange(configItems['háttámla'].name, configItems['háttámla'].price, $event)"  value="New York" inputId="háttámla"></p-checkbox>
-            <label for="háttámla">{{configItems['háttámla'].name}} {{ formatPrice(configItems['háttámla'].price)}}</label>
-        </div>
-
-        <div class="flex gap-2 my-4">
-            <p-checkbox #oilCoolerCheckBox [disabled]="!equipmentSelected" (onChange)="handleChange(configItems['olajhűtő'].name, configItems['olajhűtő'].price, $event)"  value="New York" inputId="olajhűtő"></p-checkbox>
-            <label for="olajhűtő">{{configItems['olajhűtő'].name}} {{ formatPrice(configItems['olajhűtő'].price)}}</label>
-        </div>
-
-        <div class="flex gap-2 my-4">
-            <p-checkbox #ledCheckBox [disabled]="!equipmentSelected" (onChange)="handleChange(configItems['ledMunkalámpák'].name, configItems['ledMunkalámpák'].price, $event)"  value="New York" inputId="ledMunkalámpák"></p-checkbox>
-            <label for="ledMunkalámpák">{{configItems['ledMunkalámpák'].name}} {{ formatPrice(configItems['ledMunkalámpák'].price)}}</label>
-        </div>
-
-        <div class="flex gap-2 my-4">
-            <p-checkbox #workingHoursCheckBox [disabled]="!equipmentSelected" (onChange)="handleChange(configItems['munkaÓraSzámláló'].name, configItems['munkaÓraSzámláló'].price, $event)"  value="New York" inputId="munkaÓraSzámláló"></p-checkbox>
-            <label for="munkaÓraSzámláló">{{configItems['munkaÓraSzámláló'].name}} {{ formatPrice(configItems['munkaÓraSzámláló'].price)}}</label>
-        </div>
-    </div>
-</div>
-
-<div *ngIf="value === 1 && equipmentSelected" class="grid grid-cols-8 pb-20">
-    <div class="col-end-4 col-span-2 mb-10">
-        <button *ngIf="equipmentSelected" class="rounded-md p-2 bg-red-500" (click)="delete()">Törlés</button>
-        <div class="flex gap-1">
-            <p class="font-bold text-2xl pt-1">Kalkulált ár:</p>
-            <p class="font-bold text-2xl pt-1">{{formatPrice(calculatorService.price$ | async)}}</p>   
-        </div>
-         
-    </div>
-  </div> -->
-  
-
-
-<!-- <div class="card mx-40 my-20">
-    <p-carousel [value]="products" [numVisible]="3" [numScroll]="1" [responsiveOptions]="responsiveOptions">
-        <ng-template let-product pTemplate="item">
-            <div class="product-item">
-                <div class="product-item-content">
-                    <div class="mb-3">
-                        <img src="../../../assets/daru1.png" [alt]="product.name" class="product-image" />
-                    </div>
-                    <div>
-                        <h4 class="mb-1">{{ product.name }}</h4>
-                        <h6 class="mt-0 mb-3">{{ '$' + product.price }}</h6>
-                        <div class="mt-5 flex align-items-center justify-content-center gap-2">
-                        <p-button icon="pi pi-search" [rounded]="true" />
-                        <p-button icon="pi pi-star-fill" [rounded]="true" severity="secondary" />
-                    </div>
-                    </div>
-                </div>
-            </div>
-        </ng-template>
-    </p-carousel>
-</div> -->
-<!-- <div class="grid grid-cols-1 justify-self-center my-2">
-    <span>Vezértömb</span>
-    <p-dropdown (onChange)="handleControlBlockChange($event)" [disabled]="!equipmentSelected" class="" [(ngModel)]="selectedControlBlock" [options]="controlBlocks" optionLabel="name" placeholder="Válasszon vezértömböt"></p-dropdown>
-</div> -->
+<app-footer></app-footer>
