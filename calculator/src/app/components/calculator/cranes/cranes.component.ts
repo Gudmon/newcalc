@@ -4,7 +4,7 @@ import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { MenuItem } from 'primeng/api';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
 import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -37,15 +37,10 @@ export class CranesComponent implements OnInit{
   vehicleTypes: any[] = [];
   configItemsArray: ConfigItem[] = [];
 
-  selectedControlBlock = '';
-  selectedRotator = '';
-  selectedRotatorBrake = '';
   originalControlBlockPrice = 0;
   originalRotatorPrice = 0;
   originalRotatorBrakePrice = 0;
   equipmentSelected = false;
-
-  formGroup: FormGroup | undefined;
 
   @ViewChild('oilCoolerCheckBox') oilCoolerCheckBox!: Checkbox;
   @ViewChild('backrestCheckBox') backrestCheckBox!: Checkbox;
@@ -62,11 +57,19 @@ export class CranesComponent implements OnInit{
   configItems: { [key: string]: ConfigItem } = {};
   originalPrices: { [key: string]: number } = {};
   originalEvent : DropdownChangeEvent | undefined;  
-
+  formGroup: FormGroup = new FormGroup({
+    selectedControlBlock: new FormControl(''),
+    selectedRotator: new FormControl(''),
+    selectedRotatorBrake: new FormControl(''),
+    backRestSelected: new FormControl<boolean>(false),
+    oilCoolerSelected: new FormControl<boolean>(false),
+    ledSelected: new FormControl<boolean>(false),
+    workingHoursSelected: new FormControl<boolean>(false)
+  });
+  submitted = false;
   constructor(
     readonly calculatorService : CalculatorService,
-    private el: ElementRef, 
-    private renderer: Renderer2,
+    private fb: FormBuilder,
     private router: Router
     ){}
   
@@ -79,18 +82,54 @@ export class CranesComponent implements OnInit{
     this.setRotatorBrakes();
     this.setConfigItems();
     this.setVehicleTypes();
-    this.setFormGroup();
+
+    // this.formGroup = new FormGroup({
+    //   selectedControlBlock: new FormControl<any | null>(null, Validators.required),
+    //   selectedRotator: new FormControl<any | null>(null, Validators.required),
+    //   selectedRotatorBrake: new FormControl<any | null>(null, Validators.required),
+    //   backRestSelected: new FormControl<boolean>(false),
+    //   oilCoolerSelected: new FormControl<boolean>(false),
+    //   ledSelected: new FormControl<boolean>(false),
+    //   workingHoursSelected: new FormControl<boolean>(false)
+    // });
+
+    this.formGroup = this.fb.group(
+      {
+        selectedControlBlock: [''],
+        selectedRotator: [''],
+        selectedRotatorBrake: [''],
+        backRestSelected: [''],
+        oilCoolerSelected: [''],
+        ledSelected: [''],
+        workingHoursSelected: [''],
+        name: ['', Validators.required],
+        email: ['', Validators.required],
+        message: ['', Validators.required]
+      }
+      
+    );
+  }
+
+  get f(): { [key: string]: AbstractControl } {
+    return this.formGroup.controls;
+  }
+
+  onSubmit(): void {
+    console.log('submit')
+    this.submitted = true;
+
+    if (this.formGroup.invalid) {
+      return;
+    }
+
+    console.log(JSON.stringify(this.formGroup.value, null, 2));
   }
 
   navigateToMachine(machineId: string) {
     this.router.navigate(['/krpan', machineId]);
   }
 
-  setFormGroup(){
-    this.formGroup = new FormGroup({
-      text: new FormControl<string | null>(null)
-    });
-  }
+  
 
   delete() {
     this.calculatorService._price.next(0);
@@ -164,6 +203,7 @@ export class CranesComponent implements OnInit{
   }
 
   handleChange(name: string, price: number, event: CheckboxChangeEvent) {
+    console.log(event);
     if (event.checked.length > 0) {
       this.addToPrice(price);
       this.addToConfigItemsArray(name, price);

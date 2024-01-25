@@ -1,5 +1,5 @@
 <div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-2 xl:mx-20">
-    @for (crane of cranes; track crane.id){
+    <!-- @for (crane of cranes; track crane.id){
         <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name" [subheader]="formatPrice(crane.price)">
             <ng-template pTemplate="header">
                 <img alt="Card" [src]="crane.imgUrl"/>
@@ -30,45 +30,49 @@
     @empty {
         <p>There are no cranes.</p>
     }
-    </div>
-    
-    <div #configElement *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
+    </div> -->
+    <form [formGroup]="formGroup">
+    <div #configElement class="flex align-middle justify-center my-10">
+      
         <div class="justify-center w-9/12">
             <div class="justify-content-center my-4 py-4">
-                <span>Vezértömb</span>
-                <p-listbox #controlBlockListBox (onChange)="handleControlBlockChange($event)" [disabled]="!equipmentSelected" [options]="controlBlocks" [(ngModel)]="selectedControlBlock" optionLabel="name"></p-listbox>
+              <span>Vezértömb</span>
+              <p-listbox #controlBlockListBox (onChange)="handleControlBlockChange($event)" [options]="controlBlocks" formControlName="selectedControlBlock" optionLabel="name"></p-listbox>
+              
+            
             </div>
-    
+        
             <div class="justify-content-center my-4 py-4">
                 <span>Rotátor + közbetét</span>
-                <p-listbox #rotatorListBox (onChange)="handleRotatorChange($event)" [disabled]="!equipmentSelected" [options]="rotators" [(ngModel)]="selectedRotator" optionLabel="name"></p-listbox>
+                <p-listbox #rotatorListBox (onChange)="handleRotatorChange($event)" [options]="rotators" formControlName="selectedRotator" optionLabel="name"></p-listbox>
             </div>
     
             <div class="justify-content-center my-4 py-4">
                 <span>Rotátorfék</span>
-                <p-listbox #rotatorBrakeListBox (onChange)="handleRotatorBrakeChange($event)" [disabled]="!equipmentSelected" [options]="rotatorBrakes" [(ngModel)]="selectedRotatorBrake" optionLabel="name"></p-listbox>
+                <p-listbox #rotatorBrakeListBox (onChange)="handleRotatorBrakeChange($event)" [options]="rotatorBrakes" formControlName="selectedRotatorBrake" optionLabel="name"></p-listbox>
             </div>
     
             <div class="flex gap-2 my-4">
-                <p-checkbox #backrestCheckBox [disabled]="!equipmentSelected" (onChange)="handleChange(configItems['háttámla'].name, configItems['háttámla'].price, $event)"  value="New York" inputId="háttámla"></p-checkbox>
+                <p-checkbox #backrestCheckBox (onChange)="handleChange(configItems['háttámla'].name, configItems['háttámla'].price, $event)" formControlName="backRestSelected" value="selected"  inputId="háttámla"></p-checkbox>
                 <label for="háttámla">{{configItems['háttámla'].name}} {{ formatPrice(configItems['háttámla'].price)}}</label>
             </div>
     
             <div class="flex gap-2 my-4">
-                <p-checkbox #oilCoolerCheckBox [disabled]="!equipmentSelected" (onChange)="handleChange(configItems['olajhűtő'].name, configItems['olajhűtő'].price, $event)"  value="New York" inputId="olajhűtő"></p-checkbox>
+                <p-checkbox #oilCoolerCheckBox (onChange)="handleChange(configItems['olajhűtő'].name, configItems['olajhűtő'].price, $event)"  formControlName="oilCoolerSelected" value="selected" inputId="olajhűtő"></p-checkbox>
                 <label for="olajhűtő">{{configItems['olajhűtő'].name}} {{ formatPrice(configItems['olajhűtő'].price)}}</label>
             </div>
     
             <div class="flex gap-2 my-4">
-                <p-checkbox #ledCheckBox [disabled]="!equipmentSelected" (onChange)="handleChange(configItems['ledMunkalámpák'].name, configItems['ledMunkalámpák'].price, $event)"  value="New York" inputId="ledMunkalámpák"></p-checkbox>
+                <p-checkbox #ledCheckBox (onChange)="handleChange(configItems['ledMunkalámpák'].name, configItems['ledMunkalámpák'].price, $event)"  formControlName="ledSelected" value="selected" inputId="ledMunkalámpák"></p-checkbox>
                 <label for="ledMunkalámpák">{{configItems['ledMunkalámpák'].name}} {{ formatPrice(configItems['ledMunkalámpák'].price)}}</label>
             </div>
     
             <div class="flex gap-2 my-4">
-                <p-checkbox #workingHoursCheckBox [disabled]="!equipmentSelected" (onChange)="handleChange(configItems['munkaÓraSzámláló'].name, configItems['munkaÓraSzámláló'].price, $event)"  value="New York" inputId="munkaÓraSzámláló"></p-checkbox>
+                <p-checkbox #workingHoursCheckBox (onChange)="handleChange(configItems['munkaÓraSzámláló'].name, configItems['munkaÓraSzámláló'].price, $event)"  formControlName="workingHoursSelected" value="selected" inputId="munkaÓraSzámláló"></p-checkbox>
                 <label for="munkaÓraSzámláló">{{configItems['munkaÓraSzámláló'].name}} {{ formatPrice(configItems['munkaÓraSzámláló'].price)}}</label>
             </div>
         </div>
+      
     </div>
     
     <div *ngIf="equipmentSelected" class="grid grid-cols-8 pb-20">
@@ -82,7 +86,7 @@
     </div>
     
 
-    <section *ngIf="equipmentSelected" class="relative block mt-40 py-24 lg:pt-0 lg:mt-48 bg-slate-200">
+    <section class="relative block mt-40 py-24 lg:pt-0 lg:mt-48 bg-slate-200">
         <div class="container mx-auto px-4">
           <div class="flex flex-wrap justify-center lg:-mt-64 -mt-48">
             <div class="w-full lg:w-12/12 px-10">
@@ -94,39 +98,60 @@
                   <p class="leading-relaxed mt-1 mb-4 text-gray-600">
                     Tegye fel nekünk üzenetben!
                   </p>
+
+                  <!-- NAME -->
                   <div class="relative w-full mb-3 mt-8">
-                    <label
-                      class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                      for="name"
-                      >Név</label
-                    ><input
+                    <div class="flex gap-4">
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="name">Név<span class="text-red-500">*</span></label>
+                      @if (submitted && f['name'].errors) {  
+                        @if (f['name'].errors['required']) {
+                          <p class="block text-red-500 text-xs mb-2">Kérem adja meg a nevét!</p>
+                        }
+                      }
+                    </div> 
+                    <input
                       type="text"
                       name="name"
+                      formControlName="name"
                       class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                       placeholder="Név"
                       style="transition: all 0.15s ease 0s;"
-                    />
+                    />                             
                   </div>
+
+                  <!-- EMAIL -->
                   <div class="relative w-full mb-3">
-                    <label
-                      class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                      for="email"
-                      >Email</label
-                    ><input
+                    <div class="flex gap-4">
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="email">Email<span class="text-red-500">*</span></label>
+                      @if (submitted && f['email'].errors) {  
+                        @if (f['email'].errors['required']) {
+                          <p class="block text-red-500 text-xs mb-2">Kérem adja meg az e-mail címét!</p>
+                        }
+                      }
+                    </div>
+                    <input
                       type="email"
                       name="email"
+                      formControlName="email"
                       class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
                       placeholder="Email"
                       style="transition: all 0.15s ease 0s;"
                     />
                   </div>
+
+                  <!-- MESSAGE -->
                   <div class="relative w-full mb-3">
-                    <label
-                      class="block uppercase text-gray-700 text-xs font-bold mb-2"
-                      for="message"
-                      >Üzenet</label
-                    ><textarea
+                    <div class="flex gap-4">
+                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="message">Üzenet<span class="text-red-500">*</span></label>
+                      @if (submitted && f['message'].errors) {  
+                        @if (f['message'].errors['required']) {
+                          <p class="block text-red-500 text-xs mb-2">Kérem gépeljen az üzenet mezőbe!</p>
+                        }
+                      }
+                    </div>
+                    <textarea
                       name="message"
+                      formControlName="message"
                       rows="4"
                       cols="80"
                       class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
@@ -135,6 +160,7 @@
                   </div>
                   <div class="text-center mt-6">
                     <button
+                    (click)="onSubmit()"
                       class="bg-[#8ac73c] text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
                       type="button"
                       style="transition: all 0.15s ease 0s;"
@@ -148,4 +174,4 @@
           </div>
         </div>
       </section>
- 
+    </form>
