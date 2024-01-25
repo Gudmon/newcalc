@@ -40,7 +40,10 @@ export class CranesComponent implements OnInit{
   originalControlBlockPrice = 0;
   originalRotatorPrice = 0;
   originalRotatorBrakePrice = 0;
+
   equipmentSelected = false;
+  submitted = false;
+  blurred: boolean = false;
 
   @ViewChild('oilCoolerCheckBox') oilCoolerCheckBox!: Checkbox;
   @ViewChild('backrestCheckBox') backrestCheckBox!: Checkbox;
@@ -66,7 +69,8 @@ export class CranesComponent implements OnInit{
     ledSelected: new FormControl<boolean>(false),
     workingHoursSelected: new FormControl<boolean>(false)
   });
-  submitted = false;
+  
+
   constructor(
     readonly calculatorService : CalculatorService,
     private fb: FormBuilder,
@@ -104,10 +108,13 @@ export class CranesComponent implements OnInit{
         workingHoursSelected: [''],
         name: ['', Validators.required],
         email: ['', Validators.required],
-        message: ['', Validators.required]
-      }
-      
+        message: ['', [Validators.required]]
+      }    
     );
+  }
+
+  onEmailBlur() {
+    this.blurred = true;
   }
 
   get f(): { [key: string]: AbstractControl } {
@@ -117,7 +124,7 @@ export class CranesComponent implements OnInit{
   onSubmit(): void {
     console.log('submit')
     this.submitted = true;
-
+    console.log(this.formGroup.valid);
     if (this.formGroup.invalid) {
       return;
     }
@@ -128,8 +135,6 @@ export class CranesComponent implements OnInit{
   navigateToMachine(machineId: string) {
     this.router.navigate(['/krpan', machineId]);
   }
-
-  
 
   delete() {
     this.calculatorService._price.next(0);
@@ -206,11 +211,9 @@ export class CranesComponent implements OnInit{
     console.log(event);
     if (event.checked.length > 0) {
       this.addToPrice(price);
-      this.addToConfigItemsArray(name, price);
 
     } else {
       this.removeFromPrice(price);
-      this.removeFromConfigItemsArray(name);
     }
   }
 
@@ -226,21 +229,6 @@ export class CranesComponent implements OnInit{
     this.calculatorService._price.next(newPrice);
   }
 
-  private addToConfigItemsArray(name: string, number: number) {
-    const newItem: ConfigItem = {
-      name: name,
-      price: number,
-      added: true
-    };
-    this.configItemsArray.push(newItem);
-  }
-
-  private removeFromConfigItemsArray(name: string) {
-    const index = this.configItemsArray.findIndex((item) => item.name === name);
-    if (index !== -1) {
-      this.configItemsArray.splice(index, 1);
-    }
-  }
 
   private resetOriginalPrices() {
     this.originalControlBlockPrice = 0;
