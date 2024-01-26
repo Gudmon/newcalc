@@ -5,13 +5,15 @@ import { GalleriaModule } from 'primeng/galleria';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Checkbox, CheckboxModule } from 'primeng/checkbox';
+import { TruncatePipe } from "../components/pipes/truncate.pipe";
+import { CardModule } from 'primeng/card';
 
 @Component({
-  selector: 'app-landing',
-  standalone: true,
-  imports: [NavigationComponent, FooterComponent, GalleriaModule, FormsModule, CheckboxModule],
-  templateUrl: './landing.component.html',
-  styleUrl: './landing.component.css'
+    selector: 'app-landing',
+    standalone: true,
+    templateUrl: './landing.component.html',
+    styleUrl: './landing.component.css',
+    imports: [NavigationComponent, FooterComponent, GalleriaModule, FormsModule, CheckboxModule, TruncatePipe, CardModule]
 })
 export class LandingComponent implements OnInit {
   responsiveOptions: any[] | undefined;
@@ -57,7 +59,7 @@ export class LandingComponent implements OnInit {
     this.images = [ 
       { 
           itemImageSrc:  
-          '../../../assets/daru1.2.png', 
+          '../../../assets/krpan.png', 
           thumbnailImageSrc:  
           '../../../assets/daru1.png', 
           alt: 'Description for Image 1', 
@@ -65,7 +67,7 @@ export class LandingComponent implements OnInit {
       },
       { 
         itemImageSrc:  
-          '../../../assets/daru2.png', 
+          '../../../assets/palms.png', 
           thumbnailImageSrc:  
           '../../../assets/daru2.png', 
           alt: 'Description for Image 3', 

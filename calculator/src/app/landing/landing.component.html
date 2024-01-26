@@ -1,78 +1,54 @@
 
 <app-navigation></app-navigation>
 <main>
-    <div
-      class="relative pt-16 pb-32 flex content-center items-center justify-center"
-      style="min-height: 75vh;"
-    >
-      <div
-        class="absolute top-0 w-full h-full bg-center bg-cover"
-        
-      >
-      <div class="card opacity-30">
-        <p-galleria [value]="images" [numVisible]="5" [autoPlay]="false" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-height': '' }">
-            <ng-template pTemplate="item" let-item>
-                <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
-            </ng-template>
-        </p-galleria>
-      </div>
-      </div>
-      
-      <div class="container relative mx-auto">
-        <div class="items-center flex flex-wrap">
-          <div class="w-full lg:w-10/12 px-4 ml-auto mr-auto text-center">
-            <div class="pr-12">
-              <!-- <h1 class="text-[#8ac73c] font-extrabold text-8xl">
-                Clear Globe
-              </h1> -->
-              <!-- <p class="mt-4 text-2xl text-black font-bold">
-                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere velit minus magni possimus illum rem enim dolores? Aspernatur ullam ut ad, tempore magnam molestiae numquam minus voluptatem in, vero assumenda!
-              </p> -->
-            </div>
-          </div>
+    <!-- <div class="relative pt-16 pb-32 flex content-center items-center justify-center" style="min-height: 65vh;">
+      <div class="absolute top-0 w-full h-full bg-center bg-cover">
+        <div class="card opacity-30">
+          <p-galleria [value]="images" [numVisible]="5" [autoPlay]="false" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-height': '' }">
+              <ng-template pTemplate="item" let-item>
+                  <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+              </ng-template>
+          </p-galleria>
         </div>
-      </div>
-      <div
-        class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden"
-        style="height: 70px;"
-      >
-        <svg
-          class="absolute bottom-0 overflow-hidden"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-          version="1.1"
-          viewBox="0 0 2560 100"
-          x="0"
-          y="0"
-        >
-        </svg>
-      </div>
-    </div>
+      </div>  
+    </div> -->
     
-    <section class="pb-20 -mt-24">
+    <div class="image-holder">
+      <p-galleria class="image-holder" [value]="images" [numVisible]="5" [autoPlay]="false" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-height': '' }">
+          <ng-template class="" pTemplate="item" let-item>
+              <img class="image" [src]="item.itemImageSrc" style="width: 100%; max-height: 80dvh;" />
+          </ng-template>
+      </p-galleria>
+    </div>
+
+    <section class="pb-20">
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap">
-          <div class="pt-6 w-full lg:w-3/12 px-4 text-center">
+
+          <div class="w-full lg:w-3/12 px-4 text-center flex">
             <div
               class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
             >
-              <div class="px-4 py-5 flex-auto">
+              <div class="px-4 py-5 flex-auto h-full">
                 <div
                   class="text-white p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-5 shadow-lg rounded-full bg-white"
                 >
                   <img src="../../../assets/excavator.png">
                 </div>
                 <h6 class="text-xl font-semibold">Gépbérbeadás</h6>
-                <p class="mt-2 mb-4 text-gray-600">
-                  Új szolgáltatással állunk ezentúl az Önök rendelkezésére. Két minikotró gépünk bérelhető kisebb-nagyobb munkákra, rugalmas (napi, heti, havi) bérleti konstrukcióval.
+                <p class="mt-2 mb-3 text-gray-600">
+                  {{ 'Új szolgáltatással állunk ezentúl az Önök rendelkezésére. Két minikotró gépünk bérelhető kisebb-nagyobb munkákra, rugalmas (napi, heti, havi) bérleti konstrukcióval.' | truncate:150 }}
                 </p>
-                <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
+              </div>
+              <div class="mb-10">
+                <button class="mb-2 inline-block rounded bg-[#8ac73c] px-12 pt-4 pb-3.5 text-sm font-medium uppercase leading-normal md:mr-2 md:mb-0">Érdekel</button>
               </div>
             </div>
           </div>
-          <div class="w-full lg:w-3/12 px-4 text-center">
+
+          <div class="w-full lg:w-3/12 px-4 text-center flex">
             <div
-              class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
+              class="relative flex flex-col bg-white w-full mb-8 shadow-lg rounded-lg"
             >
               <div class="px-4 py-5 flex-auto">
                 <div
@@ -81,18 +57,22 @@
                   <img src="../../../assets/krpan_logo.png">
                 </div>
                 <h6 class="text-xl font-semibold">Krpan erdészeti gépek</h6>
-                <p class="mt-2 mb-4 text-gray-600">
-                  Szerződéses partnerei vagyunk a KRPAN erdészeti gépeket gyártó vállalatnak. Ez egy 40 éves tapasztalattal rendelkező, második generációs családi vállalkozás.
+                <p class="mt-2 mb-4 text-gray-600 justify-self-end align-bottom">
+                  {{ 'Szerződéses partnerei vagyunk a KRPAN erdészeti gépeket gyártó vállalatnak. Ez egy 40 éves tapasztalattal rendelkező, második generációs családi vállalkozás.' | truncate:150 }}
                 </p>
-                <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
+                
+              </div>
+              <div class="mb-10">
+                <button class="mb-2 inline-block rounded bg-[#8ac73c] px-12 pt-4 pb-3.5 text-sm font-medium uppercase leading-normal md:mr-2 md:mb-0">Érdekel</button>
               </div>
             </div>
           </div>
-          <div class="w-full lg:w-3/12 px-4 text-center">
+
+          <div class="w-full lg:w-3/12 px-4 text-center flex">
             <div
               class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
             >
-              <div class="px-4 py-5 flex-auto">
+              <div class="px-4 py-5 flex-auto h-full">
                 <div
                   class="text-white p-3 text-center inline-flex items-center justify-center w-15 h-15 mb-5 shadow-lg rounded-full bg-white"
                 >
@@ -100,50 +80,84 @@
                 </div>
                 <h6 class="text-xl font-semibold">Palms erdészeti gépek</h6>
                 <p class="mt-2 mb-4 text-gray-600">
-                  Palmse Mehaanikakoda (PALMS) egy családi vállalkozás, amit 1992-ben alapítottak. Ma a PALMS a legnagyobb fatrélerek és daruk gyártója Európában. A vezető pozíciót kitartó munkával és folyamatos termékfejlesztéssel érték el.
+                  {{ 'Palmse Mehaanikakoda (PALMS) egy családi vállalkozás, amit 1992-ben alapítottak. Ma a PALMS a legnagyobb fatrélerek és daruk gyártója Európában. A vezető pozíciót kitartó munkával és folyamatos termékfejlesztéssel érték el.' | truncate:150}} 
                 </p>
-                <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
+              </div>
+              <div class="mb-10">
+                <button class="mb-2 inline-block rounded bg-[#8ac73c] px-12 pt-4 pb-3.5 text-sm font-medium uppercase leading-normal md:mr-2 md:mb-0">Érdekel</button>
               </div>
             </div>
           </div>
-          <div class="pt-6 w-full lg:w-3/12 px-4 text-center">
+          
+          <div class="w-full lg:w-3/12 px-4 text-center flex">
             <div
               class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
             >
-              <div class="px-4 py-5 flex-auto">
+              <div class="px-4 py-5 flex-auto h-full">
                 <div
                   class="text-white p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-5 shadow-lg rounded-full bg-white"
                 >
                   <img src="../../../assets/oil.png">
                 </div>
                 <h6 class="text-xl font-semibold">Adalékok</h6>
-                <p class="mt-2 mb-4 text-gray-600">
-                  Üzemanyag- és motorolaj-adalékok: hatékony fogyasztáscsökkentés, motorjavulás. Környezetbarát, egyszerű használat. 30 éves tapasztalat, több országban elérhető.
+                <p class="mt-2 mb-4 text-gray-600 pt-6">
+                  {{ 'Üzemanyag- és motorolaj-adalékok: hatékony fogyasztáscsökkentés, motorjavulás. Környezetbarát, egyszerű használat. 30 éves tapasztalat, több országban elérhető.' | truncate:150 }}
                 </p>
-                <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
+              </div>
+              <div class="mb-10">
+                <button class="mb-2 inline-block rounded bg-[#8ac73c] px-12 pt-4 pb-3.5 text-sm font-medium uppercase leading-normal md:mr-2 md:mb-0">Érdekel</button>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="flex flex-wrap items-center mt-48">
-          <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
-            <div
-              class="text-gray-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-100"
-            >
-            <i class="fa-solid fa-gear text-xl"></i>
+        
+
+        <!-- <div class="grid grid-cols-4 justify-center text-center">
+          <div class="max-h-10">
+            <div class="px-4 py-5 flex-auto">
+              <div
+                class="text-white p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-5 shadow-lg rounded-full bg-white"
+              >
+                <img src="../../../assets/oil.png">
+              </div>
+              <h6 class="text-xl font-semibold">Adalékok</h6>
+              <p class="mt-2 mb-4 text-gray-600">
+                Üzemanyag- és motorolaj-adalékok: hatékony fogyasztáscsökkentés, motorjavulás. Környezetbarát, egyszerű használat. 30 éves tapasztalat, több országban elérhető.
+              </p>
+              <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
             </div>
+          </div>
+          <div>
+            <div class="px-4 py-5 flex-auto">
+              <div
+                class="text-white p-3 text-center inline-flex items-center justify-center w-15 h-15 mb-5 shadow-lg rounded-full bg-white"
+              >
+                <img src="../../../assets/palms2_logo.png">
+              </div>
+              <h6 class="text-xl font-semibold">Palms erdészeti gépek</h6>
+              <p class="mt-2 mb-4 text-gray-600">
+                Palmse Mehaanikakoda (PALMS) egy családi vállalkozás, amit 1992-ben alapítottak. Ma a PALMS a legnagyobb fatrélerek és daruk gyártója Európában. A vezető pozíciót kitartó munkával és folyamatos termékfejlesztéssel érték el.
+              </p>
+              <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
+            </div>
+          </div>
+          <div>c</div>
+          <div>d</div>
+        </div> -->
+
+
+        <div class="flex flex-wrap items-center mt-14 lg:mt-30 xl:mt-48">
+          <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
             <h3 class="text-3xl mb-2 font-semibold leading-normal">
-              <span class="text-[#e30d13]">KRPAN</span> termék kalkulátor
+              <span class="text-[#e30d13]">KRPAN</span> termékek
             </h3>
-            
             <p class="text-lg font-medium leading-relaxed mt-0 mb-4 text-gray-700">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas hic quis eos dolor sunt, vero molestias repellat. Debitis nulla autem minima obcaecati error rerum accusantium ab, neque, illo sed velit?
             </p>
-            <div class="grid grid-cols-3 mt-6">
-              <button class="mb-2 inline-block rounded bg-[#8ac73c] px-12 pt-4 pb-3.5 text-sm font-medium uppercase leading-normal md:mr-2 md:mb-0">Kalkulálás</button>
-              <button>Katalógus</button>
-              <button>Árlista</button>
+            <div class="grid grid-cols-2 gap-6 mt-6">
+              <button class="mb-2 inline-block rounded bg-[#e30d13] text-white px-12 pt-4 pb-3.5 text-sm font-semibold uppercase leading-normal md:mr-2 md:mb-0">Katalógus</button>
+              <button class="mb-2 inline-block rounded bg-[#e30d13] text-white px-12 pt-4 pb-3.5 text-sm font-semibold uppercase leading-normal md:mr-2 md:mb-0">Árlista</button>
             </div>
 
           </div>
@@ -160,23 +174,17 @@
           </div>
         </div>
 
-        <div class="flex flex-wrap items-center mt-48">
+        <div class="flex flex-wrap items-center mt-14 lg:mt-30 xl:mt-48">
           <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
-            <div
-              class="text-gray-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-100"
-            >
-            <i class="fa-solid fa-gear text-xl"></i>
-            </div>
             <h3 class="text-3xl mb-2 font-semibold leading-normal">
-              <span class="text-[#a32116]">PALMS</span> termék kalkulátor
+              <span class="text-[#a32116]">PALMS</span> termékek
             </h3>
             <p class="text-lg font-medium leading-relaxed mt-0 mb-4 text-gray-700">
               Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas hic quis eos dolor sunt, vero molestias repellat. Debitis nulla autem minima obcaecati error rerum accusantium ab, neque, illo sed velit?
             </p>
-            <div class="grid grid-cols-3 mt-6">
-              <button class="mb-2 inline-block rounded bg-[#8ac73c] px-12 pt-4 pb-3.5 text-sm font-medium uppercase leading-normal md:mr-2 md:mb-0">Kalkulálás</button>
-              <button>Katalógus</button>
-              <button>Árlista</button>
+            <div class="grid grid-cols-2 gap-6 mt-6">
+              <button class="mb-2 inline-block rounded bg-[#a32116] text-white px-12 pt-4 pb-3.5 text-sm font-sembold uppercase leading-normal md:mr-2 md:mb-0">Katalógus</button>
+              <button class="mb-2 inline-block rounded bg-[#a32116] text-white px-12 pt-4 pb-3.5 text-sm font-sembold uppercase leading-normal md:mr-2 md:mb-0">Árlista</button>
             </div>
 
           </div>
@@ -198,8 +206,7 @@
     </section>
     
 
-    <div class="container my-48 mx-auto md:px-6">
-      <!-- Section: Design Block -->
+    <div class="container mt-10 lg:mt-30 xl:mt-48 mx-auto md:px-6">
       <section class="mb-32 text-center">
         <div class="flex justify-center">
           <div class="max-w-[700px] text-center">
@@ -296,11 +303,9 @@
 
         </div>
       </section>
-      <!-- Section: Design Block -->
     </div>
-    <!-- Container for demo purpose -->
-    <div class="container my-40 mx-auto md:px-6">
-      <!-- Section: Design Block -->
+
+    <div class="container mt-10 lg:mt-30 xl:mt-48 mx-auto md:px-6">
       <section class="mb-32 text-center">
         <div class="grid gap-x-6 md:grid-cols-4 lg:gap-x-12">
           <div class="mb-12 md:mb-0">
@@ -335,10 +340,9 @@
 
         </div>
       </section>
-      <!-- Section: Design Block -->
     </div>
-    <!-- Container for demo purpose -->
-    <section class="pb-20 relative block bg-gray-900">
+
+    <!-- <section class="pb-20 relative block bg-gray-900">
       <div
         class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
         style="height: 80px;"
@@ -475,7 +479,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
   </main>
  
   <app-footer></app-footer>

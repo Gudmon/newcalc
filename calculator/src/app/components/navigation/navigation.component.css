@@ -1,8 +1,12 @@
-.card .p-menubar ul li > .p-menuitem-content {
-    color: black;
+.card .p-menubar{
+    background-color: transparent;   
 }
 
-.card .p-menubar{
-    background-color: transparent;
+.card .p-menubar .p-menuitem-text {
+    color: black;;
+    font-weight: 700;
+}
 
+.card .p-menubar .p-menulist {
+    width: 300px;
 }
