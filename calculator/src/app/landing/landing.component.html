@@ -7,25 +7,27 @@
     >
       <div
         class="absolute top-0 w-full h-full bg-center bg-cover"
-        style='background-image: url("https://images.unsplash.com/photo-1557804506-669a67965ba0?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1267&amp;q=80");'
+        
       >
-        <span
-          id="blackOverlay"
-          class="w-full h-full absolute opacity-75 bg-black"
-        ></span>
+      <div class="card opacity-30">
+        <p-galleria [value]="images" [numVisible]="5" [autoPlay]="false" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-height': '' }">
+            <ng-template pTemplate="item" let-item>
+                <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+            </ng-template>
+        </p-galleria>
       </div>
+      </div>
+      
       <div class="container relative mx-auto">
         <div class="items-center flex flex-wrap">
-          <div class="w-full lg:w-6/12 px-4 ml-auto mr-auto text-center">
+          <div class="w-full lg:w-10/12 px-4 ml-auto mr-auto text-center">
             <div class="pr-12">
-              <h1 class="text-white font-semibold text-5xl">
-                Your story starts with us.
-              </h1>
-              <p class="mt-4 text-lg text-gray-300">
-                This is a simple example of a Landing Page you can build using
-                Tailwind Starter Kit. It features multiple CSS components
-                based on the Tailwindcss design system.
-              </p>
+              <!-- <h1 class="text-[#8ac73c] font-extrabold text-8xl">
+                Clear Globe
+              </h1> -->
+              <!-- <p class="mt-4 text-2xl text-black font-bold">
+                Lorem ipsum dolor sit, amet consectetur adipisicing elit. Facere velit minus magni possimus illum rem enim dolores? Aspernatur ullam ut ad, tempore magnam molestiae numquam minus voluptatem in, vero assumenda!
+              </p> -->
             </div>
           </div>
         </div>
@@ -43,379 +45,299 @@
           x="0"
           y="0"
         >
-          <polygon
-            class="text-gray-300 fill-current"
-            points="2560 0 2560 100 0 100"
-          ></polygon>
         </svg>
       </div>
     </div>
-    <section class="pb-20 bg-gray-300 -mt-24">
+    
+    <section class="pb-20 -mt-24">
       <div class="container mx-auto px-4">
         <div class="flex flex-wrap">
-          <div class="lg:pt-12 pt-6 w-full md:w-4/12 px-4 text-center">
+          <div class="pt-6 w-full lg:w-3/12 px-4 text-center">
             <div
               class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
             >
               <div class="px-4 py-5 flex-auto">
                 <div
-                  class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-red-400"
+                  class="text-white p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-5 shadow-lg rounded-full bg-white"
                 >
-                  <i class="fas fa-award"></i>
+                  <img src="../../../assets/excavator.png">
                 </div>
-                <h6 class="text-xl font-semibold">Awarded Agency</h6>
+                <h6 class="text-xl font-semibold">Gépbérbeadás</h6>
                 <p class="mt-2 mb-4 text-gray-600">
-                  Divide details about your product or agency work into parts.
-                  A paragraph describing a feature will be enough.
+                  Új szolgáltatással állunk ezentúl az Önök rendelkezésére. Két minikotró gépünk bérelhető kisebb-nagyobb munkákra, rugalmas (napi, heti, havi) bérleti konstrukcióval.
                 </p>
+                <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
               </div>
             </div>
           </div>
-          <div class="w-full md:w-4/12 px-4 text-center">
+          <div class="w-full lg:w-3/12 px-4 text-center">
             <div
               class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
             >
               <div class="px-4 py-5 flex-auto">
                 <div
-                  class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-blue-400"
+                  class="text-white p-3 text-center inline-flex items-center justify-center w-15 h-15 mb-5 shadow-lg rounded-full bg-white"
                 >
-                  <i class="fas fa-retweet"></i>
+                  <img src="../../../assets/krpan_logo.png">
                 </div>
-                <h6 class="text-xl font-semibold">Free Revisions</h6>
+                <h6 class="text-xl font-semibold">Krpan erdészeti gépek</h6>
                 <p class="mt-2 mb-4 text-gray-600">
-                  Keep you user engaged by providing meaningful information.
-                  Remember that by this time, the user is curious.
+                  Szerződéses partnerei vagyunk a KRPAN erdészeti gépeket gyártó vállalatnak. Ez egy 40 éves tapasztalattal rendelkező, második generációs családi vállalkozás.
                 </p>
+                <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
               </div>
             </div>
           </div>
-          <div class="pt-6 w-full md:w-4/12 px-4 text-center">
+          <div class="w-full lg:w-3/12 px-4 text-center">
             <div
               class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
             >
               <div class="px-4 py-5 flex-auto">
                 <div
-                  class="text-white p-3 text-center inline-flex items-center justify-center w-12 h-12 mb-5 shadow-lg rounded-full bg-green-400"
+                  class="text-white p-3 text-center inline-flex items-center justify-center w-15 h-15 mb-5 shadow-lg rounded-full bg-white"
                 >
-                  <i class="fas fa-fingerprint"></i>
+                  <img src="../../../assets/palms2_logo.png">
                 </div>
-                <h6 class="text-xl font-semibold">Verified Company</h6>
+                <h6 class="text-xl font-semibold">Palms erdészeti gépek</h6>
                 <p class="mt-2 mb-4 text-gray-600">
-                  Write a few lines about each one. A paragraph describing a
-                  feature will be enough. Keep you user engaged!
+                  Palmse Mehaanikakoda (PALMS) egy családi vállalkozás, amit 1992-ben alapítottak. Ma a PALMS a legnagyobb fatrélerek és daruk gyártója Európában. A vezető pozíciót kitartó munkával és folyamatos termékfejlesztéssel érték el.
                 </p>
+                <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
+              </div>
+            </div>
+          </div>
+          <div class="pt-6 w-full lg:w-3/12 px-4 text-center">
+            <div
+              class="relative flex flex-col min-w-0 break-words bg-white w-full mb-8 shadow-lg rounded-lg"
+            >
+              <div class="px-4 py-5 flex-auto">
+                <div
+                  class="text-white p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-5 shadow-lg rounded-full bg-white"
+                >
+                  <img src="../../../assets/oil.png">
+                </div>
+                <h6 class="text-xl font-semibold">Adalékok</h6>
+                <p class="mt-2 mb-4 text-gray-600">
+                  Üzemanyag- és motorolaj-adalékok: hatékony fogyasztáscsökkentés, motorjavulás. Környezetbarát, egyszerű használat. 30 éves tapasztalat, több országban elérhető.
+                </p>
+                <button class="bg-[#8ac73c] rounded-xl px-10">Érdekel</button>
               </div>
             </div>
           </div>
         </div>
-        <div class="flex flex-wrap items-center mt-32">
+
+        <div class="flex flex-wrap items-center mt-48">
           <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
             <div
               class="text-gray-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-100"
             >
-              <i class="fas fa-user-friends text-xl"></i>
+            <i class="fa-solid fa-gear text-xl"></i>
             </div>
             <h3 class="text-3xl mb-2 font-semibold leading-normal">
-              Working with us is a pleasure
+              <span class="text-[#e30d13]">KRPAN</span> termék kalkulátor
             </h3>
-            <p
-              class="text-lg font-light leading-relaxed mt-4 mb-4 text-gray-700"
-            >
-              Don't let your uses guess by attaching tooltips and popoves to
-              any element. Just make sure you enable them first via
-              JavaScript.
+            
+            <p class="text-lg font-medium leading-relaxed mt-0 mb-4 text-gray-700">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas hic quis eos dolor sunt, vero molestias repellat. Debitis nulla autem minima obcaecati error rerum accusantium ab, neque, illo sed velit?
             </p>
-            <p
-              class="text-lg font-light leading-relaxed mt-0 mb-4 text-gray-700"
-            >
-              The kit comes with three pre-built pages to help you get started
-              faster. You can change the text and images and you're good to
-              go. Just make sure you enable them first via JavaScript.
-            </p>
-            <a
-              href="https://www.creative-tim.com/learning-lab/tailwind-starter-kit#/presentation"
-              class="font-bold text-gray-800 mt-8"
-              >Check Tailwind Starter Kit!</a
-            >
+            <div class="grid grid-cols-3 mt-6">
+              <button class="mb-2 inline-block rounded bg-[#8ac73c] px-12 pt-4 pb-3.5 text-sm font-medium uppercase leading-normal md:mr-2 md:mb-0">Kalkulálás</button>
+              <button>Katalógus</button>
+              <button>Árlista</button>
+            </div>
+
           </div>
           <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
             <div
-              class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-lg rounded-lg bg-pink-600"
+              class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6"
             >
               <img
                 alt="..."
-                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=1051&amp;q=80"
+                src="../../assets/daru1.png"
+                class="w-full align-middle rounded-t-lg"
+              />         
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap items-center mt-48">
+          <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
+            <div
+              class="text-gray-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-gray-100"
+            >
+            <i class="fa-solid fa-gear text-xl"></i>
+            </div>
+            <h3 class="text-3xl mb-2 font-semibold leading-normal">
+              <span class="text-[#a32116]">PALMS</span> termék kalkulátor
+            </h3>
+            <p class="text-lg font-medium leading-relaxed mt-0 mb-4 text-gray-700">
+              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Voluptas hic quis eos dolor sunt, vero molestias repellat. Debitis nulla autem minima obcaecati error rerum accusantium ab, neque, illo sed velit?
+            </p>
+            <div class="grid grid-cols-3 mt-6">
+              <button class="mb-2 inline-block rounded bg-[#8ac73c] px-12 pt-4 pb-3.5 text-sm font-medium uppercase leading-normal md:mr-2 md:mb-0">Kalkulálás</button>
+              <button>Katalógus</button>
+              <button>Árlista</button>
+            </div>
+
+          </div>
+          <div class="w-full md:w-4/12 px-4 mr-auto ml-auto">
+            <div
+              class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6"
+            >
+              <img
+                alt="..."
+                src="../../assets/daru1.png"
                 class="w-full align-middle rounded-t-lg"
               />
-              <blockquote class="relative p-8 mb-4">
-                <svg
-                  preserveAspectRatio="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 583 95"
-                  class="absolute left-0 w-full block"
-                  style="height: 95px; top: -94px;"
-                >
-                  <polygon
-                    points="-30,95 583,95 583,65"
-                    class="text-pink-600 fill-current"
-                  ></polygon>
-                </svg>
-                <h4 class="text-xl font-bold text-white">
-                  Top Notch Services
-                </h4>
-                <p class="text-md font-light mt-2 text-white">
-                  The Arctic Ocean freezes every winter and much of the
-                  sea-ice then thaws every summer, and that process will
-                  continue whatever happens.
-                </p>
-              </blockquote>
+             
             </div>
           </div>
         </div>
+
       </div>
     </section>
-    <section class="relative py-20">
-      <div
-        class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
-        style="height: 80px;"
-      >
-        <svg
-          class="absolute bottom-0 overflow-hidden"
-          xmlns="http://www.w3.org/2000/svg"
-          preserveAspectRatio="none"
-          version="1.1"
-          viewBox="0 0 2560 100"
-          x="0"
-          y="0"
-        >
-          <polygon
-            class="text-white fill-current"
-            points="2560 0 2560 100 0 100"
-          ></polygon>
-        </svg>
-      </div>
-      <div class="container mx-auto px-4">
-        <div class="items-center flex flex-wrap">
-          <div class="w-full md:w-4/12 ml-auto mr-auto px-4">
-            <img
-              alt="..."
-              class="max-w-full rounded-lg shadow-lg"
-              src="https://images.unsplash.com/photo-1555212697-194d092e3b8f?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=634&amp;q=80"
-            />
-          </div>
-          <div class="w-full md:w-5/12 ml-auto mr-auto px-4">
-            <div class="md:pr-12">
-              <div
-                class="text-pink-600 p-3 text-center inline-flex items-center justify-center w-16 h-16 mb-6 shadow-lg rounded-full bg-pink-300"
-              >
-                <i class="fas fa-rocket text-xl"></i>
-              </div>
-              <h3 class="text-3xl font-semibold">A growing company</h3>
-              <p class="mt-4 text-lg leading-relaxed text-gray-600">
-                The extension comes with three pre-built pages to help you get
-                started faster. You can change the text and images and you're
-                good to go.
-              </p>
-              <ul class="list-none mt-6">
-                <li class="py-2">
-                  <div class="flex items-center">
-                    <div>
-                      <span
-                        class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 mr-3"
-                        ><i class="fas fa-fingerprint"></i
-                      ></span>
-                    </div>
-                    <div>
-                      <h4 class="text-gray-600">
-                        Carefully crafted components
-                      </h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="py-2">
-                  <div class="flex items-center">
-                    <div>
-                      <span
-                        class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 mr-3"
-                        ><i class="fab fa-html5"></i
-                      ></span>
-                    </div>
-                    <div>
-                      <h4 class="text-gray-600">Amazing page examples</h4>
-                    </div>
-                  </div>
-                </li>
-                <li class="py-2">
-                  <div class="flex items-center">
-                    <div>
-                      <span
-                        class="text-xs font-semibold inline-block py-1 px-2 uppercase rounded-full text-pink-600 bg-pink-200 mr-3"
-                        ><i class="far fa-paper-plane"></i
-                      ></span>
-                    </div>
-                    <div>
-                      <h4 class="text-gray-600">Dynamic components</h4>
-                    </div>
-                  </div>
-                </li>
-              </ul>
-            </div>
+    
+
+    <div class="container my-48 mx-auto md:px-6">
+      <!-- Section: Design Block -->
+      <section class="mb-32 text-center">
+        <div class="flex justify-center">
+          <div class="max-w-[700px] text-center">
+            <h2 class="mb-6 text-center text-[#8ac73c] text-3xl font-bold">
+              Miért válassz minket?
+            </h2>
           </div>
         </div>
-      </div>
-    </section>
-    <section class="pt-20 pb-48">
-      <div class="container mx-auto px-4">
-        <div class="flex flex-wrap justify-center text-center mb-24">
-          <div class="w-full lg:w-6/12 px-4">
-            <h2 class="text-4xl font-semibold">Here are our heroes</h2>
-            <p class="text-lg leading-relaxed m-4 text-gray-600">
-              According to the National Oceanic and Atmospheric
-              Administration, Ted, Scambos, NSIDClead scentist, puts the
-              potentially record maximum.
+    
+        <div class="grid gap-x-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-x-12">
+          <div class="mb-12 lg:mb-0">
+            <div class="mb-6 inline-block rounded-full bg-primary-100 p-4 text-primary shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
+              </svg>
+            </div>
+            <h5 class="mb-4 text-lg font-bold">Ügyfélgondozás</h5>
+            <p class="text-neutral-500 dark:text-neutral-300">
+              Megkereséseiket 24 órán belül feldolgozzuk, kérdéseikre a választ a lehető legrövidebb időn belül megadjuk.
             </p>
           </div>
+    
+          <div class="mb-12 lg:mb-0">
+            <div class="mb-6 inline-block rounded-full bg-primary-100 p-4 text-primary shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+              </svg>
+            </div>
+            <h5 class="mb-4 text-lg font-bold">Katalógusok</h5>
+            <p class="text-neutral-500 dark:text-neutral-300">
+              Bővebb információt adnak termékeink megismeréséhez.
+            </p>
+          </div>
+    
+          <div class="mb-12 md:mb-0">
+            <div class="mb-6 inline-block rounded-full bg-primary-100 p-4 text-primary shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" />
+              </svg>
+            </div>
+            <h5 class="mb-4 text-lg font-bold">Adalékanyagok</h5>
+            <p class="text-neutral-500 dark:text-neutral-300">
+              Üzemanyagkezelés professzionális adalék-anyaggal
+            </p>
+          </div>
+    
+          <div class="mb-12 md:mb-0">
+            <div class="mb-6 inline-block rounded-full bg-primary-100 p-4 text-primary shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+              </svg>
+            </div>
+            <h5 class="mb-4 text-lg font-bold">Raktáron lévő gépeink</h5>
+            <p class="text-neutral-500 dark:text-neutral-300">
+              Előzetes telefonos egyeztetés után - megtekinthetők Alsónémediben.
+            </p>
+          </div>
+
+          <div class="mb-12 md:mb-0">
+            <div class="mb-6 inline-block rounded-full bg-primary-100 p-4 text-primary shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+              </svg>
+            </div>
+            <h5 class="mb-4 text-lg font-bold">Konzultáció</h5>
+            <p class="text-neutral-500 dark:text-neutral-300">
+              Szolgáltatásainkról ingyenes konzultációkat biztosítunk
+            </p>
+          </div>
+
+          <div class="mb-12 md:mb-0">
+            <div class="mb-6 inline-block rounded-full bg-primary-100 p-4 text-primary shadow-sm">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" class="h-6 w-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.5 6a7.5 7.5 0 107.5 7.5h-7.5V6z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 10.5H21A7.5 7.5 0 0013.5 3v7.5z" />
+              </svg>
+            </div>
+            <h5 class="mb-4 text-lg font-bold">Rendezvények</h5>
+            <p class="text-neutral-500 dark:text-neutral-300">
+              Cégünk folyamatosan részt vesz kiállításokon, hogy megismerjék gépeinket
+            </p>
+          </div>
+
         </div>
-        <div class="flex flex-wrap">
-          <div class="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-            <div class="px-6">
-              <img
-                alt="..."
-                src="./assets/img/team-1-800x800.jpg"
-                class="shadow-lg rounded-full max-w-full mx-auto"
-                style="max-width: 120px;"
-              />
-              <div class="pt-6 text-center">
-                <h5 class="text-xl font-bold">Ryan Tompson</h5>
-                <p class="mt-1 text-sm text-gray-500 uppercase font-semibold">
-                  Web Developer
-                </p>
-                <div class="mt-6">
-                  <button
-                    class="bg-blue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-twitter"></i></button
-                  ><button
-                    class="bg-blue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-facebook-f"></i></button
-                  ><button
-                    class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-dribbble"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
+      </section>
+      <!-- Section: Design Block -->
+    </div>
+    <!-- Container for demo purpose -->
+    <div class="container my-40 mx-auto md:px-6">
+      <!-- Section: Design Block -->
+      <section class="mb-32 text-center">
+        <div class="grid gap-x-6 md:grid-cols-4 lg:gap-x-12">
+          <div class="mb-12 md:mb-0">
+            <h2 class="display-5 mb-4 text-4xl font-bold text-primary dark:text-primary-400">
+              135 db
+            </h2>
+            <h5 class="mb-4 text-lg font-medium">Termék</h5>
           </div>
-          <div class="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-            <div class="px-6">
-              <img
-                alt="..."
-                src="./assets/img/team-2-800x800.jpg"
-                class="shadow-lg rounded-full max-w-full mx-auto"
-                style="max-width: 120px;"
-              />
-              <div class="pt-6 text-center">
-                <h5 class="text-xl font-bold">Romina Hadid</h5>
-                <p class="mt-1 text-sm text-gray-500 uppercase font-semibold">
-                  Marketing Specialist
-                </p>
-                <div class="mt-6">
-                  <button
-                    class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-google"></i></button
-                  ><button
-                    class="bg-blue-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-facebook-f"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
+    
+          <div class="mb-12 md:mb-0">
+            <h2 class="display-5 mb-4 text-4xl font-bold text-primary dark:text-primary-400">
+              342 db
+            </h2>
+            <h5 class="mb-4 text-lg font-medium">Elégedett ügyfél
+            </h5>
           </div>
-          <div class="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-            <div class="px-6">
-              <img
-                alt="..."
-                src="./assets/img/team-3-800x800.jpg"
-                class="shadow-lg rounded-full max-w-full mx-auto"
-                style="max-width: 120px;"
-              />
-              <div class="pt-6 text-center">
-                <h5 class="text-xl font-bold">Alexa Smith</h5>
-                <p class="mt-1 text-sm text-gray-500 uppercase font-semibold">
-                  UI/UX Designer
-                </p>
-                <div class="mt-6">
-                  <button
-                    class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-google"></i></button
-                  ><button
-                    class="bg-blue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-twitter"></i></button
-                  ><button
-                    class="bg-gray-800 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-instagram"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
+    
+          <div class="mb-12 md:mb-0">
+            <h2 class="display-5 mb-4 text-4xl font-bold text-primary dark:text-primary-400">
+              950 m2
+            </h2>
+            <h5 class="mb-4 text-lg font-medium">Telephelyünk
+            </h5>
           </div>
-          <div class="w-full md:w-6/12 lg:w-3/12 lg:mb-0 mb-12 px-4">
-            <div class="px-6">
-              <img
-                alt="..."
-                src="./assets/img/team-4-470x470.png"
-                class="shadow-lg rounded-full max-w-full mx-auto"
-                style="max-width: 120px;"
-              />
-              <div class="pt-6 text-center">
-                <h5 class="text-xl font-bold">Jenna Kardi</h5>
-                <p class="mt-1 text-sm text-gray-500 uppercase font-semibold">
-                  Founder and CEO
-                </p>
-                <div class="mt-6">
-                  <button
-                    class="bg-pink-500 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-dribbble"></i></button
-                  ><button
-                    class="bg-red-600 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-google"></i></button
-                  ><button
-                    class="bg-blue-400 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-twitter"></i></button
-                  ><button
-                    class="bg-gray-800 text-white w-8 h-8 rounded-full outline-none focus:outline-none mr-1 mb-1"
-                    type="button"
-                  >
-                    <i class="fab fa-instagram"></i>
-                  </button>
-                </div>
-              </div>
-            </div>
+
+          <div class="mb-12 md:mb-0">
+            <h2 class="display-5 mb-4 text-4xl font-bold text-primary dark:text-primary-400">
+              25 db
+            </h2>
+            <h5 class="mb-4 text-lg font-medium">Partner</h5>
           </div>
+
         </div>
-      </div>
-    </section>
+      </section>
+      <!-- Section: Design Block -->
+    </div>
+    <!-- Container for demo purpose -->
     <section class="pb-20 relative block bg-gray-900">
       <div
         class="bottom-auto top-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden -mt-20"
