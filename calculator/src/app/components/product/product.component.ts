@@ -122,7 +122,7 @@ export class ProductComponent implements OnInit {
       reachWithGrabOpen: '7,2 m',
       liftingTorqueNet: '40 kNm',
       liftingTorqueGross: '50 kNm',
-      liftingCapacityAtFourMeters: '1020 m',
+      liftingCapacityAtFourMeters: '1020 kg',
       liftingCapacityAtMaxReach: '600 m',
       weight: '900 kg',
       price: 17955,
