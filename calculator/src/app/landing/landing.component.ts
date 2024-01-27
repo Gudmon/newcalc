@@ -3,104 +3,23 @@ import { NavigationComponent } from '../components/navigation/navigation.compone
 import { FooterComponent } from '../components/footer/footer.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { FormsModule } from '@angular/forms';
-import { CommonModule } from '@angular/common';
-import { Checkbox, CheckboxModule } from 'primeng/checkbox';
+import { CheckboxModule } from 'primeng/checkbox';
 import { TruncatePipe } from "../components/pipes/truncate.pipe";
 import { CardModule } from 'primeng/card';
+import { GalleriaComponent } from "./components/galleria/galleria.component";
+import { ActivitiesComponent } from "./components/activities/activities.component";
+import { CalculatorsComponent } from "./components/calculators/calculators.component";
+import { HighlightsComponent } from "./components/highlights/highlights.component";
 
 @Component({
     selector: 'app-landing',
     standalone: true,
     templateUrl: './landing.component.html',
     styleUrl: './landing.component.css',
-    imports: [NavigationComponent, FooterComponent, GalleriaModule, FormsModule, CheckboxModule, TruncatePipe, CardModule]
+    imports: [NavigationComponent, GalleriaComponent, ActivitiesComponent, CalculatorsComponent, HighlightsComponent, FooterComponent]
 })
 export class LandingComponent implements OnInit {
-  responsiveOptions: any[] | undefined;
-  images: any[] | undefined;
-  position: string = 'bottom';
-  showIndicatorsOnItem: boolean = false;
-
-  positionOptions = [
-    {
-        label: 'Bottom',
-        value: 'bottom'
-    },
-    {
-        label: 'Top',
-        value: 'top'
-    },
-    {
-        label: 'Left',
-        value: 'left'
-    },
-    {
-        label: 'Right',
-        value: 'right'
-    }
-];
-
   ngOnInit(): void {
-    this.responsiveOptions = [
-      {
-          breakpoint: '1024px',
-          numVisible: 5
-      },
-      {
-          breakpoint: '768px',
-          numVisible: 3
-      },
-      {
-          breakpoint: '560px',
-          numVisible: 1
-      }
-    ];
 
-    this.setImages();
-
-    
-    
-  }
-
-  setImages(): void {
-
-      this.images = [
-        { 
-          itemImageSrc: '../../../assets/krpan_default.png',
-          thumbnailImageSrc: '../../../assets/daru1.png',
-          alt: 'Description for Image 1',
-          title: 'Title 1'
-        },
-        { 
-          itemImageSrc: '../../../assets/palms_default.png',
-          thumbnailImageSrc: '../../../assets/daru2.png',
-          alt: 'Description for Image 3',
-          title: 'Title 3'
-        },
-        { 
-          itemImageSrc: '../../../assets/krpan_default2.png',
-          thumbnailImageSrc: '../../../assets/daru2.png',
-          alt: 'Description for Image 3',
-          title: 'Title 3'
-        },
-        { 
-          itemImageSrc: '../../../assets/palms_default2.png',
-          thumbnailImageSrc: '../../../assets/daru2.png',
-          alt: 'Description for Image 3',
-          title: 'Title 3'
-        },
-        { 
-          itemImageSrc: '../../../assets/krpan_default3.png',
-          thumbnailImageSrc: '../../../assets/daru2.png',
-          alt: 'Description for Image 3',
-          title: 'Title 3'
-        },
-        { 
-          itemImageSrc: '../../../assets/palms_default3.png',
-          thumbnailImageSrc: '../../../assets/daru2.png',
-          alt: 'Description for Image 3',
-          title: 'Title 3'
-        },
-      ];
   }
 }
