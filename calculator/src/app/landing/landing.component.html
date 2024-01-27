@@ -1,6 +1,6 @@
 
 <app-navigation></app-navigation>
-<main>
+<main class="mt-24 md:mt-0">
     <!-- <div class="relative pt-16 pb-32 flex content-center items-center justify-center" style="min-height: 65vh;">
       <div class="absolute top-0 w-full h-full bg-center bg-cover">
         <div class="card opacity-30">
@@ -14,7 +14,7 @@
     </div> -->
     
     <div class="image-holder">
-      <p-galleria class="image-holder" [value]="images" [numVisible]="5" [autoPlay]="false" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-height': '' }">
+      <p-galleria class="image-holder" [value]="images" [numVisible]="5" [autoPlay]="true" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-height': '' }">
           <ng-template class="" pTemplate="item" let-item>
               <img class="image" [src]="item.itemImageSrc" style="width: 100%; max-height: 80dvh;" />
           </ng-template>

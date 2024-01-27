@@ -54,28 +54,53 @@ export class LandingComponent implements OnInit {
           breakpoint: '560px',
           numVisible: 1
       }
-  ];
+    ];
 
-    this.images = [ 
-      { 
-          itemImageSrc:  
-          '../../../assets/krpan.png', 
-          thumbnailImageSrc:  
-          '../../../assets/daru1.png', 
-          alt: 'Description for Image 1', 
-          title: 'Title 1'
-      },
-      { 
-        itemImageSrc:  
-          '../../../assets/palms.png', 
-          thumbnailImageSrc:  
-          '../../../assets/daru2.png', 
-          alt: 'Description for Image 3', 
-          title: 'Title 3'
-      }, 
-      
-    ]
+    this.setImages();
 
     
+    
+  }
+
+  setImages(): void {
+
+      this.images = [
+        { 
+          itemImageSrc: '../../../assets/krpan_default.png',
+          thumbnailImageSrc: '../../../assets/daru1.png',
+          alt: 'Description for Image 1',
+          title: 'Title 1'
+        },
+        { 
+          itemImageSrc: '../../../assets/palms_default.png',
+          thumbnailImageSrc: '../../../assets/daru2.png',
+          alt: 'Description for Image 3',
+          title: 'Title 3'
+        },
+        { 
+          itemImageSrc: '../../../assets/krpan_default2.png',
+          thumbnailImageSrc: '../../../assets/daru2.png',
+          alt: 'Description for Image 3',
+          title: 'Title 3'
+        },
+        { 
+          itemImageSrc: '../../../assets/palms_default2.png',
+          thumbnailImageSrc: '../../../assets/daru2.png',
+          alt: 'Description for Image 3',
+          title: 'Title 3'
+        },
+        { 
+          itemImageSrc: '../../../assets/krpan_default3.png',
+          thumbnailImageSrc: '../../../assets/daru2.png',
+          alt: 'Description for Image 3',
+          title: 'Title 3'
+        },
+        { 
+          itemImageSrc: '../../../assets/palms_default3.png',
+          thumbnailImageSrc: '../../../assets/daru2.png',
+          alt: 'Description for Image 3',
+          title: 'Title 3'
+        },
+      ];
   }
 }
