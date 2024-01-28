@@ -206,8 +206,11 @@ export class CranesComponent implements OnInit{
     
     setTimeout(() => {
       this.addElement.nativeElement.scrollIntoView({ behavior: "smooth"});
-      this.equipmentSelected = false;
     }, 100);
+
+    setTimeout(() => {
+      this.equipmentSelected = false;
+    }, 700);
   }
 
   handleChange(name: string, price: number, event: CheckboxChangeEvent) {

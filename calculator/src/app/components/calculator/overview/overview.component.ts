@@ -1,5 +1,5 @@
 import { CalculatorService } from './../../../services/calculator.service';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectButtonChangeEvent, SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
@@ -22,6 +22,7 @@ export class OverviewComponent implements OnInit{
   selectedTab: number |undefined;
   tabSelected : boolean = false;
   @ViewChild('craneComponent') craneComponent!: any;
+  @ViewChild('topElement') topElement!: ElementRef;
 
   constructor(readonly calculatorService: CalculatorService){
 
@@ -29,7 +30,6 @@ export class OverviewComponent implements OnInit{
   
   ngOnInit(): void {
     this.setVehicleTypes();
-
     console.log(this.calculatorService._selectedTab.value);
   }
 

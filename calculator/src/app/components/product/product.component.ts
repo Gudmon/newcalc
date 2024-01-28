@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CraneDetail } from '../../models/crane-detail';
 import { GalleriaModule } from 'primeng/galleria';
 import { ActivatedRoute } from '@angular/router';
@@ -64,6 +64,9 @@ export class ProductComponent implements OnInit {
     logHolder: 'Farú tartó'
   };
 
+  
+  @ViewChild('topElement') topElement!: ElementRef;
+
   getCraneEntries(): { key: string, value: string }[] {
     return Object.entries(this.crane)
       .filter(([key, value]) => !this.excludedKeys.includes(key))
@@ -110,9 +113,10 @@ export class ProductComponent implements OnInit {
           alt: 'Description for Image 4', 
           title: 'Title 4'
       }
-  ]; 
+    ];
+    
+    
   }
- 
   
   setCrane() {
     this.crane = {
