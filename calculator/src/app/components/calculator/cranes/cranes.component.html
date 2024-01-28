@@ -1,3 +1,4 @@
+
 <div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-2 xl:mx-14">
     @for (crane of cranes; track crane.id){
         <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name">
@@ -9,22 +10,18 @@
             <p class="block text-sm lg:text-lg">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</p>
             <p class="block text-sm lg:text-lg">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</p>
             <ng-template pTemplate="footer">
-                <div class="grid grid-cols-1 mb-4">
-                    
-                    <div class="col-start-1 col-end-3">
-                        <p-button (onClick)="navigateToMachine(crane.id)" label="További információ a termékről" class="bg-slate-300 rounded-lg p-2"></p-button>
+                <div class="grid grid-cols-2 mb-4">  
+                    <div class="">
+                      <button (click)="addToCalculator(crane)" label="Kalkulál" 
+                      class="mb-2 rounded bg-[#8ac73c] text-black hover:cursor-pointer hover:opacity-85 px-2 pt-4 pb-3.5 text-sm font-bold lg:px-4 xl:px-12">Kalkulál</button>
 
-                    </div>
-                </div>
-                <div class="grid grid-cols-1 mt-4">
-                    <div class="col-start-1 col-end-3">
-
-                        <p-button (onClick)="addToCalculator(crane)" label="Kalkulál" class="bg-[#8ac73c] rounded-lg p-2"></p-button>
+                    </div>             
+                    <div class="justify-self-end">
+                      <button (click)="navigateToMachine(crane.id)" label="További információ" 
+                      class="mb-2 rounded bg-[rgba(0,0,0,.3)] text-white hover:cursor-pointer hover:opacity-85 px-2 pt-4 pb-3.5 text-sm font-bold lg:px-4 xl:px-12">További információ</button>
                     </div>
                    
-                </div>
-                
-                
+                  </div>           
             </ng-template>
         </p-card>
     } 
@@ -32,13 +29,16 @@
         <p>There are no cranes.</p>
     }
   </div>
+  <!-- <div *ngIf="!equipmentSelected" class="h-dvh">
 
+  </div> -->
   <div class="bg-slate-200">
 
-  
     <form [formGroup]="formGroup">
-    <div #configElement class="flex align-middle justify-center my-10">
-        <div class="justify-center w-11/12">
+
+      <div *ngIf="equipmentSelected" #configElement class="flex align-middle justify-center my-10">
+
+        <div class="w-11/12">
             <div class="justify-content-center my-4 py-4">
               <span>Vezértömb</span>
               <p-listbox #controlBlockListBox (onChange)="handleControlBlockChange($event)" [options]="controlBlocks" formControlName="selectedControlBlock" optionLabel="name"></p-listbox>                   
@@ -73,30 +73,30 @@
                 <p-checkbox #workingHoursCheckBox (onChange)="handleChange(configItems['munkaÓraSzámláló'].name, configItems['munkaÓraSzámláló'].price, $event)"  formControlName="workingHoursSelected" value="selected" inputId="munkaÓraSzámláló"></p-checkbox>
                 <label for="munkaÓraSzámláló">{{configItems['munkaÓraSzámláló'].name}} {{ formatPrice(configItems['munkaÓraSzámláló'].price)}}</label>
             </div>
+            
         </div>
-      
+
     </div>
     
+    <div *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
 
+      <div class="w-11/12">
+        <span
+          class="block uppercase text-blueGray-500 text-sm font-extrabold lg:mb-12 mb-4"
+        >
+        Kalkulált ár:
+        </span>
+        <p class="font-semibold">{{formatPrice(calculatorService.price$ | async)}}</p>
+        <button class="rounded-md p-2 mt-4 bg-red-500" (click)="delete()">Törlés</button>
+      </div>
 
-    <div class="w-full lg:w-4/12 px-4 mx-auto text-center mb-5 lg:mb-0 bg">
-      <span
-        class="block uppercase text-blueGray-500 text-sm font-extrabold lg:mb-12 mb-4"
-      >
-      Kalkulált ár:
-      </span>
-      <p class="font-semibold">{{formatPrice(calculatorService.price$ | async)}}</p>
-      <button class="rounded-md p-2 mt-4 bg-red-500" (click)="delete()">Törlés</button>
     </div>
-    
 
-    <section class="relative block mt-40 py-24 lg:pt-0 lg:mt-20 bg-slate-200">
-        <div class="container mx-auto px-4">
-          <div class="flex flex-wrap justify-center">
-            <div class="w-full lg:w-12/12 px-10">
-              <div
-                class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300"
-              >
+    <div class="flex align-middle justify-center mt-20 pt-10">
+      <div class="w-11/12">
+        <div class="">
+            <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300">
+
                 <div class="flex-auto p-5 lg:p-10">
                   <h4 class="text-2xl font-semibold">Kérdése van?</h4>
                   <p class="leading-relaxed mt-1 mb-4 text-gray-600">
@@ -168,6 +168,7 @@
                       placeholder="Kérem fogalmazza meg a kérdését..."
                     ></textarea>
                   </div>
+
                   <div class="text-center mt-6">
                     <button
                     (click)="onSubmit()"
@@ -178,11 +179,11 @@
                       Küldés
                     </button>
                   </div>
-                </div>
+
               </div>
             </div>
-          </div>
         </div>
-      </section>
-    </form>
-  </div>
+      </div>
+    </div>
+  </form>
+</div>

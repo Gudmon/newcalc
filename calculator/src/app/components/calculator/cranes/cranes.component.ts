@@ -136,19 +136,6 @@ export class CranesComponent implements OnInit{
     this.router.navigate(['/krpan', machineId]);
   }
 
-  delete() {
-    this.calculatorService._price.next(0);
-    this.configItemsArray = [];
-
-    this.resetOriginalPrices();
-    this.resetCheckboxValues(this.oilCoolerCheckBox, this.backrestCheckBox, this.ledCheckBox, this.workingHoursCheckBox);
-    this.resetListboxValues(this.controlBlockListBox, this.rotatorListBox, this.rotatorBrakeListBox);
-    
-    setTimeout(() => {
-      this.addElement.nativeElement.scrollIntoView({ behavior: "smooth"});
-    }, 100);
-  }
-
   handleControlBlockChange(event: DropdownChangeEvent) {
     const previousValue = this.originalControlBlockPrice;
     this.originalControlBlockPrice = event.value ? event.value.price : 0;
@@ -197,14 +184,30 @@ export class CranesComponent implements OnInit{
   }
 
   addToCalculator(crane: Crane){
-    this.delete();
-    this.calculatorService._price.next(crane.price);
     this.equipmentSelected = true;
-
+    this.configItemsArray = [];
+    this.calculatorService._price.next(crane.price);
+    
     setTimeout(() => {
+      this.resetOriginalPrices();
+      this.resetCheckboxValues(this.oilCoolerCheckBox, this.backrestCheckBox, this.ledCheckBox, this.workingHoursCheckBox);
+      this.resetListboxValues(this.controlBlockListBox, this.rotatorListBox, this.rotatorBrakeListBox);
       this.configElement.nativeElement.scrollIntoView({ behavior: "smooth"});
     }, 100);
     
+  }
+
+    delete() {
+    this.calculatorService._price.next(0);
+    this.configItemsArray = [];
+    this.resetOriginalPrices();
+    this.resetCheckboxValues(this.oilCoolerCheckBox, this.backrestCheckBox, this.ledCheckBox, this.workingHoursCheckBox);
+    this.resetListboxValues(this.controlBlockListBox, this.rotatorListBox, this.rotatorBrakeListBox);
+    
+    setTimeout(() => {
+      this.addElement.nativeElement.scrollIntoView({ behavior: "smooth"});
+      this.equipmentSelected = false;
+    }, 100);
   }
 
   handleChange(name: string, price: number, event: CheckboxChangeEvent) {

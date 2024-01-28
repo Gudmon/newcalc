@@ -29,6 +29,8 @@ export class OverviewComponent implements OnInit{
   
   ngOnInit(): void {
     this.setVehicleTypes();
+
+    console.log(this.calculatorService._selectedTab.value);
   }
 
   setSetelectedTab(tab: number, event: Event){
