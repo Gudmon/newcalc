@@ -9,15 +9,11 @@
     
 }
 
-
 .card .p-menubar {
 
     background-color: rgba(0,0,0,.7);
     color: #fff;
 }
-
-
-
 
 svg {
     color: white;
@@ -25,8 +21,6 @@ svg {
     width: 1.5rem;
     height: 1.5rem;
 }
-
-
 
 /* .p-menubar-button.ng-star-inserted {
     background-color: red;
@@ -41,15 +35,13 @@ svg {
 
 } */
 
-
-
 /* .p-menubar.p-component.p-menubar-mobile-active{
     background-color: aqua;
     color: blue;
 } */
 
 .p-menubar ul {
-    background-color: rgba(0,0,0,.7);
+    background-color: rgba(0,0,0,.9);
     color: #fff;
 }
 
@@ -57,8 +49,7 @@ svg {
     background-color: #8ac73c;
 }
 
-
 .p-menuitem-content {
-    background-color: rgba(0,0,0,.7);
+    background-color: rgba(0,0,0,.8);
     color: #fff;
 }
