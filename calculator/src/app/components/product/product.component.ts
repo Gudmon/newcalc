@@ -6,11 +6,12 @@ import { ImageModule } from 'primeng/image';
 import { NavigationComponent } from '../navigation/navigation.component';
 import { FooterComponent } from '../footer/footer.component';
 import { AccordionModule } from 'primeng/accordion';
+import { DividerModule } from 'primeng/divider';
 
 @Component({
   selector: 'app-product',
   standalone: true,
-  imports: [GalleriaModule, ImageModule, NavigationComponent, FooterComponent, AccordionModule],
+  imports: [GalleriaModule, DividerModule, ImageModule, NavigationComponent, FooterComponent, AccordionModule],
   templateUrl: './product.component.html',
   styleUrl: './product.component.css'
 })

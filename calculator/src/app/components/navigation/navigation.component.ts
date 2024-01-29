@@ -21,49 +21,60 @@ constructor(){
     ngOnInit() {
         this.items = [
             {
-                label: 'Kezdőlap'
+                label: 'Kezdőlap',
+                routerLink: '/'
             },
             {
-                label: 'Rólunk'
+                label: 'Rólunk',
+                routerLink: '/about'
             },
             {
                 label: 'Termékek',
                 items: [
                     {
-                        label: 'Krpan erdészeti gépek'
+                        label: 'Krpan erdészeti gépek',
+                        routerLink: '/krpan'
                     },
                     {
-                        label: 'Palms erdészeti gépek'
+                        label: 'Palms erdészeti gépek',
+                        routerLink: '/palms'
                     },
                     {
-                        label: 'Palmse trailer'
+                        label: 'Palmse trailer',
+                        routerLink: '/palmse'
                     },
                     {
-                      label: 'Adalékok'
+                      label: 'Adalékok',
+                      routerLink: '/additives'
                     }
                 ]
             },
             {
-                label: 'Gépbérbeadás'
+                label: 'Gépbérbeadás',
+                routerLink: '/rental'
             },
             {
-                label: 'Webshop'
+                label: 'Webshop',
+                routerLink: '/webshop'
             },
             {
-                label: 'Hírek'
+                label: 'Hírek',
+                routerLink: '/news'
             },
             {
-                label: 'Kapcsolat'
+                label: 'Kapcsolat',
+                routerLink: '/contact'
             },
             {
                 label: 'Kalkulátorok',
                 items: [
                   {
                       label: 'Krpan',
-                      routerLink: '/krpan'
+                      routerLink: '/calculator/krpan'
                   },
                   {
-                      label: 'Palms'
+                      label: 'Palms',
+                      routerLink: '/calculator/palms'
                   }
               ]
             },
