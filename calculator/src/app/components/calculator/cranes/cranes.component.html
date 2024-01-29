@@ -29,13 +29,13 @@
   }
 </div>
 
-<!-- <div *ngIf="!equipmentSelected" class="h-dvh">
+<div *ngIf="!equipmentSelected" class="h-dvh">
 
-</div> -->
+</div>
 
 <div class="bg-slate-200">
 
-    <div  #configElement class="flex align-middle justify-center my-10">
+    <div #configElement *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
 
       <div class="w-11/12">
 
@@ -139,7 +139,7 @@
 
     </div>
     
-    <div class="flex align-middle justify-center my-10">
+    <div *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
 
       <div class="w-11/12">
         <span
@@ -165,7 +165,7 @@
           @for (originalControlBlockItem of originalControlBlockItemsArray; track originalControlBlockItem.name){
             <div class="col-span-8 md:col-span-6 justify-self-end">
               <p class="">
-                {{originalControlBlockItem.name}}
+                {{ originalControlBlockItem.name | removePrice }}
               </p> 
             </div>
             <div class="col-span-4 md:col-span-6 justify-self-start">
@@ -178,7 +178,7 @@
         <div class="grid grid-cols-12 gap-4 py-2">
           @for (originalRotatorItem of originalRotatorItemsArray; track originalRotatorItem.name){
             <div class="col-span-8 md:col-span-6 justify-self-end">
-                <p>{{originalRotatorItem.name}}</p>
+                <p>{{originalRotatorItem.name | removePrice}}</p>
             </div>
             <div class="col-span-4 md:col-span-6 justify-self-start">
               <p>{{formatPrice(originalRotatorItem.price)}}</p>
@@ -186,12 +186,12 @@
           }     
         </div>
 
-        <div class="grid grid-cols-12 gap-4 py-1">
+        <div class="grid grid-cols-12 gap-4 py-2">
           @for (originalRotatorBrakesItem of originalRotatorBrakesItemsArray; track originalRotatorBrakesItem.name){
-            <div class="col-span-8 md:col-span-6  justify-self-end">
-                {{originalRotatorBrakesItem.name}}
+            <div class="col-span-8 md:col-span-6 justify-self-end">
+                {{originalRotatorBrakesItem.name | removePrice}}
             </div>
-            <div class="col-span-4 md:col-span-6  justify-self-start">
+            <div class="col-span-4 md:col-span-6 justify-self-start">
               <p>
                 {{formatPrice(originalRotatorBrakesItem.price)}}
               </p>
@@ -199,12 +199,12 @@
           }     
         </div>
 
-        <div class="grid grid-cols-12 gap-4 py-2">
+        <div class="grid grid-cols-12 gap-4 pb-2 pt-1">
           @for (configItem of configItemsArray; track configItem.name){
-            <div class="col-span-8 md:col-span-6  justify-self-end">
+            <div class="col-span-8 md:col-span-6 justify-self-end">
                 {{configItem.name}}
             </div>
-            <div class="col-span-4 md:col-span-6  justify-self-start">
+            <div class="col-span-4 md:col-span-6 justify-self-start">
               <p>
                 {{formatPrice(configItem.price)}}
               </p>

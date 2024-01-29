@@ -19,14 +19,15 @@ import { ConfigItem } from '../../../models/config-item';
 import { CalculatorService } from '../../../services/calculator.service';
 import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
+import { RemovePricePipe } from '../../pipes/remove-price.pipe';
 
 
 @Component({
-  selector: 'app-cranes',
-  standalone: true,
-  imports: [DividerModule, ListboxModule, DialogModule, AccordionModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule],
-  templateUrl: './cranes.component.html',
-  styleUrl: './cranes.component.css'
+    selector: 'app-cranes',
+    standalone: true,
+    templateUrl: './cranes.component.html',
+    styleUrl: './cranes.component.css',
+    imports: [DividerModule, ListboxModule, DialogModule, AccordionModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule, RemovePricePipe]
 })
 export class CranesComponent implements OnInit{
   cranes: Crane[] = [];
