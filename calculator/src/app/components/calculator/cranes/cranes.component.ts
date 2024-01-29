@@ -18,12 +18,13 @@ import { Crane } from '../../../models/crane';
 import { ConfigItem } from '../../../models/config-item';
 import { CalculatorService } from '../../../services/calculator.service';
 import { Router } from '@angular/router';
+import { DialogModule } from 'primeng/dialog';
 
 
 @Component({
   selector: 'app-cranes',
   standalone: true,
-  imports: [DividerModule, ListboxModule, AccordionModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule],
+  imports: [DividerModule, ListboxModule, DialogModule, AccordionModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule],
   templateUrl: './cranes.component.html',
   styleUrl: './cranes.component.css'
 })
@@ -45,9 +46,12 @@ export class CranesComponent implements OnInit{
   originalRotatorPrice = 0;
   originalRotatorBrakePrice = 0;
 
-  equipmentSelected = false;
-  submitted = false;
+  equipmentSelected: boolean = false;
+  submitted: boolean = false;
   blurred: boolean = false;
+  controlBlocksDialogvisible: boolean = false;
+  rotatorsDialogvisible: boolean = false;
+  rotatorBrakesDialogvisible: boolean = false;
 
   @ViewChild('oilCoolerCheckBox') oilCoolerCheckBox!: Checkbox;
   @ViewChild('backrestCheckBox') backrestCheckBox!: Checkbox;
@@ -94,6 +98,18 @@ export class CranesComponent implements OnInit{
     this.initializeFormGroup();
   }
 
+  showControlBlocksDialog() {
+    this.controlBlocksDialogvisible = true;
+  }
+
+  showRotatorsDialog() {
+    this.rotatorsDialogvisible = true;
+  }
+
+  showRotatorBrakesDialog() {
+    this.rotatorBrakesDialogvisible = true;
+  }
+
   onEmailBlur() {
     this.blurred = true;
   }
@@ -120,7 +136,6 @@ export class CranesComponent implements OnInit{
   handleControlBlockChange(event: DropdownChangeEvent) {
     const previousValue = this.originalControlBlockPrice;
     this.originalControlBlockPrice = event.value ? event.value.price : 0;
-    console.log(event.value)
     const nextValue = this.originalControlBlockPrice;
   
     const current = this.calculatorService._price.value;

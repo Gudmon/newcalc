@@ -30,7 +30,6 @@ export class OverviewComponent implements OnInit{
   
   ngOnInit(): void {
     this.setVehicleTypes();
-    console.log(this.calculatorService._selectedTab.value);
   }
 
   setSetelectedTab(tab: number, event: Event){
@@ -42,7 +41,6 @@ export class OverviewComponent implements OnInit{
     setTimeout(() => {
       if(this.craneComponent){
         this.craneComponent.el.nativeElement.scrollIntoView({ behavior: "smooth"});
-        console.log(this.craneComponent);
       }
       
     }, 100);
