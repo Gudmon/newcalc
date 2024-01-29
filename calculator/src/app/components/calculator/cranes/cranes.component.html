@@ -1,4 +1,5 @@
 
+<form [formGroup]="formGroup">
 <div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-2 xl:mx-14">
   @for (crane of cranes; track crane.id){
       <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name">
@@ -34,7 +35,7 @@
 
 <div class="bg-slate-200">
 
-  <form [formGroup]="formGroup">
+  
 
     <div  #configElement class="flex align-middle justify-center my-10">
 
@@ -87,50 +88,72 @@
         Kalkulált ár:
         </span>
         
-        <div class="grid grid-cols-12 gap-4 py-1">
-          @for (originalControlBlockItem of originalControlBlockItemsArray; track originalControlBlockItem.name){
-            <div class="col-span-6 justify-self-end">
-                {{originalControlBlockItem.name}}
+        <div *ngIf="formGroup.get('selectedVehicle')?.value" class="grid grid-cols-12 gap-4 py-2">
+            <div class="col-span-8 md:col-span-6 justify-self-end ">
+              <div>
+                <p class="text-lg font-semibold">
+                  {{formGroup.get('selectedVehicle')?.value.name}}
+                </p>
+              </div>
             </div>
-            <div class="col-span-6 justify-self-start">
-                {{formatPrice(originalControlBlockItem.price)}}
+            <div class="col-span-4 md:col-span-6 justify-self-start">
+              <p class="text-lg font-semibold">{{ formatPrice(formGroup.get('selectedVehicle')?.value.price) }}</p>
+            </div>            
+        </div>
+        
+        <div class="grid grid-cols-12 gap-4 py-2">
+          @for (originalControlBlockItem of originalControlBlockItemsArray; track originalControlBlockItem.name){
+            <div class="col-span-8 md:col-span-6 justify-self-end">
+              <p class="">
+                {{originalControlBlockItem.name}}
+              </p> 
+            </div>
+            <div class="col-span-4 md:col-span-6 justify-self-start">
+              <p>{{formatPrice(originalControlBlockItem.price)}}</p>
             </div>
           }   
           
         </div>
 
-        <div class="grid grid-cols-12 gap-4 py-1">
+        <div class="grid grid-cols-12 gap-4 py-2">
           @for (originalRotatorItem of originalRotatorItemsArray; track originalRotatorItem.name){
-            <div class="col-span-6 justify-self-end">
-                {{originalRotatorItem.name}}
+            <div class="col-span-8 md:col-span-6 justify-self-end">
+                <p>{{originalRotatorItem.name}}</p>
             </div>
-            <div class="col-span-6 justify-self-start">
-                {{formatPrice(originalRotatorItem.price)}}
+            <div class="col-span-4 md:col-span-6 justify-self-start">
+              <p>{{formatPrice(originalRotatorItem.price)}}</p>
             </div>
           }     
         </div>
 
         <div class="grid grid-cols-12 gap-4 py-1">
           @for (originalRotatorBrakesItem of originalRotatorBrakesItemsArray; track originalRotatorBrakesItem.name){
-            <div class="col-span-6 justify-self-end">
+            <div class="col-span-8 md:col-span-6  justify-self-end">
                 {{originalRotatorBrakesItem.name}}
             </div>
-            <div class="col-span-6 justify-self-start">
+            <div class="col-span-4 md:col-span-6  justify-self-start">
+              <p>
                 {{formatPrice(originalRotatorBrakesItem.price)}}
+              </p>
             </div>
           }     
         </div>
 
         <div class="grid grid-cols-12 gap-4 py-2">
           @for (configItem of configItemsArray; track configItem.name){
-            <div class="col-span-6 justify-self-end">
+            <div class="col-span-8 md:col-span-6  justify-self-end">
                 {{configItem.name}}
             </div>
-            <div class="col-span-6 justify-self-start">
+            <div class="col-span-4 md:col-span-6  justify-self-start">
+              <p>
                 {{formatPrice(configItem.price)}}
+              </p>
             </div>
           }     
         </div>
+
+        <hr
+        class="my-12 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
 
         <div class="grid grid-cols-12 pt-6 gap-4">
           <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
@@ -263,5 +286,6 @@
         </div>
       </div>
     </div>
-  </form>
+ 
 </div>
+</form>
