@@ -1,93 +1,171 @@
 
 <div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-2 xl:mx-14">
-    @for (crane of cranes; track crane.id){
-        <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name">
-            <ng-template pTemplate="header">
-                <img alt="Card" [src]="crane.imgUrl"/>
-            </ng-template>
-            <p class="pb-4 text-lg font-extrabold lg:text-2xl">{{formatPrice(crane.price)}}</p>
-            <p class="block text-sm lg:text-lg">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</p>
-            <p class="block text-sm lg:text-lg">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</p>
-            <p class="block text-sm lg:text-lg">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</p>
-            <ng-template pTemplate="footer">
-                <div class="grid grid-cols-2 mb-4">  
-                    <div class="">
-                      <button (click)="addToCalculator(crane)" label="Kalkulál" 
-                      class="mb-2 rounded bg-[#8ac73c] text-black hover:cursor-pointer hover:opacity-85 px-2 pt-4 pb-3.5 text-sm font-bold lg:px-4 xl:px-12">Kalkulál</button>
+  @for (crane of cranes; track crane.id){
+      <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name">
+          <ng-template pTemplate="header">
+              <img alt="Card" [src]="crane.imgUrl"/>
+          </ng-template>
+          <p class="pb-4 text-lg font-extrabold lg:text-2xl">{{formatPrice(crane.price)}}</p>
+          <p class="block text-sm lg:text-lg">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</p>
+          <p class="block text-sm lg:text-lg">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</p>
+          <p class="block text-sm lg:text-lg">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</p>
+          <ng-template pTemplate="footer">
+              <div class="grid grid-cols-2 mb-4">  
+                  <div class="">
+                    <button (click)="addToCalculator(crane)" label="Kalkulál" 
+                    class="mb-2 rounded bg-[#8ac73c] text-black hover:cursor-pointer hover:opacity-85 px-2 pt-4 pb-3.5 text-sm font-bold lg:px-4 xl:px-12">Kalkulál</button>
+                  </div>             
+                  <div class="justify-self-end">
+                    <button (click)="navigateToMachine(crane.id)" label="További információ" 
+                    class="mb-2 rounded bg-[rgba(0,0,0,.3)] text-white hover:cursor-pointer hover:opacity-85 px-2 pt-4 pb-3.5 text-sm font-bold lg:px-4 xl:px-12">További információ</button>
+                  </div>             
+                </div>           
+          </ng-template>
+      </p-card>
+  } 
+  @empty {
+      <p>There are no cranes.</p>
+  }
+</div>
 
-                    </div>             
-                    <div class="justify-self-end">
-                      <button (click)="navigateToMachine(crane.id)" label="További információ" 
-                      class="mb-2 rounded bg-[rgba(0,0,0,.3)] text-white hover:cursor-pointer hover:opacity-85 px-2 pt-4 pb-3.5 text-sm font-bold lg:px-4 xl:px-12">További információ</button>
-                    </div>
-                   
-                  </div>           
-            </ng-template>
-        </p-card>
-    } 
-    @empty {
-        <p>There are no cranes.</p>
-    }
-  </div>
-  <!-- <div *ngIf="!equipmentSelected" class="h-dvh">
+<!-- <div *ngIf="!equipmentSelected" class="h-dvh">
 
-  </div> -->
-  <div class="bg-slate-200">
+</div> -->
 
-    <form [formGroup]="formGroup">
+<div class="bg-slate-200">
 
-      <div *ngIf="equipmentSelected" #configElement class="flex align-middle justify-center my-10">
+  <form [formGroup]="formGroup">
 
-        <div class="w-11/12">
-            <div class="justify-content-center my-4 py-4">
-              <span>Vezértömb</span>
-              <p-listbox #controlBlockListBox (onChange)="handleControlBlockChange($event)" [options]="controlBlocks" formControlName="selectedControlBlock" optionLabel="name"></p-listbox>                   
-            </div>
+    <div  #configElement class="flex align-middle justify-center my-10">
+
+      <div class="w-11/12">
+          <div class="justify-content-center my-4 py-4">
+            <span>Vezértömb</span>
+            <p-listbox #controlBlockListBox (onChange)="handleControlBlockChange($event)" [options]="controlBlocks" formControlName="selectedControlBlock" optionLabel="name"></p-listbox>                   
+          </div>
         
-            <div class="justify-content-center my-4 py-4">
-                <span>Rotátor + közbetét</span>
-                <p-listbox #rotatorListBox (onChange)="handleRotatorChange($event)" [options]="rotators" formControlName="selectedRotator" optionLabel="name"></p-listbox>
-            </div>
+          <div class="justify-content-center my-4 py-4">
+              <span>Rotátor + közbetét</span>
+              <p-listbox #rotatorListBox (onChange)="handleRotatorChange($event)" [options]="rotators" formControlName="selectedRotator" optionLabel="name"></p-listbox>
+          </div>
     
-            <div class="justify-content-center my-4 py-4">
-                <span>Rotátorfék</span>
-                <p-listbox #rotatorBrakeListBox (onChange)="handleRotatorBrakeChange($event)" [options]="rotatorBrakes" formControlName="selectedRotatorBrake" optionLabel="name"></p-listbox>
-            </div>
+          <div class="justify-content-center my-4 py-4">
+              <span>Rotátorfék</span>
+              <p-listbox #rotatorBrakeListBox (onChange)="handleRotatorBrakeChange($event)" [options]="rotatorBrakes" formControlName="selectedRotatorBrake" optionLabel="name"></p-listbox>
+          </div>
     
-            <div class="flex gap-2 my-4">
-                <p-checkbox #backrestCheckBox (onChange)="handleChange(configItems['háttámla'].name, configItems['háttámla'].price, $event)" formControlName="backRestSelected" value="selected"  inputId="háttámla"></p-checkbox>
-                <label for="háttámla">{{configItems['háttámla'].name}} {{ formatPrice(configItems['háttámla'].price)}}</label>
-            </div>
-    
-            <div class="flex gap-2 my-4">
-                <p-checkbox #oilCoolerCheckBox (onChange)="handleChange(configItems['olajhűtő'].name, configItems['olajhűtő'].price, $event)"  formControlName="oilCoolerSelected" value="selected" inputId="olajhűtő"></p-checkbox>
-                <label for="olajhűtő">{{configItems['olajhűtő'].name}} {{ formatPrice(configItems['olajhűtő'].price)}}</label>
-            </div>
-    
-            <div class="flex gap-2 my-4">
-                <p-checkbox #ledCheckBox (onChange)="handleChange(configItems['ledMunkalámpák'].name, configItems['ledMunkalámpák'].price, $event)"  formControlName="ledSelected" value="selected" inputId="ledMunkalámpák"></p-checkbox>
-                <label for="ledMunkalámpák">{{configItems['ledMunkalámpák'].name}} {{ formatPrice(configItems['ledMunkalámpák'].price)}}</label>
-            </div>
-    
-            <div class="flex gap-2 my-4">
-                <p-checkbox #workingHoursCheckBox (onChange)="handleChange(configItems['munkaÓraSzámláló'].name, configItems['munkaÓraSzámláló'].price, $event)"  formControlName="workingHoursSelected" value="selected" inputId="munkaÓraSzámláló"></p-checkbox>
-                <label for="munkaÓraSzámláló">{{configItems['munkaÓraSzámláló'].name}} {{ formatPrice(configItems['munkaÓraSzámláló'].price)}}</label>
-            </div>
+          <div class="flex gap-2 my-4">
+              <p-checkbox #backrestCheckBox (onChange)="handleChange(configItems['háttámla'].name, configItems['háttámla'].price, $event)" formControlName="backRestSelected" value="selected"  inputId="háttámla"></p-checkbox>
+              <label for="háttámla">{{configItems['háttámla'].name}} {{ formatPrice(configItems['háttámla'].price)}}</label>
+          </div>
+  
+          <div class="flex gap-2 my-4">
+              <p-checkbox #oilCoolerCheckBox (onChange)="handleChange(configItems['olajhűtő'].name, configItems['olajhűtő'].price, $event)"  formControlName="oilCoolerSelected" value="selected" inputId="olajhűtő"></p-checkbox>
+              <label for="olajhűtő">{{configItems['olajhűtő'].name}} {{ formatPrice(configItems['olajhűtő'].price)}}</label>
+          </div>
+  
+          <div class="flex gap-2 my-4">
+              <p-checkbox #ledCheckBox (onChange)="handleChange(configItems['ledMunkalámpák'].name, configItems['ledMunkalámpák'].price, $event)"  formControlName="ledSelected" value="selected" inputId="ledMunkalámpák"></p-checkbox>
+              <label for="ledMunkalámpák">{{configItems['ledMunkalámpák'].name}} {{ formatPrice(configItems['ledMunkalámpák'].price)}}</label>
+          </div>
+  
+          <div class="flex gap-2 my-4">
+              <p-checkbox #workingHoursCheckBox (onChange)="handleChange(configItems['munkaÓraSzámláló'].name, configItems['munkaÓraSzámláló'].price, $event)"  formControlName="workingHoursSelected" value="selected" inputId="munkaÓraSzámláló"></p-checkbox>
+              <label for="munkaÓraSzámláló">{{configItems['munkaÓraSzámláló'].name}} {{ formatPrice(configItems['munkaÓraSzámláló'].price)}}</label>
+          </div>
             
-        </div>
+      </div>
 
     </div>
     
-    <div *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
+    <div class="flex align-middle justify-center my-10">
 
       <div class="w-11/12">
         <span
-          class="block uppercase text-blueGray-500 text-sm font-extrabold lg:mb-12 mb-4"
+          class="block uppercase text-blueGray-500 text-sm font-extrabold lg:mb-12 mb-4 text-center"
         >
         Kalkulált ár:
         </span>
-        <p class="font-semibold">{{formatPrice(calculatorService.price$ | async)}}</p>
-        <button class="rounded-md p-2 mt-4 bg-red-500" (click)="delete()">Törlés</button>
+        
+        <div class="grid grid-cols-12 gap-4 py-1">
+          @for (originalControlBlockItem of originalControlBlockItemsArray; track originalControlBlockItem.name){
+            <div class="col-span-6 justify-self-end">
+                {{originalControlBlockItem.name}}
+            </div>
+            <div class="col-span-6 justify-self-start">
+                {{formatPrice(originalControlBlockItem.price)}}
+            </div>
+          }   
+          
+        </div>
+
+        <div class="grid grid-cols-12 gap-4 py-1">
+          @for (originalRotatorItem of originalRotatorItemsArray; track originalRotatorItem.name){
+            <div class="col-span-6 justify-self-end">
+                {{originalRotatorItem.name}}
+            </div>
+            <div class="col-span-6 justify-self-start">
+                {{formatPrice(originalRotatorItem.price)}}
+            </div>
+          }     
+        </div>
+
+        <div class="grid grid-cols-12 gap-4 py-1">
+          @for (originalRotatorBrakesItem of originalRotatorBrakesItemsArray; track originalRotatorBrakesItem.name){
+            <div class="col-span-6 justify-self-end">
+                {{originalRotatorBrakesItem.name}}
+            </div>
+            <div class="col-span-6 justify-self-start">
+                {{formatPrice(originalRotatorBrakesItem.price)}}
+            </div>
+          }     
+        </div>
+
+        <div class="grid grid-cols-12 gap-4 py-2">
+          @for (configItem of configItemsArray; track configItem.name){
+            <div class="col-span-6 justify-self-end">
+                {{configItem.name}}
+            </div>
+            <div class="col-span-6 justify-self-start">
+                {{formatPrice(configItem.price)}}
+            </div>
+          }     
+        </div>
+
+        <div class="grid grid-cols-12 pt-6 gap-4">
+          <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
+              <p class="text-lg font-bold">Összesen:</p>
+            </div>
+            <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
+              <p class="text-lg font-bold">{{formatPrice(calculatorService.price$ | async)}}</p> 
+            </div>   
+        </div>
+        
+        <div class="grid grid-cols-12 pt-6">
+          <div class="col-span-8 sm:col-span-9 md:col-span-10">
+          </div>
+          <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
+            <button class="rounded-md p-2  bg-red-500" (click)="delete()">Törlés</button>
+          </div>  
+
+      </div>
+        <!-- <div class="grid grid-cols-12">
+         
+            <div>
+                asdasd
+                aasddas
+            </div>
+            <div class="col">
+                sdqwe
+
+                asdasd
+            </div>
+  
+          
+          
+        </div> -->
+
+        
       </div>
 
     </div>

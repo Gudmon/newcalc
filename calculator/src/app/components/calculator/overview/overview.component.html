@@ -18,10 +18,10 @@
     </div>                  
 </div>
 
-<div *ngIf="(calculatorService.selectedTab$ | async) === null" class="h-dvh">
-</div>    
+<!-- <div *ngIf="(calculatorService.selectedTab$ | async) === null" class="h-dvh">
+</div>     -->
 
-<app-cranes *ngIf="calculatorService.selectedTab$ !== null && (calculatorService.selectedTab$ | async) === 1"></app-cranes>
+<app-cranes></app-cranes>
 <app-trailers *ngIf="calculatorService.selectedTab$ !== null && (calculatorService.selectedTab$ | async) === 2"></app-trailers>
 
 <app-footer></app-footer>

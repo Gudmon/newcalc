@@ -36,6 +36,9 @@ export class CranesComponent implements OnInit{
   responsiveOptions: any[] = [];
   vehicleTypes: any[] = [];
   configItemsArray: ConfigItem[] = [];
+  originalControlBlockItemsArray: ConfigItem[] = [];
+  originalRotatorItemsArray: ConfigItem[] = [];
+  originalRotatorBrakesItemsArray: ConfigItem[] = [];
 
   originalControlBlockPrice = 0;
   originalRotatorPrice = 0;
@@ -60,6 +63,7 @@ export class CranesComponent implements OnInit{
   configItems: { [key: string]: ConfigItem } = {};
   originalPrices: { [key: string]: number } = {};
   originalEvent : DropdownChangeEvent | undefined;  
+
   formGroup: FormGroup = new FormGroup({
     selectedControlBlock: new FormControl(''),
     selectedRotator: new FormControl(''),
@@ -138,7 +142,9 @@ export class CranesComponent implements OnInit{
 
   handleControlBlockChange(event: DropdownChangeEvent) {
     const previousValue = this.originalControlBlockPrice;
+    const previousConfigItems = this.originalControlBlockItemsArray;
     this.originalControlBlockPrice = event.value ? event.value.price : 0;
+    console.log(event.value)
     const nextValue = this.originalControlBlockPrice;
   
     const current = this.calculatorService._price.value;
@@ -147,10 +153,22 @@ export class CranesComponent implements OnInit{
       const newPrice = current - previousValue + nextValue;
       this.calculatorService._price.next(newPrice);
     }
+
+    if (event.value){
+      const newItem: ConfigItem = {
+        name: event.value.name,
+        price: event.value.price
+      }
+      this.originalControlBlockItemsArray = [];
+      this.originalControlBlockItemsArray.push(newItem);
+    } else {
+      this.originalControlBlockItemsArray = [];
+    }
   }
 
   handleRotatorChange(event: DropdownChangeEvent) {
     const previousValue = this.originalRotatorPrice;
+    const previousConfigItems = this.originalRotatorItemsArray;
     this.originalRotatorPrice = event.value ? event.value.price : 0;
     const nextValue = this.originalRotatorPrice;
   
@@ -160,18 +178,41 @@ export class CranesComponent implements OnInit{
       const newPrice = current - previousValue + nextValue;
       this.calculatorService._price.next(newPrice);
     }
+
+    if (event.value){
+      const newItem: ConfigItem = {
+        name: event.value.name,
+        price: event.value.price
+      }
+      this.originalRotatorItemsArray = [];
+      this.originalRotatorItemsArray.push(newItem);
+    } else {
+      this.originalRotatorItemsArray = [];
+    }
   }
 
   handleRotatorBrakeChange(event: DropdownChangeEvent) {
-    const previousValue = this.originalRotatorBrakePrice;
-    this.originalRotatorBrakePrice = event.value ? event.value.price : 0;
-    const nextValue = this.originalRotatorBrakePrice;
+    const previousValue = this.originalRotatorPrice;
+    const previousConfigItems = this.originalRotatorBrakesItemsArray;
+    this.originalRotatorPrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalRotatorPrice;
   
     const current = this.calculatorService._price.value;
   
     if (previousValue !== nextValue) {
       const newPrice = current - previousValue + nextValue;
       this.calculatorService._price.next(newPrice);
+    }
+
+    if (event.value){
+      const newItem: ConfigItem = {
+        name: event.value.name,
+        price: event.value.price
+      }
+      this.originalRotatorBrakesItemsArray = [];
+      this.originalRotatorBrakesItemsArray.push(newItem);
+    } else {
+      this.originalRotatorBrakesItemsArray = [];
     }
   }
 
@@ -186,6 +227,10 @@ export class CranesComponent implements OnInit{
   addToCalculator(crane: Crane){
     this.equipmentSelected = true;
     this.configItemsArray = [];
+    this.originalControlBlockItemsArray = [];
+    this.originalRotatorBrakesItemsArray = [];
+    this.originalRotatorItemsArray = [];
+    this.addToConfigItemsArray(crane.name, crane.price);
     this.calculatorService._price.next(crane.price);
     
     setTimeout(() => {
@@ -200,6 +245,9 @@ export class CranesComponent implements OnInit{
     delete() {
     this.calculatorService._price.next(0);
     this.configItemsArray = [];
+    this.originalControlBlockItemsArray = [];
+    this.originalRotatorBrakesItemsArray = [];
+    this.originalRotatorItemsArray = [];
     this.resetOriginalPrices();
     this.resetCheckboxValues(this.oilCoolerCheckBox, this.backrestCheckBox, this.ledCheckBox, this.workingHoursCheckBox);
     this.resetListboxValues(this.controlBlockListBox, this.rotatorListBox, this.rotatorBrakeListBox);
@@ -214,12 +262,30 @@ export class CranesComponent implements OnInit{
   }
 
   handleChange(name: string, price: number, event: CheckboxChangeEvent) {
+    console.log(this.configItemsArray);
     console.log(event);
     if (event.checked.length > 0) {
       this.addToPrice(price);
+      this.addToConfigItemsArray(name, price);
 
     } else {
       this.removeFromPrice(price);
+      this.removeFromConfigItemsArray(name);
+    }
+  }
+
+  private addToConfigItemsArray(name: string, number: number) {
+    const newItem: ConfigItem = {
+      name: name,
+      price: number
+    };
+    this.configItemsArray.push(newItem);
+  }
+
+  private removeFromConfigItemsArray(name: string) {
+    const index = this.configItemsArray.findIndex((item) => item.name === name);
+    if (index !== -1) {
+      this.configItemsArray.splice(index, 1);
     }
   }
 
@@ -289,33 +355,27 @@ export class CranesComponent implements OnInit{
     this.configItems = {
       'háttámla': {
         name: 'Háttámla',
-        price: 165,
-        added: false
+        price: 165
       },
       'olajhűtő': {
         name: 'Olajhűtő',
-        price: 710,
-        added: false
+        price: 710
       },
       'hidraulikusVezérlés': {
         name: 'HidraulikusVezérlés',
         price: 0,
-        added: false
       },
       'elektronikusVezérlés': {
         name: 'ElektronikusVezérlés',
         price: 2165,
-        added: false
       },
       'ledMunkalámpák': {
         name: 'LED Munkalámpák',
         price: 325,
-        added: false
       },
       'munkaÓraSzámláló': {
         name: 'Munkaóra számláló',
         price: 260,
-        added: false
       },
     }
   }
