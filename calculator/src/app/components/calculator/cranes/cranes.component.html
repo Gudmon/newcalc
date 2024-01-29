@@ -6,7 +6,7 @@
           <ng-template pTemplate="header">
               <img alt="Card" [src]="crane.imgUrl"/>
           </ng-template>
-          <p class="pb-4 text-lg font-extrabold lg:text-2xl">{{formatPrice(crane.price)}}</p>
+          <p class="pb-4 text-lg font-extrabold lg:text-2xl">{{crane.price | formatPrice}}</p>
           <p class="block text-sm lg:text-lg">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</p>
           <p class="block text-sm lg:text-lg">Nettó emelő nyomaték: {{crane.liftingTorqueNet}} kNm</p>
           <p class="block text-sm lg:text-lg">Emelőképesség 4 m-es markolóval: {{crane.liftingCapacity}} kg</p>
@@ -53,7 +53,7 @@
                   Szöveg a vezérlésekről.
               </p>
               <ng-template pTemplate="footer">
-                <button class="bg-[#8ac73c] p-1 mt-2" (click)="controlBlocksDialogvisible = false"><i class="fa-solid fa-check mr-1"></i>Értem</button>  
+                <button class="bg-primary-color p-1 mt-2" (click)="controlBlocksDialogvisible = false"><i class="fa-solid fa-check mr-1"></i>Értem</button>  
               </ng-template>
             </p-dialog>
 
@@ -78,7 +78,7 @@
                   Szöveg a rotárorokról és közbetétekről.
               </p>
               <ng-template pTemplate="footer">
-                  <button class="bg-[#8ac73c] p-1 mt-2"  (click)="rotatorsDialogvisible = false"><i class="fa-solid fa-check mr-1"></i>Értem</button>
+                  <button class="bg-primary-color p-1 mt-2"  (click)="rotatorsDialogvisible = false"><i class="fa-solid fa-check mr-1"></i>Értem</button>
               </ng-template>
             </p-dialog>
 
@@ -103,7 +103,7 @@
                   Szöveg a rotátorfékekről.
               </p>
               <ng-template pTemplate="footer">
-                  <button class="bg-[#8ac73c] p-1 mt-2"  (click)="rotatorBrakesDialogvisible = false"><i class="fa-solid fa-check mr-1"></i>Értem</button>
+                  <button class="bg-primary-color p-1 mt-2"  (click)="rotatorBrakesDialogvisible = false"><i class="fa-solid fa-check mr-1"></i>Értem</button>
               </ng-template>
             </p-dialog>
 
@@ -117,22 +117,22 @@
     
           <div class="flex gap-2 my-4">
               <p-checkbox #backrestCheckBox (onChange)="handleChange(configItems['háttámla'].name, configItems['háttámla'].price, $event)" formControlName="backRestSelected" value="selected"  inputId="háttámla"></p-checkbox>
-              <label for="háttámla">{{configItems['háttámla'].name}} {{ formatPrice(configItems['háttámla'].price)}}</label>
+              <label class="hover:cursor-pointer" for="háttámla">{{configItems['háttámla'].name}} {{ configItems['háttámla'].price | formatPrice}}</label>
           </div>
   
           <div class="flex gap-2 my-4">
               <p-checkbox #oilCoolerCheckBox (onChange)="handleChange(configItems['olajhűtő'].name, configItems['olajhűtő'].price, $event)"  formControlName="oilCoolerSelected" value="selected" inputId="olajhűtő"></p-checkbox>
-              <label for="olajhűtő">{{configItems['olajhűtő'].name}} {{ formatPrice(configItems['olajhűtő'].price)}}</label>
+              <label class="hover:cursor-pointer" for="olajhűtő">{{configItems['olajhűtő'].name}} {{ configItems['olajhűtő'].price | formatPrice}}</label>
           </div>
   
           <div class="flex gap-2 my-4">
               <p-checkbox #ledCheckBox (onChange)="handleChange(configItems['ledMunkalámpák'].name, configItems['ledMunkalámpák'].price, $event)"  formControlName="ledSelected" value="selected" inputId="ledMunkalámpák"></p-checkbox>
-              <label for="ledMunkalámpák">{{configItems['ledMunkalámpák'].name}} {{ formatPrice(configItems['ledMunkalámpák'].price)}}</label>
+              <label class="hover:cursor-pointer" for="ledMunkalámpák">{{configItems['ledMunkalámpák'].name}} {{ configItems['ledMunkalámpák'].price | formatPrice}}</label>
           </div>
   
           <div class="flex gap-2 my-4">
               <p-checkbox #workingHoursCheckBox (onChange)="handleChange(configItems['munkaÓraSzámláló'].name, configItems['munkaÓraSzámláló'].price, $event)"  formControlName="workingHoursSelected" value="selected" inputId="munkaÓraSzámláló"></p-checkbox>
-              <label for="munkaÓraSzámláló">{{configItems['munkaÓraSzámláló'].name}} {{ formatPrice(configItems['munkaÓraSzámláló'].price)}}</label>
+              <label class="hover:cursor-pointer" for="munkaÓraSzámláló">{{configItems['munkaÓraSzámláló'].name}} {{ configItems['munkaÓraSzámláló'].price | formatPrice}}</label>
           </div>
             
       </div>
@@ -151,13 +151,13 @@
         <div *ngIf="formGroup.get('selectedVehicle')?.value" class="grid grid-cols-12 gap-4 py-2">
             <div class="col-span-8 md:col-span-6 justify-self-end ">
               <div>
-                <p class="text-lg text-[#e30d13] font-semibold">
+                <p class="text-lg text-krpan-color font-semibold">
                   {{formGroup.get('selectedVehicle')?.value.name}}
                 </p>
               </div>
             </div>
             <div class="col-span-4 md:col-span-6 justify-self-start">
-              <p class="text-lg font-semibold">{{ formatPrice(formGroup.get('selectedVehicle')?.value.price) }}</p>
+              <p class="text-lg font-semibold">{{ formGroup.get('selectedVehicle')?.value.price | formatPrice }}</p>
             </div>            
         </div>
         
@@ -169,7 +169,7 @@
               </p> 
             </div>
             <div class="col-span-4 md:col-span-6 justify-self-start">
-              <p>{{formatPrice(originalControlBlockItem.price)}}</p>
+              <p>{{originalControlBlockItem.price | formatPrice}}</p>
             </div>
           }   
           
@@ -181,7 +181,7 @@
                 <p>{{originalRotatorItem.name | removePrice}}</p>
             </div>
             <div class="col-span-4 md:col-span-6 justify-self-start">
-              <p>{{formatPrice(originalRotatorItem.price)}}</p>
+              <p>{{originalRotatorItem.price | formatPrice}}</p>
             </div>
           }     
         </div>
@@ -193,7 +193,7 @@
             </div>
             <div class="col-span-4 md:col-span-6 justify-self-start">
               <p>
-                {{formatPrice(originalRotatorBrakesItem.price)}}
+                {{originalRotatorBrakesItem.price | formatPrice}}
               </p>
             </div>
           }     
@@ -206,7 +206,7 @@
             </div>
             <div class="col-span-4 md:col-span-6 justify-self-start">
               <p>
-                {{formatPrice(configItem.price)}}
+                {{configItem.price | formatPrice}}
               </p>
             </div>
           }     
@@ -220,7 +220,7 @@
               <p class="text-lg font-bold">Összesen:</p>
             </div>
             <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
-              <p class="text-lg font-bold">{{formatPrice(calculatorService.price$ | async)}}</p> 
+              <p class="text-lg font-bold">{{calculatorService.price$ | async | formatPrice}}</p> 
             </div>   
         </div>
         

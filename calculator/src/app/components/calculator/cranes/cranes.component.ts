@@ -20,6 +20,7 @@ import { CalculatorService } from '../../../services/calculator.service';
 import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { RemovePricePipe } from '../../pipes/remove-price.pipe';
+import { FormatPricePipe } from '../../pipes/format-price.pipe';
 
 
 @Component({
@@ -27,7 +28,7 @@ import { RemovePricePipe } from '../../pipes/remove-price.pipe';
     standalone: true,
     templateUrl: './cranes.component.html',
     styleUrl: './cranes.component.css',
-    imports: [DividerModule, ListboxModule, DialogModule, AccordionModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule, RemovePricePipe]
+    imports: [DividerModule, ListboxModule, DialogModule, AccordionModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule, RemovePricePipe, FormatPricePipe]
 })
 export class CranesComponent implements OnInit{
   cranes: Crane[] = [];
@@ -203,15 +204,6 @@ export class CranesComponent implements OnInit{
       this.originalRotatorBrakesItemsArray.push(newItem);
     } else {
       this.originalRotatorBrakesItemsArray = [];
-    }
-  }
-
-
-  formatPrice(price: number | null): string {
-    if (price !== null && price !== undefined) {
-      return price.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
-    } else {
-      return '';
     }
   }
 
