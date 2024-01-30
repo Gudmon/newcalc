@@ -29,26 +29,25 @@
   }
 </div>
 
-<div *ngIf="!equipmentSelected" class="h-dvh">
+<!-- <div *ngIf="!equipmentSelected" class="h-dvh">
 
-</div>
+</div> -->
 
 <div class="bg-slate-200">
-
-    <div #configElement *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
+  <!-- *ngIf="equipmentSelected" -->
+    <div #configElement  class="flex align-middle justify-center my-10">
 
       <div class="w-11/12">
 
           <div class="justify-content-center my-4 py-4">
       
-            <p-dialog header="Header" [(visible)]="controlBlocksDialogvisible" [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+            <p-dialog class="dialog" header="Header" [(visible)]="controlBlocksDialogvisible" [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false">
               <ng-template pTemplate="header">
                   <div class="inline-flex align-items-center justify-content-center gap-2">
-                      
                       <span class="font-bold white-space-nowrap"></span>
                   </div>
               </ng-template>
-              <img src="../../../../assets/controlblocks.png" alt="asd">
+              <img src="../../../../assets/controlblocks.png" alt="controlBlockImage">
               <p class="m-0">
                   Szöveg a vezérlésekről.
               </p>
@@ -60,6 +59,11 @@
             <div class="flex gap-2">
                 <span>Vezértömb</span>
                 <button (click)="showControlBlocksDialog()"><i class="fa-solid fa-circle-info"></i></button>
+                @if (submitted && f['selectedControlBlock'].errors) {  
+                  @if (f['selectedControlBlock'].errors['required']) {
+                    <p class=" text-red-500 text-xs lg:text-lg">Kérem válasszon vezértömböt!</p>
+                  }
+                }
             </div>
            
             <p-listbox #controlBlockListBox (onChange)="handleControlBlockChange($event)" [options]="controlBlocks" formControlName="selectedControlBlock" optionLabel="name"></p-listbox>                   
@@ -85,6 +89,11 @@
             <div class="flex gap-2">
               <span>Rotátor + közbetét</span>
               <button (click)="showRotatorsDialog()"><i class="fa-solid fa-circle-info"></i></button>
+              @if (submitted && f['selectedRotator'].errors) {  
+                @if (f['selectedRotator'].errors['required']) {
+                  <p class=" text-red-500 text-xs lg:text-lg">Kérem válasszon rotárort és közbetétet!</p>
+                }
+              }
             </div>
               
               <p-listbox #rotatorListBox (onChange)="handleRotatorChange($event)" [options]="rotators" formControlName="selectedRotator" optionLabel="name"></p-listbox>
@@ -110,36 +119,41 @@
             <div class="flex gap-2">
               <span>Rotátorfék</span>
               <button (click)="showRotatorBrakesDialog()"><i class="fa-solid fa-circle-info"></i></button>
+              @if (submitted && f['selectedRotatorBrake'].errors) {  
+                @if (f['selectedRotatorBrake'].errors['required']) {
+                  <p class=" text-red-500 text-xs lg:text-lg">Kérem válasszon rotátort féket!</p>
+                }
+              }
             </div>
           
             <p-listbox #rotatorBrakeListBox (onChange)="handleRotatorBrakeChange($event)" [options]="rotatorBrakes" formControlName="selectedRotatorBrake" optionLabel="name"></p-listbox>
           </div>
     
           <div class="flex gap-2 my-4">
-              <p-checkbox #backrestCheckBox (onChange)="handleChange(configItems['háttámla'].name, configItems['háttámla'].price, $event)" formControlName="backRestSelected" value="selected"  inputId="háttámla"></p-checkbox>
-              <label class="hover:cursor-pointer" for="háttámla">{{configItems['háttámla'].name}} {{ configItems['háttámla'].price | formatPrice}}</label>
+              <p-checkbox #backrestCheckBox (onChange)="handleChange(configItems['backRestSelected'].name, configItems['backRestSelected'].price, $event)" formControlName="backRestSelected" value="selected" inputId="backRestSelected"></p-checkbox>
+              <label class="hover:cursor-pointer" for="backRestSelected">{{configItems['backRestSelected'].name}} {{ configItems['backRestSelected'].price | formatPrice}}</label>
           </div>
   
           <div class="flex gap-2 my-4">
-              <p-checkbox #oilCoolerCheckBox (onChange)="handleChange(configItems['olajhűtő'].name, configItems['olajhűtő'].price, $event)"  formControlName="oilCoolerSelected" value="selected" inputId="olajhűtő"></p-checkbox>
-              <label class="hover:cursor-pointer" for="olajhűtő">{{configItems['olajhűtő'].name}} {{ configItems['olajhűtő'].price | formatPrice}}</label>
+              <p-checkbox #oilCoolerCheckBox (onChange)="handleChange(configItems['oilCoolerSelected'].name, configItems['oilCoolerSelected'].price, $event)"  formControlName="oilCoolerSelected" value="selected" inputId="oilCoolerSelected"></p-checkbox>
+              <label class="hover:cursor-pointer" for="oilCoolerSelected">{{configItems['oilCoolerSelected'].name}} {{ configItems['oilCoolerSelected'].price | formatPrice}}</label>
           </div>
   
           <div class="flex gap-2 my-4">
-              <p-checkbox #ledCheckBox (onChange)="handleChange(configItems['ledMunkalámpák'].name, configItems['ledMunkalámpák'].price, $event)"  formControlName="ledSelected" value="selected" inputId="ledMunkalámpák"></p-checkbox>
-              <label class="hover:cursor-pointer" for="ledMunkalámpák">{{configItems['ledMunkalámpák'].name}} {{ configItems['ledMunkalámpák'].price | formatPrice}}</label>
+              <p-checkbox #ledCheckBox (onChange)="handleChange(configItems['ledSelected'].name, configItems['ledSelected'].price, $event)"  formControlName="ledSelected" value="selected" inputId="ledSelected"></p-checkbox>
+              <label class="hover:cursor-pointer" for="ledSelected">{{configItems['ledSelected'].name}} {{ configItems['ledSelected'].price | formatPrice}}</label>
           </div>
   
           <div class="flex gap-2 my-4">
-              <p-checkbox #workingHoursCheckBox (onChange)="handleChange(configItems['munkaÓraSzámláló'].name, configItems['munkaÓraSzámláló'].price, $event)"  formControlName="workingHoursSelected" value="selected" inputId="munkaÓraSzámláló"></p-checkbox>
-              <label class="hover:cursor-pointer" for="munkaÓraSzámláló">{{configItems['munkaÓraSzámláló'].name}} {{ configItems['munkaÓraSzámláló'].price | formatPrice}}</label>
+              <p-checkbox #workingHoursCheckBox (onChange)="handleChange(configItems['workingHoursSelected'].name, configItems['workingHoursSelected'].price, $event)"  formControlName="workingHoursSelected" value="selected" inputId="workingHoursSelected"></p-checkbox>
+              <label class="hover:cursor-pointer" for="workingHoursSelected">{{configItems['workingHoursSelected'].name}} {{ configItems['workingHoursSelected'].price | formatPrice}}</label>
           </div>
             
       </div>
 
     </div>
-    
-    <div *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
+    <!-- *ngIf="equipmentSelected" -->
+    <div  class="flex align-middle justify-center my-10">
 
       <div class="w-11/12">
         <span
@@ -248,13 +262,18 @@
                     Tegye fel nekünk üzenetben!
                   </p>
 
+                  <div *ngIf="equipmentSelected" class="flex gap-2">
+                    <p-checkbox (onChange)="attachChange($event)" formControlName="attachCalculation" value="selected" inputId="attachCalculation"></p-checkbox>
+                    <label for="ny">Szeretném csatolni a kalkuláció eredményét</label>
+                  </div>
+                  
                   <!-- NAME -->
                   <div class="relative w-full mb-3 mt-8">
                     <div class="flex gap-4">
-                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="name">Név<span class="text-red-500">*</span></label>
+                      <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="name">Név<span class="text-red-500">*</span></label>
                       @if (submitted && f['name'].errors) {  
                         @if (f['name'].errors['required']) {
-                          <p class="block text-red-500 text-xs mb-2">Kérem adja meg a nevét!</p>
+                          <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem adja meg a nevét!</p>
                         }
                       }
                     </div> 
@@ -271,13 +290,13 @@
                   <!-- EMAIL -->
                   <div class="relative w-full mb-3">
                     <div class="flex gap-4">
-                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="email">Email<span class="text-red-500">*</span></label>
+                      <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="email">Email<span class="text-red-500">*</span></label>
                       @if (submitted && f['email'].errors) {  
                         @if (f['email'].errors['required']) {
-                          <p class="block text-red-500 text-xs mb-2">Kérem adja meg az e-mail címét!</p>
+                          <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem adja meg az e-mail címét!</p>
                         }           
-                        @if (blurred && f['email'].errors?.['pattern']) {
-                          <p class="block text-red-500 text-xs mb-2">Kérem valós e-mail címet adjon meg!</p>
+                        @if (blurred && f['email'].errors['pattern']) {
+                          <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem valós e-mail címet adjon meg!</p>
                         }                        
                       }
                       
@@ -297,10 +316,10 @@
                   <!-- MESSAGE -->
                   <div class="relative w-full mb-3">
                     <div class="flex gap-4">
-                      <label class="block uppercase text-gray-700 text-xs font-bold mb-2" for="message">Üzenet<span class="text-red-500">*</span></label>
+                      <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="message">Üzenet<span class="text-red-500">*</span></label>
                       @if (submitted && f['message'].errors) {  
                         @if (f['message'].errors['required']) {
-                          <p class="block text-red-500 text-xs mb-2">Kérem gépeljen az üzenet mezőbe!</p>
+                          <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem gépeljen az üzenet mezőbe!</p>
                         }
                       }
                     </div>

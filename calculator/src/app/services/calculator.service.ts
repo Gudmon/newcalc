@@ -10,4 +10,7 @@ export class CalculatorService {
 
   public _selectedTab = new BehaviorSubject<number | null>(null);
   public selectedTab$ = this._selectedTab.asObservable();
+
+  public _attachCalculation = new BehaviorSubject<boolean>(false);
+  public attachCalculation$ = this._attachCalculation.asObservable();
 }

@@ -1,10 +1,10 @@
 import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { MenuItem } from 'primeng/api';
-import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
 import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -21,6 +21,9 @@ import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { RemovePricePipe } from '../../pipes/remove-price.pipe';
 import { FormatPricePipe } from '../../pipes/format-price.pipe';
+import { EmailService } from '../../../services/email.service';
+import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
+import { Subscription } from 'rxjs';
 
 
 @Component({
@@ -28,9 +31,10 @@ import { FormatPricePipe } from '../../pipes/format-price.pipe';
     standalone: true,
     templateUrl: './cranes.component.html',
     styleUrl: './cranes.component.css',
+    providers: [EmailService],
     imports: [DividerModule, ListboxModule, DialogModule, AccordionModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule, RemovePricePipe, FormatPricePipe]
 })
-export class CranesComponent implements OnInit{
+export class CranesComponent implements OnInit, OnDestroy{
   cranes: Crane[] = [];
   items: MenuItem[] = [];
   controlBlocks: any[] = [];
@@ -70,24 +74,53 @@ export class CranesComponent implements OnInit{
   configItems: { [key: string]: ConfigItem } = {};
   originalPrices: { [key: string]: number } = {};
   originalEvent : DropdownChangeEvent | undefined;  
+  attachCalculationSubscription!: Subscription;
 
   formGroup: FormGroup = new FormGroup({
     selectedVehicle: new FormControl<ConfigItem>({name: '', price: 0}),
-    selectedControlBlock: new FormControl(''),
-    selectedRotator: new FormControl(''),
-    selectedRotatorBrake: new FormControl(''),
-    backRestSelected: new FormControl<boolean>(false),
-    oilCoolerSelected: new FormControl<boolean>(false),
-    ledSelected: new FormControl<boolean>(false),
-    workingHoursSelected: new FormControl<boolean>(false)
+    selectedControlBlock: new FormControl<string>(''),
+    selectedRotator: new FormControl<string>(''),
+    selectedRotatorBrake: new FormControl<string>(''),
+    backRestSelected: new FormControl<ConfigItem>({name: '', price: 0}),
+    oilCoolerSelected: new FormControl<ConfigItem>({name: '', price: 0}),
+    ledSelected: new FormControl<ConfigItem>({name: '', price: 0}),
+    workingHoursSelected: new FormControl<ConfigItem>({name: '', price: 0}),
+    attachCalculation: new FormControl<boolean>(false),
+    name: new FormControl<string>(''),
+    email: new FormControl<string>(''),
+    message: new FormControl<string>(''),
   });
   
   constructor(
     readonly calculatorService : CalculatorService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    readonly emailService: EmailService
     ){}
-  
+
+  private initializeFormGroup(): void {
+    this.formGroup = this.fb.group({
+      selectedVehicle: ['', Validators.required],
+      selectedControlBlock: ['',],
+      selectedRotator: [''],
+      selectedRotatorBrake: [''],
+      backRestSelected: [''],
+      oilCoolerSelected: [''],
+      ledSelected: [''],
+      workingHoursSelected: [''],
+      name: ['', Validators.required],
+      email: ['', Validators.required],
+      message: ['', Validators.required],
+      attachCalculation: ['']
+    });
+  }   
+
+  ngOnDestroy(): void {
+    if (this.attachCalculationSubscription) {
+      this.attachCalculationSubscription.unsubscribe();
+    }
+  }
+
   ngOnInit(): void {
     this.configItemsArray = Object.values(this.configItems);
     this.setCranes();
@@ -98,6 +131,20 @@ export class CranesComponent implements OnInit{
     this.setConfigItems();
     this.setVehicleTypes();
     this.initializeFormGroup();
+    this.setupValidators();
+    this.subscribeToAttachCalculationChanges();
+  }  
+
+  hasError(controlName: string, errorName: string): boolean {
+    return this.formGroup.get(controlName)?.hasError(errorName) || false;
+  }
+
+  attachChange(event: CheckboxChangeEvent){
+    if (event.checked.length > 0){
+      this.calculatorService._attachCalculation.next(true);
+    } else {
+      this.calculatorService._attachCalculation.next(false);
+    }
   }
 
   showControlBlocksDialog() {
@@ -121,15 +168,52 @@ export class CranesComponent implements OnInit{
   }
 
   onSubmit(): void {
-    console.log('submit')
     this.submitted = true;
     console.log(this.formGroup.valid);
     if (this.formGroup.invalid) {
       return;
     }
-
-    console.log(JSON.stringify(this.formGroup.value, null, 2));
+  
+    this.sendEmail();
   }
+
+  sendEmail() {
+    let formDataToSend: {
+      [key: string]: any;     
+    };
+
+    formDataToSend = {
+      name: this.formGroup.controls['name'].value,
+      email: this.formGroup.controls['email'].value,
+      message: this.formGroup.controls['message'].value
+    };
+  
+    if (this.formGroup.valid) {
+      if (this.formGroup.controls['attachCalculation'].value && this.formGroup.controls['attachCalculation'].value.includes('selected')) {
+        formDataToSend = {
+          ...formDataToSend,
+          selectedVehicle: this.formGroup.controls['selectedVehicle'].value,
+          selectedControlBlock: this.formGroup.controls['selectedControlBlock'].value,
+          selectedRotator: this.formGroup.controls['selectedRotator'].value,
+          selectedRotatorBrake: this.formGroup.controls['selectedRotatorBrake'].value,
+          finalPrice: this.calculatorService._price.value
+        };
+  
+        const checkboxKeys = ['backRestSelected', 'oilCoolerSelected', 'ledSelected', 'workingHoursSelected'];
+        checkboxKeys.forEach(key => {
+          if (this.formGroup.controls[key].value && this.formGroup.controls[key].value.includes('selected')) {
+            formDataToSend[key] = { name: this.configItems[key].name, price: this.configItems[key].price };
+          }
+        });
+  
+      } 
+  
+      console.log(JSON.stringify(formDataToSend, null, 2));
+      // this.emailService.sendEmail(formDataToSend);
+      this.submitted = false;
+    }
+  }
+  
 
   navigateToMachine(machineId: string) {
     this.router.navigate(['/krpan', machineId]);
@@ -210,16 +294,13 @@ export class CranesComponent implements OnInit{
   addToCalculator(crane: Crane){
     this.equipmentSelected = true;
     this.resetConfigArrays();
-    const selectedVehicleValue = `${crane.name} ${crane.price}`;
+    this.formGroup.reset();
     this.formGroup.patchValue({
       selectedVehicle: { name: crane.name, price: crane.price }
     });
     this.calculatorService._price.next(crane.price);
     
     setTimeout(() => {
-      this.resetOriginalPrices();
-      this.resetCheckboxValues(this.oilCoolerCheckBox, this.backrestCheckBox, this.ledCheckBox, this.workingHoursCheckBox);
-      this.resetListboxValues(this.controlBlockListBox, this.rotatorListBox, this.rotatorBrakeListBox);
       this.configElement.nativeElement.scrollIntoView({ behavior: "smooth"});
     }, 100);
   }
@@ -227,12 +308,7 @@ export class CranesComponent implements OnInit{
     delete() {
       this.calculatorService._price.next(0);
       this.resetConfigArrays();
-      this.resetOriginalPrices();
-      this.resetCheckboxValues(this.oilCoolerCheckBox, this.backrestCheckBox, this.ledCheckBox, this.workingHoursCheckBox);
-      this.resetListboxValues(this.controlBlockListBox, this.rotatorListBox, this.rotatorBrakeListBox);
-      this.formGroup.patchValue({
-        selectedVehicle: { name: undefined, price: null }
-      });
+      this.formGroup.reset();
       
       setTimeout(() => {
         this.addElement.nativeElement.scrollIntoView({ behavior: "smooth"});
@@ -241,9 +317,10 @@ export class CranesComponent implements OnInit{
       setTimeout(() => {
         this.equipmentSelected = false;
       }, 700);
-  }
+    }
 
   handleChange(name: string, price: number, event: CheckboxChangeEvent) {
+    console.log(event);
     if (event.checked.length > 0) {
       this.addToPrice(price);
       this.addToConfigItemsArray(name, price);
@@ -254,22 +331,35 @@ export class CranesComponent implements OnInit{
     }
   }
 
-  private initializeFormGroup(): void {
-    this.formGroup = this.fb.group({
-      selectedVehicle: '',
-      selectedControlBlock: [''],
-      selectedRotator: [''],
-      selectedRotatorBrake: [''],
-      backRestSelected: [''],
-      oilCoolerSelected: [''],
-      ledSelected: [''],
-      workingHoursSelected: [''],
-      name: ['', Validators.required],
-      email: ['', Validators.required],
-      message: ['', [Validators.required]]
-    });
+  private setupValidators(): void {
+    const requiredFields = ['selectedControlBlock', 'selectedRotator', 'selectedRotatorBrake'];
+
+    for (const field of requiredFields) {
+      const control = this.formGroup.get(field);
+      control?.setValidators([Validators.required]);
+      control?.updateValueAndValidity();
+    }
   }
 
+  private subscribeToAttachCalculationChanges(): void {
+    this.attachCalculationSubscription = this.calculatorService.attachCalculation$.subscribe((value) => {
+
+      const requiredFields = ['selectedControlBlock', 'selectedRotator', 'selectedRotatorBrake'];
+
+      for (const field of requiredFields) {
+        const control = this.formGroup.get(field);
+
+        if (value) {
+          control?.setValidators([Validators.required]);
+        } else {
+          control?.clearValidators();
+        }
+
+        control?.updateValueAndValidity();
+      }
+    });
+  }
+  
   private addToConfigItemsArray(name: string, number: number) {
     const newItem: ConfigItem = {
       name: name,
@@ -297,34 +387,11 @@ export class CranesComponent implements OnInit{
     this.calculatorService._price.next(newPrice);
   }
 
-
-  private resetOriginalPrices() {
-    this.originalControlBlockPrice = 0;
-    this.originalRotatorPrice = 0;
-    this.originalRotatorBrakePrice = 0;
-  }
-
   private resetConfigArrays(){
     this.configItemsArray = [];
     this.originalControlBlockItemsArray = [];
     this.originalRotatorBrakesItemsArray = [];
     this.originalRotatorItemsArray = [];
-  }
-
-  private resetCheckboxValues(...checkboxes: Checkbox[]) {
-    checkboxes.forEach((checkbox) => {
-      if (checkbox) {
-        checkbox.writeValue(false);
-      }
-    });
-  }
-
-  private resetListboxValues(...listboxes: Listbox[]) {
-    listboxes.forEach((listbox) => {
-      if (listbox) {
-        listbox.writeValue(null);
-      }
-    });
   }
 
   private setCranes(){
@@ -356,27 +423,19 @@ export class CranesComponent implements OnInit{
 
   private setConfigItems(){
     this.configItems = {
-      'háttámla': {
+      'backRestSelected': {
         name: 'Háttámla',
         price: 165
       },
-      'olajhűtő': {
+      'oilCoolerSelected': {
         name: 'Olajhűtő',
         price: 710
       },
-      'hidraulikusVezérlés': {
-        name: 'HidraulikusVezérlés',
-        price: 0,
-      },
-      'elektronikusVezérlés': {
-        name: 'ElektronikusVezérlés',
-        price: 2165,
-      },
-      'ledMunkalámpák': {
+      'ledSelected': {
         name: 'LED Munkalámpák',
         price: 325,
       },
-      'munkaÓraSzámláló': {
+      'workingHoursSelected': {
         name: 'Munkaóra számláló',
         price: 260,
       },

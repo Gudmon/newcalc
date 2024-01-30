@@ -8,18 +8,19 @@ import { TrailersComponent } from '../trailers/trailers.component';
 import { ButtonModule } from 'primeng/button';
 import { NavigationComponent } from '../../navigation/navigation.component';
 import { FooterComponent } from '../../footer/footer.component';
+import { EmailService } from '../../../services/email.service';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-overview',
   standalone: true,
-  imports: [CranesComponent, TrailersComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, ButtonModule, NavigationComponent, FooterComponent],
+  imports: [CranesComponent, TrailersComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, ButtonModule, NavigationComponent, FooterComponent, HttpClientModule],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.css'
 })
 export class OverviewComponent implements OnInit{
   vehicleTypes: any[] = [];
   value!: number;
-  selectedTab: number |undefined;
   tabSelected : boolean = false;
   @ViewChild('craneComponent') craneComponent!: any;
   @ViewChild('topElement') topElement!: ElementRef;
@@ -34,7 +35,6 @@ export class OverviewComponent implements OnInit{
 
   setSetelectedTab(tab: number, event: Event){
     this.calculatorService._selectedTab.next(tab);
-    this.selectedTab = tab;
     this.tabSelected = true;
     
 
