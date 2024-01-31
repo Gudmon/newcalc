@@ -22,6 +22,7 @@ import { RemovePricePipe } from '../../pipes/remove-price.pipe';
 import { FormatPricePipe } from '../../pipes/format-price.pipe';
 import { EmailService } from '../../../services/email.service';
 import { Subscription } from 'rxjs';
+import { jsPDF } from 'jspdf';
 
 @Component({
     selector: 'app-cranes',
@@ -131,7 +132,67 @@ export class CranesComponent implements OnInit, OnDestroy{
     this.setupValidators();
     this.subscribeToAttachCalculationChanges();
   }  
+  downloadPDF(){
+    const now = new Date().getTime();
+    const report_generated_at = this.getFormattedDateAndTime(now);
+    const randomId = Math.random().toString(36).substring(2, 10);
+ 
+    // create a new pdf
+    const doc = new jsPDF();
 
+    // doc title
+    doc.setFontSize(28)
+    doc.text(`${randomId}`, 20, 25);
+
+    // sub title (Room Name)
+    doc.setFontSize(14);
+
+    // meta data (checkin ID / start / end)
+    doc.setTextColor(150);
+    doc.setFontSize(10);
+
+    doc.text('Dátum:', 140, 28, );
+    doc.text(`${report_generated_at}`, 155, 28);
+
+    doc.line(10, 45, 200, 45) // horizontal line
+
+    // checkin data
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(16);
+
+    // list names
+    doc.setFontSize(12);
+    doc.setTextColor(150);
+    doc.text('Name', 20, 80);
+    doc.text('Attached', 90, 80);
+    doc.text('Checkin time', 150, 80);
+
+    doc.setDrawColor(128, 128, 128) // draw red lines
+    doc.line(10, 85, 200, 85) // horizontal line
+
+    
+    
+
+    doc.save(`clear-globe/${randomId}/${now}.pdf`);
+  }
+  generateRandomId() {
+    // Generate a random ID (you can use your own logic here)
+    return Math.random().toString(36).substring(2, 10);
+  }
+  getFormattedDateAndTime(timestamp: number) {
+    return `${this.tsToDate(timestamp)} ${this.tsToHHMM(timestamp)}`;
+  }
+
+  tsToDate(timestamp: number) {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    return new Date(timestamp).toLocaleDateString('hu-HU', options);
+}
+
+tsToHHMM(timestamp: number) {
+    const date = new Date(timestamp);
+    const options: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
+    return date.toLocaleTimeString('hu-HU', options);
+}
   hasError(controlName: string, errorName: string): boolean {
     return this.formGroup.get(controlName)?.hasError(errorName) || false;
   }

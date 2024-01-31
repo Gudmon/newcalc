@@ -15,14 +15,16 @@
     --krpan-color: #e30d13;
     --palms-color: #a32116;
 
-    .p-galleria .p-galleria-item-nav .p-icon-wrapper .p-icon > * {
-        color: var(--primary-color) !important;
-        padding: 1rem;
-        border-radius: 50%;
-    }
+    
+}
 
-    .p-galleria .p-galleria-item-nav .p-icon-wrapper .p-icon {
-        background-color: rgba(0,0,0,.7);
-        border-radius: 20%;
-    }
-  }
+.p-galleria .p-galleria-item-nav .p-icon-wrapper .p-icon > * {
+    color: var(--primary-color) !important;
+    padding: 1rem;
+    border-radius: 50%;
+}
+
+.p-galleria .p-galleria-item-nav .p-icon-wrapper .p-icon {
+    background-color: rgba(0,0,0,.7);
+    border-radius: 20%;
+}
