@@ -1,14 +1,13 @@
-import { CommonModule, CurrencyPipe } from '@angular/common';
-import { Component, ElementRef, OnDestroy, OnInit, Renderer2, ViewChild } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { MenuItem } from 'primeng/api';
-import { AbstractControl, AsyncValidatorFn, FormBuilder, FormsModule, ReactiveFormsModule, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
 import { DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { FormControl, FormGroup } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { Checkbox, CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { FieldsetModule } from 'primeng/fieldset';
 import { AccordionModule } from 'primeng/accordion';
@@ -22,9 +21,7 @@ import { DialogModule } from 'primeng/dialog';
 import { RemovePricePipe } from '../../pipes/remove-price.pipe';
 import { FormatPricePipe } from '../../pipes/format-price.pipe';
 import { EmailService } from '../../../services/email.service';
-import { HttpClient, HttpClientModule, HttpHeaders } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-
 
 @Component({
     selector: 'app-cranes',
@@ -305,19 +302,19 @@ export class CranesComponent implements OnInit, OnDestroy{
     }, 100);
   }
 
-    delete() {
-      this.calculatorService._price.next(0);
-      this.resetConfigArrays();
-      this.formGroup.reset();
-      
-      setTimeout(() => {
-        this.addElement.nativeElement.scrollIntoView({ behavior: "smooth"});
-      }, 100);
+  delete() {
+    this.calculatorService._price.next(0);
+    this.resetConfigArrays();
+    this.formGroup.reset();
+    
+    setTimeout(() => {
+      this.addElement.nativeElement.scrollIntoView({ behavior: "smooth"});
+    }, 100);
 
-      setTimeout(() => {
-        this.equipmentSelected = false;
-      }, 700);
-    }
+    setTimeout(() => {
+      this.equipmentSelected = false;
+    }, 700);
+  }
 
   handleChange(name: string, price: number, event: CheckboxChangeEvent) {
     console.log(event);

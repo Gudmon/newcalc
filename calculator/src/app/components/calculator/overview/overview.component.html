@@ -1,9 +1,7 @@
-
-
 <app-navigation ></app-navigation>
 
-<div #topElement class="grid gap-3 mt-28 md:mt-32 md:flex md:justify-around lg:align-middle my-10 rounded-3xl ">
-    <div class="border-y md:border-none md:bg-[rgba(0,0,0,.7)] md:rounded-2xl border-gray-200">
+<div #topElement class="grid gap-3 mb-14 pt-28 md:pt-32 lg:pt-36 md:flex md:justify-around lg:align-middle rounded-3xl ">
+    <div class="md:rounded-2xl">
         <nav class="flex flex-col md:flex-row mx-auto rounded-xl xl:gap- bg-[rgba(0,0,0,.7)]"  aria-label="Tabs" role="tablist">
             <button (click)="setSetelectedTab(1, $event)" type="button" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (calculatorService.selectedTab$ | async) === 1}" class="md:rounded-xl font-semibold py-4 px-10 lg:p-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-white" id="horizontal-alignment-item-1">
                 Daruk
