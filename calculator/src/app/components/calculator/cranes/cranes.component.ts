@@ -22,7 +22,7 @@ import { RemovePricePipe } from '../../pipes/remove-price.pipe';
 import { FormatPricePipe } from '../../pipes/format-price.pipe';
 import { EmailService } from '../../../services/email.service';
 import { Subscription } from 'rxjs';
-import { jsPDF } from 'jspdf';
+import { PdfService } from '../../../services/pdf.service';
 
 @Component({
     selector: 'app-cranes',
@@ -93,7 +93,8 @@ export class CranesComponent implements OnInit, OnDestroy{
     readonly calculatorService : CalculatorService,
     private fb: FormBuilder,
     private router: Router,
-    readonly emailService: EmailService
+    readonly emailService: EmailService,
+    readonly pdfService: PdfService,
     ){}
 
   private initializeFormGroup(): void {
@@ -131,71 +132,7 @@ export class CranesComponent implements OnInit, OnDestroy{
     this.initializeFormGroup();
     this.setupValidators();
     this.subscribeToAttachCalculationChanges();
-  }  
-  downloadPDF(){
-    const now = new Date().getTime();
-    const report_generated_at = this.getFormattedDateAndTime(now);
-    const randomId = Math.random().toString(36).substring(2, 10);
- 
-    // create a new pdf
-    const doc = new jsPDF();
-
-    // doc title
-    doc.setFontSize(28)
-    doc.text(`${randomId}`, 20, 25);
-
-    // sub title (Room Name)
-    doc.setFontSize(14);
-
-    // meta data (checkin ID / start / end)
-    doc.setTextColor(150);
-    doc.setFontSize(10);
-
-    doc.text('Dátum:', 140, 28, );
-    doc.text(`${report_generated_at}`, 155, 28);
-
-    doc.line(10, 45, 200, 45) // horizontal line
-
-    // checkin data
-    doc.setTextColor(0, 0, 0);
-    doc.setFontSize(16);
-
-    // list names
-    doc.setFontSize(12);
-    doc.setTextColor(150);
-    doc.text('Name', 20, 80);
-    doc.text('Attached', 90, 80);
-    doc.text('Checkin time', 150, 80);
-
-    doc.setDrawColor(128, 128, 128) // draw red lines
-    doc.line(10, 85, 200, 85) // horizontal line
-
-    
-    
-
-    doc.save(`clear-globe/${randomId}/${now}.pdf`);
-  }
-  generateRandomId() {
-    // Generate a random ID (you can use your own logic here)
-    return Math.random().toString(36).substring(2, 10);
-  }
-  getFormattedDateAndTime(timestamp: number) {
-    return `${this.tsToDate(timestamp)} ${this.tsToHHMM(timestamp)}`;
-  }
-
-  tsToDate(timestamp: number) {
-    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    return new Date(timestamp).toLocaleDateString('hu-HU', options);
-}
-
-tsToHHMM(timestamp: number) {
-    const date = new Date(timestamp);
-    const options: Intl.DateTimeFormatOptions = { hour: '2-digit', minute: '2-digit', hour12: false };
-    return date.toLocaleTimeString('hu-HU', options);
-}
-  hasError(controlName: string, errorName: string): boolean {
-    return this.formGroup.get(controlName)?.hasError(errorName) || false;
-  }
+  } 
 
   attachChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0){
@@ -235,7 +172,23 @@ tsToHHMM(timestamp: number) {
     this.sendEmail();
   }
 
+  downloadPDF(){
+    const formDataTosend = this.formatForPDF();
+    console.log(this.formGroup);
+    console.log(formDataTosend);
+    this.pdfService.downloadPDF(formDataTosend);
+    
+  }
+
   sendEmail() {
+      const formDataTosend = this.formatForEmail();
+      console.log(formDataTosend);
+      this.emailService.sendEmail(formDataTosend);
+      this.submitted = false;
+  }
+  
+
+  formatForEmail(){
     let formDataToSend: {
       [key: string]: any;     
     };
@@ -245,7 +198,7 @@ tsToHHMM(timestamp: number) {
       email: this.formGroup.controls['email'].value,
       message: this.formGroup.controls['message'].value
     };
-  
+
     if (this.formGroup.valid) {
       if (this.formGroup.controls['attachCalculation'].value && this.formGroup.controls['attachCalculation'].value.includes('selected')) {
         formDataToSend = {
@@ -256,23 +209,41 @@ tsToHHMM(timestamp: number) {
           selectedRotatorBrake: this.formGroup.controls['selectedRotatorBrake'].value,
           finalPrice: this.calculatorService._price.value
         };
-  
+
         const checkboxKeys = ['backRestSelected', 'oilCoolerSelected', 'ledSelected', 'workingHoursSelected'];
         checkboxKeys.forEach(key => {
           if (this.formGroup.controls[key].value && this.formGroup.controls[key].value.includes('selected')) {
             formDataToSend[key] = { name: this.configItems[key].name, price: this.configItems[key].price };
           }
         });
-  
       } 
-  
-      console.log(JSON.stringify(formDataToSend, null, 2));
-      // this.emailService.sendEmail(formDataToSend);
-      this.submitted = false;
     }
-  }
-  
 
+    return formDataToSend;
+  }
+
+  formatForPDF(){
+    let formDataToSend: {
+      [key: string]: any;     
+    };
+    formDataToSend = {
+      selectedVehicle: this.formGroup.controls['selectedVehicle'].value,
+      selectedControlBlock: this.formGroup.controls['selectedControlBlock'].value,
+      selectedRotator: this.formGroup.controls['selectedRotator'].value,
+      selectedRotatorBrake: this.formGroup.controls['selectedRotatorBrake'].value,
+      finalPrice: this.calculatorService._price.value
+    };
+
+    const checkboxKeys = ['backRestSelected', 'oilCoolerSelected', 'ledSelected', 'workingHoursSelected'];
+    checkboxKeys.forEach(key => {
+      if (this.formGroup.controls[key].value && this.formGroup.controls[key].value.includes('selected')) {
+        formDataToSend[key] = { name: this.configItems[key].name, price: this.configItems[key].price };
+      }
+    });
+
+    return formDataToSend;
+  } 
+    
   navigateToMachine(machineId: string) {
     this.router.navigate(['/krpan', machineId]);
   }

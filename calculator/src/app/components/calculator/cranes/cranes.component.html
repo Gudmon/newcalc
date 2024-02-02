@@ -35,7 +35,7 @@
 
 <div class="bg-slate-200">
   <!-- *ngIf="equipmentSelected" -->
-    <div #configElement  class="flex align-middle justify-center my-10">
+    <div #configElement *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
 
       <div class="w-11/12">
 
@@ -153,7 +153,7 @@
 
     </div>
     <!-- *ngIf="equipmentSelected" -->
-    <div  class="flex align-middle justify-center my-10">
+    <div *ngIf="equipmentSelected" class="flex align-middle justify-center my-10">
 
       <div class="w-11/12">
         <span
@@ -251,7 +251,7 @@
 
     </div>
 
-    <div class="flex align-middle justify-center mt-20 mb-32 pt-10">
+    <div *ngIf="equipmentSelected" class="flex align-middle justify-center mt-20 mb-32 pt-10">
       <div class="w-11/12">
         <div class="">
             <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-gray-300">
@@ -344,7 +344,7 @@
                     </button>
                   </div>
 
-                  <div class="text-center mt-6">
+                  <!-- <div class="text-center mt-6">
                     <button
                     (click)="downloadPDF()"
                       class="bg-[#8ac73c] text-white active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1"
@@ -353,7 +353,7 @@
                     >
                       PDF letöltése
                     </button>
-                  </div>
+                  </div> -->
 
               </div>
             </div>
