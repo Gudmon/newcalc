@@ -13,12 +13,12 @@
           <ng-template pTemplate="footer">
               <div class="grid grid-cols-2 mb-4">  
                   <div class="">
-                    <button (click)="addToCalculator(crane)" label="Kalkulál" 
-                    class="mb-2 rounded bg-[#8ac73c] text-black hover:cursor-pointer hover:opacity-85 px-2 pt-4 pb-3.5 text-sm font-bold lg:px-4 xl:px-12">Kalkulál</button>
+                    <button (click)="addToCalculator(crane)" label="Kalkulál"
+                    class="mb-2 rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer px-2 pt-4 pb-3.5 text-sm lg:px-4 xl:px-12">Kalkulál</button>
                   </div>             
                   <div class="justify-self-end">
                     <button (click)="navigateToMachine(crane.id)" label="További információ" 
-                    class="mb-2 rounded bg-[rgba(0,0,0,.3)] text-white hover:cursor-pointer hover:opacity-85 px-2 pt-4 pb-3.5 text-sm font-bold lg:px-4 xl:px-12">További információ</button>
+                    class="mb-2 rounded bg-[rgba(0,0,0,.1)] text-black font-bold uppercase hover:cursor-pointer px-2 pt-4 pb-3.5 text-sm lg:px-4 xl:px-12">További információ</button>
                   </div>             
                 </div>           
           </ng-template>
@@ -29,9 +29,9 @@
   }
 </div>
 
-<!-- <div *ngIf="!equipmentSelected" class="h-dvh">
+<div *ngIf="!equipmentSelected" class="h-72">
 
-</div> -->
+</div>
 
 <div class="bg-slate-200">
   <!-- *ngIf="equipmentSelected" -->
@@ -238,12 +238,25 @@
             </div>   
         </div>
         
+        
         <div class="grid grid-cols-12 pt-6">
+          <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
+            <i *ngIf="equipmentSelected" (click)="downloadPDF()" class="fa-solid fa-file-pdf mt-2 text-2xl hover:cursor-pointer"></i>
+          </div>
+
+          <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
+            <button class="p-2  bg-red-500  active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1" (click)="delete()">Törlés</button>
+          </div> 
+          
           <div class="col-span-8 sm:col-span-9 md:col-span-10">
           </div>
           <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
-            <button class="rounded-md p-2  bg-red-500" (click)="delete()">Törlés</button>
-          </div>  
+            
+          </div> 
+          
+          <div class="text-center mt-6">
+            
+          </div>
 
       </div>   
 
