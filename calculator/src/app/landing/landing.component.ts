@@ -7,14 +7,15 @@ import { CalculatorsComponent } from "./components/calculators/calculators.compo
 import { HighlightsComponent } from "./components/highlights/highlights.component";
 import { GoogleMapsModule } from '@angular/google-maps'
 import { MapsComponent } from "./components/maps/maps.component";
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 @Component({
     selector: 'app-landing',
     standalone: true,
     templateUrl: './landing.component.html',
     styleUrl: './landing.component.css',
-    imports: [NavigationComponent, GoogleMapsModule, GalleriaComponent, ActivitiesComponent, CalculatorsComponent, HighlightsComponent, FooterComponent, MapsComponent]
+    providers: [HttpClient],
+    imports: [NavigationComponent, GoogleMapsModule, GalleriaComponent, HttpClientModule, ActivitiesComponent, CalculatorsComponent, HighlightsComponent, FooterComponent, MapsComponent]
 })
 export class LandingComponent implements OnInit{
     constructor(private readonly httpService: HttpClient){}

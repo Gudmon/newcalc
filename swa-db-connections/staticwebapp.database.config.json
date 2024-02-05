@@ -27,16 +27,5 @@
           "provider": "StaticWebApps"
         }
       }
-    },
-    "entities": {
-      "Machine": {
-        "source": "dbo.krpan",
-        "permissions": [
-          {
-            "actions": ["create", "read", "update", "delete"],
-            "role": "anonymous"
-          }
-        ]
-      }
     }
   }
