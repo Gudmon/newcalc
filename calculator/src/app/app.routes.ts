@@ -8,6 +8,6 @@ export const routes: Routes = [
     {path: '', component: LandingComponent},
     {path: 'calculator/krpan', component: OverviewComponent},
     {path: 'krpan/:id', component: ProductComponent},
-    {path: 'not-found', component: NotFoundComponent }, // Add this line for the not found route
-    {path: '**', redirectTo: '/not-found' } 
+    // {path: 'not-found', component: NotFoundComponent },
+    // {path: '**', redirectTo: '/not-found' } 
 ];

@@ -38,7 +38,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
           app_location: "/calculator"
-          api_location: ""
+          api_location: "api"
           output_location: "/dist/calculator/browser"
 
   close_pull_request_job:

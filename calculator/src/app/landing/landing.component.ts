@@ -21,6 +21,8 @@ export class LandingComponent implements OnInit{
     constructor(private readonly httpService: HttpClient){}
 
     ngOnInit(): void {
-        this.httpService.get('/data-api/rest/Machine').subscribe((response) => console.log(response));
+        this.httpService.get('/data-api/rest/Machine').subscribe((resp) => {
+            console.log(resp);
+        });
     }
 }
