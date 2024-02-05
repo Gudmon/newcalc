@@ -29,8 +29,8 @@
       }
     },
     "entities": {
-      "Person": {
-        "source": "dbo.MyTestPersonTable",
+      "Machine": {
+        "source": "dbo.krpan",
         "permissions": [
           {
             "actions": ["create", "read", "update", "delete"],

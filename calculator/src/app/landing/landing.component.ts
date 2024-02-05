@@ -7,6 +7,7 @@ import { CalculatorsComponent } from "./components/calculators/calculators.compo
 import { HighlightsComponent } from "./components/highlights/highlights.component";
 import { GoogleMapsModule } from '@angular/google-maps'
 import { MapsComponent } from "./components/maps/maps.component";
+import { HttpClient } from '@angular/common/http';
 
 @Component({
     selector: 'app-landing',
@@ -15,6 +16,10 @@ import { MapsComponent } from "./components/maps/maps.component";
     styleUrl: './landing.component.css',
     imports: [NavigationComponent, GoogleMapsModule, GalleriaComponent, ActivitiesComponent, CalculatorsComponent, HighlightsComponent, FooterComponent, MapsComponent]
 })
-export class LandingComponent{
-  
+export class LandingComponent implements OnInit{
+    constructor(private readonly httpService: HttpClient){}
+
+    ngOnInit(): void {
+        this.httpService.get('/data-api/rest/Machine').subscribe((response) => console.log(response));
+    }
 }
