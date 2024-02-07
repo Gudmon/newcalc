@@ -26,7 +26,6 @@ jobs:
       - run: |
           npm install -g @angular/cli@latest
           npm install
-          npm run json:server
           ng build
         name: npm install and build
         working-directory: ./calculator
