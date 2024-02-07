@@ -22,9 +22,23 @@ export class LandingComponent implements OnInit{
     tyreIds: any[] = [];
 
     ngOnInit(): void {
-        this.httpService.get('http://localhost:3000/persons').pipe().subscribe((resp) => {
+        // this.httpService.get('http://localhost:3000/persons').pipe().subscribe((resp) => {
+        //     console.log(resp);
+        // });
+
+        // this.httpService.get('http://calculator-app-api.azurewebsites.net/Machines').pipe().subscribe((resp) => {
+        //     console.log(resp);
+        // });
+
+        // this.httpService.get('http://localhost:5140/WeatherForecast').pipe().subscribe((resp) => {
+        //     console.log(resp);
+        // });
+
+        this.httpService.get('https://calculator-app-api.azurewebsites.net/WeatherForecast').pipe().subscribe((resp) => {
             console.log(resp);
         });
+
+
         // this.httpService.get(`/data-api/rest/MachineTyres?$filter=machine_id eq 1`).subscribe((resp: any) => {
         //     console.log(resp);
         //     const machineTyres = resp.value || [];
