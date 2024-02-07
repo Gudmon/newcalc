@@ -8,6 +8,7 @@ import { HighlightsComponent } from "./components/highlights/highlights.componen
 import { GoogleMapsModule } from '@angular/google-maps'
 import { MapsComponent } from "./components/maps/maps.component";
 import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Component({
     selector: 'app-landing',
@@ -20,6 +21,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 export class LandingComponent implements OnInit{
     constructor(private readonly httpService: HttpClient){}
     tyreIds: any[] = [];
+    private API_URL= environment.apiUrl;
 
     ngOnInit(): void {
         // this.httpService.get('http://localhost:3000/persons').pipe().subscribe((resp) => {
@@ -30,13 +32,13 @@ export class LandingComponent implements OnInit{
         //     console.log(resp);
         // });
 
-        // this.httpService.get('http://localhost:5140/WeatherForecast').pipe().subscribe((resp) => {
-        //     console.log(resp);
-        // });
-
-        this.httpService.get('https://calculator-app-api.azurewebsites.net/WeatherForecast').pipe().subscribe((resp) => {
+        this.httpService.get(`${this.API_URL}/WeatherForecast`).pipe().subscribe((resp) => {
             console.log(resp);
         });
+
+        // this.httpService.get('https://calculator-app-api.azurewebsites.net/WeatherForecast').pipe().subscribe((resp) => {
+        //     console.log(resp);
+        // });
 
 
         // this.httpService.get(`/data-api/rest/MachineTyres?$filter=machine_id eq 1`).subscribe((resp: any) => {
