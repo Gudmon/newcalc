@@ -30,13 +30,42 @@
     }
   },
   "entities": {
-    "Machine": {
-      "source": "dbo.krpan",
-      "permissions": [
-        {
-          "actions": ["read"],
-          "role": "anonymous"
+    "Machines": {
+        "source": "dbo.machine",
+        "permissions": [
+            {
+                "actions": ["read"],
+                "role": "anonymous"
+            }
+        ],
+        "relationships": {
+            "tyres": {
+                "cardinality": "many",
+                "target.entity": "Tyres",
+                "source.fields": ["id"],
+                "target.fields": ["id"],
+                "linking.object": "dbo.machine_tyres",
+                "linking.source.fields": ["machine_id"],
+                "linking.target.fields": ["tyre_id"]
+            }
         }
+    },
+    "Tyres": {
+      "source": "dbo.tyre",
+      "permissions": [
+          {
+              "actions": ["read"],
+              "role": "anonymous"
+          }
+      ]
+    },
+    "MachineTyres": {
+      "source": "dbo.machine_tyres",
+      "permissions": [
+          {
+              "actions": ["read"],
+              "role": "anonymous"
+          }
       ]
     }
   }

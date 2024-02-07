@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit } from '@angular/core';
 import { NavigationComponent } from '../components/navigation/navigation.component';
 import { FooterComponent } from '../components/footer/footer.component';
 import { GalleriaComponent } from "./components/galleria/galleria.component";
@@ -19,10 +19,28 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 })
 export class LandingComponent implements OnInit{
     constructor(private readonly httpService: HttpClient){}
+    tyreIds: any[] = [];
 
     ngOnInit(): void {
-        this.httpService.get('/data-api/rest/Machine').subscribe((resp) => {
+        this.httpService.get('http://localhost:3000/persons').pipe().subscribe((resp) => {
             console.log(resp);
         });
+        // this.httpService.get(`/data-api/rest/MachineTyres?$filter=machine_id eq 1`).subscribe((resp: any) => {
+        //     console.log(resp);
+        //     const machineTyres = resp.value || [];
+
+            
+        //     this.tyreIds = machineTyres.map((item: any) => item.tyre_id);
+
+        //     console.log(this.tyreIds);
+        // });
+
+        
     }
+
+    
 }
+function takeuntilDestroyed(): import("rxjs").OperatorFunction<Object, unknown> {
+    throw new Error('Function not implemented.');
+}
+
