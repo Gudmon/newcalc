@@ -2,13 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
-import { CranesComponent } from '../calculator/cranes/cranes.component';
+import { CommonModule } from '@angular/common';
 
 
 @Component({
   selector: 'app-product-list',
   standalone: true,
-  imports: [CranesComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule],
+  imports: [SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, CommonModule],
   templateUrl: './product-list.component.html',
   styleUrl: './product-list.component.css'
 })

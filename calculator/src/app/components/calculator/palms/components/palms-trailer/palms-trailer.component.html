@@ -1,0 +1,127 @@
+<app-navigation></app-navigation>
+@if(trailer){<div class="w-full mx-auto pt-32">
+    <div class="xl:flex xl:flex-wrap mx-10">
+        <div class="basis-1/3 mb-20">
+            <p class="font-extrabold text-xl my-8">{{trailer.name}}</p>
+            <p class="leading-7 mr-6">{{trailer.description}}</p>
+          
+            <p class="font-bold text-lg my-6">Adatok</p>
+            
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Rakodóterület keresztmetszete</p>
+                <p class="sm:w-1/2">{{trailer.loadingAreaCross}} m2</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Rakodóterület hossza</p>
+                <p class="sm:w-1/2">{{trailer.loadingAreaLength}} mm</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Keresztkigészítés hossza</p>
+                @if (trailer.frameExtensionLength === '-'){
+                    <p class="sm:w-1/2">{{trailer.frameExtensionLength}}</p>
+                } @else {
+                    <p class="sm:w-1/2">{{trailer.frameExtensionLength}} m</p>
+                }
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Teljes tömeg</p>
+                <p class="sm:w-1/2">{{trailer.grossWeight}} kg</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Saját tömeg (opciók nélkül)</p>
+                <p class="sm:w-1/2">{{trailer.curbWeight}} kg</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Teljes hossz</p>
+                <p class="sm:w-1/2">{{trailer.totalLength}} mm</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Szélesség standard kerekekkel</p>
+                <p class="sm:w-1/2">{{trailer.widthWithStandardWheels}}</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Standard kerék mérete</p>
+                <p class="sm:w-1/2">{{trailer.standardWheelSize}}</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+           <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Keret</p>
+                <p class="sm:w-1/2">{{trailer.frame}}</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Maximális daruméret emelési nyomaték alapján</p>
+                <p class="sm:w-1/2">{{trailer.maxCraneSize}} kNm</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Vontatókar vezérlő hengerek</p>
+                <p class="sm:w-1/2">{{trailer.drawbarControlCylinders}} db</p>
+            </div>
+            <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Keret típusa</p>
+                <p class="sm:w-1/2">{{ trailer.beamType }}</p>
+            </div>
+
+            <p class="font-bold text-lg my-6">Gépkapcsolatok</p>
+
+            <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                <p class="sm:w-1/2">Ajánlott daruk</p>
+                <div class="sm:w-1/2 text-[--palms-color] ">
+                @for (crane of getCranes(); track $index) {
+                    <p class="hover:cursor-pointer hover:opacity-65">{{crane}}</p>            
+                }
+                </div>
+            </div>
+
+        </div>
+        <div class="basis-2/3 flex flex-col align-middle justify-center">
+            <img src="{{trailer.imgUrl[0]}}" alt="">    
+            <div class="flex">
+                <p-image class="hover:cursor-pointer" src="{{trailer.imgUrl[0]}}" (click)="displayBasic = true" alt="" width="250"/> 
+                <p-image class="hover:cursor-pointer" src="{{trailer.imgUrl[2]}}" (click)="displayBasic = true" alt="" width="250"/> 
+                
+                <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
+                    [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
+                    <ng-template pTemplate="item" let-item>
+                        <img [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
+                    </ng-template>
+                    <ng-template pTemplate="thumbnail" let-item>
+                        <div class="grid grid-nogutter justify-content-center">
+                            <img [src]="item.thumbnailImageSrc" style="display: block;"/>
+                        </div>
+                    </ng-template>
+                </p-galleria>
+            </div>
+        </div>
+
+    </div>
+</div>
+}
+@else {
+    <p>no trailer</p>
+}
+<div class="w-full h-full flex justify-center items-center my-16">
+    <button (click)="loadConfigurations()" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
+</div>
+<app-footer></app-footer>
+

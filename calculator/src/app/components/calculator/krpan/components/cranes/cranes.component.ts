@@ -1,4 +1,5 @@
-import { CurrencyPipe } from '@angular/common';
+import { DialogModule } from 'primeng/dialog';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
@@ -13,24 +14,24 @@ import { FieldsetModule } from 'primeng/fieldset';
 import { AccordionModule } from 'primeng/accordion';
 import { Listbox, ListboxModule } from 'primeng/listbox';
 import { DividerModule } from 'primeng/divider';
-import { Crane } from '../../../models/crane';
-import { ConfigItem } from '../../../models/config-item';
-import { CalculatorService } from '../../../services/calculator.service';
-import { Router } from '@angular/router';
-import { DialogModule } from 'primeng/dialog';
-import { RemovePricePipe } from '../../pipes/remove-price.pipe';
-import { FormatPricePipe } from '../../pipes/format-price.pipe';
-import { EmailService } from '../../../services/email.service';
+import { EmailService } from '../../../../../services/email.service';
+import { CalculatorService } from '../../../../../services/calculator.service';
+import { Crane } from '../../../../../models/crane';
+import { ConfigItem } from '../../../../../models/config-item';
 import { Subscription } from 'rxjs';
-import { PdfService } from '../../../services/pdf.service';
+import { Router } from '@angular/router';
+import { PdfService } from '../../../../../services/pdf.service';
+import { FormatPricePipe } from "../../../../pipes/format-price.pipe";
+import { RemovePricePipe } from "../../../../pipes/remove-price.pipe";
+
 
 @Component({
     selector: 'app-cranes',
     standalone: true,
     templateUrl: './cranes.component.html',
     styleUrl: './cranes.component.css',
-    providers: [EmailService],
-    imports: [DividerModule, ListboxModule, DialogModule, AccordionModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule, RemovePricePipe, FormatPricePipe]
+    providers: [EmailService, CalculatorService],
+    imports: [DividerModule, DialogModule, AccordionModule, ListboxModule, FieldsetModule, CardModule, ButtonModule, SelectButtonModule, FormsModule, CarouselModule, DropdownModule, ReactiveFormsModule, CurrencyPipe, CheckboxModule, FormatPricePipe, RemovePricePipe, CommonModule]
 })
 export class CranesComponent implements OnInit, OnDestroy{
   cranes: Crane[] = [];

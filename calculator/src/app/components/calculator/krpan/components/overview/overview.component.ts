@@ -1,22 +1,22 @@
-import { CalculatorService } from './../../../services/calculator.service';
+import { CalculatorService } from '../../../../../services/calculator.service';
 import { AfterViewChecked, AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { SelectButtonChangeEvent, SelectButtonModule } from 'primeng/selectbutton';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
 import { CranesComponent } from '../cranes/cranes.component';
-import { TrailersComponent } from '../trailers/trailers.component';
+import { TrailersComponent } from '../../../trailers/trailers.component';
 import { ButtonModule } from 'primeng/button';
-import { NavigationComponent } from '../../navigation/navigation.component';
-import { FooterComponent } from '../../footer/footer.component';
-import { EmailService } from '../../../services/email.service';
+import { NavigationComponent } from '../../../../navigation/navigation.component';
+import { FooterComponent } from '../../../../footer/footer.component';
+import { EmailService } from '../../../../../services/email.service';
 import { HttpClientModule } from '@angular/common/http';
 
 @Component({
-  selector: 'app-overview',
-  standalone: true,
-  imports: [CranesComponent, TrailersComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, ButtonModule, NavigationComponent, FooterComponent, HttpClientModule],
-  templateUrl: './overview.component.html',
-  styleUrl: './overview.component.css'
+    selector: 'app-overview',
+    standalone: true,
+    templateUrl: './overview.component.html',
+    styleUrl: './overview.component.css',
+    imports: [TrailersComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, ButtonModule, NavigationComponent, FooterComponent, HttpClientModule, CranesComponent]
 })
 export class OverviewComponent implements OnInit{
   vehicleTypes: any[] = [];

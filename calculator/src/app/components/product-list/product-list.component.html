@@ -2,7 +2,6 @@
     <p-selectButton class="custom-select" [options]="vehicleTypes" [(ngModel)]="value" optionLabel="name" optionValue="value"></p-selectButton>
 </div>
 
-<app-cranes *ngIf="value === 1"></app-cranes>
 <!-- <div *ngIf="value === 1" class="grid grid-cols-1 pb-8 gap-8 mx-40 md:grid-cols-1 md:mx-40 lg:grid-cols-2 lg:mx-40 xl:grid-cols-2 xl:mx-60">
 @for (crane of cranes; track crane.id){
     <p-card class="mt-10" [header]="crane.name" [subheader]="formatPrice(crane.price)">
