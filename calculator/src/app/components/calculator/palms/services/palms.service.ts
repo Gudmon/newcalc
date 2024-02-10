@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { PalmsTrailerOverview } from '../models/palms-trailer-overview';
 import { PalmsTrailer } from '../models/palms-trailer';
@@ -14,6 +14,8 @@ export class PalmsService {
 
   public _selectedChassisType = new BehaviorSubject<number | null>(null);
   public selectedChassisType$ = this._selectedChassisType.asObservable();
+
+  public _trailerPrice = signal(0);
 
   constructor(private httpClient: HttpClient) { }
   

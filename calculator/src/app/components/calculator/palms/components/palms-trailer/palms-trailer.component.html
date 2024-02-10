@@ -121,7 +121,64 @@
     <p>no trailer</p>
 }
 <div class="w-full h-full flex justify-center items-center my-16">
-    <button (click)="loadConfigurations()" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
+    <button (click)="loadTrailerConfigurations()" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
 </div>
+<form [formGroup]="formGroup">
+    <div class="bg-slate-200">
+        <div #configElement class="flex align-middle justify-center my-10">
+            <div class="w-11/12">
+
+                <div class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <span>Rakonca</span>
+                        <button ><i class="fa-solid fa-circle-info"></i></button>
+                        
+                    </div>
+
+                    <p-listbox (onChange)="handleStanchionChange($event)" formControlName="selectedStanchion" [options]="stanchions" optionLabel="namePrice"></p-listbox>                   
+                </div>
+
+                <div class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <span>Fék</span>
+                        <button ><i class="fa-solid fa-circle-info"></i></button>
+                        
+                    </div>
+
+                    <p-listbox (onChange)="handleBrakeChange($event)" formControlName="asd" [options]="stanchions" optionLabel="namePrice"></p-listbox>                   
+                </div>
+
+                <hr class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 gap-4 pb-2 pt-1">
+            @for (selectedConfigurationItem of selectedConfigurationItems; track $index) {
+                <p class="justify-self-center">{{selectedConfigurationItem.name}}</p>
+            }
+            <p class="justify-self-center">{{originalStanchion?.namePrice}}</p>
+            <p class="justify-self-center">{{originalBrake?.namePrice}}</p>
+        </div>
+
+        <div class="grid grid-cols-12 gap-4">
+            <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
+              <p class="text-lg font-bold">Pótkocsi:</p>
+            </div>
+            <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
+              <p class="text-lg font-bold">{{palmsService._trailerPrice() | formatPrice}}</p> 
+            </div>  
+        </div>
+
+        <div class="grid grid-cols-12 pt-6">
+            <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
+                <!-- <i *ngIf="equipmentSelected" (click)="downloadPDF()" class="fa-solid fa-file-pdf mt-2 text-2xl hover:cursor-pointer"></i> -->
+              </div>
+            <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
+                <button class="p-2  bg-red-500  active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1">Törlés</button>
+            </div> 
+        </div>
+        
+    </div>
+</form>
 <app-footer></app-footer>
 
