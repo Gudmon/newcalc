@@ -1,6 +1,8 @@
 export interface ConfigurationItem {
+    id: string,
     name: string,
     code: string,
     price: number,
-    namePrice: string
+    namePrice: string,
+    imgUrl?: string
 }

@@ -13,6 +13,9 @@ import { ImageModule } from 'primeng/image';
 import { ConfigurationItem } from '../../../../../models/configuration-item';
 import { PalmsTrailerConfigService } from '../../services/palms-trailer-config.service';
 import { FormatPricePipe } from "../../../../pipes/format-price.pipe";
+import { forkJoin } from 'rxjs';
+import { BrakesDialogComponent } from "../dialogs/brakes-dialog/brakes-dialog.component";
+import { DrawbarDialogComponent } from "../dialogs/drawbar-dialog/drawbar-dialog.component";
 
 @Component({
     selector: 'app-palms-trailer',
@@ -20,9 +23,22 @@ import { FormatPricePipe } from "../../../../pipes/format-price.pipe";
     providers: [PalmsService],
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, FooterComponent, DividerModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe]
+    imports: [NavigationComponent, FooterComponent, DividerModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit{
+  toggleDialog(dialogType: string, show: boolean) {
+    switch (dialogType) {
+        case 'brakes':
+            this.showBrakesDialog = show;
+            break;
+        case 'drawbars':
+            this.showDrawbarsDialog = show;
+            break;
+        default:
+            break;
+    }
+}
+
   displayBasic: boolean = false;
   images: any[] | undefined = []
   responsiveOptions: any[] = []
@@ -31,23 +47,39 @@ export class PalmsTrailerComponent implements OnInit{
   private id = this.activatedRoute.snapshot.paramMap.get('id')!;
   equipmentSelected: boolean = false;
 
+  showBrakesDialog: boolean = false;
+  showDrawbarsDialog: boolean = false;
+
   stanchions: ConfigurationItem[] = [];
+  brakes: ConfigurationItem[] = [];
+  propulsions: ConfigurationItem[] = [];
+  drawbars: ConfigurationItem[] = [];
 
   selectedConfigurationItems: ConfigurationItem[] = [];
 
   originalStanchionPrice = 0;
   originalBrakePrice = 0;
+  originalPropulsionPrice = 0;
+  originalDrawbarPrice = 0;
 
   originalStanchion: ConfigurationItem | undefined = undefined;
   originalBrake: ConfigurationItem | undefined = undefined;
+  originalPropulsion: ConfigurationItem | undefined = undefined;
+  originalDrawbar: ConfigurationItem | undefined = undefined;
 
   formGroup: FormGroup = new FormGroup({
-    selectedStanchion: new FormControl<ConfigurationItem>({name: '', code: '', price: 0, namePrice: ''}),
+    selectedStanchion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedBrake: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedPropulsion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedDrawbar: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
   });
 
   private initializeFormGroup(): void {
     this.formGroup = this.fb.group({
-      selectedStanchion: [this.stanchions[0]]
+      selectedStanchion: [this.stanchions[0]],
+      selectedBrake: [this.brakes[0]],
+      selectedPropulsion: [this.propulsions[0]],
+      selectedDrawbar: [this.drawbars[0]]
 
     });
   }   
@@ -59,16 +91,13 @@ export class PalmsTrailerComponent implements OnInit{
     private fb: FormBuilder,) {}
 
   ngOnInit(): void {
-    
     this.palmsService.getTrailer(this.id).pipe().subscribe((response) => {
 
       this.trailer = response as PalmsTrailer;   
       console.log(this.trailer);
       this.setResponsiveOptions();
       this.setImages();
-    })
-
-    
+    })  
   }
 
   getCranes(){
@@ -76,10 +105,45 @@ export class PalmsTrailerComponent implements OnInit{
     return craneNames;
   }
 
-  loadTrailerConfigurations(){
-    this.equipmentSelected = true;
-    this.loadStanchions();
+  loadTrailerConfigurations(){  
+    const stanchions$ = this.palmsTrailerConfigService.getStanchions(this.id);
+    const brakes$ = this.palmsTrailerConfigService.getBrakes(this.id);
+    const propulsion$ = this.palmsTrailerConfigService.getPropulsions(this.id);
+    const drawbar$ = this.palmsTrailerConfigService.getDrawbars(this.id);
     
+    const request = forkJoin([stanchions$, brakes$, propulsion$, drawbar$]);
+
+    request.subscribe(([stanchions, brakes, propulsions, drawbars]) => {
+      if (stanchions.length > 0){
+        this.stanchions = stanchions;
+        this.palmsService._trailerPrice.update(value => value + Number(stanchions[0].price))
+        this.originalStanchion = stanchions[0];
+      }
+      
+
+      if (brakes.length > 0){
+        this.brakes = brakes;
+        this.palmsService._trailerPrice.update(value => value + Number(brakes[0].price))
+        this.originalBrake = brakes[0];
+      }
+      
+      if (propulsions.length > 0){
+        this.propulsions = propulsions;
+        this.palmsService._trailerPrice.update(value => value + Number(propulsions[0].price))
+        this.originalPropulsion = propulsions[0];
+      }
+      
+      if (drawbars.length > 0){
+        this.drawbars = drawbars;
+        this.palmsService._trailerPrice.update(value => value + Number(drawbars[0].price))
+        this.originalDrawbar = drawbars[0];
+      }
+      
+
+
+      this.initializeFormGroup();
+      this.equipmentSelected = true;
+  });
   }
 
   handleStanchionChange(event: ListboxChangeEvent) {
@@ -118,16 +182,40 @@ export class PalmsTrailerComponent implements OnInit{
     }
   }
 
+  handlePropulsionChange(event: ListboxChangeEvent) {
+    const previousValue = this.originalPropulsionPrice;
+    this.originalPropulsionPrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalPropulsionPrice;
+    const current = this.palmsService._trailerPrice();
+  
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
+      this.palmsService._trailerPrice.set(newPrice);
+    }
 
-  private loadStanchions(){
-    this.palmsTrailerConfigService.getStanchions(this.id).subscribe((stanchions) => {
-      this.stanchions = stanchions as ConfigurationItem[];
-      this.initializeFormGroup();
-      this.palmsService._trailerPrice.set(stanchions[0].price)
-      this.originalStanchion = stanchions[0];
-      console.log(this.formGroup.value) 
-      
-    })
+    if (event.value){
+      this.originalPropulsion = event.value;
+    } else {
+      this.originalPropulsion = undefined;
+    }
+  }
+
+  handleDrawbarChange(event: ListboxChangeEvent) {
+    const previousValue = this.originalDrawbarPrice;
+    this.originalDrawbarPrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalDrawbarPrice;
+    const current = this.palmsService._trailerPrice();
+  
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
+      this.palmsService._trailerPrice.set(newPrice);
+    }
+
+    if (event.value){
+      this.originalDrawbar = event.value;
+    } else {
+      this.originalDrawbar = undefined;
+    }
   }
 
   private setImages(){

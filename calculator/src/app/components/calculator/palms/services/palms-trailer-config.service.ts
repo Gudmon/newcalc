@@ -22,4 +22,40 @@ export class PalmsTrailerConfigService {
     );
   }
 
+  getBrakes(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/brakes`).pipe(
+      map((brakes: ConfigurationItem[]) => {
+        for (const brake of brakes){
+          brake.namePrice = brake.name + " " + brake.price + "€"
+          brake.imgUrl = `../../../../assets/PALMS trailer-brake-${Number(brake.id) - 1}.jpg`
+        }
+        console.log(brakes);
+        
+        return brakes;
+      })
+    );
+  }
+
+  getPropulsions(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/propulsions`).pipe(
+      map((propulsions: ConfigurationItem[]) => {
+        for (const propulsion of propulsions){
+          propulsion.namePrice = propulsion.name + " " + propulsion.price + "€"
+        }
+        return propulsions;
+      })
+    );
+  }
+
+  getDrawbars(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/drawbars`).pipe(
+      map((drawbars: ConfigurationItem[]) => {
+        for (const drawbar of drawbars){
+          drawbar.namePrice = drawbar.name + " " + drawbar.price + "€"
+          drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-${drawbar.id}.jpg`
+        }
+        return drawbars;
+      })
+    );
+  }
 }
