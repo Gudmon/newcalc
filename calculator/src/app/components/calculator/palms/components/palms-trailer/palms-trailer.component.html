@@ -1,5 +1,6 @@
 <app-navigation></app-navigation>
-@if(trailer){<div class="w-full mx-auto pt-10">
+@if(trailer){
+<div class="w-full mx-auto pt-32">
     <div class="xl:flex xl:flex-wrap mx-10">
         <div class="basis-1/3 mb-20">
             <p class="font-extrabold text-xl my-8">{{trailer.name}}</p>
@@ -145,14 +146,14 @@
                     <p-listbox (onChange)="handleBrakeChange($event)" formControlName="selectedBrake" [options]="brakes" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <ng-container *ngIf="equipmentSelected && propulsions.length > 0" class="justify-content-center my-4 py-4">
-                    <ng-container class="flex gap-2">
+                <div *ngIf="equipmentSelected && propulsions.length > 0" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
                         <span>Hajtás</span>
-                        <button ><i class="fa-solid fa-circle-info"></i></button>   
+                        <button (click)="toggleDialog('drawbars', true)"><i class="fa-solid fa-circle-info"></i></button>  
                         
-                    </ng-container>
+                    </div>
                     <p-listbox (onChange)="handlePropulsionChange($event)" formControlName="selectedPropulsion" [options]="propulsions" optionLabel="namePrice"></p-listbox>                   
-                </ng-container>
+                </div>
 
                 <div *ngIf="equipmentSelected && drawbars.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
@@ -162,23 +163,135 @@
                     </div>
                     <p-listbox (onChange)="handleDrawbarChange($event)" formControlName="selectedDrawbar" [options]="drawbars" optionLabel="namePrice"></p-listbox>                   
                 </div>
+
+                <div *ngIf="equipmentSelected && platforms.length > 0" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <span>Platform</span>
+                        <button (click)="toggleDialog('platforms', true)"><i class="fa-solid fa-circle-info"></i></button>  
+                        
+                    </div>
+                    <p-listbox (onChange)="handlePlatformChange($event)" formControlName="selectedPlatform" [options]="platforms" optionLabel="namePrice"></p-listbox>                   
+                </div>
+
+                <div *ngIf="equipmentSelected && oilPumps.length > 0" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <span>Olaj szivattyú</span>
+                        <button (click)="toggleDialog('oilPumps', true)"><i class="fa-solid fa-circle-info"></i></button>  
+                        
+                    </div>
+                    <p-listbox (onChange)="handleOilPumpChange($event)" formControlName="selectedOilPump" [options]="oilPumps" optionLabel="namePrice"></p-listbox>                   
+                </div>
+
+                <div *ngIf="equipmentSelected && oilTanks.length > 0" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <span>Olaj tank</span>
+                        <button (click)="toggleDialog('oilTanks', true)"><i class="fa-solid fa-circle-info"></i></button>  
+                        
+                    </div>
+                    <p-listbox (onChange)="handleOilTankChange($event)" formControlName="selectedOilTank" [options]="oilTanks" optionLabel="namePrice"></p-listbox>                   
+                </div>
+
+
                 <hr class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
             </div>
         </div>
 
-        <div class="grid grid-cols-1 gap-4 pb-2 pt-1">
+        <!-- <div class="grid grid-cols-1 gap-4 pb-2 pt-1">
            
-            <ng-container *ngIf="originalStanchion"><p class="justify-self-center">{{originalStanchion.namePrice}}</p></ng-container>
+            <ng-container *ngIf="originalStanchion" class="grid grid-cols-12">
+                <p class="col-span-6 justify-self-end">{{originalStanchion.name}}</p>
+                <p class="col-span-6 justify-self-start">{{originalStanchion.price}}</p>
+            </ng-container>
             <ng-container *ngIf="originalBrake"><p class="justify-self-center">{{originalBrake.namePrice}}</p></ng-container>
             <ng-container *ngIf="originalPropulsion"><p class="justify-self-center">{{originalPropulsion.namePrice}}</p></ng-container>
             <ng-container *ngIf="originalDrawbar"><p class="justify-self-center">{{originalDrawbar.namePrice}}</p></ng-container>
-        </div>
+            <ng-container *ngIf="originalPlatform"><p class="justify-self-center">{{originalPlatform.namePrice}}</p></ng-container>
+            <ng-container *ngIf="originalOilPump"><p class="justify-self-center">{{originalOilPump.namePrice}}</p></ng-container>
+            <ng-container *ngIf="originalOilTank"><p class="justify-self-center">{{originalOilTank.namePrice}}</p></ng-container>
+        </div> -->
+        <ng-container *ngIf="originalStanchion">
+            <div class="grid grid-cols-12 gap-4 py-2">
+                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end ml-2">
+                  <p class="text-lg font-normal">{{originalStanchion.name}}</p>
+                </div>
+                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
+                  <p class="text-lg font-normal">{{originalStanchion.price}} €</p> 
+                </div>  
+            </div>
+        </ng-container>
 
-        <div class="grid grid-cols-12 gap-4">
+        <ng-container *ngIf="originalBrake">
+            <div class="grid grid-cols-12 gap-4 py-2">
+                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end ml-2">
+                  <p class="text-lg font-normal">{{originalBrake.name}}</p>
+                </div>
+                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
+                  <p class="text-lg font-normal">{{originalBrake.price}} €</p> 
+                </div>  
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="originalPropulsion">
+            <div class="grid grid-cols-12 gap-4 py-2">
+                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end ml-2">
+                  <p class="text-lg font-normal">{{originalPropulsion.name}}</p>
+                </div>
+                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
+                  <p class="text-lg font-normal">{{originalPropulsion.price}} €</p> 
+                </div>  
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="originalDrawbar">
+            <div class="grid grid-cols-12 gap-4 py-2">
+                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end ml-2">
+                  <p class="text-lg font-normal">{{originalDrawbar.name}}</p>
+                </div>
+                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
+                  <p class="text-lg font-normal">{{originalDrawbar.price}} €</p> 
+                </div>  
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="originalPlatform">
+            <div class="grid grid-cols-12 gap-4 py-2">
+                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end ml-2">
+                  <p class="text-lg font-normal">{{originalPlatform.name}}</p>
+                </div>
+                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
+                  <p class="text-lg font-normal">{{originalPlatform.price}} €</p> 
+                </div>  
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="originalOilPump">
+            <div class="grid grid-cols-12 gap-4 py-2">
+                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end ml-2">
+                  <p class="text-lg font-normal">{{originalOilPump.name}}</p>
+                </div>
+                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
+                  <p class="text-lg font-normal">{{originalOilPump.price}} €</p> 
+                </div>  
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="originalOilTank">
+            <div class="grid grid-cols-12 gap-4 py-2">
+                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end ml-2">
+                  <p class="text-lg font-normal">{{originalOilTank.name}}</p>
+                </div>
+                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
+                  <p class="text-lg font-normal">{{originalOilTank.price}} €</p> 
+                </div>  
+            </div>
+        </ng-container>
+        
+
+        <div class="grid grid-cols-12 gap-4 mt-6">
             <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
               <p class="text-lg font-bold">Pótkocsi:</p>
             </div>
-            <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
+            <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
               <p class="text-lg font-bold">{{palmsService._trailerPrice() | formatPrice}}</p> 
             </div>  
         </div>
@@ -187,7 +300,7 @@
             <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
                 <!-- <i *ngIf="equipmentSelected" (click)="downloadPDF()" class="fa-solid fa-file-pdf mt-2 text-2xl hover:cursor-pointer"></i> -->
               </div>
-            <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-center align-middle">
+            <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
                 <button (click)="delete()" class="p-2  bg-red-500  active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1">Törlés</button>
             </div> 
         </div>

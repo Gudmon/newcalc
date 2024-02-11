@@ -36,11 +36,17 @@ export class PalmsTrailerComponent implements OnInit{
 
   showBrakesDialog: boolean = false;
   showDrawbarsDialog: boolean = false;
+  showPlatformsDialog: boolean = false;
+  showOilPumpsDialog: boolean = false;
+  showOilTanksDialog: boolean = false;
 
   stanchions: ConfigurationItem[] = [];
   brakes: ConfigurationItem[] = [];
   propulsions: ConfigurationItem[] = [];
   drawbars: ConfigurationItem[] = [];
+  platforms: ConfigurationItem[] = [];
+  oilPumps: ConfigurationItem[] = [];
+  oilTanks: ConfigurationItem[] = [];
 
   selectedConfigurationItems: ConfigurationItem[] = [];
 
@@ -48,27 +54,41 @@ export class PalmsTrailerComponent implements OnInit{
   originalBrakePrice = 0;
   originalPropulsionPrice = 0;
   originalDrawbarPrice = 0;
+  originalPlatformPrice = 0;
+  originalOilPumpPrice = 0;
+  originalOilTankPrice = 0;
 
   originalStanchion: ConfigurationItem | undefined = undefined;
   originalBrake: ConfigurationItem | undefined = undefined;
   originalPropulsion: ConfigurationItem | undefined = undefined;
   originalDrawbar: ConfigurationItem | undefined = undefined;
+  originalPlatform: ConfigurationItem | undefined = undefined;
+  originalOilPump: ConfigurationItem | undefined = undefined;
+  originalOilTank: ConfigurationItem | undefined = undefined;
 
   formGroup: FormGroup = new FormGroup({
     selectedStanchion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedBrake: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedPropulsion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedDrawbar: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedPlatform: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedOilPump: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedOilTank: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
   });
 
   private initializeFormGroup(): void {
+    
     this.formGroup = this.fb.group({
       selectedStanchion: [this.stanchions[0]],
       selectedBrake: [this.brakes[0]],
       selectedPropulsion: [this.propulsions[0]],
-      selectedDrawbar: [this.drawbars[0]]
+      selectedDrawbar: [this.drawbars[0]],
+      selectedPlatform: [this.platforms[0]],
+      selectedOilPump: [this.oilPumps[0]],
+      selectedOilTank: [this.oilTanks[0]]
 
     });
+    console.log(this.formGroup.value);
   }   
 
   constructor(
@@ -96,19 +116,22 @@ export class PalmsTrailerComponent implements OnInit{
   loadTrailerConfigurations(){  
     const stanchions$ = this.palmsTrailerConfigService.getStanchions(this.id);
     const brakes$ = this.palmsTrailerConfigService.getBrakes(this.id);
-    const propulsion$ = this.palmsTrailerConfigService.getPropulsions(this.id);
-    const drawbar$ = this.palmsTrailerConfigService.getDrawbars(this.id);
+    const propulsions$ = this.palmsTrailerConfigService.getPropulsions(this.id);
+    const drawbars$ = this.palmsTrailerConfigService.getDrawbars(this.id);
+    const platforms$ = this.palmsTrailerConfigService.getPlatforms(this.id);
+    const oilPumps$ = this.palmsTrailerConfigService.getOilPumps(this.id);
+    const oilTanks$ = this.palmsTrailerConfigService.getOilTanks(this.id);
     
-    const request = forkJoin([stanchions$, brakes$, propulsion$, drawbar$]);
+    const request = forkJoin([stanchions$, brakes$, propulsions$, drawbars$, platforms$, oilPumps$, oilTanks$]);
 
-    request.subscribe(([stanchions, brakes, propulsions, drawbars]) => {
+    request.subscribe(([stanchions, brakes, propulsions, drawbars, platforms, oilPumps, oilTanks]) => {
       if (stanchions.length > 0){
         this.stanchions = stanchions;
         this.palmsService._trailerPrice.update(value => value + Number(stanchions[0].price))
         this.originalStanchion = stanchions[0];
+        this.originalStanchionPrice = stanchions[0].price;
       }
       
-
       if (brakes.length > 0){
         this.brakes = brakes;
         this.palmsService._trailerPrice.update(value => value + Number(brakes[0].price))
@@ -119,12 +142,35 @@ export class PalmsTrailerComponent implements OnInit{
         this.propulsions = propulsions;
         this.palmsService._trailerPrice.update(value => value + Number(propulsions[0].price))
         this.originalPropulsion = propulsions[0];
+        this.originalPropulsionPrice = propulsions[0].price;
       }
       
       if (drawbars.length > 0){
         this.drawbars = drawbars;
         this.palmsService._trailerPrice.update(value => value + Number(drawbars[0].price))
         this.originalDrawbar = drawbars[0];
+        this.originalDrawbarPrice = drawbars[0].price;
+      }
+
+      if (platforms.length > 0){
+        this.platforms = platforms;
+        this.palmsService._trailerPrice.update(value => value + Number(platforms[0].price))
+        this.originalPlatform = platforms[0];
+        this.originalPlatformPrice = platforms[0].price;
+      }
+
+      if (oilPumps.length > 0){
+        this.oilPumps = oilPumps;
+        this.palmsService._trailerPrice.update(value => value + Number(oilPumps[0].price))
+        this.originalOilPump = oilPumps[0];
+        this.originalOilPumpPrice = oilPumps[0].price;
+      }
+
+      if (oilTanks.length > 0){
+        this.oilTanks = oilTanks;
+        this.palmsService._trailerPrice.update(value => value + Number(oilTanks[0].price))
+        this.originalOilTank = oilTanks[0];
+        this.originalOilTankPrice = oilTanks[0].price;
       }
       
       this.initializeFormGroup();
@@ -133,13 +179,13 @@ export class PalmsTrailerComponent implements OnInit{
   }
 
   handleStanchionChange(event: ListboxChangeEvent) {
-    const previousValue = this.palmsService._trailerPrice;
+    const previousValue = this.originalStanchionPrice;
     this.originalStanchionPrice = event.value ? event.value.price : 0;
     const nextValue = this.originalStanchionPrice;
     const current = this.palmsService._trailerPrice();
   
-    if (previousValue() !== nextValue) {
-      const newPrice = current - previousValue() + Number(nextValue);
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
       this.palmsService._trailerPrice.set(newPrice);
     }
 
@@ -169,7 +215,7 @@ export class PalmsTrailerComponent implements OnInit{
   }
 
   handlePropulsionChange(event: ListboxChangeEvent) {
-    const previousValue = this.originalPropulsionPrice;
+    const previousValue = this.originalPropulsionPrice
     this.originalPropulsionPrice = event.value ? event.value.price : 0;
     const nextValue = this.originalPropulsionPrice;
     const current = this.palmsService._trailerPrice();
@@ -187,7 +233,7 @@ export class PalmsTrailerComponent implements OnInit{
   }
 
   handleDrawbarChange(event: ListboxChangeEvent) {
-    const previousValue = this.originalDrawbarPrice;
+    const previousValue =  this.originalDrawbarPrice;
     this.originalDrawbarPrice = event.value ? event.value.price : 0;
     const nextValue = this.originalDrawbarPrice;
     const current = this.palmsService._trailerPrice();
@@ -201,6 +247,60 @@ export class PalmsTrailerComponent implements OnInit{
       this.originalDrawbar = event.value;
     } else {
       this.originalDrawbar = undefined;
+    }
+  }
+
+  handlePlatformChange(event: ListboxChangeEvent) {
+    const previousValue = this.originalPlatformPrice;
+    this.originalPlatformPrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalPlatformPrice;
+    const current = this.palmsService._trailerPrice();
+  
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
+      this.palmsService._trailerPrice.set(newPrice);
+    }
+
+    if (event.value){
+      this.originalPlatform = event.value;
+    } else {
+      this.originalPlatform = undefined;
+    }
+  }
+
+  handleOilPumpChange(event: ListboxChangeEvent) {
+    const previousValue = this.originalOilPumpPrice;
+    this.originalOilPumpPrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalOilPumpPrice;
+    const current = this.palmsService._trailerPrice();
+  
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
+      this.palmsService._trailerPrice.set(newPrice);
+    }
+
+    if (event.value){
+      this.originalOilPump = event.value;
+    } else {
+      this.originalOilPump = undefined;
+    }
+  }
+
+  handleOilTankChange(event: ListboxChangeEvent) {
+    const previousValue = this.originalOilTankPrice;
+    this.originalOilTankPrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalOilTankPrice;
+    const current = this.palmsService._trailerPrice();
+  
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
+      this.palmsService._trailerPrice.set(newPrice);
+    }
+
+    if (event.value){
+      this.originalOilTank = event.value;
+    } else {
+      this.originalOilTank = undefined;
     }
   }
 
@@ -218,8 +318,8 @@ export class PalmsTrailerComponent implements OnInit{
   }
 
   delete() {
+    console.log(this.formGroup.value);
     this.equipmentSelected = false;
-    console.log(this.formGroup);
     
     this.palmsService._trailerPrice.set(0);
     this.formGroup.reset();
@@ -227,6 +327,11 @@ export class PalmsTrailerComponent implements OnInit{
     this.originalBrake = undefined;
     this.originalPropulsion = undefined;
     this.originalDrawbar = undefined;
+    this.originalPlatform = undefined;
+    this.originalOilPump = undefined;
+    this.originalOilTank = undefined;
+
+    
   }
 
   private setImages(){

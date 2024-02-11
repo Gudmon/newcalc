@@ -58,4 +58,40 @@ export class PalmsTrailerConfigService {
       })
     );
   }
+
+  getPlatforms(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/platforms`).pipe(
+      map((platforms: ConfigurationItem[]) => {
+        for (const platform of platforms){
+          platform.namePrice = platform.name + " " + platform.price + "€"
+          platform.imgUrl = `../../../../assets/PALMS trailer-drawbar-${platform.id}.jpg`
+        }
+        return platforms;
+      })
+    );
+  }
+
+  getOilPumps(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/oilpumps`).pipe(
+      map((oilpumps: ConfigurationItem[]) => {
+        for (const oilpump of oilpumps){
+          oilpump.namePrice = oilpump.name + " " + oilpump.price + "€"
+          oilpump.imgUrl = `../../../../assets/PALMS trailer-drawbar-${oilpump.id}.jpg`
+        }
+        return oilpumps;
+      })
+    );
+  }
+
+  getOilTanks(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/oiltanks`).pipe(
+      map((oiltanks: ConfigurationItem[]) => {
+        for (const oiltank of oiltanks){
+          oiltank.namePrice = oiltank.name + " " + oiltank.price + "€"
+          oiltank.imgUrl = `../../../../assets/PALMS trailer-drawbar-${oiltank.id}.jpg`
+        }
+        return oiltanks;
+      })
+    );
+  }
 }
