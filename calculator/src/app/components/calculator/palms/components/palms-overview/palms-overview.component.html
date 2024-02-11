@@ -1,28 +1,37 @@
 <app-navigation ></app-navigation>
 
-<div #topElement class="grid gap-3 mb-14 pt-28 md:pt-32 lg:pt-36 md:flex md:justify-around lg:align-middle rounded-3xl ">
+<div #topElement class="grid gap-3 pt-28 md:pt-32 lg:pt-36 md:flex md:justify-around lg:align-middle rounded-3xl ">
     <div class="md:rounded-2xl">
         <nav class="flex flex-col md:flex-row mx-auto rounded-xl xl:gap- bg-[rgba(0,0,0,.7)]"  aria-label="Tabs" role="tablist">
-            <button (click)="setSetelectedMachineType(1, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedMachineType$ | async) === 1}" type="button"class="md:rounded-xl font-semibold py-4 px-10 lg:p-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-white" id="horizontal-alignment-item-1">
-                Daruk
+            <button (click)="setSetelectedMachineType(1, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedMachineType$ | async) === 1}" type="button"class="md:rounded-xl font-semibold py-4 px-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-white" id="horizontal-alignment-item-1">
+                Pótkocsik
             </button>
             <button (click)="setSetelectedMachineType(2, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedMachineType$ | async) === 2}" type="button" class="md:rounded-xl font-semibold py-4 px-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-[rgb(255,255,255)]" id="horizontal-alignment-item-2">
-                Pótkocsik
+                Daruk
             </button>
         </nav>
     </div>                  
 </div>
 
-<div *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" class="grid gap-3 mb-14  md:flex md:justify-around lg:align-middle rounded-3xl ">
-    <div class="md:rounded-2xl">
-        <nav class="flex flex-col md:flex-row mx-auto rounded-xl xl:gap- bg-[rgba(0,0,0,.7)]"  aria-label="Tabs" role="tablist">
-            <button (click)="setSelectedChassisType(1, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === 1}" type="button"class="md:rounded-xl font-semibold py-4 px-10 lg:p-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-white" id="horizontal-alignment-item-1">
+
+<div *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" class="mt-14 w-full">
+    <img class="mx-auto" src="../../../../../../assets/PALMS trailer-overview-hint.png" alt="">
+</div>
+
+<div *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" class="ml-2 md:ml-10 lg:ml-14 my-10">
+    <p class="text-xl font-bold">Erdészeti pótkocsik szűrése alváz típus szerint</p>
+</div>
+
+<div *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" class="grid gap-3 md:flex  rounded-3xl ">
+    <div class="md:rounded-2xl md:ml-10 lg:ml-14 mb-6 md:mb-0">
+        <nav class="flex flex-col md:flex-row mx-auto rounded-xl bg-[rgba(0,0,0,.7)]"  aria-label="Tabs" role="tablist">
+            <button (click)="setSelectedChassisType(1, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === 1}" type="button"class="md:rounded-xl font-semibold py-2 px-6 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-white" id="horizontal-alignment-item-1">
                 Egy
             </button>
-            <button (click)="setSelectedChassisType(2, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === 2}" type="button" class="md:rounded-xl font-semibold py-4 px-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-[rgb(255,255,255)]" id="horizontal-alignment-item-2">
+            <button (click)="setSelectedChassisType(2, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === 2}" type="button" class="md:rounded-xl font-semibold py-2 px-6 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-[rgb(255,255,255)]" id="horizontal-alignment-item-2">
                 Dupla
             </button>
-            <button (click)="setSelectedChassisType(3, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === 3}" type="button" class="md:rounded-xl font-semibold py-4 px-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-[rgb(255,255,255)]" id="horizontal-alignment-item-2">
+            <button (click)="setSelectedChassisType(3, $event)" [ngClass]="{'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === 3}" type="button" class="md:rounded-xl font-semibold py-2 px-6 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-[rgb(255,255,255)]" id="horizontal-alignment-item-2">
                 Unibody
             </button>
         </nav>

@@ -26,19 +26,6 @@ import { DrawbarDialogComponent } from "../dialogs/drawbar-dialog/drawbar-dialog
     imports: [NavigationComponent, FooterComponent, DividerModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit{
-  toggleDialog(dialogType: string, show: boolean) {
-    switch (dialogType) {
-        case 'brakes':
-            this.showBrakesDialog = show;
-            break;
-        case 'drawbars':
-            this.showDrawbarsDialog = show;
-            break;
-        default:
-            break;
-    }
-}
-
   displayBasic: boolean = false;
   images: any[] | undefined = []
   responsiveOptions: any[] = []
@@ -100,6 +87,7 @@ export class PalmsTrailerComponent implements OnInit{
     })  
   }
 
+
   getCranes(){
     const craneNames = this.trailer.crane.map((crane) => crane.name);
     return craneNames;
@@ -139,8 +127,6 @@ export class PalmsTrailerComponent implements OnInit{
         this.originalDrawbar = drawbars[0];
       }
       
-
-
       this.initializeFormGroup();
       this.equipmentSelected = true;
   });
@@ -216,6 +202,31 @@ export class PalmsTrailerComponent implements OnInit{
     } else {
       this.originalDrawbar = undefined;
     }
+  }
+
+  toggleDialog(dialogType: string, show: boolean) {
+    switch (dialogType) {
+        case 'brakes':
+            this.showBrakesDialog = show;
+            break;
+        case 'drawbars':
+            this.showDrawbarsDialog = show;
+            break;
+        default:
+            break;
+      }
+  }
+
+  delete() {
+    this.equipmentSelected = false;
+    console.log(this.formGroup);
+    
+    this.palmsService._trailerPrice.set(0);
+    this.formGroup.reset();
+    this.originalStanchion = undefined;
+    this.originalBrake = undefined;
+    this.originalPropulsion = undefined;
+    this.originalDrawbar = undefined;
   }
 
   private setImages(){
