@@ -224,6 +224,45 @@
                     </div>
                 </div>
 
+                <div *ngIf="equipmentSelected && woodSorter" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('woodSorter', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-woodsorter-dialog [woodSorter]="woodSorter" [woodSorterDialogVisible]="showWoodSorterDialog" (dialogVisible)="toggleDialog('woodSorter', false)"></app-woodsorter-dialog>            
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #woodSorterCheckBox (onChange)="onWoodSorterChange($event)" [value]="woodSorter" formControlName="selectedWoodSorter" inputId="WoodSorterSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="WoodSorterSelected">{{woodSorter.namePrice}}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="equipmentSelected && handBrake" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <p-checkbox #handBrakeCheckBox (onChange)="onHandBrakeChange($event)" [value]="handBrake" formControlName="selectedHandBrake" inputId="HandBrakeSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="HandBrakeSelected">{{handBrake.namePrice}}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="equipmentSelected && chainsawHolder" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('chainsawHolder', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-chainsaw-holder-dialog [chainsawHolder]="chainsawHolder" [chainsawHolderDialogVisible]="showChainsawHolderDialog" (dialogVisible)="toggleDialog('chainsawHolder', false)"></app-chainsaw-holder-dialog>            
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #chainsawHolderCheckBox (onChange)="onChainsawHolderChange($event)" [value]="chainsawHolder" formControlName="selectedChainsawHolder" inputId="ChainsawHolderSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="ChainsawHolderSelected">{{chainsawHolder.namePrice}}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="equipmentSelected && underrunProtection" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('underrunProtection', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-underrun-protection-dialog [underrunProtection]="underrunProtection" [underrunProtectionDialogVisible]="showUnderrunProtectionDialog" (dialogVisible)="toggleDialog('underrunProtection', false)"></app-underrun-protection-dialog>            
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #underrunProtectionCheckBox (onChange)="onUnderrunProtectionChange($event)" [value]="underrunProtection" formControlName="selectedUnderrunProtection" inputId="UnderrunProtectionSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="UnderrunProtectionSelected">{{underrunProtection.namePrice}}</label>
+                    </div>
+                </div>
 
                 <hr class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
             </div>

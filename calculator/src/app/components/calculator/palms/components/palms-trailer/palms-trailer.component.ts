@@ -23,6 +23,9 @@ import { OilTankDialogComponent } from '../dialogs/oil-tank-dialog/oil-tank-dial
 import { OilTankCoolerDialogComponent } from "../dialogs/oil-tank-cooler-dialog/oil-tank-cooler-dialog.component";
 import { BolsterLockDialogComponent } from "../dialogs/bolster-lock-dialog/bolster-lock-dialog.component";
 import { BboxDialogComponent } from "../dialogs/bbox-dialog/bbox-dialog.component";
+import { WoodsorterDialogComponent } from "../dialogs/woodsorter-dialog/woodsorter-dialog.component";
+import { ChainsawHolderDialogComponent } from "../dialogs/chainsaw-holder-dialog/chainsaw-holder-dialog.component";
+import { UnderrunProtectionDialogComponent } from "../dialogs/underrun-protection-dialog/underrun-protection-dialog.component";
 
 @Component({
     selector: 'app-palms-trailer',
@@ -30,7 +33,7 @@ import { BboxDialogComponent } from "../dialogs/bbox-dialog/bbox-dialog.componen
     providers: [PalmsService],
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, FooterComponent, DividerModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent]
+    imports: [NavigationComponent, FooterComponent, DividerModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit{
   displayBasic: boolean = false;
@@ -134,7 +137,7 @@ export class PalmsTrailerComponent implements OnInit{
       selectedBolsterLock: null,
       selectedBbox: null,
       selectedWoodSorter: null,
-      selectedHandbrake: null,
+      selectedHandBrake: null,
       selectedChainsawHolder: null,
       selectedUnderrunProtection: null
     });
@@ -413,7 +416,6 @@ export class PalmsTrailerComponent implements OnInit{
       this.palmsService._trailerPrice.set(newPrice);
       this.originalOilTankCooler = undefined;
     }
-    
   }
 
   onBolsterLockChange(event: CheckboxChangeEvent){
@@ -431,7 +433,6 @@ export class PalmsTrailerComponent implements OnInit{
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBolsterLock = undefined;
     }
-    
   }
 
   onBBoxChange(event: CheckboxChangeEvent){
@@ -449,7 +450,74 @@ export class PalmsTrailerComponent implements OnInit{
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBbox = undefined;
     }
-    
+  }
+
+  onWoodSorterChange(event: CheckboxChangeEvent){
+    console.log(event);
+
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalWoodSorterPrice = Number(event.checked[0].price);
+      this.originalWoodSorter = event.checked[0];
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current - this.originalWoodSorterPrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalWoodSorter = undefined;
+    }
+  }
+
+  onHandBrakeChange(event: CheckboxChangeEvent){
+    console.log(event);
+
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalHandBrakePrice = Number(event.checked[0].price);
+      this.originalHandBrake = event.checked[0];
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current - this.originalHandBrakePrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalHandBrake = undefined;
+    }
+  }
+
+  onChainsawHolderChange(event: CheckboxChangeEvent){
+    console.log(event);
+
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalChainsawHolderPrice = Number(event.checked[0].price);
+      this.originalChainsawHolder = event.checked[0];
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current - this.originalChainsawHolderPrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalChainsawHolder = undefined;
+    }
+  }
+
+  onUnderrunProtectionChange(event: CheckboxChangeEvent){
+    console.log(event);
+
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalUnderrunProtectionPrice = Number(event.checked[0].price);
+      this.originalUnderrunProtection = event.checked[0];
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current - this.originalUnderrunProtectionPrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalUnderrunProtection = undefined;
+    }
   }
 
   toggleDialog(dialogType: string, show: boolean) {
@@ -488,10 +556,10 @@ export class PalmsTrailerComponent implements OnInit{
           this.showHandBrakeDialog = show;
           break; 
         case 'chainsawHolder':
-          this.showWoodSorterDialog = show;
+          this.showChainsawHolderDialog = show;
           break;
         case 'underrunProtection':
-          this.showWoodSorterDialog = show;
+          this.showUnderrunProtectionDialog = show;
           break;     
         default:
           break;
