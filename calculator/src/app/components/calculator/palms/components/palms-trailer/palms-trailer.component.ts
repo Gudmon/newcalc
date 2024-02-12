@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { PalmsService } from '../../services/palms.service';
 import { ActivatedRoute } from '@angular/router';
 import { PalmsTrailer } from '../../models/palms-trailer';
@@ -16,6 +16,13 @@ import { FormatPricePipe } from "../../../../pipes/format-price.pipe";
 import { forkJoin } from 'rxjs';
 import { BrakesDialogComponent } from "../dialogs/brakes-dialog/brakes-dialog.component";
 import { DrawbarDialogComponent } from "../dialogs/drawbar-dialog/drawbar-dialog.component";
+import { PlatormDialogComponent } from '../dialogs/platorm-dialog/platorm-dialog.component';
+import { OilPumpDialogComponent } from '../dialogs/oil-pump-dialog/oil-pump-dialog.component';
+import { Checkbox, CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
+import { OilTankDialogComponent } from '../dialogs/oil-tank-dialog/oil-tank-dialog.component';
+import { OilTankCoolerDialogComponent } from "../dialogs/oil-tank-cooler-dialog/oil-tank-cooler-dialog.component";
+import { BolsterLockDialogComponent } from "../dialogs/bolster-lock-dialog/bolster-lock-dialog.component";
+import { BboxDialogComponent } from "../dialogs/bbox-dialog/bbox-dialog.component";
 
 @Component({
     selector: 'app-palms-trailer',
@@ -23,7 +30,7 @@ import { DrawbarDialogComponent } from "../dialogs/drawbar-dialog/drawbar-dialog
     providers: [PalmsService],
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, FooterComponent, DividerModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent]
+    imports: [NavigationComponent, FooterComponent, DividerModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit{
   displayBasic: boolean = false;
@@ -34,11 +41,21 @@ export class PalmsTrailerComponent implements OnInit{
   private id = this.activatedRoute.snapshot.paramMap.get('id')!;
   equipmentSelected: boolean = false;
 
+  @ViewChild('oilTankCoolerCheckBox') oilTankCoolerCheckBox!: Checkbox;
+
   showBrakesDialog: boolean = false;
+  showPropulsionsDialog: boolean = false;
   showDrawbarsDialog: boolean = false;
   showPlatformsDialog: boolean = false;
   showOilPumpsDialog: boolean = false;
   showOilTanksDialog: boolean = false;
+  showOilTankCoolersDialog: boolean = false;
+  showBolsterLockDialog: boolean = false;
+  showBboxDialog: boolean = false;
+  showWoodSorterDialog: boolean = false;
+  showHandBrakeDialog: boolean = false;
+  showChainsawHolderDialog: boolean = false;
+  showUnderrunProtectionDialog: boolean = false;
 
   stanchions: ConfigurationItem[] = [];
   brakes: ConfigurationItem[] = [];
@@ -47,6 +64,12 @@ export class PalmsTrailerComponent implements OnInit{
   platforms: ConfigurationItem[] = [];
   oilPumps: ConfigurationItem[] = [];
   oilTanks: ConfigurationItem[] = [];
+  bolsterLock: ConfigurationItem | undefined = undefined;
+  bbox: ConfigurationItem | undefined = undefined;
+  woodSorter: ConfigurationItem | undefined = undefined;
+  handBrake: ConfigurationItem | undefined = undefined;
+  chainsawHolder: ConfigurationItem | undefined = undefined;
+  underrunProtection: ConfigurationItem | undefined = undefined;
 
   selectedConfigurationItems: ConfigurationItem[] = [];
 
@@ -57,6 +80,13 @@ export class PalmsTrailerComponent implements OnInit{
   originalPlatformPrice = 0;
   originalOilPumpPrice = 0;
   originalOilTankPrice = 0;
+  originalOilTankCoolerPrice = 0;
+  originalBolsterLockPrice = 0;
+  originalBboxPrice = 0;
+  originalWoodSorterPrice = 0;
+  originalHandBrakePrice = 0;
+  originalChainsawHolderPrice = 0;
+  originalUnderrunProtectionPrice = 0;
 
   originalStanchion: ConfigurationItem | undefined = undefined;
   originalBrake: ConfigurationItem | undefined = undefined;
@@ -65,6 +95,13 @@ export class PalmsTrailerComponent implements OnInit{
   originalPlatform: ConfigurationItem | undefined = undefined;
   originalOilPump: ConfigurationItem | undefined = undefined;
   originalOilTank: ConfigurationItem | undefined = undefined;
+  originalOilTankCooler: ConfigurationItem | undefined = undefined;
+  originalBolsterLock: ConfigurationItem | undefined = undefined;
+  originalBbox: ConfigurationItem | undefined = undefined;
+  originalWoodSorter: ConfigurationItem | undefined = undefined;
+  originalHandBrake: ConfigurationItem | undefined = undefined;
+  originalChainsawHolder: ConfigurationItem | undefined = undefined;
+  originalUnderrunProtection: ConfigurationItem | undefined = undefined;
 
   formGroup: FormGroup = new FormGroup({
     selectedStanchion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
@@ -74,6 +111,13 @@ export class PalmsTrailerComponent implements OnInit{
     selectedPlatform: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedOilPump: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedOilTank: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedOilTankCooler: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedBolsterLock: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedBbox: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedWoodSorter: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedHandBrake: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedChainsawHolder: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedUnderrunProtection: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
   });
 
   private initializeFormGroup(): void {
@@ -85,10 +129,15 @@ export class PalmsTrailerComponent implements OnInit{
       selectedDrawbar: [this.drawbars[0]],
       selectedPlatform: [this.platforms[0]],
       selectedOilPump: [this.oilPumps[0]],
-      selectedOilTank: [this.oilTanks[0]]
-
+      selectedOilTank: [this.oilTanks[0]],
+      selectedOilTankCooler: null,
+      selectedBolsterLock: null,
+      selectedBbox: null,
+      selectedWoodSorter: null,
+      selectedHandbrake: null,
+      selectedChainsawHolder: null,
+      selectedUnderrunProtection: null
     });
-    console.log(this.formGroup.value);
   }   
 
   constructor(
@@ -99,9 +148,7 @@ export class PalmsTrailerComponent implements OnInit{
 
   ngOnInit(): void {
     this.palmsService.getTrailer(this.id).pipe().subscribe((response) => {
-
-      this.trailer = response as PalmsTrailer;   
-      console.log(this.trailer);
+      this.trailer = response as PalmsTrailer; 
       this.setResponsiveOptions();
       this.setImages();
     })  
@@ -121,10 +168,16 @@ export class PalmsTrailerComponent implements OnInit{
     const platforms$ = this.palmsTrailerConfigService.getPlatforms(this.id);
     const oilPumps$ = this.palmsTrailerConfigService.getOilPumps(this.id);
     const oilTanks$ = this.palmsTrailerConfigService.getOilTanks(this.id);
+    const bolsterLock$ = this.palmsTrailerConfigService.getBolsterLock(this.id);
+    const bbox$ = this.palmsTrailerConfigService.getBBox(this.id);
+    const woodSorter$ = this.palmsTrailerConfigService.getWoodSorter(this.id);
+    const handBrake$ = this.palmsTrailerConfigService.getHandBrake(this.id);
+    const chainsawHolder$ = this.palmsTrailerConfigService.getChainsawHolder(this.id);
+    const underrunProtection$ = this.palmsTrailerConfigService.getUnderrunProtection(this.id);
     
-    const request = forkJoin([stanchions$, brakes$, propulsions$, drawbars$, platforms$, oilPumps$, oilTanks$]);
+    const request = forkJoin([stanchions$, brakes$, propulsions$, drawbars$, platforms$, oilPumps$, oilTanks$, bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, underrunProtection$]);
 
-    request.subscribe(([stanchions, brakes, propulsions, drawbars, platforms, oilPumps, oilTanks]) => {
+    request.subscribe(([stanchions, brakes, propulsions, drawbars, platforms, oilPumps, oilTanks, bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, underrunProtection]) => {
       if (stanchions.length > 0){
         this.stanchions = stanchions;
         this.palmsService._trailerPrice.update(value => value + Number(stanchions[0].price))
@@ -157,20 +210,50 @@ export class PalmsTrailerComponent implements OnInit{
         this.palmsService._trailerPrice.update(value => value + Number(platforms[0].price))
         this.originalPlatform = platforms[0];
         this.originalPlatformPrice = platforms[0].price;
-      }
+      }    
 
       if (oilPumps.length > 0){
         this.oilPumps = oilPumps;
         this.palmsService._trailerPrice.update(value => value + Number(oilPumps[0].price))
         this.originalOilPump = oilPumps[0];
         this.originalOilPumpPrice = oilPumps[0].price;
-      }
+      }    
 
       if (oilTanks.length > 0){
         this.oilTanks = oilTanks;
         this.palmsService._trailerPrice.update(value => value + Number(oilTanks[0].price))
         this.originalOilTank = oilTanks[0];
         this.originalOilTankPrice = oilTanks[0].price;
+      }
+
+      if (bolsterLock){
+        this.bolsterLock = bolsterLock;
+
+      }
+
+      if (bbox){
+        this.bbox = bbox;
+
+      }
+
+      if (woodSorter){
+        this.woodSorter = woodSorter;
+
+      }
+
+      if (handBrake){
+        this.handBrake = handBrake;
+
+      }
+
+      if (chainsawHolder){
+        this.chainsawHolder = chainsawHolder;
+
+      }
+
+      if (underrunProtection){
+        this.underrunProtection = underrunProtection;
+
       }
       
       this.initializeFormGroup();
@@ -302,6 +385,71 @@ export class PalmsTrailerComponent implements OnInit{
     } else {
       this.originalOilTank = undefined;
     }
+   
+      setTimeout(() => {
+        if(this.oilTankCoolerCheckBox){
+          this.oilTankCoolerCheckBox.writeValue(false);
+        }
+        
+      },50);
+    
+   
+    if(this.originalOilTankCooler) this.palmsService._trailerPrice.set(this.palmsService._trailerPrice() - this.originalOilTankCooler.price)
+    this.originalOilTankCooler = undefined;
+  }
+
+  onOilTankCoolerChange(event: CheckboxChangeEvent){
+    console.log(event);
+
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalOilTankCoolerPrice = Number(event.checked[0].price);
+      this.originalOilTankCooler = event.checked[0];
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current - this.originalOilTankCoolerPrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalOilTankCooler = undefined;
+    }
+    
+  }
+
+  onBolsterLockChange(event: CheckboxChangeEvent){
+    console.log(event);
+
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalBolsterLockPrice = Number(event.checked[0].price);
+      this.originalBolsterLock = event.checked[0];
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current - this.originalBolsterLockPrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalBolsterLock = undefined;
+    }
+    
+  }
+
+  onBBoxChange(event: CheckboxChangeEvent){
+    console.log(event);
+
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalBboxPrice = Number(event.checked[0].price);
+      this.originalBbox = event.checked[0];
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = current - this.originalBboxPrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalBbox = undefined;
+    }
+    
   }
 
   toggleDialog(dialogType: string, show: boolean) {
@@ -309,11 +457,44 @@ export class PalmsTrailerComponent implements OnInit{
         case 'brakes':
             this.showBrakesDialog = show;
             break;
+        case 'propulsions':
+            this.showPropulsionsDialog = show;
+            break;
         case 'drawbars':
-            this.showDrawbarsDialog = show;
-            break;
+          this.showDrawbarsDialog = show;
+          break; 
+        case 'platforms':
+          this.showPlatformsDialog = show;
+          break;  
+        case 'oilPumps':
+          this.showOilPumpsDialog = show;
+          break; 
+        case 'oilTanks':
+          this.showOilTanksDialog = show;
+          break;  
+        case 'oilTankCoolers':
+          this.showOilTankCoolersDialog = show;
+          break;
+        case 'bolsterLock':
+          this.showBolsterLockDialog = show;
+          break;
+        case 'bbox':
+          this.showBboxDialog = show;
+          break; 
+        case 'woodSorter':
+          this.showWoodSorterDialog = show;
+          break; 
+        case 'handBrake':
+          this.showHandBrakeDialog = show;
+          break; 
+        case 'chainsawHolder':
+          this.showWoodSorterDialog = show;
+          break;
+        case 'underrunProtection':
+          this.showWoodSorterDialog = show;
+          break;     
         default:
-            break;
+          break;
       }
   }
 
@@ -329,9 +510,12 @@ export class PalmsTrailerComponent implements OnInit{
     this.originalDrawbar = undefined;
     this.originalPlatform = undefined;
     this.originalOilPump = undefined;
-    this.originalOilTank = undefined;
-
-    
+    this.originalOilTank = undefined; 
+    this.originalBolsterLock = undefined; 
+    this.originalBbox = undefined; 
+    this.originalHandBrake = undefined;  
+    this.originalChainsawHolder = undefined; 
+    this.originalUnderrunProtection = undefined; 
   }
 
   private setImages(){

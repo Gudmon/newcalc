@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, map } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { ConfigurationItem } from '../../../../models/configuration-item';
 
 @Injectable({
@@ -28,9 +28,7 @@ export class PalmsTrailerConfigService {
         for (const brake of brakes){
           brake.namePrice = brake.name + " " + brake.price + "€"
           brake.imgUrl = `../../../../assets/PALMS trailer-brake-${Number(brake.id) - 1}.jpg`
-        }
-        console.log(brakes);
-        
+        }    
         return brakes;
       })
     );
@@ -64,7 +62,10 @@ export class PalmsTrailerConfigService {
       map((platforms: ConfigurationItem[]) => {
         for (const platform of platforms){
           platform.namePrice = platform.name + " " + platform.price + "€"
-          platform.imgUrl = `../../../../assets/PALMS trailer-drawbar-${platform.id}.jpg`
+          if (Number(platform.id) === 1) {
+            platform.imgUrls = [`../../../../assets/PALMS trailer-platform-1.jpg`, `../../../../assets/PALMS trailer-platform-2.jpg`]
+          }
+          platform.imgUrl = `../../../../assets/PALMS trailer-platform-${platform.id}.jpg`
         }
         return platforms;
       })
@@ -76,7 +77,9 @@ export class PalmsTrailerConfigService {
       map((oilpumps: ConfigurationItem[]) => {
         for (const oilpump of oilpumps){
           oilpump.namePrice = oilpump.name + " " + oilpump.price + "€"
-          oilpump.imgUrl = `../../../../assets/PALMS trailer-drawbar-${oilpump.id}.jpg`
+          if (Number(oilpump.id) === 1) {
+            oilpump.imgUrl = `../../../../assets/PALMS trailer-pump-adapter-1.jpg`
+          }
         }
         return oilpumps;
       })
@@ -89,8 +92,90 @@ export class PalmsTrailerConfigService {
         for (const oiltank of oiltanks){
           oiltank.namePrice = oiltank.name + " " + oiltank.price + "€"
           oiltank.imgUrl = `../../../../assets/PALMS trailer-drawbar-${oiltank.id}.jpg`
+          
+          if (oiltank.oilTankCooler) {
+            oiltank.oilTankCooler.namePrice = oiltank.oilTankCooler.name + " " + oiltank.oilTankCooler.price + "€";
+          }
         }
         return oiltanks;
+      })
+    );
+  }
+
+  getBolsterLock(id: string): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/bolsterlock`).pipe(
+      map((bolsterLock: ConfigurationItem | null) => {
+        if (bolsterLock) {
+          bolsterLock.namePrice = bolsterLock.name + " " + bolsterLock.price + "€";
+          return bolsterLock;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getBBox(id: string): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/bbox`).pipe(
+      map((bbox: ConfigurationItem | null) => {
+        if (bbox) {
+          bbox.namePrice = bbox.name + " " + bbox.price + "€";
+          return bbox;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getWoodSorter(id: string): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/woodsorter`).pipe(
+      map((woodSorter: ConfigurationItem | null) => {
+        if (woodSorter) {
+          woodSorter.namePrice = woodSorter.name + " " + woodSorter.price + "€";
+          return woodSorter;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getHandBrake(id: string): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/handbrake`).pipe(
+      map((handBrake: ConfigurationItem | null) => {
+        if (handBrake) {
+          handBrake.namePrice = handBrake.name + " " + handBrake.price + "€";
+          return handBrake;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getChainsawHolder(id: string): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/chainsawholder`).pipe(
+      map((chainsawHolder: ConfigurationItem | null) => {
+        if (chainsawHolder) {
+          chainsawHolder.namePrice = chainsawHolder.name + " " + chainsawHolder.price + "€";
+          return chainsawHolder;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getUnderrunProtection(id: string): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/underrunprotection`).pipe(
+      map((underrunProtection: ConfigurationItem | null) => {
+        if (underrunProtection) {
+          underrunProtection.namePrice = underrunProtection.name + " " + underrunProtection.price + "€";
+          return underrunProtection;
+        } else {
+          return null;
+        }
       })
     );
   }

@@ -1,0 +1,18 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DialogModule } from 'primeng/dialog';
+
+@Component({
+  selector: 'app-oil-tank-dialog',
+  standalone: true,
+  imports: [DialogModule],
+  templateUrl: './oil-tank-dialog.component.html',
+  styleUrl: './oil-tank-dialog.component.css'
+})
+export class OilTankDialogComponent {
+  @Output() dialogVisible = new EventEmitter<void>()
+  @Input({required: true}) oilTanksDialogVisible: boolean = false;
+
+  closeOilTanksDialog() {
+    this.dialogVisible.emit();
+  }
+}

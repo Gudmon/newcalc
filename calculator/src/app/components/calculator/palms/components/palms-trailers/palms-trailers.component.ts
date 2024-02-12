@@ -31,13 +31,12 @@ export class PalmsTrailersComponent implements OnInit {
 
   ngOnInit(): void {
     this.palmsService.getTrailers().subscribe((resp) => {
-      console.log(resp);
       this.trailers = resp as PalmsTrailerOverview[];
       this.originalTrailers = resp as PalmsTrailerOverview[]
     })
 
     this.palmsService.selectedChassisType$.pipe().subscribe((chassisType) => {
-      console.log('on init', chassisType);
+
       this.filterTrailers(chassisType!);
     })
   }

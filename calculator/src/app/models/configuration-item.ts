@@ -4,5 +4,7 @@ export interface ConfigurationItem {
     code: string,
     price: number,
     namePrice: string,
-    imgUrl?: string
+    imgUrl?: string,
+    imgUrls?: string[],
+    oilTankCooler?: ConfigurationItem
 }
