@@ -21,36 +21,8 @@ import { environment } from '../../environments/environment';
 export class LandingComponent implements OnInit{
     constructor(private readonly httpService: HttpClient){}
     tyreIds: any[] = [];
-    private API_URL= environment.apiUrl;
 
     ngOnInit(): void {
-        // this.httpService.get('http://localhost:3000/persons').pipe().subscribe((resp) => {
-        //     console.log(resp);
-        // });
-
-        // this.httpService.get('http://calculator-app-api.azurewebsites.net/Machines').pipe().subscribe((resp) => {
-        //     console.log(resp);
-        // });
-
-        this.httpService.get(`${this.API_URL}/WeatherForecast`).pipe().subscribe((resp) => {
-            console.log(resp);
-        });
-
-        // this.httpService.get('https://calculator-app-api.azurewebsites.net/WeatherForecast').pipe().subscribe((resp) => {
-        //     console.log(resp);
-        // });
-
-
-        // this.httpService.get(`/data-api/rest/MachineTyres?$filter=machine_id eq 1`).subscribe((resp: any) => {
-        //     console.log(resp);
-        //     const machineTyres = resp.value || [];
-
-            
-        //     this.tyreIds = machineTyres.map((item: any) => item.tyre_id);
-
-        //     console.log(this.tyreIds);
-        // });
-
         
     }
 
