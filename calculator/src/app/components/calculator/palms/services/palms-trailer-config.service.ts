@@ -7,7 +7,8 @@ import { ConfigurationItem } from '../../../../models/configuration-item';
   providedIn: 'root'
 })
 export class PalmsTrailerConfigService {
-  private url = 'http://localhost:5140';
+  //private url = 'http://localhost:5140';
+  private url = 'https://calculator-app-api.azurewebsites.net';
   
   constructor(private httpClient: HttpClient) { }
 
