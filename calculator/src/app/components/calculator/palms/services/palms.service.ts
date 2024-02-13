@@ -33,7 +33,7 @@ export class PalmsService {
   getTrailer(id: string): Observable<PalmsTrailer>{
     return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
       map((trailer: PalmsTrailer) => {
-        trailer.imgUrl = [`../../../../../assets/${trailer.name}-1.svg`, `../../../../../assets/${trailer.name}-2.svg`, `../../../../../assets/${trailer.name}-3.jpg`]
+        trailer.imgUrl = [`../../../../../assets/${trailer.name}-1.svg`, `../../../../../assets/${trailer.name}-2.jpg`]
         return trailer;
       })
   

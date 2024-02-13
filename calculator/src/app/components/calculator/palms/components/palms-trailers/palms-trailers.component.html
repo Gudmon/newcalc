@@ -1,7 +1,7 @@
 
 
 
-<div *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-1 md:mx-20 lg:grid-cols-2 lg:mx-20 xl:grid-cols-3 xl:mx-14">
+<div *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
   @for (trailer of trailers; track trailer.id){
       <p-card class="mt-2 lg:mt-10 shadow-xl ">
           <ng-template pTemplate="header">

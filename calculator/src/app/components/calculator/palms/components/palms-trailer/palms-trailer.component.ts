@@ -732,14 +732,14 @@ export class PalmsTrailerComponent implements OnInit{
     if(this.trailer){
       this.images = [
         {
-          itemImageSrc: `../../../../../../assets/${this.trailer.name}-2.svg`,
-          thumbnailImageSrc:  `../../../../../../assets/${this.trailer.name}-2.svg`,
+          itemImageSrc: `../../../../../../assets/${this.trailer.name}-1.svg`,
+          thumbnailImageSrc:  `../../../../../../assets/${this.trailer.name}-1.svg`,
           alt: 'Description for Image 1',
           title: 'Title 1'
         },
         {
-          itemImageSrc: `../../../../../../assets/${this.trailer.name}-3.jpg`,
-          thumbnailImageSrc:  `../../../../../../assets/${this.trailer.name}-3.jpg`,
+          itemImageSrc: `../../../../../../assets/${this.trailer.name}-2.jpg`,
+          thumbnailImageSrc:  `../../../../../../assets/${this.trailer.name}-2.jpg`,
           alt: 'Description for Image 1',
           title: 'Title 1'
         },

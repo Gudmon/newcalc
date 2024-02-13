@@ -99,7 +99,7 @@
             <img src="{{trailer.imgUrl[0]}}" alt="">    
             <div class="flex">
                 <p-image class="hover:cursor-pointer" src="{{trailer.imgUrl[0]}}" (click)="displayBasic = true" alt="" width="250"/> 
-                <p-image class="hover:cursor-pointer" src="{{trailer.imgUrl[2]}}" (click)="displayBasic = true" alt="" width="250"/> 
+                <p-image class="hover:cursor-pointer" src="{{trailer.imgUrl[1]}}" (click)="displayBasic = true" alt="" width="250"/> 
                 
                 <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
                     [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
