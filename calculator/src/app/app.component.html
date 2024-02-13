@@ -1,4 +1,7 @@
 
 <div class="bg-slate-200">
+  <div id="container-loading" *ngIf="(loading$ | async) ?? false">
+    <p-progressSpinner></p-progressSpinner>
+  </div>
   <router-outlet></router-outlet>
 </div>

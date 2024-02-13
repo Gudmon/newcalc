@@ -8,6 +8,7 @@ import { FormatPricePipe } from "../../../../pipes/format-price.pipe";
 import { PalmsTrailer } from '../../models/palms-trailer';
 import { Router } from '@angular/router';
 import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
+import { LoadingService } from '../../../../../services/loading.service';
 
 @Component({
     selector: 'app-palms-trailers',
@@ -20,6 +21,7 @@ import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
 export class PalmsTrailersComponent implements OnInit {
   constructor(
     readonly palmsService: PalmsService,
+    readonly loadingService: LoadingService,
     readonly router: Router){}
 
   navigateToTrailer(trailerId: number) {
@@ -30,10 +32,11 @@ export class PalmsTrailersComponent implements OnInit {
   trailers: PalmsTrailerOverview[] = [];
 
   ngOnInit(): void {
+    this.loadingService.enableLoader();
     this.palmsService.getTrailers().subscribe((resp) => {
       this.trailers = resp as PalmsTrailerOverview[];
       this.originalTrailers = resp as PalmsTrailerOverview[]
-    })
+    }).add(() => this.loadingService.disableLoader())
 
     this.palmsService.selectedChassisType$.pipe().subscribe((chassisType) => {
 

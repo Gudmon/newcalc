@@ -26,6 +26,13 @@ import { BboxDialogComponent } from "../dialogs/bbox-dialog/bbox-dialog.componen
 import { WoodsorterDialogComponent } from "../dialogs/woodsorter-dialog/woodsorter-dialog.component";
 import { ChainsawHolderDialogComponent } from "../dialogs/chainsaw-holder-dialog/chainsaw-holder-dialog.component";
 import { UnderrunProtectionDialogComponent } from "../dialogs/underrun-protection-dialog/underrun-protection-dialog.component";
+import { SupportLegDialogComponent } from "../dialogs/support-leg-dialog/support-leg-dialog.component";
+import { LightDialogComponent } from "../dialogs/light-dialog/light-dialog.component";
+import { TyresDialogComponent } from "../dialogs/tyres-dialog/tyres-dialog.component";
+import { LoadingService } from '../../../../../services/loading.service';
+import { PalmsTrailerCalculatorHintsComponent } from '../palms-trailer-calculator-hints/palms-trailer-calculator-hints.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
     selector: 'app-palms-trailer',
@@ -33,7 +40,7 @@ import { UnderrunProtectionDialogComponent } from "../dialogs/underrun-protectio
     providers: [PalmsService],
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, FooterComponent, DividerModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent]
+    imports: [NavigationComponent, FooterComponent, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, LightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent]
 })
 export class PalmsTrailerComponent implements OnInit{
   displayBasic: boolean = false;
@@ -43,6 +50,8 @@ export class PalmsTrailerComponent implements OnInit{
   trailer!: PalmsTrailer
   private id = this.activatedRoute.snapshot.paramMap.get('id')!;
   equipmentSelected: boolean = false;
+  hintsChecked: boolean = true;
+  woodSorterChecked: boolean = false;
 
   @ViewChild('oilTankCoolerCheckBox') oilTankCoolerCheckBox!: Checkbox;
 
@@ -59,6 +68,9 @@ export class PalmsTrailerComponent implements OnInit{
   showHandBrakeDialog: boolean = false;
   showChainsawHolderDialog: boolean = false;
   showUnderrunProtectionDialog: boolean = false;
+  showSupportLegDialog: boolean = false;
+  showLightsDialog: boolean = false;
+  showTyresDialog: boolean = false;
 
   stanchions: ConfigurationItem[] = [];
   brakes: ConfigurationItem[] = [];
@@ -73,6 +85,9 @@ export class PalmsTrailerComponent implements OnInit{
   handBrake: ConfigurationItem | undefined = undefined;
   chainsawHolder: ConfigurationItem | undefined = undefined;
   underrunProtection: ConfigurationItem | undefined = undefined;
+  supportLegs: ConfigurationItem[] = [];
+  lights: ConfigurationItem[] = [];
+  tyres: ConfigurationItem[] = [];
 
   selectedConfigurationItems: ConfigurationItem[] = [];
 
@@ -90,6 +105,9 @@ export class PalmsTrailerComponent implements OnInit{
   originalHandBrakePrice = 0;
   originalChainsawHolderPrice = 0;
   originalUnderrunProtectionPrice = 0;
+  originalSupportLegPrice = 0;
+  originalLightPrice = 0;
+  originalTyrePrice = 0;
 
   originalStanchion: ConfigurationItem | undefined = undefined;
   originalBrake: ConfigurationItem | undefined = undefined;
@@ -102,9 +120,13 @@ export class PalmsTrailerComponent implements OnInit{
   originalBolsterLock: ConfigurationItem | undefined = undefined;
   originalBbox: ConfigurationItem | undefined = undefined;
   originalWoodSorter: ConfigurationItem | undefined = undefined;
+  woodSorterNumber: any[] | undefined = [];
   originalHandBrake: ConfigurationItem | undefined = undefined;
   originalChainsawHolder: ConfigurationItem | undefined = undefined;
   originalUnderrunProtection: ConfigurationItem | undefined = undefined;
+  originalSupportLeg: ConfigurationItem | undefined = undefined;
+  originalLight: ConfigurationItem | undefined = undefined;
+  originalTyre: ConfigurationItem | undefined = undefined;
 
   formGroup: FormGroup = new FormGroup({
     selectedStanchion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
@@ -118,9 +140,13 @@ export class PalmsTrailerComponent implements OnInit{
     selectedBolsterLock: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedBbox: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedWoodSorter: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedWoodSorterNumber: new FormControl<any[] | undefined>([]),
     selectedHandBrake: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedChainsawHolder: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedUnderrunProtection: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedSupportLeg: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedLight: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedTyre: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
   });
 
   private initializeFormGroup(): void {
@@ -137,15 +163,20 @@ export class PalmsTrailerComponent implements OnInit{
       selectedBolsterLock: null,
       selectedBbox: null,
       selectedWoodSorter: null,
+      selectedWoodSorterNumber: null,
       selectedHandBrake: null,
       selectedChainsawHolder: null,
-      selectedUnderrunProtection: null
+      selectedUnderrunProtection: null,
+      selectedSupportLeg: [this.supportLegs[0]],
+      selectedLight: [this.lights[0]],
+      selectedTyre: [this.tyres[0]],
     });
   }   
 
   constructor(
     readonly palmsService: PalmsService,
     private palmsTrailerConfigService: PalmsTrailerConfigService,
+    readonly loadingService: LoadingService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,) {}
 
@@ -155,6 +186,8 @@ export class PalmsTrailerComponent implements OnInit{
       this.setResponsiveOptions();
       this.setImages();
     })  
+
+    
   }
 
 
@@ -164,6 +197,7 @@ export class PalmsTrailerComponent implements OnInit{
   }
 
   loadTrailerConfigurations(){  
+    this.loadingService.enableLoader();
     const stanchions$ = this.palmsTrailerConfigService.getStanchions(this.id);
     const brakes$ = this.palmsTrailerConfigService.getBrakes(this.id);
     const propulsions$ = this.palmsTrailerConfigService.getPropulsions(this.id);
@@ -177,15 +211,25 @@ export class PalmsTrailerComponent implements OnInit{
     const handBrake$ = this.palmsTrailerConfigService.getHandBrake(this.id);
     const chainsawHolder$ = this.palmsTrailerConfigService.getChainsawHolder(this.id);
     const underrunProtection$ = this.palmsTrailerConfigService.getUnderrunProtection(this.id);
+    const supportLegs$ = this.palmsTrailerConfigService.getSupportLegs(this.id);
+    const lights$ = this.palmsTrailerConfigService.getLights(this.id);
+    const tyres$ = this.palmsTrailerConfigService.getTyres(this.id);
     
-    const request = forkJoin([stanchions$, brakes$, propulsions$, drawbars$, platforms$, oilPumps$, oilTanks$, bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, underrunProtection$]);
-
-    request.subscribe(([stanchions, brakes, propulsions, drawbars, platforms, oilPumps, oilTanks, bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, underrunProtection]) => {
+    const request = forkJoin([stanchions$, brakes$, propulsions$, drawbars$, platforms$, oilPumps$, oilTanks$, bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, underrunProtection$, supportLegs$, lights$, tyres$]);
+   
+    request.subscribe(([stanchions, brakes, propulsions, drawbars, platforms, oilPumps, oilTanks, bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, underrunProtection, supportLegs, lights, tyres]) => {
       if (stanchions.length > 0){
         this.stanchions = stanchions;
         this.palmsService._trailerPrice.update(value => value + Number(stanchions[0].price))
         this.originalStanchion = stanchions[0];
         this.originalStanchionPrice = stanchions[0].price;
+
+        const maxNumber = Number(stanchions[0].code[1]) * 2;
+        console.log(maxNumber);
+        this.woodSorterNumber = [];
+        for (let i = 1; i <= maxNumber; i++) {
+          if(this.woodSorterNumber) this.woodSorterNumber.push({number: i});
+        }
       }
       
       if (brakes.length > 0){
@@ -258,10 +302,30 @@ export class PalmsTrailerComponent implements OnInit{
         this.underrunProtection = underrunProtection;
 
       }
+
+      if (supportLegs.length > 0){
+        this.supportLegs = supportLegs;
+        this.palmsService._trailerPrice.update(value => value + Number(supportLegs[0].price))
+        this.originalSupportLeg = supportLegs[0];
+        this.originalSupportLegPrice = supportLegs[0].price;
+      }
+
+      if (lights.length > 0){
+        this.lights = lights;
+        this.palmsService._trailerPrice.update(value => value + Number(lights[0].price))
+        this.originalLight = lights[0];
+        this.originalLightPrice = lights[0].price;
+      }
+
+      if (tyres.length > 0){
+        this.tyres = tyres;
+        this.palmsService._trailerPrice.update(value => value + Number(tyres[0].price))
+        this.originalTyre = tyres[0];
+      }
       
       this.initializeFormGroup();
       this.equipmentSelected = true;
-  });
+    }).add(() => this.loadingService.disableLoader());
   }
 
   handleStanchionChange(event: ListboxChangeEvent) {
@@ -279,6 +343,15 @@ export class PalmsTrailerComponent implements OnInit{
       this.originalStanchion = event.value;
     } else {
       this.originalStanchion = undefined;
+    }
+
+    this.woodSorterNumber = undefined;
+    const maxNumber = Number(this.originalStanchion?.code[1]) * 2;
+    console.log(maxNumber);
+    this.woodSorterNumber = [];
+    for (let i = 1; i <= maxNumber; i++) {
+      if(this.woodSorterNumber) this.woodSorterNumber.push({number: i});
+     
     }
   }
 
@@ -387,18 +460,71 @@ export class PalmsTrailerComponent implements OnInit{
       this.originalOilTank = event.value;
     } else {
       this.originalOilTank = undefined;
-    }
-   
-      setTimeout(() => {
-        if(this.oilTankCoolerCheckBox){
-          this.oilTankCoolerCheckBox.writeValue(false);
-        }
-        
-      },50);
-    
+    } 
+
+    setTimeout(() => {
+      if(this.oilTankCoolerCheckBox){
+        this.oilTankCoolerCheckBox.writeValue(false);
+      }
+      
+    },50);
    
     if(this.originalOilTankCooler) this.palmsService._trailerPrice.set(this.palmsService._trailerPrice() - this.originalOilTankCooler.price)
     this.originalOilTankCooler = undefined;
+  }
+
+  handleSupportLegChange(event: ListboxChangeEvent) {
+    const previousValue = this.originalSupportLegPrice;
+    this.originalSupportLegPrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalSupportLegPrice;
+    const current = this.palmsService._trailerPrice();
+  
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
+      this.palmsService._trailerPrice.set(newPrice);
+    }
+
+    if (event.value){
+      this.originalSupportLeg = event.value;
+    } else {
+      this.originalSupportLeg = undefined;
+    }
+  }
+
+  handleLightChange(event: ListboxChangeEvent) {
+    const previousValue = this.originalLightPrice;
+    this.originalLightPrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalLightPrice;
+    const current = this.palmsService._trailerPrice();
+  
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
+      this.palmsService._trailerPrice.set(newPrice);
+    }
+
+    if (event.value){
+      this.originalLight = event.value;
+    } else {
+      this.originalLight = undefined;
+    }
+  }
+
+  handleTyreChange(event: ListboxChangeEvent) {
+    const previousValue = this.originalTyrePrice;
+    this.originalTyrePrice = event.value ? event.value.price : 0;
+    const nextValue = this.originalTyrePrice;
+    const current = this.palmsService._trailerPrice();
+  
+    if (previousValue !== nextValue) {
+      const newPrice = current - previousValue + Number(nextValue);
+      this.palmsService._trailerPrice.set(newPrice);
+    }
+
+    if (event.value){
+      this.originalTyre = event.value;
+    } else {
+      this.originalTyre = undefined;
+    }
   }
 
   onOilTankCoolerChange(event: CheckboxChangeEvent){
@@ -461,11 +587,13 @@ export class PalmsTrailerComponent implements OnInit{
       this.palmsService._trailerPrice.set(newPrice);
       this.originalWoodSorterPrice = Number(event.checked[0].price);
       this.originalWoodSorter = event.checked[0];
+      this.woodSorterChecked = true;
     } else {
       const current = this.palmsService._trailerPrice();
       const newPrice = current - this.originalWoodSorterPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalWoodSorter = undefined;
+      this.woodSorterChecked = false;
     }
   }
 
@@ -560,7 +688,16 @@ export class PalmsTrailerComponent implements OnInit{
           break;
         case 'underrunProtection':
           this.showUnderrunProtectionDialog = show;
-          break;     
+          break;  
+        case 'supportLeg':
+          this.showSupportLegDialog = show;
+          break; 
+        case 'lights':
+            this.showLightsDialog = show;
+            break;     
+        case 'tyres':
+            this.showTyresDialog = show;
+            break;   
         default:
           break;
       }
@@ -568,6 +705,7 @@ export class PalmsTrailerComponent implements OnInit{
 
   delete() {
     console.log(this.formGroup.value);
+    
     this.equipmentSelected = false;
     
     this.palmsService._trailerPrice.set(0);
@@ -581,9 +719,13 @@ export class PalmsTrailerComponent implements OnInit{
     this.originalOilTank = undefined; 
     this.originalBolsterLock = undefined; 
     this.originalBbox = undefined; 
+    this.originalWoodSorter = undefined;
     this.originalHandBrake = undefined;  
     this.originalChainsawHolder = undefined; 
-    this.originalUnderrunProtection = undefined; 
+    this.originalUnderrunProtection = undefined;
+    this.originalSupportLeg = undefined;
+    this.originalLight = undefined;
+    this.originalTyre = undefined; 
   }
 
   private setImages(){
@@ -625,4 +767,10 @@ export class PalmsTrailerComponent implements OnInit{
       }
     ];
   }
+}
+
+
+interface WoodSorterNumber {
+  number: number,
+
 }

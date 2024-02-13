@@ -179,4 +179,48 @@ export class PalmsTrailerConfigService {
       })
     );
   }
+
+  getSupportLegs(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/supportlegs`).pipe(
+      map((supportLegs: ConfigurationItem[]) => {
+        for (const supportLeg of supportLegs){
+          supportLeg.namePrice = supportLeg.name + " " + supportLeg.price + "€"
+          if(Number(supportLeg.id) === 1) {
+            supportLeg.imgUrl = `../../../../assets/PALMS trailer-support-leg-2.jpg`
+          }
+          else {
+            supportLeg.imgUrl = `../../../../assets/PALMS trailer-support-leg-${supportLeg.id}.jpg`         
+          }
+        }
+        return supportLegs;
+      })
+    );
+  }
+
+  getLights(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/lights`).pipe(
+      map((lights: ConfigurationItem[]) => {
+        for (const light of lights){
+          light.namePrice = light.name + " " + light.price + "€"
+          light.imgUrls = [`../../../../assets/PALMS trailer-light-${light.id}.jpg`, `../../../../assets/PALMS trailer-light-${light.id}-1.jpg`]         
+        }
+        return lights;
+      })
+    );
+  }
+
+  getTyres(id: string): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/tyres`).pipe(
+      map((tyres: ConfigurationItem[]) => {
+        for (const tyre of tyres){
+          if (tyre.price.toString() === '0'){
+            tyre.namePrice = tyre.name
+          } else {
+            tyre.namePrice = tyre.name + " " + tyre.price + "€";
+          }
+        }
+        return tyres;
+      })
+    );
+  }
 }
