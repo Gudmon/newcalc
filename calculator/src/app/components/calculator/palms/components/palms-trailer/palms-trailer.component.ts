@@ -32,7 +32,10 @@ import { TyresDialogComponent } from "../dialogs/tyres-dialog/tyres-dialog.compo
 import { LoadingService } from '../../../../../services/loading.service';
 import { PalmsTrailerCalculatorHintsComponent } from '../palms-trailer-calculator-hints/palms-trailer-calculator-hints.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { DropdownModule } from 'primeng/dropdown';
+import { Dropdown, DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
+import { AccordionModule } from 'primeng/accordion';
+import { AccessoryItemComponent } from "../accessory-item/accessory-item.component";
+import { TrailerDataItemComponent } from '../trailer-data-item/trailer-data-item.component';
 
 @Component({
     selector: 'app-palms-trailer',
@@ -40,7 +43,7 @@ import { DropdownModule } from 'primeng/dropdown';
     providers: [PalmsService],
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, FooterComponent, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, LightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent]
+    imports: [NavigationComponent, FooterComponent, TrailerDataItemComponent,AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, LightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent]
 })
 export class PalmsTrailerComponent implements OnInit{
   displayBasic: boolean = false;
@@ -54,6 +57,7 @@ export class PalmsTrailerComponent implements OnInit{
   woodSorterChecked: boolean = false;
 
   @ViewChild('oilTankCoolerCheckBox') oilTankCoolerCheckBox!: Checkbox;
+  @ViewChild('woodSorterDropdown') woodSorterDropdown!: Dropdown;
 
   showBrakesDialog: boolean = false;
   showPropulsionsDialog: boolean = false;
@@ -109,6 +113,11 @@ export class PalmsTrailerComponent implements OnInit{
   originalLightPrice = 0;
   originalTyrePrice = 0;
 
+  initialWoodSorterPrice = 0;
+  initialWoodSorterNumber = 1;
+  previousWoodSorterNumber = 0;
+  initialTrailerPrice = 0;
+
   originalStanchion: ConfigurationItem | undefined = undefined;
   originalBrake: ConfigurationItem | undefined = undefined;
   originalPropulsion: ConfigurationItem | undefined = undefined;
@@ -120,7 +129,7 @@ export class PalmsTrailerComponent implements OnInit{
   originalBolsterLock: ConfigurationItem | undefined = undefined;
   originalBbox: ConfigurationItem | undefined = undefined;
   originalWoodSorter: ConfigurationItem | undefined = undefined;
-  woodSorterNumber: any[] | undefined = [];
+  woodSorterArrayElements: any[] | undefined = [];
   originalHandBrake: ConfigurationItem | undefined = undefined;
   originalChainsawHolder: ConfigurationItem | undefined = undefined;
   originalUnderrunProtection: ConfigurationItem | undefined = undefined;
@@ -140,7 +149,6 @@ export class PalmsTrailerComponent implements OnInit{
     selectedBolsterLock: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedBbox: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedWoodSorter: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedWoodSorterNumber: new FormControl<any[] | undefined>([]),
     selectedHandBrake: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedChainsawHolder: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedUnderrunProtection: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
@@ -163,7 +171,6 @@ export class PalmsTrailerComponent implements OnInit{
       selectedBolsterLock: null,
       selectedBbox: null,
       selectedWoodSorter: null,
-      selectedWoodSorterNumber: null,
       selectedHandBrake: null,
       selectedChainsawHolder: null,
       selectedUnderrunProtection: null,
@@ -187,7 +194,6 @@ export class PalmsTrailerComponent implements OnInit{
       this.setImages();
     })  
 
-    
   }
 
 
@@ -226,9 +232,9 @@ export class PalmsTrailerComponent implements OnInit{
 
         const maxNumber = Number(stanchions[0].code[1]) * 2;
         console.log(maxNumber);
-        this.woodSorterNumber = [];
+        this.woodSorterArrayElements = [];
         for (let i = 1; i <= maxNumber; i++) {
-          if(this.woodSorterNumber) this.woodSorterNumber.push({number: i});
+          if(this.woodSorterArrayElements) this.woodSorterArrayElements.push({number: i});
         }
       }
       
@@ -285,6 +291,7 @@ export class PalmsTrailerComponent implements OnInit{
 
       if (woodSorter){
         this.woodSorter = woodSorter;
+        this.initialWoodSorterPrice = woodSorter.price;
 
       }
 
@@ -321,6 +328,7 @@ export class PalmsTrailerComponent implements OnInit{
         this.tyres = tyres;
         this.palmsService._trailerPrice.update(value => value + Number(tyres[0].price))
         this.originalTyre = tyres[0];
+        this.originalTyrePrice = tyres[0].price;
       }
       
       this.initializeFormGroup();
@@ -345,14 +353,18 @@ export class PalmsTrailerComponent implements OnInit{
       this.originalStanchion = undefined;
     }
 
-    this.woodSorterNumber = undefined;
+    this.woodSorterArrayElements = undefined;
     const maxNumber = Number(this.originalStanchion?.code[1]) * 2;
     console.log(maxNumber);
-    this.woodSorterNumber = [];
+    this.woodSorterArrayElements = [];
     for (let i = 1; i <= maxNumber; i++) {
-      if(this.woodSorterNumber) this.woodSorterNumber.push({number: i});
+      if(this.woodSorterArrayElements) this.woodSorterArrayElements.push({number: i});
      
     }
+    if(this.originalStanchion) this.initialTrailerPrice = Number(this.originalStanchion!.price);
+    
+    
+    this.originalWoodSorter = undefined;
   }
 
   handleBrakeChange(event: ListboxChangeEvent) {
@@ -582,20 +594,42 @@ export class PalmsTrailerComponent implements OnInit{
     console.log(event);
 
     if (event.checked.length > 0) {
-      const current = this.palmsService._trailerPrice();
-      const newPrice = current + Number(event.checked[0].price);
-      this.palmsService._trailerPrice.set(newPrice);
-      this.originalWoodSorterPrice = Number(event.checked[0].price);
-      this.originalWoodSorter = event.checked[0];
-      this.woodSorterChecked = true;
+        const current = this.palmsService._trailerPrice();
+        const newPrice = current + Number(event.checked[0].price);
+        this.originalWoodSorterPrice = Number(event.checked[0].price);
+        this.originalWoodSorter = event.checked[0];
+        this.originalWoodSorter!.name = this.originalWoodSorter!.name.replace(/\s\d+ db$/, '') + " " + this.initialWoodSorterNumber + " db";
+        //this.originalWoodSorter!.price = Number(event.checked[0].price);;
+        this.woodSorterChecked = true;
+        //this.originalWoodSorter!.price = 0;
+        this.palmsService._trailerPrice.update(value => value + Number(event.checked[0].price));
+
+        if (this.initialTrailerPrice === 0) {
+            this.initialTrailerPrice = current;
+            
+        }
     } else {
-      const current = this.palmsService._trailerPrice();
-      const newPrice = current - this.originalWoodSorterPrice;
-      this.palmsService._trailerPrice.set(newPrice);
-      this.originalWoodSorter = undefined;
-      this.woodSorterChecked = false;
+        this.palmsService._trailerPrice.set(this.initialTrailerPrice);
+        this.originalWoodSorter!.price = 65;
+        this.woodSorterChecked = false;
+        this.initialWoodSorterNumber = 1;
+        
     }
+}
+
+onWoodSorterNumberChange(event: DropdownChangeEvent){
+  const number = event.value.number;
+  this.initialWoodSorterNumber = number;
+  const previousTotalPrice = this.previousWoodSorterNumber * this.initialWoodSorterPrice;
+
+  if (this.originalWoodSorter) {
+      this.originalWoodSorter.name = this.originalWoodSorter.name.replace(/\s\d+ db$/, '') + " " + this.initialWoodSorterNumber + " db";
+      this.originalWoodSorter.price = this.initialWoodSorterPrice * this.initialWoodSorterNumber;
+
+      this.palmsService._trailerPrice.update(value => value - previousTotalPrice + (this.initialWoodSorterPrice * this.initialWoodSorterNumber));
   }
+  this.previousWoodSorterNumber = number;
+}
 
   onHandBrakeChange(event: CheckboxChangeEvent){
     console.log(event);
@@ -767,10 +801,4 @@ export class PalmsTrailerComponent implements OnInit{
       }
     ];
   }
-}
-
-
-interface WoodSorterNumber {
-  number: number,
-
 }
