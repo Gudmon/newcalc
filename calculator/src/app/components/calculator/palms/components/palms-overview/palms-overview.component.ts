@@ -4,16 +4,20 @@ import { FooterComponent } from "../../../../footer/footer.component";
 import { CommonModule } from '@angular/common';
 import { PalmsTrailersComponent } from "../palms-trailers/palms-trailers.component";
 import { PalmsService } from '../../services/palms.service';
+import { PalmsTrailerOverviewHintsComponent } from '../palms-trailer-overview-hints/palms-trailer-overview-hints.component';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-palms-overview',
     standalone: true,
     templateUrl: './palms-overview.component.html',
     styleUrl: './palms-overview.component.css',
-    imports: [NavigationComponent, FooterComponent, PalmsTrailersComponent, CommonModule]
+    imports: [NavigationComponent, FooterComponent, PalmsTrailersComponent, CommonModule, PalmsTrailerOverviewHintsComponent, InputSwitchModule, FormsModule]
 })
 export class PalmsOverviewComponent{
     tabSelected: boolean = false;
+    hintsChecked: boolean = true;
     constructor(readonly palmsService: PalmsService){}
 
     setSetelectedMachineType(machineType: number, event: Event) {

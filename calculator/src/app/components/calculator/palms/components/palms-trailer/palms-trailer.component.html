@@ -71,7 +71,7 @@
 <div class="w-full h-full flex justify-center items-center mt-16">
     <button (click)="loadTrailerConfigurations()" [disabled]="equipmentSelected" [ngClass]="{'disabled': equipmentSelected}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
 </div>
-<!-- <div *ngIf="equipmentSelected" class="w-full h-full flex justify-center items-center mt-8 mb-2">
+<div *ngIf="equipmentSelected" class="w-full h-full flex justify-center items-center mt-8 mb-2">
     <p>Tippek</p>
 </div>
 <div *ngIf="equipmentSelected" class="w-full h-full flex justify-center items-center">
@@ -79,7 +79,7 @@
 </div>
 <div *ngIf="equipmentSelected" class="mx-auto">
     <app-palms-trailer-calculator-hints *ngIf="hintsChecked"></app-palms-trailer-calculator-hints>
-</div> -->
+</div>
 <form [formGroup]="formGroup">
     <div class="bg-slate-200">
         <div #configElement class="flex align-middle justify-center my-10">
@@ -267,16 +267,16 @@
                   <p class="text-lg font-bold">{{palmsService._trailerPrice() | formatPrice}}</p> 
                 </div>  
             </div> -->
-            <div class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
+            <div *ngIf="equipmentSelected" class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
                 <p-accordion [activeIndex]="0" >
                     <p-accordionTab>
                         <ng-template pTemplate="header" class="flex justify-around">
                             <div class="flex gap-2 w-full">
-                                <p class="mr-auto pt-3"><span class="font-bold">Pótkocsi: </span><span class="font-extrabold">{{palmsService._trailerPrice() | formatPrice}}</span></p>
-                                <button (click)="delete(); $event.stopPropagation()" class="p-2 ml-auto bg-red-500  active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1">Törlés</button>
+                                <p class="mr-auto text-sm lg:text-base"><span class="">{{trailer?.name}} Pótkocsi: </span><span class="font-extrabold text-lg">{{palmsService._trailerPrice() | formatPrice}}</span></p>
+                                <button (click)="delete(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
                             </div>
                         </ng-template>
-                        <div class="h-96 block overflow-scroll xl:overflow-hidden xl:h-auto">
+                        <div class="max-h-96 overflow-auto">
                             <app-accessory-item [accessoryItem]="originalStanchion"></app-accessory-item>
                             <app-accessory-item [accessoryItem]="originalBrake"></app-accessory-item>
                             <app-accessory-item [accessoryItem]="originalPropulsion"></app-accessory-item>
@@ -294,7 +294,7 @@
                             </div>
                             <app-accessory-item [accessoryItem]="originalBolsterLock"></app-accessory-item>
                             <app-accessory-item [accessoryItem]="originalBbox"></app-accessory-item>
-                            <div *ngIf="originalWoodSorter && originalWoodSorter.price > 0 && woodSorterChecked" class="grid grid-cols-4 gap-10 py-2">
+                            <div *ngIf="originalWoodSorter && originalWoodSorter.price > 0 && woodSorterNumberSelected" class="grid grid-cols-4 gap-10 py-2">
                                 <div class="col-span-3">
                                     <p class="text-xs sm:text-sm md:text-md lg:text-lg">{{originalWoodSorter.name}}</p>
                                 </div>
@@ -312,6 +312,7 @@
                     </p-accordionTab>
                     
                 </p-accordion>
+                
             </div>
             <!-- <div class="grid grid-cols-12 pt-6 fixed bottom-4 right-40 z-10">
                 <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
@@ -320,9 +321,37 @@
                 <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
                     <button (click)="delete()" class="p-2  bg-red-500  active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1">Törlés</button>
                 </div> 
-            </div> -->       
-        </div>  
+            </div> -->     
+            
+        </div> 
+        <div class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
+            @for (crane of trailer.crane; track crane.id){
+                <p-card class="mt-2 lg:mt-10 shadow-xl ">
+                    <ng-template pTemplate="header">
+                        <img alt="Card" [src]="crane"/>
+                    </ng-template>
+                    <p class="pb-4 text-lg font-extrabold lg:text-2xl text-[--palms-color]">{{crane.name}}</p>
+                    <p class="block text-xs lg:text-lg">Terhelhetőség: <span class="font-bold">{{crane.maxReach}}</span> kg</p>
+                    <p class="block text-xs lg:text-lg">Alváz mérete: <span class="font-bold">{{crane.brutLiftingTorque190Bar}}</span></p>
+                    <!-- <p class="block text-xs lg:text-lg">Rakfelület: <span class="font-bold">{{crane.}}</span> m2</p> -->
+                    <p class="block text-xs lg:text-lg">Maximális daruméret bruttó emelési ereje: <span class="font-bold">{{crane.craneWeight}}</span> kNm</p>
+                
+                    <ng-template pTemplate="footer">
+                        <div class="grid grid-cols-2">  
+                            <div class="">
+                              <button label="Kiválaszt"
+                              class="rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12">Kiválaszt</button>
+                            </div>                      
+                          </div>           
+                    </ng-template>
+                </p-card>
+            } 
+            @empty {
+                <p>There are no cranes.</p>
+            }
+          </div>
     </div>
 </form>
-<app-footer></app-footer>
+<app-footer></app-footer>   
+
 

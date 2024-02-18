@@ -1,10 +1,10 @@
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component} from '@angular/core';
 import { CardModule } from 'primeng/card';
 import { TimelineModule } from 'primeng/timeline';
 import { FormsModule } from '@angular/forms';
-
+import { HintItem } from '../../models/hint-item';
 
 @Component({
   selector: 'app-palms-trailer-calculator-hints',
@@ -14,8 +14,7 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './palms-trailer-calculator-hints.component.css'
 })
 export class PalmsTrailerCalculatorHintsComponent {
-  
-  hints: EventItem[];
+  hints: HintItem[];
 
     constructor() {
         this.hints = [
@@ -23,13 +22,10 @@ export class PalmsTrailerCalculatorHintsComponent {
             { title: 'Opcionális elemek konfigurálása', description: 'Ezután kérem válassza ki a pótkocsi opcionális elemeit' },
             { title: 'Daru konfigurálása (opcionális)', description: 'Amennyiben szeretné, a pótkocsihoz illeszthető daru konfigurálását is elvégezheti a pótkocsi konfigurálásához hasonlóan (kötelező és opcionális mezők)' },
             { title: 'Információ az elemekről', description: 'Az adott elem(ek)ről további infomációt találhat, amennyiben rákattint az információ gombra' },
-            { title: 'Új konfiguráció kezdése', description: 'Alul a törlés gombra kattintva új kalkulálást tud indítani, enélkül a "Kalkulál" gomb inaktív' },
             { title: 'Összegzés / Kapcsolat', description: 'Végezetül üzenhet nekünk a konfigurálásával kapcsolatban' },
+            { title: 'Új konfiguráció kezdése', description: 'Alul a törlés gombra kattintva új kalkulálást tud indítani, enélkül a "Kalkulál" gomb inaktív' },
         ];
     }
 }
-interface EventItem {
-  title?: string;
-  description?: string
-}
+
 

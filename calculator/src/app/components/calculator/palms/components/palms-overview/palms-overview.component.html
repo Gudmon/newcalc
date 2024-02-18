@@ -13,9 +13,20 @@
     </div>                  
 </div>
 
+<div *ngIf="(palmsService.selectedMachineType$ | async) === null" class="h-dvh">
+</div>    
+
 
 <div *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" class="mt-14 w-full">
-    <img class="mx-auto" src="../../../../../../assets/PALMS trailer-overview-hint.png" alt="">
+    <div class="w-full h-full flex justify-center items-center mt-8 mb-2">
+        <p>Tippek</p>
+    </div>
+    <div class="w-full h-full flex justify-center items-center">
+        <p-inputSwitch  [(ngModel)]="hintsChecked"></p-inputSwitch>
+    </div>
+    <div class="mx-auto">
+        <app-palms-trailer-overview-hints *ngIf="hintsChecked"></app-palms-trailer-overview-hints>
+    </div>
 </div>
 
 <div *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" class="ml-2 md:ml-10 lg:ml-14 my-10">
