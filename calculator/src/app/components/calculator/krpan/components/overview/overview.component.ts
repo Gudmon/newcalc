@@ -4,19 +4,19 @@ import { SelectButtonChangeEvent, SelectButtonModule } from 'primeng/selectbutto
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CarouselModule } from 'primeng/carousel';
 import { CranesComponent } from '../cranes/cranes.component';
-import { TrailersComponent } from '../../../trailers/trailers.component';
 import { ButtonModule } from 'primeng/button';
 import { NavigationComponent } from '../../../../navigation/navigation.component';
 import { FooterComponent } from '../../../../footer/footer.component';
 import { EmailService } from '../../../../../services/email.service';
 import { HttpClientModule } from '@angular/common/http';
+import { PalmsTrailerComponent } from '../../../palms/trailers/components/palms-trailer/palms-trailer.component';
 
 @Component({
     selector: 'app-overview',
     standalone: true,
     templateUrl: './overview.component.html',
     styleUrl: './overview.component.css',
-    imports: [TrailersComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, ButtonModule, NavigationComponent, FooterComponent, HttpClientModule, CranesComponent]
+    imports: [PalmsTrailerComponent, SelectButtonModule, FormsModule, CarouselModule, ReactiveFormsModule, ButtonModule, NavigationComponent, FooterComponent, HttpClientModule, CranesComponent]
 })
 export class OverviewComponent implements OnInit{
   vehicleTypes: any[] = [];
