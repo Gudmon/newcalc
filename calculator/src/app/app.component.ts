@@ -10,7 +10,6 @@ import { LoadingService } from './services/loading.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
 
-
 @Component({
     selector: 'app-root',
     standalone: true,
@@ -29,38 +28,7 @@ export class AppComponent {
             {
                 label: 'Kezdőlap'
             },
-            {
-                label: 'Rólunk'
-            },
-            {
-                label: 'Termékek',
-                items: [
-                    {
-                        label: 'Krpan erdészeti gépek'
-                    },
-                    {
-                        label: 'Palms erdészeti gépek'
-                    },
-                    {
-                        label: 'Palmse trailer'
-                    },
-                    {
-                      label: 'Adalékok'
-                    }
-                ]
-            },
-            {
-                label: 'Gépbérbeadás'
-            },
-            {
-                label: 'Webshop'
-            },
-            {
-                label: 'Hírek'
-            },
-            {
-                label: 'Kapcsolat'
-            },
+            
             {
                 label: 'Kalkulátorok',
                 items: [

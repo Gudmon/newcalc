@@ -1,0 +1,26 @@
+<div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
+    @for (trailer of trailers; track trailer.id){
+        <p-card class="mt-2 lg:mt-10 shadow-xl ">
+            <ng-template pTemplate="header">
+                <img alt="Card" [src]="trailer.imgUrl"/>
+            </ng-template>
+            <p class="pb-4 text-lg font-extrabold lg:text-2xl text-[--palms-color]">{{trailer.name}}</p>
+            <p class="block text-xs lg:text-lg">Terhelhetőség: <span class="font-bold">{{trailer.grossWeight}}</span> kg</p>
+            <p class="block text-xs lg:text-lg">Alváz mérete: <span class="font-bold">{{trailer.frame}}</span></p>
+            <p class="block text-xs lg:text-lg">Rakfelület: <span class="font-bold">{{trailer.loadingAreaCross}}</span> m2</p>
+            <p class="block text-xs lg:text-lg">Maximális daruméret bruttó emelési ereje: <span class="font-bold">{{trailer.maxCraneSize}}</span> kNm</p>
+            <p class="block text-xs lg:text-lg">Vonórúd kormány munkahengerek száma: <span class="font-bold">{{trailer.drawbarControlCylinders}}</span> db</p>
+            <ng-template pTemplate="footer">
+                <div class="grid grid-cols-2">  
+                    <div class="">
+                      <button (click)="navigateToTrailer(trailer.id)" label="Kalkulál"
+                      class="rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12">Kiválaszt</button>
+                    </div>                      
+                  </div>           
+            </ng-template>
+        </p-card>
+    } 
+    @empty {
+        <p>Nem található pótkocsi</p>
+    }
+  </div>

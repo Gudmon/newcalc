@@ -1,4 +1,5 @@
 import { PalmsTrailer } from "../../trailers/models/palms-trailer";
+import { PalmsTrailerOverview } from "../../trailers/models/palms-trailer-overview";
 
 
 export interface PalmsCrane {
@@ -17,6 +18,7 @@ export interface PalmsCrane {
     brutLiftingTorque240Bar: string;
     brutLiftingTorque215Bar: string;
     brutLiftingTorque190Bar: string;
+    telescopeLength: string;
     slewingCylinder: string;
     slewingTorque: string;
     workingPressure: string;
@@ -24,5 +26,8 @@ export interface PalmsCrane {
     craneWeight: string;
     pillarSlewingAngle: string;
     recommendedOilFlow: string;
-    trailer: PalmsTrailer[]
+    trailer: PalmsTrailerOverview[];
+    selectedTrailer?: PalmsTrailer;
+    imgUrls: string[];
+    imgUrl: string;
 }

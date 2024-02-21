@@ -12,7 +12,7 @@ export class PalmsTrailerConfigService {
   
   constructor(private httpClient: HttpClient) { }
 
-  getStanchions(id: string): Observable<ConfigurationItem[]>{
+  getStanchions(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/stanchions`).pipe(
       map((stanchions: ConfigurationItem[]) => {
         for (const stanchion of stanchions){
@@ -23,7 +23,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getBrakes(id: string): Observable<ConfigurationItem[]>{
+  getBrakes(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/brakes`).pipe(
       map((brakes: ConfigurationItem[]) => {
         for (const brake of brakes){
@@ -35,7 +35,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getPropulsions(id: string): Observable<ConfigurationItem[]>{
+  getPropulsions(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/propulsions`).pipe(
       map((propulsions: ConfigurationItem[]) => {
         for (const propulsion of propulsions){
@@ -46,7 +46,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getDrawbars(id: string): Observable<ConfigurationItem[]>{
+  getDrawbars(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/drawbars`).pipe(
       map((drawbars: ConfigurationItem[]) => {
         for (const drawbar of drawbars){
@@ -58,7 +58,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getPlatforms(id: string): Observable<ConfigurationItem[]>{
+  getPlatforms(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/platforms`).pipe(
       map((platforms: ConfigurationItem[]) => {
         for (const platform of platforms){
@@ -73,7 +73,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getOilPumps(id: string): Observable<ConfigurationItem[]>{
+  getOilPumps(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/oilpumps`).pipe(
       map((oilpumps: ConfigurationItem[]) => {
         for (const oilpump of oilpumps){
@@ -87,7 +87,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getOilTanks(id: string): Observable<ConfigurationItem[]>{
+  getOilTanks(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/oiltanks`).pipe(
       map((oiltanks: ConfigurationItem[]) => {
         for (const oiltank of oiltanks){
@@ -103,7 +103,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getBolsterLock(id: string): Observable<ConfigurationItem | null> {
+  getBolsterLock(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/bolsterlock`).pipe(
       map((bolsterLock: ConfigurationItem | null) => {
         if (bolsterLock) {
@@ -116,7 +116,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getBBox(id: string): Observable<ConfigurationItem | null> {
+  getBBox(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/bbox`).pipe(
       map((bbox: ConfigurationItem | null) => {
         if (bbox) {
@@ -129,7 +129,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getWoodSorter(id: string): Observable<ConfigurationItem | null> {
+  getWoodSorter(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/woodsorter`).pipe(
       map((woodSorter: ConfigurationItem | null) => {
         if (woodSorter) {
@@ -142,7 +142,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getHandBrake(id: string): Observable<ConfigurationItem | null> {
+  getHandBrake(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/handbrake`).pipe(
       map((handBrake: ConfigurationItem | null) => {
         if (handBrake) {
@@ -155,7 +155,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getChainsawHolder(id: string): Observable<ConfigurationItem | null> {
+  getChainsawHolder(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/chainsawholder`).pipe(
       map((chainsawHolder: ConfigurationItem | null) => {
         if (chainsawHolder) {
@@ -168,7 +168,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getUnderrunProtection(id: string): Observable<ConfigurationItem | null> {
+  getUnderrunProtection(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/underrunprotection`).pipe(
       map((underrunProtection: ConfigurationItem | null) => {
         if (underrunProtection) {
@@ -181,7 +181,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getSupportLegs(id: string): Observable<ConfigurationItem[]>{
+  getSupportLegs(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/supportlegs`).pipe(
       map((supportLegs: ConfigurationItem[]) => {
         for (const supportLeg of supportLegs){
@@ -198,7 +198,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getLights(id: string): Observable<ConfigurationItem[]>{
+  getLights(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/lights`).pipe(
       map((lights: ConfigurationItem[]) => {
         for (const light of lights){
@@ -210,7 +210,7 @@ export class PalmsTrailerConfigService {
     );
   }
 
-  getTyres(id: string): Observable<ConfigurationItem[]>{
+  getTyres(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/tyres`).pipe(
       map((tyres: ConfigurationItem[]) => {
         for (const tyre of tyres){

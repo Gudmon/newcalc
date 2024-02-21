@@ -1,33 +1,25 @@
 <app-navigation></app-navigation>
-<app-palms-trailer-information *ngIf="trailer" [trailer]="trailer" (craneSelected)="navigateToCrane($event)"></app-palms-trailer-information>
+<app-palms-crane-information *ngIf="crane" [crane]="crane" (trailerSelected)="navigateToTrailer($event)"></app-palms-crane-information>
 
 <div class="w-full h-full flex justify-center items-center mt-16">
-    <button (click)="loadTrailerConfigurations()" [disabled]="trailerSelected" [ngClass]="{'disabled': trailerSelected}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
-</div>
-<div *ngIf="trailerSelected" class="w-full h-full flex justify-center items-center mt-8 mb-2">
-    <p>Tippek</p>
-</div>
-<div *ngIf="trailerSelected" class="w-full h-full flex justify-center items-center">
-    <p-inputSwitch  [(ngModel)]="hintsChecked"></p-inputSwitch>
-</div>
-<div *ngIf="trailerSelected" class="mx-auto">
-    <app-palms-trailer-calculator-hints *ngIf="hintsChecked"></app-palms-trailer-calculator-hints>
+    <button (click)="loadCraneConfigurations()" [disabled]="craneSelected" [ngClass]="{'disabled': craneSelected}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
 </div>
 
-<form [formGroup]="trailerFormGroup">
+<form [formGroup]="craneFormGroup">
     <div class="bg-slate-200">
         <div #configElement class="flex align-middle justify-center my-10">
             <div class="w-11/12">
 
-                <div *ngIf="trailerSelected && stanchions.length > 0" class="justify-content-center my-4 py-4">
+                <div *ngIf="craneSelected && frameTypes.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
-                        <span>Rakonca</span>
-                        <button ><i class="fa-solid fa-circle-info"></i></button>                      
+                        <span>Támasztó láb</span>
+                        <button (click)="toggleDialog('frameTypes', true)"><i class="fa-solid fa-circle-info"></i></button>                
+                        <app-frame-types-dialog [frameTypes]="frameTypes" [frameTypesDialogVisible]="showFrameTypesDialog" (dialogVisible)="toggleDialog('frameTypes', false)"></app-frame-types-dialog>                    
                     </div>
-                    <p-listbox (onChange)="handleStanchionChange($event)" formControlName="selectedStanchion" [options]="stanchions" optionLabel="namePrice"></p-listbox>                   
+                    <p-listbox (onChange)="handleFrameTypeChange($event)" formControlName="selectedFrameType" [options]="frameTypes" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <div *ngIf="trailerSelected && brakes.length > 0" class="justify-content-center my-4 py-4">
+                <!-- <div *ngIf="trailerSelected && brakes.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Fék</span>
                         <button (click)="toggleDialog('brakes', true)"><i class="fa-solid fa-circle-info"></i></button>                
@@ -184,7 +176,7 @@
                         <app-tyres-dialog [tyres]="tyres" [tyresDialogVisible]="showTyresDialog" (dialogVisible)="toggleDialog('tyres', false)"></app-tyres-dialog>                                
                     </div>
                     <p-listbox (onChange)="handleTyreChange($event)" formControlName="selectedTyre" [options]="tyres" optionLabel="namePrice"></p-listbox>                   
-                </div>
+                </div> -->
 
                 <hr class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
             </div>
@@ -201,18 +193,18 @@
                   <p class="text-lg font-bold">{{palmsService._trailerPrice() | formatPrice}}</p> 
                 </div>  
             </div> -->
-            <div *ngIf="trailerSelected" class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
+            <div *ngIf="craneSelected" class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
                 <p-accordion [activeIndex]="">
                     <p-accordionTab>
                         <ng-template pTemplate="header" class="flex justify-around">
                             <div class="flex gap-2 w-full">
-                                <p class="mr-auto text-sm lg:text-base"><span class="">{{trailer?.name}} Pótkocsi: </span><span class="font-extrabold text-lg">{{palmsService._trailerPrice() | formatPrice}}</span></p>
+                                <p class="mr-auto text-sm lg:text-base"><span class="">{{crane?.name}} Daru: </span><span class="font-extrabold text-lg">{{palmsService._cranePrice() | formatPrice}}</span></p>
                                 <button (click)="delete(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
                             </div>
                         </ng-template>
                         <div class="max-h-96 overflow-auto">
-                            <app-accessory-item [accessoryItem]="originalStanchion"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalBrake"></app-accessory-item>
+                            <app-accessory-item [accessoryItem]="originalFrameType"></app-accessory-item>
+                            <!-- <app-accessory-item [accessoryItem]="originalBrake"></app-accessory-item>
                             <app-accessory-item [accessoryItem]="originalPropulsion"></app-accessory-item>
                             <app-accessory-item [accessoryItem]="originalDrawbar"></app-accessory-item>
                             <app-accessory-item [accessoryItem]="originalPlatform"></app-accessory-item>
@@ -241,14 +233,14 @@
                             <app-accessory-item [accessoryItem]="originalUnderrunProtection"></app-accessory-item>
                             <app-accessory-item [accessoryItem]="originalSupportLeg"></app-accessory-item>
                             <app-accessory-item [accessoryItem]="originalLight"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalTyre"></app-accessory-item>                          
+                            <app-accessory-item [accessoryItem]="originalTyre"></app-accessory-item>                           -->
                         </div>             
                     </p-accordionTab>
 
-                    <p-accordionTab *ngIf="craneSelected">
+                    <p-accordionTab *ngIf="trailerSelected">
                         <ng-template pTemplate="header" class="flex justify-around">
                             <div class="flex gap-2 w-full">
-                                <p class="mr-auto text-sm lg:text-base"><span class="">{{ this.craneFormGroup.get('selectedCrane')?.value}} Daru: </span><span class="font-extrabold text-lg">{{palmsService._cranePrice() | formatPrice}}</span></p>
+                                <p class="mr-auto text-sm lg:text-base"><span class="">{{ this.craneFormGroup.get('selectedTrailer')?.value}} Pótkocsi: </span><span class="font-extrabold text-lg">{{palmsService._trailerPrice() | formatPrice}}</span></p>
                                 <button (click)="delete(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
                             </div>
                         </ng-template>
@@ -270,9 +262,8 @@
             </div> -->     
             
         </div> 
-        <app-palms-cranes-cards *ngIf="trailerSelected" [cranes]="trailer.crane" (buttonClickEmitter)="selectCrane($event)"></app-palms-cranes-cards>
+        <!-- <app-palms-cranes-cards *ngIf="trailerSelected" [cranes]="trailer.crane" (buttonClickEmitter)="selectCrane($event.toString())"></app-palms-cranes-cards> -->
     </div>
 </form>
-<app-footer></app-footer>   
 
-
+<app-footer></app-footer>

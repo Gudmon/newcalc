@@ -8,28 +8,29 @@ import { FormatPricePipe } from "../../../../../pipes/format-price.pipe";
 import { Router } from '@angular/router';
 import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
 import { LoadingService } from '../../../../../../services/loading.service';
+import { PalmsTrailerOverviewHintsComponent } from "../palms-trailer-overview-hints/palms-trailer-overview-hints.component";
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { PalmsTrailerCardsComponent } from "../palms-trailer-cards/palms-trailer-cards.component";
 
 @Component({
     selector: 'app-palms-trailers',
     standalone: true,
     templateUrl: './palms-trailers.component.html',
     styleUrl: './palms-trailers.component.css',
-    imports: [FormsModule, CommonModule, CardModule, FormatPricePipe]
+    imports: [FormsModule, CommonModule, CardModule, FormatPricePipe, PalmsTrailerOverviewHintsComponent, InputSwitchModule, PalmsTrailerCardsComponent]
 })
 
 export class PalmsTrailersComponent implements OnInit {
-  constructor(
-    readonly palmsService: PalmsService,
-    readonly loadingService: LoadingService,
-    readonly router: Router){}
+  hintsChecked: boolean = true;
 
-  navigateToTrailer(trailerId: number) {
-    this.router.navigate(['/calculator/palms', trailerId]);
-  }
-  
   originalTrailers: PalmsTrailerOverview[] = []
   trailers: PalmsTrailerOverview[] = [];
 
+  constructor(
+    readonly palmsService: PalmsService,
+    readonly loadingService: LoadingService){}
+
+  
   ngOnInit(): void {
     this.loadingService.enableLoader();
     this.palmsService.getTrailers().subscribe((resp) => {
@@ -54,4 +55,12 @@ export class PalmsTrailersComponent implements OnInit {
       this.trailers = this.originalTrailers;
     }
   } 
+
+  setSelectedChassisType(chassisType: number, event: Event){
+    if(this.palmsService._selectedChassisType.value === chassisType) this.palmsService._selectedChassisType.next(0);
+
+    else {
+        this.palmsService._selectedChassisType.next(chassisType);
+    }                
+}
 }

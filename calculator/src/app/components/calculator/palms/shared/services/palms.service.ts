@@ -3,6 +3,8 @@ import { Injectable, signal } from '@angular/core';
 import { BehaviorSubject, Observable, map } from 'rxjs';
 import { PalmsTrailerOverview } from '../../trailers/models/palms-trailer-overview';
 import { PalmsTrailer } from '../../trailers/models/palms-trailer';
+import { PalmsCraneOverview } from '../../cranes/models/palms-crane-overview';
+import { PalmsCrane } from '../../cranes/models/palms-crane';
 @Injectable({
   providedIn: 'root'
 })
@@ -17,6 +19,7 @@ export class PalmsService {
   public selectedChassisType$ = this._selectedChassisType.asObservable();
 
   public _trailerPrice = signal(0);
+  public _cranePrice = signal(0);
 
   constructor(private httpClient: HttpClient) { }
   
@@ -31,21 +34,39 @@ export class PalmsService {
     );
 }
 
-  getTrailer(id: string): Observable<PalmsTrailer>{
+  getTrailer(id: number): Observable<PalmsTrailer>{
     return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
       map((trailer: PalmsTrailer) => {
         trailer.imgUrls = [`../../../../../assets/${trailer.name}-1.svg`, `../../../../../assets/${trailer.name}-2.jpg`]
+        for (const crane of trailer.crane){
+          crane.imgUrl = `../../../../../assets/${crane.name}-1.svg`
+        }
         return trailer;
       })
   
     );
   }
 
-  getCranes(){
-    return this.httpClient.get(`${this.url}/Palms/cranes`);
+  getCranes(): Observable<PalmsCraneOverview[]>{
+    return this.httpClient.get<PalmsCraneOverview[]>(`${this.url}/Palms/cranes`).pipe(
+      map((craneOverViews: PalmsCraneOverview[]) => {
+        for (const craneOverView of craneOverViews) {
+          craneOverView.imgUrl = `../../../../../assets/${craneOverView.name}-1.svg`;
+        }
+        return craneOverViews;
+      })
+    );
   }
 
-  getCrane(id: string){
-    return this.httpClient.get(`${this.url}/Palms/cranes/${id}`);
+  getCrane(id: number): Observable<PalmsCrane>{
+    return this.httpClient.get<PalmsCrane>(`${this.url}/Palms/cranes/${id}`).pipe(
+      map((crane: PalmsCrane) => {
+        crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`]
+        for (const trailer of crane.trailer){
+          trailer.imgUrl = `../../../../../assets/${trailer.name}-1.svg`
+        }
+        return crane;
+      })
+    );
   }
 }

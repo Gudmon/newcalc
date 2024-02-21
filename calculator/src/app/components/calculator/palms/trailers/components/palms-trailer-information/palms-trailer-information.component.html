@@ -34,7 +34,7 @@
                     <p class="sm:w-1/2">Ajánlott daruk</p>
                     <div class="sm:w-1/2 text-[--palms-color] ">
                     @for (crane of getCranes(); track $index) {
-                        <p class="hover:cursor-pointer hover:opacity-65">{{crane}}</p>            
+                        <p class="hover:cursor-pointer hover:opacity-65" (click)="craneSelectedEmit(crane.id)">{{crane.name}}</p>            
                     }
                     </div>
                 </div>
@@ -64,5 +64,5 @@
     </div>
     }
     @else {
-        <p>no trailer</p>
+        <p>Nem található pótkocsi</p>
     }

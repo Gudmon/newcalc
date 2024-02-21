@@ -1,0 +1,29 @@
+@if(cranes){
+    <div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-10 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-20">
+        @for (crane of cranes; track crane.id){
+            <p-card class="mt-2 lg:mt-10 shadow-xl ">
+                <ng-template pTemplate="header">
+                    <img alt="Card" [src]="crane.imgUrl"/>
+                </ng-template>
+                <p class="pb-4 text-lg font-extrabold lg:text-2xl text-[--palms-color]">{{crane.name}}</p>
+                <p class="block text-xs lg:text-lg">Maximális kinyúlás: <span class="font-bold">{{crane.maxReach}}</span> m</p>
+                <p class="block text-xs lg:text-lg">Bruttó emelési erő 215 bar-nál: <span class="font-bold">{{crane.brutLiftingTorque215Bar}}</span> kNm</p>
+                <p class="block text-xs lg:text-lg">Bruttó emelési erő 190 bar-nál: <span class="font-bold">{{crane.brutLiftingTorque190Bar}}</span> kNm</p>
+                <p class="block text-xs lg:text-lg">Teleszkóp hossza: <span class="font-bold">{{crane.telescopeLength}}</span> m</p>
+                <p class="block text-xs lg:text-lg">Forgató munkahengerek száma: <span class="font-bold">{{crane.slewingCylinder}}</span> db</p>
+                <p class="block text-xs lg:text-lg">Forgatási erő: <span class="font-bold">{{crane.slewingTorque}}</span> kNm</p>
+                <ng-template pTemplate="footer">
+                    <div class="grid grid-cols-2">  
+                        <div class="">
+                          <button (click)="buttonClickEmit(crane.id)" label="Kalkulál"
+                          class="rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12">Kiválaszt</button>
+                        </div>                      
+                      </div>           
+                </ng-template>
+            </p-card>
+        } 
+        @empty {
+            <p>Nem található daru</p>
+        }
+    </div>
+}

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TrailerDataItemComponent } from './trailer-data-item.component';
+import { PalmsCranesComponent } from './palms-cranes.component';
 
-describe('TrailerDataItemComponent', () => {
-  let component: TrailerDataItemComponent;
-  let fixture: ComponentFixture<TrailerDataItemComponent>;
+describe('PalmsCranesComponent', () => {
+  let component: PalmsCranesComponent;
+  let fixture: ComponentFixture<PalmsCranesComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [TrailerDataItemComponent]
+      imports: [PalmsCranesComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(TrailerDataItemComponent);
+    fixture = TestBed.createComponent(PalmsCranesComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

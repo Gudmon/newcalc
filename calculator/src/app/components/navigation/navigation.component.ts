@@ -25,47 +25,6 @@ constructor(){
                 routerLink: '/'
             },
             {
-                label: 'Rólunk',
-                routerLink: '/about'
-            },
-            {
-                label: 'Termékek',
-                items: [
-                    {
-                        label: 'Krpan erdészeti gépek',
-                        routerLink: '/krpan'
-                    },
-                    {
-                        label: 'Palms erdészeti gépek',
-                        routerLink: '/palms'
-                    },
-                    {
-                        label: 'Palmse trailer',
-                        routerLink: '/palmse'
-                    },
-                    {
-                      label: 'Adalékok',
-                      routerLink: '/additives'
-                    }
-                ]
-            },
-            {
-                label: 'Gépbérbeadás',
-                routerLink: '/rental'
-            },
-            {
-                label: 'Webshop',
-                routerLink: '/webshop'
-            },
-            {
-                label: 'Hírek',
-                routerLink: '/news'
-            },
-            {
-                label: 'Kapcsolat',
-                routerLink: '/contact'
-            },
-            {
                 label: 'Kalkulátorok',
                 items: [
                   {

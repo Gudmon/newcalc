@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PalmsTrailer } from '../../models/palms-trailer';
-import { TrailerDataItemComponent } from '../trailer-data-item/trailer-data-item.component';
+import { TrailerDataItemComponent } from '../../../shared/components/machine-data-item/machine-data-item.component';
 import { GalleriaModule } from 'primeng/galleria';
 import { ImageModule } from 'primeng/image';
 
@@ -16,34 +16,38 @@ export class PalmsTrailerInformationComponent implements OnInit {
   images: any[] | undefined = []
   responsiveOptions: any[] = []
   @Input({required: true}) trailer!: PalmsTrailer
+  @Output() craneSelected = new EventEmitter<number>();
+
+  constructor(){}
 
   ngOnInit(): void {
     this.setResponsiveOptions();
-    this.setImages();
+    this.setImages();  
   }
 
   getCranes(){
-    const craneNames = this.trailer.crane.map((crane) => crane.name);
-    return craneNames;
+    return this.trailer.crane.map(crane => ({ id: crane.id, name: crane.name }));
+  }
+
+  craneSelectedEmit(craneId: number){
+    this.craneSelected.emit(craneId)
   }
 
   private setImages(){
-    if(this.trailer){
-      this.images = [
-        {
-          itemImageSrc: `../../../../../../assets/${this.trailer.name}-1.svg`,
-          thumbnailImageSrc:  `../../../../../../assets/${this.trailer.name}-1.svg`,
-          alt: 'Description for Image 1',
-          title: 'Title 1'
-        },
-        {
-          itemImageSrc: `../../../../../../assets/${this.trailer.name}-2.jpg`,
-          thumbnailImageSrc:  `../../../../../../assets/${this.trailer.name}-2.jpg`,
-          alt: 'Description for Image 1',
-          title: 'Title 1'
-        },
-      ]
-    }
+    this.images = [
+      {
+        itemImageSrc: `../../../../../../../assets/${this.trailer?.name}-1.svg`,
+        thumbnailImageSrc:  `../../../../../../../assets/${this.trailer?.name}-1.svg`,
+        alt: 'Description for trailer image 1',
+        title: 'Trailer image 1'
+      },
+      {
+        itemImageSrc: `../../../../../../../assets/${this.trailer?.name}-2.jpg`,
+        thumbnailImageSrc:  `../../../../../../../assets/${this.trailer?.name}-2.jpg`,
+        alt: 'Description for trailer image 2',
+        title: 'Trailer image 2'
+      },
+    ]  
   }
 
   private setResponsiveOptions(){

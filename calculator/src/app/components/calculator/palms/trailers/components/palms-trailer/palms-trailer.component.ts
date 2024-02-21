@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { PalmsService } from '../../../shared/services/palms.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationComponent } from "../../../../../navigation/navigation.component";
 import { FooterComponent } from "../../../../../footer/footer.component";
 import { DividerModule } from 'primeng/divider';
@@ -34,10 +34,13 @@ import { InputSwitchModule } from 'primeng/inputswitch';
 import { Dropdown, DropdownChangeEvent, DropdownModule } from 'primeng/dropdown';
 import { AccordionModule } from 'primeng/accordion';
 import { AccessoryItemComponent } from "../../../shared/components/accessory-item/accessory-item.component";
-import { TrailerDataItemComponent } from '../trailer-data-item/trailer-data-item.component';
+import { TrailerDataItemComponent } from '../../../shared/components/machine-data-item/machine-data-item.component';
 import { CardModule } from 'primeng/card';
 import { PalmsTrailer } from '../../models/palms-trailer';
 import { PalmsTrailerInformationComponent } from "../palms-trailer-information/palms-trailer-information.component";
+import { PalmsTrailerCardsComponent } from "../palms-trailer-cards/palms-trailer-cards.component";
+import { PalmsCranesCardsComponent } from "../../../cranes/components/palms-cranes-cards/palms-crane-cards.component";
+import { PalmsCraneConfigService } from '../../../cranes/services/palms-crane-config.service';
 
 @Component({
     selector: 'app-palms-trailer',
@@ -45,16 +48,13 @@ import { PalmsTrailerInformationComponent } from "../palms-trailer-information/p
     providers: [PalmsService],
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, CardModule, FooterComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, LightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent]
+    imports: [NavigationComponent, CardModule, FooterComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, LightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCranesCardsComponent]
 })
 export class PalmsTrailerComponent implements OnInit{
-  displayBasic: boolean = false;
-  images: any[] | undefined = []
-  responsiveOptions: any[] = []
-
   trailer!: PalmsTrailer
-  private id = this.activatedRoute.snapshot.paramMap.get('id')!;
-  equipmentSelected: boolean = false;
+  private id = Number(this.activatedRoute.snapshot.paramMap.get('id'))!;
+  trailerSelected: boolean = false;
+  craneSelected: boolean = false;
   hintsChecked: boolean = true;
   woodSorterChecked: boolean = false;
   woodSorterNumberSelected: boolean = false;
@@ -141,7 +141,8 @@ export class PalmsTrailerComponent implements OnInit{
   originalLight: ConfigurationItem | undefined = undefined;
   originalTyre: ConfigurationItem | undefined = undefined;
 
-  formGroup: FormGroup = new FormGroup({
+  trailerFormGroup: FormGroup = new FormGroup({
+    selectedTrailer: new FormControl<string>(''),
     selectedStanchion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedBrake: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedPropulsion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
@@ -158,12 +159,17 @@ export class PalmsTrailerComponent implements OnInit{
     selectedUnderrunProtection: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedSupportLeg: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     selectedLight: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedTyre: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+    selectedTyre: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''})
+  });
+
+  craneFormGroup: FormGroup = new FormGroup({
+    selectedCrane: new FormControl<string>(''),
   });
 
   private initializeFormGroup(): void {
     
-    this.formGroup = this.fb.group({
+    this.trailerFormGroup = this.fb.group({
+      selectedTrailer: [this.trailer.name],
       selectedStanchion: [this.stanchions[0]],
       selectedBrake: [this.brakes[0]],
       selectedPropulsion: [this.propulsions[0]],
@@ -181,25 +187,29 @@ export class PalmsTrailerComponent implements OnInit{
       selectedSupportLeg: [this.supportLegs[0]],
       selectedLight: [this.lights[0]],
       selectedTyre: [this.tyres[0]],
+      selectedCrane: null,
+    });
+
+    this.craneFormGroup = this.fb.group({
+      selectedCrane: null,
     });
   }   
 
   constructor(
     readonly palmsService: PalmsService,
     private palmsTrailerConfigService: PalmsTrailerConfigService,
+    private palmsCraneConfigService: PalmsCraneConfigService,
     readonly loadingService: LoadingService,
     private activatedRoute: ActivatedRoute,
-    private fb: FormBuilder,) {}
+    private fb: FormBuilder,
+    private router: Router) {}
 
   ngOnInit(): void {
     this.palmsService.getTrailer(this.id).pipe().subscribe((response) => {
       this.trailer = response as PalmsTrailer; 
-      this.setResponsiveOptions();
-      this.setImages();
     })  
 
   }
-
 
   getCranes(){
     const craneNames = this.trailer.crane.map((crane) => crane.name);
@@ -329,7 +339,7 @@ export class PalmsTrailerComponent implements OnInit{
       }
       
       this.initializeFormGroup();
-      this.equipmentSelected = true;
+      this.trailerSelected = true;
     }).add(() => this.loadingService.disableLoader());
   }
 
@@ -698,6 +708,28 @@ export class PalmsTrailerComponent implements OnInit{
     }
   }
 
+  selectCrane(craneId: number){
+    const crane$ = this.palmsService.getCrane(craneId);
+    const craneFrameTypes$ = this.palmsCraneConfigService.getFrameTypesForTrailerCrane(this.id, craneId)
+    
+    const request = forkJoin([crane$, craneFrameTypes$]);
+   
+    request.subscribe(([crane, craneFrameTypes]) => {
+      if(crane){
+        console.log(crane);
+        this.craneFormGroup?.get('selectedCrane')?.setValue(crane.name);
+        this.craneSelected = true;
+      }
+      
+      console.log(craneFrameTypes); 
+    })
+    
+  }
+
+  navigateToCrane(craneId: number){
+    this.router.navigate(['/calculator/palms/cranes', craneId]);
+  }
+
   toggleDialog(dialogType: string, show: boolean) {
     switch (dialogType) {
         case 'brakes':
@@ -754,12 +786,13 @@ export class PalmsTrailerComponent implements OnInit{
   }
 
   delete() {
-    console.log(this.formGroup.value);
-    
-    this.equipmentSelected = false;
+    console.log('trailer fg', this.trailerFormGroup.value);
+    console.log('crane fg', this.craneFormGroup.value);
+
+    this.trailerSelected = false;
     
     this.palmsService._trailerPrice.set(0);
-    this.formGroup.reset();
+    this.trailerFormGroup.reset();
     this.originalStanchion = undefined;
     this.originalBrake = undefined;
     this.originalPropulsion = undefined;
@@ -781,45 +814,5 @@ export class PalmsTrailerComponent implements OnInit{
     this.woodSorterArrayElements = [];
     this.initialWoodSorterNumber = 0;
     this.previousWoodSorterNumber = 0;
-  }
-
-  private setImages(){
-    if(this.trailer){
-      this.images = [
-        {
-          itemImageSrc: `../../../../../../assets/${this.trailer.name}-1.svg`,
-          thumbnailImageSrc:  `../../../../../../assets/${this.trailer.name}-1.svg`,
-          alt: 'Description for Image 1',
-          title: 'Title 1'
-        },
-        {
-          itemImageSrc: `../../../../../../assets/${this.trailer.name}-2.jpg`,
-          thumbnailImageSrc:  `../../../../../../assets/${this.trailer.name}-2.jpg`,
-          alt: 'Description for Image 1',
-          title: 'Title 1'
-        },
-      ]
-    }
-  }
-
-  private setResponsiveOptions(){
-    this.responsiveOptions = [
-      {
-          breakpoint: '1500px',
-          numVisible: 5
-      },
-      {
-          breakpoint: '1024px',
-          numVisible: 3
-      },
-      {
-          breakpoint: '768px',
-          numVisible: 2
-      },
-      {
-          breakpoint: '560px',
-          numVisible: 1
-      }
-    ];
   }
 }
