@@ -12,41 +12,51 @@
 
                 <div *ngIf="craneSelected && frameTypes.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
-                        <span>Támasztó láb</span>
+                        <span>Talpaló</span>
                         <button (click)="toggleDialog('frameTypes', true)"><i class="fa-solid fa-circle-info"></i></button>                
                         <app-frame-types-dialog [frameTypes]="frameTypes" [frameTypesDialogVisible]="showFrameTypesDialog" (dialogVisible)="toggleDialog('frameTypes', false)"></app-frame-types-dialog>                    
                     </div>
                     <p-listbox (onChange)="handleFrameTypeChange($event)" formControlName="selectedFrameType" [options]="frameTypes" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <!-- <div *ngIf="trailerSelected && brakes.length > 0" class="justify-content-center my-4 py-4">
+                 <div *ngIf="craneSelected && frameTypeSelected && controlBlocks.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
-                        <span>Fék</span>
-                        <button (click)="toggleDialog('brakes', true)"><i class="fa-solid fa-circle-info"></i></button>                
-                        <app-brakes-dialog [brakes]="brakes" [brakesDialogVisible]="showBrakesDialog" (dialogVisible)="toggleDialog('brakes', false)"></app-brakes-dialog>
+                        <span>Vezértömb</span>
+                        <button (click)="toggleDialog('controlBlocks', true)"><i class="fa-solid fa-circle-info"></i></button>                
+                        <!-- <app-brakes-dialog [brakes]="brakes" [brakesDialogVisible]="showBrakesDialog" (dialogVisible)="toggleDialog('controlBlocks', false)"></app-brakes-dialog> -->
                     </div>
-                    <p-listbox (onChange)="handleBrakeChange($event)" formControlName="selectedBrake" [options]="brakes" optionLabel="namePrice"></p-listbox>                   
+                    <p-listbox (onChange)="handleControlBlockChange($event)" formControlName="selectedControlBlock" [options]="controlBlocks" optionLabel="namePrice"></p-listbox>                   
                 </div>
-
-                <div *ngIf="trailerSelected && propulsions.length > 0" class="justify-content-center my-4 py-4">
+            
+                <div *ngIf="craneSelected && cities.length > 0" formArrayName="selectedGrapples" class="justify-content-center my-4 py-4">
+                    <div *ngFor="let cityControl of selectedGrapples.controls; let i = index">
+                      <p-listbox [formControlName]="i" [options]="cities" optionLabel="name" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}"></p-listbox>
+                      <button type="button" (click)="removeCity(i)">Remove</button>
+                    </div>
+                  </div>
+                  
+                  <button type="button" (click)="addCity()">Add City</button>
+                  
+                  
+               <div *ngIf="craneSelected && rotators.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
-                        <span>Hajtás</span>
-                        <button (click)="toggleDialog('propulsions', true)"><i class="fa-solid fa-circle-info"></i></button>  
+                        <span>Rotátor</span>
+                        <button (click)="toggleDialog('rotators', true)"><i class="fa-solid fa-circle-info"></i></button>  
                         
                     </div>
-                    <p-listbox (onChange)="handlePropulsionChange($event)" formControlName="selectedPropulsion" [options]="propulsions" optionLabel="namePrice"></p-listbox>                   
+                    <p-listbox (onChange)="handleRotatorChange($event)" formControlName="selectedRotator" [options]="rotators" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <div *ngIf="trailerSelected && drawbars.length > 0" class="justify-content-center my-4 py-4">
+                <div *ngIf="craneSelected && grapples.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
-                        <span>Vonórúd</span>
-                        <button (click)="toggleDialog('drawbars', true)"><i class="fa-solid fa-circle-info"></i></button>  
-                        <app-drawbar-dialog [drawbars]="drawbars" [drawbarsDialogVisible]="showDrawbarsDialog" (dialogVisible)="toggleDialog('drawbars', false)"></app-drawbar-dialog>                            
+                        <span>Kanál</span>
+                        <button (click)="toggleDialog('grapples', true)"><i class="fa-solid fa-circle-info"></i></button>  
+                        <!-- <app-drawbar-dialog [drawbars]="drawbars" [drawbarsDialogVisible]="showDrawbarsDialog" (dialogVisible)="toggleDialog('drawbars', false)"></app-drawbar-dialog>                             -->
                     </div>
-                    <p-listbox (onChange)="handleDrawbarChange($event)" formControlName="selectedDrawbar" [options]="drawbars" optionLabel="namePrice"></p-listbox>                   
+                    <p-listbox (onChange)="handleGrappleChange($event)" formControlName="selectedGrapple" [options]="grapples" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <div *ngIf="trailerSelected && platforms.length > 0" class="justify-content-center my-4 py-4">
+                <!-- <div *ngIf="trailerSelected && platforms.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Platform</span>
                         <button (click)="toggleDialog('platforms', true)"><i class="fa-solid fa-circle-info"></i></button>  

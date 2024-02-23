@@ -6,5 +6,6 @@ export interface ConfigurationItem {
     namePrice: string,
     imgUrl?: string,
     imgUrls?: string[],
-    oilTankCooler?: ConfigurationItem
+    oilTankCooler?: ConfigurationItem,
+    disabledOption?: boolean
 }

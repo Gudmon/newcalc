@@ -11,12 +11,12 @@ import { ConfigurationItem } from '../../../../../../models/configuration-item';
 import { PalmsCraneConfigService } from '../../services/palms-crane-config.service';
 import { forkJoin } from 'rxjs';
 import { ListboxChangeEvent, ListboxModule } from 'primeng/listbox';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
 import { AccessoryItemComponent } from "../../../shared/components/accessory-item/accessory-item.component";
 import { FormatPricePipe } from "../../../../../pipes/format-price.pipe";
-import { FrameTypesDialogComponent } from "../frame-types-dialog/frame-types-dialog.component";
 import { FrameType } from '../../models/frame-type';
+import { FrameTypesDialogComponent } from '../frame-types-dialog/frame-types-dialog.component';
 
 @Component({
     selector: 'app-palms-crane',
@@ -31,6 +31,7 @@ export class PalmsCraneComponent implements OnInit {
 
     trailerSelected: boolean = false;
     craneSelected: boolean = false;
+    frameTypeSelected: boolean = false;
     hintsChecked: boolean = true;
 
 //   @ViewChild('oilTankCoolerCheckBox') oilTankCoolerCheckBox!: Checkbox;
@@ -38,14 +39,19 @@ export class PalmsCraneComponent implements OnInit {
 //   @ViewChild('woodSorterDropdown') woodSorterDropdown!: Dropdown;
  
     showFrameTypesDialog: boolean = false;
+    showControlBlocksDialog: boolean = false;
+    showControlRotatorsDialog: boolean = false;
+    showControlGrapplesDialog: boolean = false;
     
     frameTypes: FrameType[] = [];
+    controlBlocks: ConfigurationItem[] = [];
+    rotators: ConfigurationItem[] = [];
+    grapples: ConfigurationItem[] = [];
 
-    originalStanchionPrice = 0;
     originalFrameTypePrice = 0;
-    //   originalPropulsionPrice = 0;
-    //   originalDrawbarPrice = 0;
-    //   originalPlatformPrice = 0;
+    originalControlBlockPrice = 0;
+    originalRotatorPrice = 0;
+    originalGrapplePrice = 0;
     //   originalOilPumpPrice = 0;
     //   originalOilTankPrice = 0;
     //   originalOilTankCoolerPrice = 0;
@@ -59,10 +65,11 @@ export class PalmsCraneComponent implements OnInit {
     //   originalLightPrice = 0;
     //   originalTyrePrice = 0;
 
-    initialTrailerPrice = 0;
 
     originalFrameType: ConfigurationItem | undefined = undefined;
-    //   originalBrake: ConfigurationItem | undefined = undefined;
+    originalControlBlock: ConfigurationItem | undefined = undefined;
+    originalRotator: ConfigurationItem | undefined = undefined;
+    originalGrapple: ConfigurationItem | undefined = undefined;
     //   originalPropulsion: ConfigurationItem | undefined = undefined;
     //   originalDrawbar: ConfigurationItem | undefined = undefined;
     //   originalPlatform: ConfigurationItem | undefined = undefined;
@@ -81,19 +88,43 @@ export class PalmsCraneComponent implements OnInit {
     //   originalTyre: ConfigurationItem | undefined = undefined;
 
 
+    cities = [
+        { name: 'New York', code: 'NY' },
+        { name: 'Los Angeles', code: 'LA' },
+        { name: 'Chicago', code: 'CHI' },
+        // Add more cities as needed
+      ];
+
+
+      get selectedGrapples(): FormArray {
+        return this.craneFormGroup.get('selectedGrapples') as FormArray;
+      }
+    
+      addCity() {
+        this.selectedGrapples.push(this.fb.control(null));
+      }
+    
+      removeCity(index: number) {
+        this.selectedGrapples.removeAt(index);
+      }
 
     craneFormGroup: FormGroup = new FormGroup({
         selectedCrane: new FormControl<string>(''),
-        selectedFrameType: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''})
+        selectedFrameType: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+        selectedControlBlock: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+        selectedGrapples: this.fb.array([]),
+        selectedRotator: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+        selectedGrapple: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
     });
 
     private initializeFormGroup(): void {
-        
-    
-
         this.craneFormGroup = this.fb.group({
             selectedCrane: null,
-            selectedFrameType: [this.frameTypes[0]],
+            selectedFrameType: [],
+            selectedControlBlock: [],
+            selectedGrapples: this.fb.array([]),
+            selectedRotator: [],
+            selectedGrapple: []
         });
     }  
 
@@ -109,7 +140,6 @@ export class PalmsCraneComponent implements OnInit {
         this.palmsService.getCrane(this.id).pipe().subscribe((response) => {
             this.crane = response as PalmsCrane; 
         })  
-        
     }
 
     navigateToTrailer(trailerId: number){
@@ -119,13 +149,25 @@ export class PalmsCraneComponent implements OnInit {
     loadCraneConfigurations(){ 
         this.loadingService.enableLoader();
         const frameTypes$ = this.palmsCraneConfigService.getFrameTypes(this.id)
+        const rotators$ = this.palmsCraneConfigService.getRotators(this.id)
+        const grapples$ = this.palmsCraneConfigService.getGrapples(this.id)
     
-        const request = forkJoin([frameTypes$]);
+        const request = forkJoin([frameTypes$, rotators$, grapples$]);
        
-        request.subscribe(([frameTypes]) => {
+        request.subscribe(([frameTypes, rotators, grapples]) => {
             if(frameTypes){
-                this.frameTypes = frameTypes
+                this.frameTypes = frameTypes;
                 console.log(frameTypes); 
+            }
+
+            if(rotators){
+                this.rotators = rotators;
+                console.log(rotators); 
+            }
+
+            if(grapples){
+                this.grapples = grapples;
+                console.log(grapples); 
             }
           
           this.initializeFormGroup();
@@ -146,9 +188,77 @@ export class PalmsCraneComponent implements OnInit {
     
         if (event.value){
           this.originalFrameType = event.value;
+          this.loadControlBlocks(this.id, event.value.id);
+          
         } else {
           this.originalFrameType = undefined;
+
+          this.controlBlocks = [];
+          this.originalControlBlock = undefined;
         }
+    }
+
+    handleControlBlockChange(event: ListboxChangeEvent) {
+        const previousValue = this.originalControlBlockPrice;
+        this.originalControlBlockPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalControlBlockPrice;
+        const current = this.palmsService._cranePrice();
+      
+        if (previousValue !== nextValue) {
+          const newPrice = current - previousValue + Number(nextValue);
+          this.palmsService._cranePrice.set(newPrice);
+        }
+    
+        if (event.value){
+          this.originalControlBlock = event.value;
+        } else {
+          this.originalControlBlock = undefined;
+        }
+    }
+
+    handleRotatorChange(event: ListboxChangeEvent) {
+        const previousValue = this.originalRotatorPrice;
+        this.originalRotatorPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalRotatorPrice;
+        const current = this.palmsService._cranePrice();
+      
+        if (previousValue !== nextValue) {
+          const newPrice = current - previousValue + Number(nextValue);
+          this.palmsService._cranePrice.set(newPrice);
+        }
+    
+        if (event.value){
+          this.originalRotator = event.value;
+        } else {
+          this.originalRotator = undefined;
+        }
+    }
+
+    handleGrappleChange(event: ListboxChangeEvent) {
+        const previousValue = this.originalGrapplePrice;
+        this.originalGrapplePrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalGrapplePrice;
+        const current = this.palmsService._cranePrice();
+      
+        if (previousValue !== nextValue) {
+          const newPrice = current - previousValue + Number(nextValue);
+          this.palmsService._cranePrice.set(newPrice);
+        }
+    
+        if (event.value){
+          this.originalGrapple = event.value;
+        } else {
+          this.originalGrapple = undefined;
+        }
+    }
+
+
+    loadControlBlocks(craneId: number, frameTypeId: number){
+        this.palmsCraneConfigService.getControlBlocksByCraneFrameType(craneId, frameTypeId).subscribe((controlBlocks: ConfigurationItem[]) => {
+            console.log(controlBlocks)
+            this.controlBlocks = controlBlocks;
+            this.frameTypeSelected = true;
+        });
     }
 
     delete() {
@@ -166,6 +276,9 @@ export class PalmsCraneComponent implements OnInit {
         switch (dialogType) {
             case 'frameTypes':
                 this.showFrameTypesDialog = show;
+                break;
+            case 'controlBlocks':
+                this.showControlBlocksDialog = show;
                 break;
             default:
               break;

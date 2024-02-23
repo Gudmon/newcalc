@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { ConfigurationItem } from '../../../../../../models/configuration-item';
 import { FrameType } from '../../models/frame-type';
+
 
 @Component({
   selector: 'app-frame-types-dialog',
