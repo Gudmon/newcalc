@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { NavigationComponent } from "../../../../../navigation/navigation.component";
 import { FooterComponent } from "../../../../../footer/footer.component";
 import { PalmsCraneInformationComponent } from "../palms-crane-information/palms-crane-information.component";
@@ -26,6 +26,7 @@ import { FrameTypesDialogComponent } from '../frame-types-dialog/frame-types-dia
     imports: [FormsModule, ReactiveFormsModule, AccordionModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent]
 })
 export class PalmsCraneComponent implements OnInit {
+
     crane!: PalmsCrane
     private id = Number(this.activatedRoute.snapshot.paramMap.get('id'))!;
 
@@ -38,18 +39,18 @@ export class PalmsCraneComponent implements OnInit {
 //   @ViewChild('woodSorterCheckBox') woodSorterCheckBox!: Checkbox;
 //   @ViewChild('woodSorterDropdown') woodSorterDropdown!: Dropdown;
  
-    showFrameTypesDialog: boolean = false;
     showControlBlocksDialog: boolean = false;
+    showFrameTypesDialog: boolean = false;
     showControlRotatorsDialog: boolean = false;
     showControlGrapplesDialog: boolean = false;
     
-    frameTypes: FrameType[] = [];
     controlBlocks: ConfigurationItem[] = [];
+    frameTypes: FrameType[] = [];
     rotators: ConfigurationItem[] = [];
     grapples: ConfigurationItem[] = [];
 
-    originalFrameTypePrice = 0;
     originalControlBlockPrice = 0;
+    originalFrameTypePrice = 0;
     originalRotatorPrice = 0;
     originalGrapplePrice = 0;
     //   originalOilPumpPrice = 0;
@@ -66,8 +67,8 @@ export class PalmsCraneComponent implements OnInit {
     //   originalTyrePrice = 0;
 
 
-    originalFrameType: ConfigurationItem | undefined = undefined;
     originalControlBlock: ConfigurationItem | undefined = undefined;
+    originalFrameType: ConfigurationItem | undefined = undefined;
     originalRotator: ConfigurationItem | undefined = undefined;
     originalGrapple: ConfigurationItem | undefined = undefined;
     //   originalPropulsion: ConfigurationItem | undefined = undefined;
@@ -110,8 +111,8 @@ export class PalmsCraneComponent implements OnInit {
 
     craneFormGroup: FormGroup = new FormGroup({
         selectedCrane: new FormControl<string>(''),
-        selectedFrameType: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
         selectedControlBlock: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
+        selectedFrameType: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
         selectedGrapples: this.fb.array([]),
         selectedRotator: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
         selectedGrapple: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
@@ -120,8 +121,8 @@ export class PalmsCraneComponent implements OnInit {
     private initializeFormGroup(): void {
         this.craneFormGroup = this.fb.group({
             selectedCrane: null,
-            selectedFrameType: [],
             selectedControlBlock: [],
+            selectedFrameType: [],
             selectedGrapples: this.fb.array([]),
             selectedRotator: [],
             selectedGrapple: []
@@ -133,7 +134,8 @@ export class PalmsCraneComponent implements OnInit {
         readonly loadingService: LoadingService,
         private activatedRoute: ActivatedRoute,
         private fb: FormBuilder,
-        private router: Router) {    
+        private router: Router,
+        private cdr: ChangeDetectorRef) {    
     }
 
     ngOnInit(): void {
@@ -148,13 +150,19 @@ export class PalmsCraneComponent implements OnInit {
 
     loadCraneConfigurations(){ 
         this.loadingService.enableLoader();
+        const controlBlocks$ = this.palmsCraneConfigService.getControlBlocks(this.id)
         const frameTypes$ = this.palmsCraneConfigService.getFrameTypes(this.id)
         const rotators$ = this.palmsCraneConfigService.getRotators(this.id)
         const grapples$ = this.palmsCraneConfigService.getGrapples(this.id)
     
-        const request = forkJoin([frameTypes$, rotators$, grapples$]);
+        const request = forkJoin([controlBlocks$, frameTypes$, rotators$, grapples$]);
        
-        request.subscribe(([frameTypes, rotators, grapples]) => {
+        request.subscribe(([controlBlocks, frameTypes, rotators, grapples]) => {
+            if(controlBlocks){
+              this.controlBlocks = controlBlocks;
+              console.log(controlBlocks); 
+            }
+
             if(frameTypes){
                 this.frameTypes = frameTypes;
                 console.log(frameTypes); 
@@ -166,7 +174,10 @@ export class PalmsCraneComponent implements OnInit {
             }
 
             if(grapples){
-                this.grapples = grapples;
+                this.grapples = grapples.map((grapple) => ({
+                  ...grapple,
+                  disabledOption: parseInt(grapple.id) === 2
+                }));
                 console.log(grapples); 
             }
           
@@ -175,64 +186,129 @@ export class PalmsCraneComponent implements OnInit {
         }).add(() => this.loadingService.disableLoader())
     } 
 
-    handleFrameTypeChange(event: ListboxChangeEvent) {
-        const previousValue = this.originalFrameTypePrice;
-        this.originalFrameTypePrice = event.value ? event.value.price : 0;
-        const nextValue = this.originalFrameTypePrice;
-        const current = this.palmsService._cranePrice();
-      
-        if (previousValue !== nextValue) {
-          const newPrice = current - previousValue + Number(nextValue);
-          this.palmsService._cranePrice.set(newPrice);
-        }
-    
-        if (event.value){
-          this.originalFrameType = event.value;
-          this.loadControlBlocks(this.id, event.value.id);
-          
-        } else {
-          this.originalFrameType = undefined;
-
-          this.controlBlocks = [];
-          this.originalControlBlock = undefined;
-        }
-    }
-
     handleControlBlockChange(event: ListboxChangeEvent) {
-        const previousValue = this.originalControlBlockPrice;
-        this.originalControlBlockPrice = event.value ? event.value.price : 0;
-        const nextValue = this.originalControlBlockPrice;
-        const current = this.palmsService._cranePrice();
-      
-        if (previousValue !== nextValue) {
-          const newPrice = current - previousValue + Number(nextValue);
-          this.palmsService._cranePrice.set(newPrice);
-        }
+      const previousValue = this.originalControlBlockPrice;
+      this.originalControlBlockPrice = event.value ? event.value.price : 0;
+      const nextValue = this.originalControlBlockPrice;
+      const current = this.palmsService._cranePrice();
     
-        if (event.value){
-          this.originalControlBlock = event.value;
+      if (previousValue !== nextValue) {
+        const newPrice = current - previousValue + Number(nextValue);
+        this.palmsService._cranePrice.set(newPrice);
+      }
+ 
+      let updatedFrameTypes: FrameType[] = [];
+    
+      if (event.value) {
+        this.originalControlBlock = event.value;
+    
+        if (event.value.id < "8") {
+          updatedFrameTypes = this.updateFrameTypesForControlBlock();
         } else {
-          this.originalControlBlock = undefined;
+          updatedFrameTypes = this.frameTypes.map((frameType) => ({
+            ...frameType,
+            disabledOption: false
+          }));
         }
+      } else {
+        this.originalControlBlock = undefined;
+        updatedFrameTypes = this.frameTypes.map((frameType) => ({
+          ...frameType,
+          disabledOption: false
+        }));
+      }
+    
+      this.frameTypes = updatedFrameTypes;
+    }
+    
+    updateFrameTypesForControlBlock(): FrameType[] {
+      return this.frameTypes.map((frameType) => ({
+        ...frameType,
+        disabledOption: frameType.code === "B011" || frameType.code === "B11"
+      }));
+    }
+    
+    handleFrameTypeChange(event: ListboxChangeEvent) {
+      const previousValue = this.originalFrameTypePrice;
+      this.originalFrameTypePrice = event.value ? event.value.price : 0;
+      const nextValue = this.originalFrameTypePrice;
+      const current = this.palmsService._cranePrice();
+    
+      if (previousValue !== nextValue) {
+        const newPrice = current - previousValue + Number(nextValue);
+        this.palmsService._cranePrice.set(newPrice);
+      }
+    
+      let updatedControlBlocks: ConfigurationItem[] = [];
+    
+      if (event.value) {
+        this.originalFrameType = event.value;
+    
+        if (event.value.code === "B011" || event.value.code === "B11") {
+          updatedControlBlocks = this.updateControlBlocksForFrameType();
+        } else {
+          updatedControlBlocks = this.controlBlocks.map((controlBlock) => ({
+            ...controlBlock,
+            disabledOption: false
+          }));
+        }
+      } else {
+        this.originalFrameType = undefined;
+        updatedControlBlocks = this.controlBlocks.map((controlBlock) => ({
+          ...controlBlock,
+          disabledOption: false
+        }));
+      }
+    
+      this.controlBlocks = updatedControlBlocks;
+    }
+    
+    updateControlBlocksForFrameType(): ConfigurationItem[] {
+      return this.controlBlocks.map((controlBlock) => ({
+        ...controlBlock,
+        disabledOption: controlBlock.id < "8"
+      }));
     }
 
+    
     handleRotatorChange(event: ListboxChangeEvent) {
-        const previousValue = this.originalRotatorPrice;
-        this.originalRotatorPrice = event.value ? event.value.price : 0;
-        const nextValue = this.originalRotatorPrice;
-        const current = this.palmsService._cranePrice();
-      
-        if (previousValue !== nextValue) {
+      const previousValue = this.originalRotatorPrice;
+      this.originalRotatorPrice = event.value ? event.value.price : 0;
+      const nextValue = this.originalRotatorPrice;
+      const current = this.palmsService._cranePrice();
+  
+      if (previousValue !== nextValue) {
           const newPrice = current - previousValue + Number(nextValue);
           this.palmsService._cranePrice.set(newPrice);
-        }
-    
-        if (event.value){
+      }
+  
+      if (event.value) {
           this.originalRotator = event.value;
-        } else {
-          this.originalRotator = undefined;
-        }
-    }
+          if (event.value.id === parseInt("2")){
+            
+            this.grapples = this.grapples.map((grapple) => ({
+              ...grapple,
+              disabledOption: false
+            }));
+          } else {
+            this.updateGrapplesAvailability();
+          }
+      } else {
+          // If no rotator is selected, disable the grapple with ID 2
+          this.grapples = this.grapples.map((grapple) => ({
+              ...grapple,
+              disabledOption: parseInt(grapple.id) === 2
+          }));
+      }
+  }
+  
+  updateGrapplesAvailability() {
+    
+      this.grapples = this.grapples.map((grapple) => ({
+          ...grapple,
+          disabledOption: parseInt(grapple.id) === 2
+      }));
+  }
 
     handleGrappleChange(event: ListboxChangeEvent) {
         const previousValue = this.originalGrapplePrice;
@@ -268,16 +344,25 @@ export class PalmsCraneComponent implements OnInit {
         
         this.palmsService._cranePrice.set(0);
         this.craneFormGroup.reset();
+        this.originalControlBlock = undefined;
         this.originalFrameType = undefined;
+        this.originalRotator = undefined;
+        this.originalGrapple = undefined
         
       }
 
       toggleDialog(dialogType: string, show: boolean) {
         switch (dialogType) {
+            case 'controlBlocks':
+                this.showControlBlocksDialog = show;
+                break;
             case 'frameTypes':
                 this.showFrameTypesDialog = show;
+                break;   
+            case 'rotators':
+                this.showControlBlocksDialog = show;
                 break;
-            case 'controlBlocks':
+            case 'grapples':
                 this.showControlBlocksDialog = show;
                 break;
             default:
