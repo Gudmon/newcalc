@@ -143,23 +143,23 @@ export class PalmsTrailerComponent implements OnInit{
 
   trailerFormGroup: FormGroup = new FormGroup({
     selectedTrailer: new FormControl<string>(''),
-    selectedStanchion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedBrake: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedPropulsion: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedDrawbar: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedPlatform: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedOilPump: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedOilTank: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedOilTankCooler: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedBolsterLock: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedBbox: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedWoodSorter: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedHandBrake: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedChainsawHolder: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedUnderrunProtection: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedSupportLeg: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedLight: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''}),
-    selectedTyre: new FormControl<ConfigurationItem>({id: '', name: '', code: '', price: 0, namePrice: ''})
+    selectedStanchion: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedBrake: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedPropulsion: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedDrawbar: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedPlatform: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedOilPump: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedOilTank: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedOilTankCooler: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedBolsterLock: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedBbox: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedWoodSorter: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedHandBrake: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedChainsawHolder: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedUnderrunProtection: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedSupportLeg: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedLight: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedTyre: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''})
   });
 
   craneFormGroup: FormGroup = new FormGroup({

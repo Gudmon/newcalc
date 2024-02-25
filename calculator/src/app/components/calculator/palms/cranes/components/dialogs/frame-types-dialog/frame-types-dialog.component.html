@@ -5,7 +5,7 @@
         </div>
     </ng-template>
     @for (frameType of frameTypes; track $index) {
-        @if (getFrameTypeId(frameType) !== 1) {
+        @if (getFrameTypeId(frameType) !== 1 && getFrameTypeId(frameType) !== 6 && getFrameTypeId(frameType) !== 9 ) {
             <div class="mb-16">
                 <p class="mt-6 mb-10 text-3xl font-semibold">
                     {{frameType.name}}
@@ -13,12 +13,24 @@
                 <p class="mt-2 mb-6 text-base font-normal">
                     - Súly: {{frameType.mass}} kg
                 </p>
-                @for (imageUrl of frameType.imgUrls; track $index) {
-                    <img [src]="imageUrl" alt="Support leg">
-                }
+                @if (frameType.imgUrls){
+                    @for (imageUrl of frameType.imgUrls; track $index) {
+                        <img [src]="imageUrl" alt="Support leg">
+                    }
+                }               
             </div>
-        }       
-    }  
+        } @else if (getFrameTypeId(frameType) === 6 || getFrameTypeId(frameType) === 9) {
+            <div class="mb-16">
+                <p class="mt-6 mb-10 text-3xl font-semibold">
+                    {{frameType.name}}
+                </p>
+                <p class="mt-2 mb-6 text-base font-normal">
+                    - Súly: {{frameType.mass}} kg
+                </p>
+                <img [src]="frameType.imgUrl" alt="Support leg">
+            </div>
+        }      
+    }
     <ng-template pTemplate="footer">
       <button class="bg-primary-color p-1 mt-2" (click)="closeFrameTypeDialog()"><i class="fa-solid fa-check mr-1"></i>Értem</button>  
     </ng-template>

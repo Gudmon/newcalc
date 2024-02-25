@@ -14,7 +14,7 @@
                     <div class="flex gap-2">
                         <span>Vezértömb</span>
                         <button (click)="toggleDialog('controlBlocks', true)"><i class="fa-solid fa-circle-info"></i></button>                
-                        <!-- <app-brakes-dialog [brakes]="brakes" [brakesDialogVisible]="showBrakesDialog" (dialogVisible)="toggleDialog('controlBlocks', false)"></app-brakes-dialog> -->
+                        <app-control-blocks-dialog [controlBlocks]="controlBlocks" [controlBlocksDialogVisible]="showControlBlocksDialog" (dialogVisible)="toggleDialog('controlBlocks', false)"></app-control-blocks-dialog>
                     </div>
                     <p-listbox optionDisabled="disabledOption" (onChange)="handleControlBlockChange($event)" formControlName="selectedControlBlock" [options]="controlBlocks" optionLabel="namePrice"></p-listbox>                   
                 </div>
@@ -27,17 +27,7 @@
                     </div>
                     <p-listbox optionDisabled="disabledOption" (onChange)="handleFrameTypeChange($event)" formControlName="selectedFrameType" [options]="frameTypes" optionLabel="namePrice"></p-listbox>                   
                 </div>     
-            
-                <div *ngIf="craneSelected && cities.length > 0" formArrayName="selectedGrapples" class="justify-content-center my-4 py-4">
-                    <div *ngFor="let cityControl of selectedGrapples.controls; let i = index">
-                      <p-listbox [formControlName]="i" [options]="cities" optionLabel="name" [style]="{'width':'15rem'}" [listStyle]="{'max-height': '220px'}"></p-listbox>
-                      <button type="button" (click)="removeCity(i)">Remove</button>
-                    </div>
-                  </div>
-                  
-                  <button type="button" (click)="addCity()">Add City</button>
-                  
-                  
+                          
                <div *ngIf="craneSelected && rotators.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Rotátor</span>
@@ -53,8 +43,16 @@
                         <button (click)="toggleDialog('grapples', true)"><i class="fa-solid fa-circle-info"></i></button>  
                         <!-- <app-drawbar-dialog [drawbars]="drawbars" [drawbarsDialogVisible]="showDrawbarsDialog" (dialogVisible)="toggleDialog('drawbars', false)"></app-drawbar-dialog>                             -->
                     </div>
-                    <p-listbox optionDisabled="disabledOption" (onChange)="handleGrappleChange($event)" formControlName="selectedGrapple" [options]="grapples" optionLabel="namePrice"></p-listbox>                   
+                    <p-listbox #grappleListBox optionDisabled="disabledOption" (onChange)="handleGrappleChange($event)" formControlName="selectedGrapple" [options]="grapples" optionLabel="namePrice"></p-listbox>                   
                 </div>
+
+                <div *ngIf="craneSelected && grapples.length > 0" formArrayName="selectedGrapples" class="justify-content-center my-4 py-4">
+                    <div *ngFor="let cityControl of selectedGrapples.controls; let i = index">
+                      <p-listbox #grappleListBoxes (onChange)="handleMultipleGrappleChange($event, i)"  optionDisabled="disabledOption" class="mt-10" [formControlName]="i" [options]="grapples" optionLabel="namePrice"></p-listbox>
+                      <button type="button" class="ml-auto p-1 px-2 mb-6 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none" (click)="removeGrapple(i)">Eltávolítás</button>
+                    </div>
+                    <button type="button" class="m-auto bg-[--primary-color] py-2 px-2 rounded mb-2 text-black text-md uppercase" (click)="addGrapple()">Kanál hozzáadása</button>
+                </div>               
 
                 <!-- <div *ngIf="trailerSelected && platforms.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">

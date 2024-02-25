@@ -1,5 +1,5 @@
 export interface ConfigurationItem {
-    id: string,
+    id: number,
     name: string,
     code: string,
     price: number,
@@ -7,5 +7,6 @@ export interface ConfigurationItem {
     imgUrl?: string,
     imgUrls?: string[],
     oilTankCooler?: ConfigurationItem,
-    disabledOption?: boolean
+    disabledOption?: boolean,
+    description?: string
 }

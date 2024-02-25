@@ -23,7 +23,7 @@ export class PalmsCraneConfigService {
         for (const controlBlock of controlBlocks){
           controlBlock.disabledOption = false;
           controlBlock.namePrice = controlBlock.name + " " + controlBlock.price + "€"
-          controlBlock.imgUrls = [`../../../../../../assets/PALMS crane-controlblock-${controlBlock.id}.svg`, `../../../../../../assets/PALMS crane-controlblock-${controlBlock.id}-1.jpg`]
+          controlBlock.imgUrl = `../../../../../../assets/PALMS crane-controlblock-${controlBlock.id}.jpg`;
         }
         return controlBlocks;
       })
@@ -33,10 +33,20 @@ export class PalmsCraneConfigService {
   getFrameTypes(id: number): Observable<FrameType[]>{
     return this.httpClient.get<FrameType[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/frametypes`).pipe(
       map((frameTypes: FrameType[]) => {
-        for (const frameType of frameTypes){
+        for (const frameType of frameTypes){  
           frameType.disabledOption = false;
           frameType.namePrice = frameType.name + " " + frameType.price + "€"
-          frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`]
+
+          if (frameType.id === 6 || frameType.id === 9){       
+            frameType.imgUrl = `../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`
+          } 
+          else if (frameType.id === 8){
+            frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.jpg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`] 
+          }
+          else {
+            frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`] 
+          }
+
         }
         return frameTypes;
       })
