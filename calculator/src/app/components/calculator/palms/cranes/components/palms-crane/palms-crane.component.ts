@@ -19,13 +19,15 @@ import { FrameType } from '../../models/frame-type';
 import { FrameTypesDialogComponent } from '../dialogs/frame-types-dialog/frame-types-dialog.component';
 import { ControlBlocksDialogComponent } from "../dialogs/control-blocks-dialog/control-blocks-dialog.component";
 import { Dropdown } from 'primeng/dropdown';
+import { RotatorsDialogComponent } from "../dialogs/rotators-dialog/rotators-dialog.component";
+import { GrapplesDialogComponent } from "../dialogs/grapples-dialog/grapples-dialog.component";
 
 @Component({
     selector: 'app-palms-crane',
     standalone: true,
     templateUrl: './palms-crane.component.html',
     styleUrl: './palms-crane.component.css',
-    imports: [FormsModule, ReactiveFormsModule, AccordionModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent]
+    imports: [FormsModule, ReactiveFormsModule, AccordionModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent, RotatorsDialogComponent, GrapplesDialogComponent]
 })
 export class PalmsCraneComponent implements OnInit {
 
@@ -44,8 +46,8 @@ export class PalmsCraneComponent implements OnInit {
  
     showControlBlocksDialog: boolean = false;
     showFrameTypesDialog: boolean = false;
-    showControlRotatorsDialog: boolean = false;
-    showControlGrapplesDialog: boolean = false;
+    showRotatorsDialog: boolean = false;
+    showGrapplesDialog: boolean = false;
     
     controlBlocks: ConfigurationItem[] = [];
     frameTypes: FrameType[] = [];
@@ -182,6 +184,7 @@ export class PalmsCraneComponent implements OnInit {
           
           this.initializeFormGroup();
           this.craneSelected = true;
+          this.palmsService._cranePrice.set(Number(this.crane.price));
         }).add(() => this.loadingService.disableLoader())
     } 
 
@@ -270,8 +273,7 @@ export class PalmsCraneComponent implements OnInit {
         disabledOption: false
       }));
     }
-
-    
+   
     handleRotatorChange(event: ListboxChangeEvent) {
       const previousValue = this.originalRotatorPrice;
       this.originalRotatorPrice = event.value ? event.value.price : 0;
@@ -286,10 +288,7 @@ export class PalmsCraneComponent implements OnInit {
       if (event.value) {
           this.originalRotator = event.value;
           if (event.value.id === parseInt("2")){
-            this.grapples = this.grapples.map((grapple) => ({
-              ...grapple,
-              disabledOption: false
-            }));
+            this.updateGrapplesToEnabled();
 
           } else {
             this.updateGrapplesAvailability();
@@ -297,6 +296,7 @@ export class PalmsCraneComponent implements OnInit {
       } else {
           this.updateGrapplesAvailability();
 
+          // Handle: rotator unselected, restricted grapples set to default 
           if(this.originalGrapple?.id === 2) {
             this.palmsService._cranePrice.update(value => value - Number(this.originalGrapple?.price))
             this.grappleListBox.writeValue(undefined);
@@ -304,6 +304,7 @@ export class PalmsCraneComponent implements OnInit {
             this.originalGrapplePrice = 0;
           }
 
+          // Handle: rotator unselected, restricted optional grapples set to default
           this.grappleListBoxes.forEach((grappleListBox, index) => {
             if(grappleListBox.value && grappleListBox.value.id === 2){
               this.palmsService._cranePrice.update(value => value - Number(this.originalGrapples[index]?.price))
@@ -324,6 +325,13 @@ export class PalmsCraneComponent implements OnInit {
             ...grapple,
             disabledOption: grapple.id === 2
         }));
+    }
+
+    updateGrapplesToEnabled() {
+      this.grapples = this.grapples.map((grapple) => ({
+        ...grapple,
+        disabledOption: false
+      }));
     }
 
     handleMultipleGrappleChange(event: ListboxChangeEvent, index: number) {
@@ -362,7 +370,6 @@ export class PalmsCraneComponent implements OnInit {
       }
     }
 
-
     loadControlBlocks(craneId: number, frameTypeId: number){
         this.palmsCraneConfigService.getControlBlocksByCraneFrameType(craneId, frameTypeId).subscribe((controlBlocks: ConfigurationItem[]) => {
             console.log(controlBlocks)
@@ -382,7 +389,7 @@ export class PalmsCraneComponent implements OnInit {
         this.originalFrameType = undefined;
         this.originalRotator = undefined;
         this.originalGrapple = undefined
-        
+        this.originalGrapples = [];
       }
 
       toggleDialog(dialogType: string, show: boolean) {
@@ -394,10 +401,10 @@ export class PalmsCraneComponent implements OnInit {
                 this.showFrameTypesDialog = show;
                 break;   
             case 'rotators':
-                this.showControlBlocksDialog = show;
+                this.showRotatorsDialog = show;
                 break;
             case 'grapples':
-                this.showControlBlocksDialog = show;
+                this.showGrapplesDialog = show;
                 break;
             default:
               break;

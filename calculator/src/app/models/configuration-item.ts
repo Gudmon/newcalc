@@ -8,5 +8,7 @@ export interface ConfigurationItem {
     imgUrls?: string[],
     oilTankCooler?: ConfigurationItem,
     disabledOption?: boolean,
-    description?: string
+    description?: string,
+    area?: string,
+    mass?: string
 }

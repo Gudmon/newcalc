@@ -32,7 +32,7 @@
                     <div class="flex gap-2">
                         <span>Rotátor</span>
                         <button (click)="toggleDialog('rotators', true)"><i class="fa-solid fa-circle-info"></i></button>  
-                        
+                        <app-rotators-dialog [rotators]="rotators" [rotatorsDialogVisible]="showRotatorsDialog" (dialogVisible)="toggleDialog('rotators', false)"></app-rotators-dialog>                    
                     </div>
                     <p-listbox optionDisabled="disabledOption" (onChange)="handleRotatorChange($event)" formControlName="selectedRotator" [options]="rotators" optionLabel="namePrice"></p-listbox>                   
                 </div>
@@ -41,7 +41,7 @@
                     <div class="flex gap-2">
                         <span>Kanál</span>
                         <button (click)="toggleDialog('grapples', true)"><i class="fa-solid fa-circle-info"></i></button>  
-                        <!-- <app-drawbar-dialog [drawbars]="drawbars" [drawbarsDialogVisible]="showDrawbarsDialog" (dialogVisible)="toggleDialog('drawbars', false)"></app-drawbar-dialog>                             -->
+                        <app-grapples-dialog [grapples]="grapples" [grapplesDialogVisible]="showGrapplesDialog" (dialogVisible)="toggleDialog('grapples', false)"></app-grapples-dialog>                            
                     </div>
                     <p-listbox #grappleListBox optionDisabled="disabledOption" (onChange)="handleGrappleChange($event)" formControlName="selectedGrapple" [options]="grapples" optionLabel="namePrice"></p-listbox>                   
                 </div>

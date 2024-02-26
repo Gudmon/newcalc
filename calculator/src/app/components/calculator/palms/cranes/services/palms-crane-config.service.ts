@@ -84,7 +84,7 @@ export class PalmsCraneConfigService {
         for (const grapple of grapples){
           grapple.disabledOption = false;
           grapple.namePrice = grapple.name + " " + grapple.price + "€"
-          grapple.imgUrls = [`../../../../../../assets/PALMS crane-grapple-${grapple.id}.svg`, `../../../../../../assets/PALMS crane-grapple-${grapple.id}-1.jpg`]
+          grapple.imgUrl = `../../../../../../assets/PALMS crane-grapple-${grapple.id}.jpg`;
         }
         return grapples;
       })
