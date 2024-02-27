@@ -172,7 +172,7 @@
                     <div class="flex gap-2">
                         <span>Lámpák</span>
                         <button (click)="toggleDialog('lights', true)"><i class="fa-solid fa-circle-info"></i></button> 
-                        <app-light-dialog [lights]="lights" [lightsDialogVisible]="showLightsDialog" (dialogVisible)="toggleDialog('lights', false)"></app-light-dialog>                              
+                        <app-trailer-light-dialog [lights]="lights" [lightsDialogVisible]="showLightsDialog" (dialogVisible)="toggleDialog('lights', false)"></app-trailer-light-dialog>                              
                     </div>
                     <p-listbox (onChange)="handleLightChange($event)" formControlName="selectedLight" [options]="lights" optionLabel="namePrice"></p-listbox>                   
                 </div>

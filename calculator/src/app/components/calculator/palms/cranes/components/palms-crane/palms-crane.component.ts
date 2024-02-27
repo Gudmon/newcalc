@@ -24,16 +24,23 @@ import { GrapplesDialogComponent } from "../dialogs/grapples-dialog/grapples-dia
 import { WinchesDialogComponent } from "../dialogs/winches-dialog/winches-dialog.component";
 import { Checkbox, CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
 import { ProtectionSleevesDialogComponent } from "../dialogs/protection-sleeves-dialog/protection-sleeves-dialog.component";
+import { ElectricalFloatingDialogComponent } from "../dialogs/electrical-floating-dialog/electrical-floating-dialog.component";
+import { ValveBlockDialogComponent } from "../dialogs/valve-block-dialog/valve-block-dialog.component";
+import { DampingsDialogComponent } from "../dialogs/dampings-dialog/dampings-dialog.component";
+import { CraneLightDialogComponent } from "../dialogs/crane-light-dialog/crane-light-dialog.component";
+import { OperatorSeatDialogComponent } from "../dialogs/operator-seat-dialog/operator-seat-dialog.component";
+import { CraneOilcoolerDialogComponent } from "../dialogs/crane-oilcooler-dialog/crane-oilcooler-dialog.component";
+import { RotatorBrakesDialogComponent } from "../dialogs/rotator-brakes-dialog/rotator-brakes-dialog.component";
+import { JoystickHolderDialogComponent } from "../dialogs/joystick-holder-dialog/joystick-holder-dialog.component";
 
 @Component({
     selector: 'app-palms-crane',
     standalone: true,
     templateUrl: './palms-crane.component.html',
     styleUrl: './palms-crane.component.css',
-    imports: [FormsModule, ReactiveFormsModule, AccordionModule, CheckboxModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent, RotatorsDialogComponent, GrapplesDialogComponent, WinchesDialogComponent, ProtectionSleevesDialogComponent]
+    imports: [FormsModule, ReactiveFormsModule, AccordionModule, CheckboxModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent, RotatorsDialogComponent, GrapplesDialogComponent, WinchesDialogComponent, ProtectionSleevesDialogComponent, ElectricalFloatingDialogComponent, ValveBlockDialogComponent, DampingsDialogComponent, CraneLightDialogComponent, OperatorSeatDialogComponent, CraneOilcoolerDialogComponent, RotatorBrakesDialogComponent, JoystickHolderDialogComponent]
 })
 export class PalmsCraneComponent implements OnInit {
-
     crane!: PalmsCrane
     private id = Number(this.activatedRoute.snapshot.paramMap.get('id'))!;
 
@@ -46,8 +53,10 @@ export class PalmsCraneComponent implements OnInit {
     @ViewChild('winchListBox') winchListBox!: Dropdown;
     @ViewChildren('grappleListBoxes') grappleListBoxes!: QueryList<Dropdown>;
     @ViewChild('electricalFloatingCheckBox') electricalFloatingCheckBox!: Checkbox;
-//   @ViewChild('woodSorterDropdown') woodSorterDropdown!: Dropdown;
- 
+    @ViewChild('valveBlockCheckBox') valveBlockCheckBox!: Checkbox;
+    @ViewChild('operatorSeatCheckBox') operatorSeatCheckBox!: Checkbox;
+    @ViewChild('joystickHolderCheckBox') joystickHolderCheckBox!: Checkbox;
+
     showControlBlocksDialog: boolean = false;
     showFrameTypesDialog: boolean = false;
     showRotatorsDialog: boolean = false;
@@ -57,8 +66,8 @@ export class PalmsCraneComponent implements OnInit {
     showElectricalFloatingDialog: boolean = false;
     showValveBlockDialog: boolean = false;
     showDampingsDialog: boolean = false;
-    showLightsDialog: boolean = false;
-    showOperatorSeatsDialog: boolean = false;
+    showLightDialog: boolean = false;
+    showOperatorSeatDialog: boolean = false;
     showOilCoolerDialog: boolean = false;
     showRotatorBrakesDialog: boolean = false;
     showJoystickHolderDialog: boolean = false;
@@ -77,13 +86,13 @@ export class PalmsCraneComponent implements OnInit {
     winches: ConfigurationItem[] = [];
     protectionSleeves: ConfigurationItem | undefined = undefined;
     electricalFloating: ConfigurationItem | undefined = undefined;
-    valveblock: ConfigurationItem | undefined = undefined;
+    valveBlock: ConfigurationItem | undefined = undefined;
     dampings: ConfigurationItem[] = [];
-    lights: ConfigurationItem[] = [];
-    operatorSeats: ConfigurationItem[] = [];
-    oilCoolers: ConfigurationItem[] = [];
+    light: ConfigurationItem | undefined = undefined;
+    operatorSeat: ConfigurationItem | undefined = undefined;
+    oilCooler: ConfigurationItem | undefined = undefined;
     rotatorBrakes: ConfigurationItem[] = [];
-    joystickHolders: ConfigurationItem[] = [];
+    joystickHolder: ConfigurationItem | undefined = undefined;
     hoseGuards: ConfigurationItem[] = [];
     turningDeviceCounterPlates: ConfigurationItem[] = [];
     supportLegCounterPlates: ConfigurationItem[] = [];
@@ -101,7 +110,7 @@ export class PalmsCraneComponent implements OnInit {
     originalProtectionSleevesPrice = 0;
     originalOilTankCoolerPrice = 0;
     originalElectricalFloatingPrice = 0;
-    originalValveblockPrice = 0;
+    originalValveBlockPrice = 0;
     originalDampingPrice = 0;
     originalLightPrice = 0;
     originalOperatorSeatPrice = 0;
@@ -153,8 +162,7 @@ export class PalmsCraneComponent implements OnInit {
         this.selectedGrapples.removeAt(index);
         this.originalGrapplePrices.splice(index, 1); 
       }
-      
-
+    
     craneFormGroup: FormGroup = new FormGroup({
         selectedCrane: new FormControl<string>(''),
         selectedControlBlock: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
@@ -166,11 +174,9 @@ export class PalmsCraneComponent implements OnInit {
         selectedProtectionSleeves: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedElectricalFloating: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedValveBlock: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedOilTankCooler: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedDamping: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedLight: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedOperatorSeat: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedUnderrunProtection: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedOilCooler: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedRotatorBrake: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedJoystickHolder: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
@@ -193,11 +199,15 @@ export class PalmsCraneComponent implements OnInit {
             selectedGrapple: [],
             selectedWinch: [],
             selectedProtectionSleeves: null,
-            selectedElectricalFloating: [{ value: null, disabled: true}]
+            selectedElectricalFloating: [{ value: null, disabled: true}],
+            selectedValveBlock: [{value: null, disabled: true}],
+            selectedDamping: [],
+            selectedLight: [],
+            selectedOperatorSeat: [{value: null, disabled: true}],
+            selectedOilCooler: [],
+            selectedRotatorBrake: [],
+            selectedJoystickHolder: [{value: null, disabled: true}],
         });
-
-        const originalControlBlock = this.originalControlBlock;
-        
     }  
 
     constructor(readonly palmsService: PalmsService,
@@ -205,8 +215,7 @@ export class PalmsCraneComponent implements OnInit {
         readonly loadingService: LoadingService,
         private activatedRoute: ActivatedRoute,
         private fb: FormBuilder,
-        private router: Router) {  
-          this.setupControlBlockSubscription();  
+        private router: Router) { 
     }
 
     ngOnInit(): void {
@@ -220,27 +229,6 @@ export class PalmsCraneComponent implements OnInit {
         this.router.navigate(['/calculator/palms/trailers', trailerId]);
       }
 
-      private setupControlBlockSubscription(): void {
-        console.log('asd');
-        
-        const selectedControlBlockControl = this.craneFormGroup.get('selectedControlBlock');
-    
-        if (selectedControlBlockControl) {
-          selectedControlBlockControl.statusChanges.subscribe((status) => {
-            const electricalFloatingControl = this.craneFormGroup.get('selectedElectricalFloating');
-            
-            if (selectedControlBlockControl.valid) {
-              const value = selectedControlBlockControl.value;
-              if (value && value.id && value.id > 5 && value.id < 14) {
-                electricalFloatingControl?.disable();
-              } else {
-                electricalFloatingControl?.enable();
-              }
-            }
-          });
-        }
-      }
-
     loadCraneConfigurations(){ 
         this.loadingService.enableLoader();
         const controlBlocks$ = this.palmsCraneConfigService.getControlBlocks(this.id);
@@ -250,10 +238,21 @@ export class PalmsCraneComponent implements OnInit {
         const winches$ = this.palmsCraneConfigService.getWinches(this.id);
         const protectionSleeves$ = this.palmsCraneConfigService.getProtectionSleeves(this.id);
         const electricalFloating$ = this.palmsCraneConfigService.getElectricalFloating(this.id);
+        const valveBlock$ = this.palmsCraneConfigService.getValveBlock(this.id);
+        const dampings$ = this.palmsCraneConfigService.getDampings(this.id);
+        const light$ = this.palmsCraneConfigService.getLight(this.id);
+        const operatorSeat$ = this.palmsCraneConfigService.getOperatorSeat(this.id);
+        const oilCooler$ = this.palmsCraneConfigService.getOilCooler(this.id);
+        const rotatorBrakes$ = this.palmsCraneConfigService.getRotatorBrakes(this.id);
+        const joystickHolder$ = this.palmsCraneConfigService.getJoystickHolder(this.id);
         
-        const request = forkJoin([controlBlocks$, frameTypes$, rotators$, grapples$, winches$, protectionSleeves$, electricalFloating$]);
+        const request = forkJoin([controlBlocks$, frameTypes$, rotators$, grapples$, winches$, 
+          protectionSleeves$, electricalFloating$, valveBlock$, dampings$, light$,
+          operatorSeat$, oilCooler$, rotatorBrakes$, joystickHolder$]);
        
-        request.subscribe(([controlBlocks, frameTypes, rotators, grapples, winches, protectionSleeves, electricalFloating]) => {
+        request.subscribe(([controlBlocks, frameTypes, rotators, grapples, winches, 
+          protectionSleeves, electricalFloating, valveBlock, dampings, light,
+          operatorSeat, oilCooler, rotatorBrakes, joystickHolder]) => {
             if(controlBlocks){
               this.controlBlocks = controlBlocks;
               console.log(controlBlocks); 
@@ -295,9 +294,44 @@ export class PalmsCraneComponent implements OnInit {
                 console.log(electricalFloating);
             }
 
-          this.initializeFormGroup();
-          this.craneSelected = true;
-          this.palmsService._cranePrice.set(Number(this.crane.price));
+            if (valveBlock){
+              this.valveBlock = valveBlock;
+              console.log(valveBlock);
+            }
+
+            if(dampings){
+              this.dampings = dampings;
+              console.log(dampings); 
+            }
+
+            if (light){
+              this.light = light;
+              console.log(light);
+            }
+
+            if (operatorSeat){
+              this.operatorSeat = operatorSeat;
+              console.log(operatorSeat);
+            }
+
+            if (oilCooler){
+              this.oilCooler = oilCooler;
+              console.log(oilCooler);
+            }
+
+            if(rotatorBrakes){
+              this.rotatorBrakes = rotatorBrakes;
+              console.log(rotatorBrakes); 
+            }
+
+            if (joystickHolder){
+              this.joystickHolder = joystickHolder;
+              console.log(joystickHolder);
+            }
+
+            this.initializeFormGroup();
+            this.craneSelected = true;
+            this.palmsService._cranePrice.set(Number(this.crane.price));
         }).add(() => this.loadingService.disableLoader())
     } 
 
@@ -325,19 +359,47 @@ export class PalmsCraneComponent implements OnInit {
           updatedFrameTypes = this.updateFrameTypesToEnabled();
         }
     
-        // winches
+        // winches and electrical floating
         if (5 < event.value.id && event.value.id < 14) {
           updatedWinches = this.updateWinchesToEnabled();
           this.craneFormGroup.get('selectedElectricalFloating')?.enable();
         } else {
           updatedWinches = this.updateWinchesForControlBlock();
+          this.setElectricalFloatingDefault();
         }
+
+        // valve block
+        if (7 < event.value.id && event.value.id < 14) {
+          this.craneFormGroup.get('selectedValveBlock')?.enable();
+        } else {
+          this.setValveBlockDefault();
+        }
+
+        // operator seat
+        if (event.value.id === 6) {
+          this.craneFormGroup.get('selectedOperatorSeat')?.enable();
+        } else {
+          this.setOperatorSeatDefault();
+        }
+
+        // joystick holder
+        if (5 < event.value.id && event.value.id < 15) {
+          console.log('joystick h');
+          
+          this.craneFormGroup.get('selectedJoystickHolder')?.enable();
+        } else {
+          this.setJoystickHolderDefault();
+        }
+
       } else {
         this.originalControlBlock = undefined;
     
         updatedFrameTypes = this.updateFrameTypesToEnabled();
         updatedWinches = this.updateWinchesForControlBlock();
         this.setElectricalFloatingDefault();
+        this.setValveBlockDefault();
+        this.setOperatorSeatDefault();
+        this.setJoystickHolderDefault();
     
         // winches
         if (this.originalWinch && (this.originalWinch.id === 2 || this.originalWinch.id === 3)) {
@@ -553,8 +615,6 @@ export class PalmsCraneComponent implements OnInit {
     }
 
     onProtectionSleevesChange(event: CheckboxChangeEvent){
-      console.log(event);
-  
       if (event.checked.length > 0) {
         const current = this.palmsService._cranePrice();
         const newPrice = current + Number(event.checked[0].price);
@@ -570,8 +630,6 @@ export class PalmsCraneComponent implements OnInit {
     }
 
     onElectricalFloatingChange(event: CheckboxChangeEvent){
-      console.log(event);
-  
       if (event.checked.length > 0) {
         const current = this.palmsService._cranePrice();
         const newPrice = current + Number(event.checked[0].price);
@@ -588,13 +646,160 @@ export class PalmsCraneComponent implements OnInit {
 
     setElectricalFloatingDefault(){
       if(this.originalElectricalFloating && this.originalElectricalFloating.price){
-        this.craneFormGroup.get('selectedElectricalFloating')?.disable();
         this.palmsService._cranePrice.update(value => value - Number(this.originalElectricalFloating?.price))
         this.electricalFloatingCheckBox.writeValue(undefined);
         this.originalElectricalFloating = undefined;
         this.originalElectricalFloatingPrice = 0;
       }
+      this.craneFormGroup.get('selectedElectricalFloating')?.disable();
+    }
+
+    onValveBlockChange(event: CheckboxChangeEvent){
+      if (event.checked.length > 0) {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current + Number(event.checked[0].price);
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalValveBlockPrice = Number(event.checked[0].price);
+        this.originalValveBlock = event.checked[0];
+      } else {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current - this.originalValveBlockPrice;
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalValveBlock = undefined;
+      }
+    }
+
+    setValveBlockDefault(){
+      if(this.originalValveBlock && this.originalValveBlock.price){ 
+        this.palmsService._cranePrice.update(value => value - Number(this.originalValveBlock?.price))
+        this.valveBlockCheckBox.writeValue(undefined);
+        this.originalValveBlock = undefined;
+        this.originalValveBlockPrice = 0;
+      }
+      this.craneFormGroup.get('selectedValveBlock')?.disable();
+    }
+
+    handleDampingChange(event: ListboxChangeEvent) {
+      const previousValue = this.originalDampingPrice
+      this.originalDampingPrice = event.value ? event.value.price : 0;
+      const nextValue = this.originalDampingPrice
+      const current = this.palmsService._cranePrice();
       
+      if (previousValue !== nextValue) {
+        const newPrice = current - previousValue + Number(nextValue);
+        this.palmsService._cranePrice.set(newPrice);
+      }
+    
+      if (event.value){
+        this.originalDamping = event.value;
+      } else {
+        this.originalDamping = undefined;
+      }
+    }
+
+    onLightChange(event: CheckboxChangeEvent){
+      if (event.checked.length > 0) {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current + Number(event.checked[0].price);
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalLightPrice = Number(event.checked[0].price);
+        this.originalLight = event.checked[0];
+      } else {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current - this.originalLightPrice;
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalLight = undefined;
+      }
+    }
+
+    onOperatorSeatChange(event: CheckboxChangeEvent){
+      if (event.checked.length > 0) {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current + Number(event.checked[0].price);
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalOperatorSeatPrice = Number(event.checked[0].price);
+        this.originalOperatorSeat = event.checked[0];
+      } else {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current - this.originalOperatorSeatPrice;
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalOperatorSeat = undefined;
+      }
+    }
+
+    setOperatorSeatDefault(){
+      if(this.originalOperatorSeat && this.originalOperatorSeat.price){
+        this.palmsService._cranePrice.update(value => value - Number(this.originalOperatorSeat?.price))
+        this.operatorSeatCheckBox.writeValue(undefined);
+        this.originalOperatorSeat = undefined;
+        this.originalOperatorSeatPrice = 0;
+      }
+      this.craneFormGroup.get('selectedOperatorSeat')?.disable();
+    }
+
+    onOilCoolerChange(event: CheckboxChangeEvent){
+      if (event.checked.length > 0) {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current + Number(event.checked[0].price);
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalOilCoolerPrice = Number(event.checked[0].price);
+        this.originalOilCooler = event.checked[0];
+      } else {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current - this.originalOilCoolerPrice;
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalOilCooler = undefined;
+      }
+    }
+
+    handleRotatorBrakeChange(event: ListboxChangeEvent) {
+      const previousValue = this.originalRotatorBrakePrice
+      this.originalRotatorBrakePrice = event.value ? event.value.price : 0;
+      const nextValue = this.originalRotatorBrakePrice
+      const current = this.palmsService._cranePrice();
+      
+      if (previousValue !== nextValue) {
+        const newPrice = current - previousValue + Number(nextValue);
+        this.palmsService._cranePrice.set(newPrice);
+      }
+    
+      if (event.value){
+        this.originalRotatorBrake = event.value;
+      } else {
+        this.originalRotatorBrake = undefined;
+      }
+    }
+
+    onJoystickHolderChange(event: CheckboxChangeEvent){
+      if (event.checked.length > 0) {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current + Number(event.checked[0].price);
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalJoystickHolderPrice = Number(event.checked[0].price);
+        this.originalJoystickHolder = event.checked[0];
+      } else {
+        const current = this.palmsService._cranePrice();
+        const newPrice = current - this.originalJoystickHolderPrice;
+        this.palmsService._cranePrice.set(newPrice);
+        this.originalJoystickHolder = undefined;
+      }
+    }
+
+    // if(this.originalOperatorSeat && this.originalOperatorSeat.price){
+    //   this.craneFormGroup.get('selectedOperatorSeat')?.disable();
+    //   this.palmsService._cranePrice.update(value => value - Number(this.originalOperatorSeat?.price))
+    //   this.operatorSeatCheckBox.writeValue(undefined);
+    //   this.originalOperatorSeat = undefined;
+    //   this.originalOperatorSeatPrice = 0;
+    // }
+    setJoystickHolderDefault(){
+      if(this.originalJoystickHolder && this.originalJoystickHolder.price){ 
+        this.palmsService._cranePrice.update(value => value - Number(this.originalJoystickHolder?.price))
+        this.joystickHolderCheckBox.writeValue(undefined);
+        this.originalJoystickHolder = undefined;
+        this.originalJoystickHolderPrice = 0;
+      }
+      this.craneFormGroup.get('selectedJoystickHolder')?.disable();
     }
 
     loadControlBlocks(craneId: number, frameTypeId: number){
@@ -620,6 +825,13 @@ export class PalmsCraneComponent implements OnInit {
         this.originalWinch = undefined;
         this.originalProtectionSleeves = undefined;
         this.originalElectricalFloating = undefined;
+        this.originalValveBlock = undefined;
+        this.originalDamping = undefined;
+        this.originalLight = undefined;
+        this.originalOperatorSeat = undefined;
+        this.originalOilCooler = undefined;
+        this.originalRotatorBrake = undefined;
+        this.originalJoystickHolder = undefined;
       }
 
       toggleDialog(dialogType: string, show: boolean) {
@@ -645,6 +857,27 @@ export class PalmsCraneComponent implements OnInit {
             case 'electricalFloating':
                 this.showElectricalFloatingDialog = show;
                 break;
+            case 'valveBlock':
+                this.showValveBlockDialog = show;
+                break;    
+            case 'dampings':
+                this.showDampingsDialog = show;
+                break;    
+            case 'light':
+                this.showLightDialog = show;
+                break;    
+            case 'operatorSeat':
+                this.showOperatorSeatDialog = show;
+                break;    
+            case 'oilCooler':
+                this.showOilCoolerDialog = show;
+                break;    
+            case 'rotatorBrakes':
+                this.showRotatorBrakesDialog = show;
+                break;    
+            case 'joystickHolder':
+                this.showRotatorBrakesDialog = show;
+                break;    
             default:
               break;
           }

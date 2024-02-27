@@ -11,8 +11,8 @@ import { ConfigurationItem } from '../../../../../../../models/configuration-ite
 })
 export class ProtectionSleevesDialogComponent {
   @Output() dialogVisible = new EventEmitter<void>()
-  @Input({required: true}) proectionSleevesDialogVisible: boolean = false;
-  @Input({required: true}) proectionSleeves!: ConfigurationItem;
+  @Input({required: true}) protectionSleevesDialogVisible: boolean = false;
+  @Input({required: true}) protectionSleeves!: ConfigurationItem;
 
   closeProtectionSleevesDialog() {
     this.dialogVisible.emit();

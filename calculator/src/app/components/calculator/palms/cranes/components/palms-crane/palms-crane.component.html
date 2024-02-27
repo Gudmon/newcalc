@@ -66,7 +66,7 @@
                 <div *ngIf="craneSelected && protectionSleeves" class="justify-content-center my-4 py-4">
                     <div class="mb-4">
                         <button (click)="toggleDialog('protectionSleeves', true)"><i class="fa-solid fa-circle-info"></i></button> 
-                        <app-protection-sleeves-dialog [proectionSleeves]="protectionSleeves" [proectionSleevesDialogVisible]="showProtectionSleevesDialog" (dialogVisible)="toggleDialog('protectionSleeves', false)"></app-protection-sleeves-dialog>            
+                        <app-protection-sleeves-dialog [protectionSleeves]="protectionSleeves" [protectionSleevesDialogVisible]="showProtectionSleevesDialog" (dialogVisible)="toggleDialog('protectionSleeves', false)"></app-protection-sleeves-dialog>            
                     </div>
                     <div class="flex gap-2">
                         <p-checkbox #protectionSleevesCheckBox (onChange)="onProtectionSleevesChange($event)" [value]="protectionSleeves" formControlName="selectedProtectionSleeves" inputId="ProtectionSleevesSelected"></p-checkbox>
@@ -77,7 +77,7 @@
                 <div *ngIf="craneSelected && electricalFloating" class="justify-content-center my-4 py-4">
                     <div class="mb-4">
                         <button (click)="toggleDialog('electricalFloating', true)"><i class="fa-solid fa-circle-info"></i></button> 
-                        <!-- <app-protection-sleeves-dialog [proectionSleeves]="protectionSleeves" [proectionSleevesDialogVisible]="showProtectionSleevesDialog" (dialogVisible)="toggleDialog('protectionSleeves', false)"></app-protection-sleeves-dialog>             -->
+                        <app-electrical-floating-dialog [electricalFloating]="electricalFloating" [electricalFloatingDialogVisible]="showElectricalFloatingDialog" (dialogVisible)="toggleDialog('electricalFloating', false)"></app-electrical-floating-dialog>            
                     </div>
                     <div class="flex gap-2">
                         <p-checkbox #electricalFloatingCheckBox (onChange)="onElectricalFloatingChange($event)" [value]="electricalFloating" formControlName="selectedElectricalFloating" inputId="ElectricalFloatingSelected"></p-checkbox>
@@ -85,16 +85,80 @@
                     </div>
                 </div>
 
-                <!-- <div *ngIf="trailerSelected && oilPumps.length > 0" class="justify-content-center my-4 py-4">
-                    <div class="flex gap-2">
-                        <span>Olajszivattyú</span>
-                        <button (click)="toggleDialog('oilPumps', true)"><i class="fa-solid fa-circle-info"></i></button>  
-                        <app-oil-pump-dialog [oilPumps]="oilPumps" [oilPumpsDialogVisible]="showOilPumpsDialog" (dialogVisible)="toggleDialog('oilPumps', false)"></app-oil-pump-dialog>
+                <div *ngIf="craneSelected && valveBlock" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('valveBlock', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-valve-block-dialog [valveBlock]="valveBlock" [valveBlockDialogVisible]="showValveBlockDialog" (dialogVisible)="toggleDialog('valveBlock', false)"></app-valve-block-dialog>            
                     </div>
-                    <p-listbox (onChange)="handleOilPumpChange($event)" formControlName="selectedOilPump" [options]="oilPumps" optionLabel="namePrice"></p-listbox>                   
+                    <div class="flex gap-2">
+                        <p-checkbox #valveBlockCheckBox (onChange)="onValveBlockChange($event)" [value]="valveBlock" formControlName="selectedValveBlock" inputId="ValveBlockSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="ValveBlockSelected">{{valveBlock.namePrice}}</label>
+                    </div>
                 </div>
 
-                <div *ngIf="trailerSelected && oilTanks.length > 0" class="justify-content-center my-4 py-4">
+                <div *ngIf="craneSelected && dampings.length > 0" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <span>Csillapító</span>
+                        <button (click)="toggleDialog('dampings', true)"><i class="fa-solid fa-circle-info"></i></button>  
+                        <app-dampings-dialog [dampings]="dampings" [dampingsDialogVisible]="showDampingsDialog" (dialogVisible)="toggleDialog('dampings', false)"></app-dampings-dialog>
+                    </div>
+                    <p-listbox #dampingsBox optionDisabled="disabledOption" (onChange)="handleDampingChange($event)" formControlName="selectedDamping" [options]="dampings" optionLabel="namePrice"></p-listbox>                   
+                </div>
+
+                <div *ngIf="craneSelected && light" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('light', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-crane-light-dialog [craneLight]="light" [craneLightDialogVisible]="showLightDialog" (dialogVisible)="toggleDialog('light', false)"></app-crane-light-dialog>            
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #lightCheckBox (onChange)="onLightChange($event)" [value]="light" formControlName="selectedLight" inputId="LightSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="LightSelected">{{light.namePrice}}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="craneSelected && operatorSeat" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('operatorSeat', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-operator-seat-dialog [operatorSeat]="operatorSeat" [operatorSeatDialogVisible]="showOperatorSeatDialog" (dialogVisible)="toggleDialog('operatorSeat', false)"></app-operator-seat-dialog>            
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #operatorSeatCheckBox (onChange)="onOperatorSeatChange($event)" [value]="operatorSeat" formControlName="selectedOperatorSeat" inputId="OperatorSeatSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="OperatorSeatSelected">{{operatorSeat.namePrice}}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="craneSelected && oilCooler" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('oilCooler', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-crane-oilcooler-dialog [oilCooler]="oilCooler" [oilCoolerDialogVisible]="showOilCoolerDialog" (dialogVisible)="toggleDialog('oilCooler', false)"></app-crane-oilcooler-dialog>            
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #oilCoolerCheckBox (onChange)="onOilCoolerChange($event)" [value]="oilCooler" formControlName="selectedOilCooler" inputId="OilCoolerSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="OilCoolerSelected">{{oilCooler.namePrice}}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="craneSelected && rotatorBrakes.length > 0" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <span>Rotátor fék</span>
+                        <button (click)="toggleDialog('rotatorBrakes', true)"><i class="fa-solid fa-circle-info"></i></button>  
+                        <app-rotator-brakes-dialog [rotatorBrakes]="rotatorBrakes" [rotatorBrakesDialogVisible]="showRotatorBrakesDialog" (dialogVisible)="toggleDialog('rotatorBrakes', false)"></app-rotator-brakes-dialog>
+                    </div>
+                    <p-listbox (onChange)="handleRotatorBrakeChange($event)" formControlName="selectedRotatorBrake" [options]="rotatorBrakes" optionLabel="namePrice"></p-listbox>                   
+                </div>
+
+                <div *ngIf="craneSelected && joystickHolder" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('joystickHolder', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-joystick-holder-dialog [joystickHolder]="joystickHolder" [joystickHolderDialogVisible]="showJoystickHolderDialog" (dialogVisible)="toggleDialog('joystickHolder', false)"></app-joystick-holder-dialog>            
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #joystickHolderCheckBox (onChange)="onJoystickHolderChange($event)" [value]="joystickHolder" formControlName="selectedJoystickHolder" inputId="JoystickHolderSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="JoystickHolderSelected">{{joystickHolder.namePrice}}</label>
+                    </div>
+                </div>
+
+                <!-- <div *ngIf="trailerSelected && oilTanks.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Olajtank</span>
                         <button (click)="toggleDialog('oilTanks', true)"><i class="fa-solid fa-circle-info"></i></button>   

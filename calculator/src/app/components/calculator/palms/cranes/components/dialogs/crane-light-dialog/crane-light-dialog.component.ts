@@ -3,18 +3,18 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfigurationItem } from '../../../../../../../models/configuration-item';
 
 @Component({
-  selector: 'app-light-dialog',
+  selector: 'app-crane-light-dialog',
   standalone: true,
   imports: [DialogModule],
-  templateUrl: './light-dialog.component.html',
-  styleUrl: './light-dialog.component.css'
+  templateUrl: './crane-light-dialog.component.html',
+  styleUrl: './crane-light-dialog.component.css'
 })
-export class LightDialogComponent {
+export class CraneLightDialogComponent {
   @Output() dialogVisible = new EventEmitter<void>()
-  @Input({required: true}) lightsDialogVisible: boolean = false;
-  @Input({required: true}) lights!: ConfigurationItem []
+  @Input({required: true}) craneLightDialogVisible: boolean = false;
+  @Input({required: true}) craneLight!: ConfigurationItem;
 
-  closeLightsDialog() {
+  closeCraneLightDialog() {
     this.dialogVisible.emit();
   }
 }

@@ -26,7 +26,7 @@ import { WoodsorterDialogComponent } from "../dialogs/woodsorter-dialog/woodsort
 import { ChainsawHolderDialogComponent } from "../dialogs/chainsaw-holder-dialog/chainsaw-holder-dialog.component";
 import { UnderrunProtectionDialogComponent } from "../dialogs/underrun-protection-dialog/underrun-protection-dialog.component";
 import { SupportLegDialogComponent } from "../dialogs/support-leg-dialog/support-leg-dialog.component";
-import { LightDialogComponent } from "../dialogs/light-dialog/light-dialog.component";
+import { TrailerLightDialogComponent } from "../dialogs/trailer-light-dialog/trailer-light-dialog.component";
 import { TyresDialogComponent } from "../dialogs/tyres-dialog/tyres-dialog.component";
 import { LoadingService } from '../../../../../../services/loading.service';
 import { PalmsTrailerCalculatorHintsComponent } from '../palms-trailer-calculator-hints/palms-trailer-calculator-hints.component';
@@ -48,7 +48,7 @@ import { PalmsCraneConfigService } from '../../../cranes/services/palms-crane-co
     providers: [PalmsService],
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, CardModule, FooterComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, LightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCranesCardsComponent]
+    imports: [NavigationComponent, CardModule, FooterComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCranesCardsComponent]
 })
 export class PalmsTrailerComponent implements OnInit{
   trailer!: PalmsTrailer

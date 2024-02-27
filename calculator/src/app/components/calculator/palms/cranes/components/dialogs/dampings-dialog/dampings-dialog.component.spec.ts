@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { LightDialogComponent } from './light-dialog.component';
+import { DampingsDialogComponent } from './dampings-dialog.component';
 
-describe('LightDialogComponent', () => {
-  let component: LightDialogComponent;
-  let fixture: ComponentFixture<LightDialogComponent>;
+describe('DampingsDialogComponent', () => {
+  let component: DampingsDialogComponent;
+  let fixture: ComponentFixture<DampingsDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [LightDialogComponent]
+      imports: [DampingsDialogComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(LightDialogComponent);
+    fixture = TestBed.createComponent(DampingsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

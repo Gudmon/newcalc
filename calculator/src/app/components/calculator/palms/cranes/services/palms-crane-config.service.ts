@@ -129,4 +129,96 @@ export class PalmsCraneConfigService {
       })
     );
   }
+
+  getValveBlock(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/valveBlock`).pipe(
+      map((valveBlock: ConfigurationItem | null) => {
+        if (valveBlock) {
+          valveBlock.namePrice = valveBlock.name + " " + valveBlock.price + "€";
+          return valveBlock;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getDampings(id: number): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/dampings`).pipe(
+      map((dampings: ConfigurationItem[]) => {
+        for (const damping of dampings){
+          damping.disabledOption = false;
+          damping.namePrice = damping.name + " " + damping.price + "€";
+        }
+        return dampings;
+      })
+    );
+  }
+
+  getLight(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/light`).pipe(
+      map((light: ConfigurationItem | null) => {
+        if (light) {
+          light.namePrice = light.name + " " + light.price + "€";
+          return light;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getOperatorSeat(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/operatorseat`).pipe(
+      map((operatorSeat: ConfigurationItem | null) => {
+        if (operatorSeat) {
+          operatorSeat.namePrice = operatorSeat.name + " " + operatorSeat.price + "€";
+          return operatorSeat;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getOilCooler(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/oilcooler`).pipe(
+      map((oilcooler: ConfigurationItem | null) => {
+        if (oilcooler) {
+          oilcooler.namePrice = oilcooler.name + " " + oilcooler.price + "€";
+          return oilcooler;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getRotatorBrakes(id: number): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/rotatorbrakes`).pipe(
+      map((rotatorBrakes: ConfigurationItem[]) => {
+        for (const rotatorBrake of rotatorBrakes){
+          rotatorBrake.disabledOption = false;
+          rotatorBrake.namePrice = rotatorBrake.name + " " + rotatorBrake.price + "€";
+          if (rotatorBrake.id === 2 || rotatorBrake.id === 3) rotatorBrake.imgUrl = `../../../../../../assets/PALMS crane-rotatorbrake-2.jpg`;
+          else if (rotatorBrake.id === 4 || rotatorBrake.id === 5) rotatorBrake.imgUrl = `../../../../../../assets/PALMS crane-rotatorbrake-3.jpg`;
+          
+        }
+        return rotatorBrakes;
+      })
+    );
+  }
+
+  getJoystickHolder(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/joystickholder`).pipe(
+      map((joystickHolder: ConfigurationItem | null) => {
+        if (joystickHolder) {
+          joystickHolder.namePrice = joystickHolder.name + " " + joystickHolder.price + "€";
+          return joystickHolder;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
 }
