@@ -65,9 +65,9 @@ export class PalmsCraneConfigService {
     );
   }
 
-  getRotators(id: number): Observable<FrameType[]>{
-    return this.httpClient.get<FrameType[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/rotators`).pipe(
-      map((rotators: FrameType[]) => {
+  getRotators(id: number): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/rotators`).pipe(
+      map((rotators: ConfigurationItem[]) => {
         for (const rotator of rotators){
           rotator.disabledOption = false;
           rotator.namePrice = rotator.name + " " + rotator.price + "€"
@@ -78,15 +78,54 @@ export class PalmsCraneConfigService {
     );
   }
 
-  getGrapples(id: number): Observable<FrameType[]>{
-    return this.httpClient.get<FrameType[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/grapples`).pipe(
-      map((grapples: FrameType[]) => {
+  getGrapples(id: number): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/grapples`).pipe(
+      map((grapples: ConfigurationItem[]) => {
         for (const grapple of grapples){
           grapple.disabledOption = false;
           grapple.namePrice = grapple.name + " " + grapple.price + "€"
           grapple.imgUrl = `../../../../../../assets/PALMS crane-grapple-${grapple.id}.jpg`;
         }
         return grapples;
+      })
+    );
+  }
+
+  getWinches(id: number): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/winches`).pipe(
+      map((winches: ConfigurationItem[]) => {
+        for (const winch of winches){
+          winch.disabledOption = false;
+          winch.namePrice = winch.name + " " + winch.price + "€"
+          winch.imgUrl = `../../../../../../assets/PALMS crane-grapple-${winch.id}.jpg`;
+        }
+        return winches;
+      })
+    );
+  }
+
+  getProtectionSleeves(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/protectionsleeves`).pipe(
+      map((protectionSleeves: ConfigurationItem | null) => {
+        if (protectionSleeves) {
+          protectionSleeves.namePrice = protectionSleeves.name + " " + protectionSleeves.price + "€";
+          return protectionSleeves;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getElectricalFloating(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/electricalfloating`).pipe(
+      map((electricalFloating: ConfigurationItem | null) => {
+        if (electricalFloating) {
+          electricalFloating.namePrice = electricalFloating.name + " " + electricalFloating.price + "€";
+          return electricalFloating;
+        } else {
+          return null;
+        }
       })
     );
   }

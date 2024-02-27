@@ -201,12 +201,12 @@
                   <p class="text-lg font-bold">{{palmsService._trailerPrice() | formatPrice}}</p> 
                 </div>  
             </div> -->
-            <div *ngIf="trailerSelected" class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
+            <div *ngIf="trailerSelected && trailer" class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
                 <p-accordion [activeIndex]="">
                     <p-accordionTab>
                         <ng-template pTemplate="header" class="flex justify-around">
                             <div class="flex gap-2 w-full">
-                                <p class="mr-auto text-sm lg:text-base"><span class="">{{trailer?.name}} Pótkocsi: </span><span class="font-extrabold text-lg">{{palmsService._trailerPrice() | formatPrice}}</span></p>
+                                <p class="mr-auto text-sm lg:text-base"><span class="">{{trailer.name}} Pótkocsi: </span><span class="font-extrabold text-lg">{{palmsService._trailerPrice() | formatPrice}}</span></p>
                                 <button (click)="delete(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
                             </div>
                         </ng-template>

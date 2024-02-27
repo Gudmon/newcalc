@@ -54,16 +54,38 @@
                     <button type="button" class="m-auto bg-[--primary-color] py-2 px-2 rounded mb-2 text-black text-md uppercase" (click)="addGrapple()">Kanál hozzáadása</button>
                 </div>               
 
-                <!-- <div *ngIf="trailerSelected && platforms.length > 0" class="justify-content-center my-4 py-4">
+                <div *ngIf="craneSelected && winches.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
-                        <span>Platform</span>
-                        <button (click)="toggleDialog('platforms', true)"><i class="fa-solid fa-circle-info"></i></button>  
-                        <app-platorm-dialog [platforms]="platforms" [platformDialogVisible]="showPlatformsDialog" (dialogVisible)="toggleDialog('platforms', false)"></app-platorm-dialog>
+                        <span>Csörlő</span>
+                        <button (click)="toggleDialog('winches', true)"><i class="fa-solid fa-circle-info"></i></button>  
+                        <app-winches-dialog [winches]="winches" [winchesDialogVisible]="showWinchesDialog" (dialogVisible)="toggleDialog('winches', false)"></app-winches-dialog>
                     </div>
-                    <p-listbox (onChange)="handlePlatformChange($event)" formControlName="selectedPlatform" [options]="platforms" optionLabel="namePrice"></p-listbox>                   
+                    <p-listbox #winchListBox optionDisabled="disabledOption" (onChange)="handleWinchChange($event)" formControlName="selectedWinch" [options]="winches" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <div *ngIf="trailerSelected && oilPumps.length > 0" class="justify-content-center my-4 py-4">
+                <div *ngIf="craneSelected && protectionSleeves" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('protectionSleeves', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-protection-sleeves-dialog [proectionSleeves]="protectionSleeves" [proectionSleevesDialogVisible]="showProtectionSleevesDialog" (dialogVisible)="toggleDialog('protectionSleeves', false)"></app-protection-sleeves-dialog>            
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #protectionSleevesCheckBox (onChange)="onProtectionSleevesChange($event)" [value]="protectionSleeves" formControlName="selectedProtectionSleeves" inputId="ProtectionSleevesSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="ProtectionSleevesSelected">{{protectionSleeves.namePrice}}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="craneSelected && electricalFloating" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('electricalFloating', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <!-- <app-protection-sleeves-dialog [proectionSleeves]="protectionSleeves" [proectionSleevesDialogVisible]="showProtectionSleevesDialog" (dialogVisible)="toggleDialog('protectionSleeves', false)"></app-protection-sleeves-dialog>             -->
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #electricalFloatingCheckBox (onChange)="onElectricalFloatingChange($event)" [value]="electricalFloating" formControlName="selectedElectricalFloating" inputId="ElectricalFloatingSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="ElectricalFloatingSelected">{{electricalFloating.namePrice}}</label>
+                    </div>
+                </div>
+
+                <!-- <div *ngIf="trailerSelected && oilPumps.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Olajszivattyú</span>
                         <button (click)="toggleDialog('oilPumps', true)"><i class="fa-solid fa-circle-info"></i></button>  
@@ -201,12 +223,12 @@
                   <p class="text-lg font-bold">{{palmsService._trailerPrice() | formatPrice}}</p> 
                 </div>  
             </div> -->
-            <div *ngIf="craneSelected" class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
+            <div *ngIf="craneSelected && crane" class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
                 <p-accordion [activeIndex]="">
                     <p-accordionTab>
                         <ng-template pTemplate="header" class="flex justify-around">
                             <div class="flex gap-2 w-full">
-                                <p class="mr-auto text-sm lg:text-base"><span class="">{{crane?.name}} Daru: </span><span class="font-extrabold text-lg">{{palmsService._cranePrice() | formatPrice}}</span></p>
+                                <p class="mr-auto text-sm lg:text-base"><span class="">{{crane.name}} Daru: </span><span class="font-extrabold text-lg">{{palmsService._cranePrice() | formatPrice}}</span></p>
                                 <button (click)="delete(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
                             </div>
                         </ng-template>
