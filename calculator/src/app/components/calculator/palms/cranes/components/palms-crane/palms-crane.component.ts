@@ -876,7 +876,7 @@ export class PalmsCraneComponent implements OnInit {
                 this.showRotatorBrakesDialog = show;
                 break;    
             case 'joystickHolder':
-                this.showRotatorBrakesDialog = show;
+                this.showJoystickHolderDialog = show;
                 break;    
             default:
               break;
