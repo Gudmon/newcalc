@@ -3,18 +3,18 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfigurationItem } from '../../../../../../../models/configuration-item';
 
 @Component({
-  selector: 'app-woodcontrol-dialog',
+  selector: 'app-hose-guards-dialog',
   standalone: true,
   imports: [DialogModule],
-  templateUrl: './woodcontrol-dialog.component.html',
-  styleUrl: './woodcontrol-dialog.component.css'
+  templateUrl: './hose-guards-dialog.component.html',
+  styleUrl: './hose-guards-dialog.component.css'
 })
-export class WoodcontrolDialogComponent {
+export class HoseGuardsDialogComponent {
   @Output() dialogVisible = new EventEmitter<void>()
-  @Input({required: true}) woodControlDialogVisible: boolean = false;
-  @Input({required: true}) woodControl!: ConfigurationItem;
+  @Input({required: true}) hoseGuardsDialogVisible: boolean = false;
+  @Input({required: true}) hoseGuards: ConfigurationItem[] = []
 
-  closeWoodControlDialog() {
+  closeHoseGuardsDialog() {
     this.dialogVisible.emit();
   }
 }

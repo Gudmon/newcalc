@@ -8,8 +8,8 @@ import { FrameType } from '../models/frame-type';
   providedIn: 'root'
 })
 export class PalmsCraneConfigService {
-  //private url = 'http://localhost:5140';
-  private url = 'https://calculator-app-api.azurewebsites.net';
+  private url = 'http://localhost:5140';
+  //private url = 'https://calculator-app-api.azurewebsites.net';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -215,6 +215,97 @@ export class PalmsCraneConfigService {
         if (joystickHolder) {
           joystickHolder.namePrice = joystickHolder.name + " " + joystickHolder.price + "€";
           return joystickHolder;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getHoseGuards(id: number): Observable<ConfigurationItem[]>{
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/hoseguards`).pipe(
+      map((hoseGuards: ConfigurationItem[]) => {
+        for (const hoseGuard of hoseGuards){
+          hoseGuard.disabledOption = false;
+          hoseGuard.namePrice = hoseGuard.name + " " + hoseGuard.price + "€";
+        }
+        return hoseGuards;
+      })
+    );
+  }
+
+  getTurningDeviceCounterPlate(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/turningdevicecounterplate`).pipe(
+      map((turningDeviceCounterPlate: ConfigurationItem | null) => {
+        if (turningDeviceCounterPlate) {
+          turningDeviceCounterPlate.namePrice = turningDeviceCounterPlate.name + " " + turningDeviceCounterPlate.price + "€";
+          return turningDeviceCounterPlate;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getSupportLegCounterPlate(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/supportlegcounterplate`).pipe(
+      map((supportLegCounterPlate: ConfigurationItem | null) => {
+        if (supportLegCounterPlate) {
+          supportLegCounterPlate.namePrice = supportLegCounterPlate.name + " " + supportLegCounterPlate.price + "€";
+          return supportLegCounterPlate;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getBoomGuard(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/boomguard`).pipe(
+      map((boomGuard: ConfigurationItem | null) => {
+        if (boomGuard) {
+          boomGuard.namePrice = boomGuard.name + " " + boomGuard.price + "€";
+          boomGuard.imgUrl = `../../../../../../assets/PALMS crane-boomguard-${boomGuard.id}.jpg`;
+          return boomGuard;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getCover(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/cover`).pipe(
+      map((cover: ConfigurationItem | null) => {
+        if (cover) {
+          cover.namePrice = cover.name + " " + cover.price + "€";
+          return cover;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getWoodControl(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/woodcontrol`).pipe(
+      map((woodControl: ConfigurationItem | null) => {
+        if (woodControl) {
+          woodControl.namePrice = woodControl.name + " " + woodControl.price + "€";
+          return woodControl;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getLinkage(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/linkage`).pipe(
+      map((linkage: ConfigurationItem | null) => {
+        if (linkage) {
+          linkage.namePrice = linkage.name + " " + linkage.price + "€";
+          return linkage;
         } else {
           return null;
         }

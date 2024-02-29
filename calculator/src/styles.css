@@ -28,3 +28,7 @@
     background-color: rgba(0,0,0,.7);
     border-radius: 20%;
 }
+
+.p-checkbox .p-disabled {
+    background-color: rgb(255, 0, 0) !important;
+}

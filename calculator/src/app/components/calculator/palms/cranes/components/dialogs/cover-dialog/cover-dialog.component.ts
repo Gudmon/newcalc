@@ -3,18 +3,18 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfigurationItem } from '../../../../../../../models/configuration-item';
 
 @Component({
-  selector: 'app-woodcontrol-dialog',
+  selector: 'app-cover-dialog',
   standalone: true,
   imports: [DialogModule],
-  templateUrl: './woodcontrol-dialog.component.html',
-  styleUrl: './woodcontrol-dialog.component.css'
+  templateUrl: './cover-dialog.component.html',
+  styleUrl: './cover-dialog.component.css'
 })
-export class WoodcontrolDialogComponent {
+export class CoverDialogComponent {
   @Output() dialogVisible = new EventEmitter<void>()
-  @Input({required: true}) woodControlDialogVisible: boolean = false;
-  @Input({required: true}) woodControl!: ConfigurationItem;
+  @Input({required: true}) coverDialogVisible: boolean = false;
+  @Input({required: true}) cover!: ConfigurationItem;
 
-  closeWoodControlDialog() {
+  closeCoverDialog() {
     this.dialogVisible.emit();
   }
 }

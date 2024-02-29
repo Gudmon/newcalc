@@ -50,11 +50,21 @@ export class PalmsCranesComponent {
         const minMaxRange = event.values.map(value => parseFloat(value.toString()));
         const min = Math.min(...minMaxRange);
         const max = Math.max(...minMaxRange);
-
+        console.log(min);
+        console.log(max);
+        
+        
+        console.log(minMaxRange);
+        console.log('original cranes', this.originalCranes);
+        
         this.cranes = this.originalCranes.filter(crane => {
             const maxReach = parseFloat(crane.maxReach as string);
+            console.log(maxReach);
+            
             return !isNaN(maxReach) && maxReach >= min && maxReach <= max;
         });
+        console.log('cranes after', this.cranes);
+        
     } else {
         console.error("Invalid values provided in the event.");
     }

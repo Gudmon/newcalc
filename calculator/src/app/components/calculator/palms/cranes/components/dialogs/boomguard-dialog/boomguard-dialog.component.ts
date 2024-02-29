@@ -3,18 +3,18 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfigurationItem } from '../../../../../../../models/configuration-item';
 
 @Component({
-  selector: 'app-woodcontrol-dialog',
+  selector: 'app-boomguard-dialog',
   standalone: true,
   imports: [DialogModule],
-  templateUrl: './woodcontrol-dialog.component.html',
-  styleUrl: './woodcontrol-dialog.component.css'
+  templateUrl: './boomguard-dialog.component.html',
+  styleUrl: './boomguard-dialog.component.css'
 })
-export class WoodcontrolDialogComponent {
+export class BoomguardDialogComponent {
   @Output() dialogVisible = new EventEmitter<void>()
-  @Input({required: true}) woodControlDialogVisible: boolean = false;
-  @Input({required: true}) woodControl!: ConfigurationItem;
+  @Input({required: true}) boomGuardDialogVisible: boolean = false;
+  @Input({required: true}) boomGuard!: ConfigurationItem
 
-  closeWoodControlDialog() {
+  closeBoomGuardDialog() {
     this.dialogVisible.emit();
   }
 }
