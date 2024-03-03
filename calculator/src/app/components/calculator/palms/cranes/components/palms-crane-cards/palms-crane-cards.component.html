@@ -15,7 +15,7 @@
                 <ng-template pTemplate="footer">
                     <div class="grid grid-cols-2">  
                         <div class="">
-                          <button (click)="buttonClickEmit(crane.id)" label="Kalkulál"
+                          <button [disabled]="(palmsService.craneSelected$ | async)" [ngClass]="{'disabled': palmsService.craneSelected$ | async}"  (click)="buttonClickEmit(crane)" label="Kalkulál"
                           class="rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12">Kiválaszt</button>
                         </div>                      
                       </div>           

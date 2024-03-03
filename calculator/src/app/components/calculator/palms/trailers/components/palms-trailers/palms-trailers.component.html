@@ -30,6 +30,6 @@
   </div>                  
 </div>
 
-<app-palms-trailer-cards *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" [trailers]="trailers"></app-palms-trailer-cards>
+<app-palms-trailer-cards *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === 1" [trailers]="trailers" (buttonClickEmitter)="navigateToTrailer($event)"></app-palms-trailer-cards>
     
 

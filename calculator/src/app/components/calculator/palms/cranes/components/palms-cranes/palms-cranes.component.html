@@ -16,7 +16,7 @@
     <p-slider (onSlideEnd)="filterCranes($event)" [animate]="true" [min]="min" [max]="max" [step]="0.1" [(ngModel)]="rangeValues" [range]="true"></p-slider>
 </div>
 
-<app-palms-cranes-cards [cranes]="cranes" (buttonClickEmitter)="navigateToCrane($event)"></app-palms-cranes-cards>
+<app-palms-crane-cards [cranes]="cranes" (buttonClickEmitter)="navigateToCrane($event)"></app-palms-crane-cards>
       
   
   

@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { BehaviorSubject, Observable, map } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
 import { PalmsTrailerOverview } from '../../trailers/models/palms-trailer-overview';
 import { PalmsTrailer } from '../../trailers/models/palms-trailer';
 import { PalmsCraneOverview } from '../../cranes/models/palms-crane-overview';
 import { PalmsCrane } from '../../cranes/models/palms-crane';
+import { ConfigurationItem } from '../../../../../models/configuration-item';
 @Injectable({
   providedIn: 'root'
 })
@@ -20,6 +21,68 @@ export class PalmsService {
 
   public _trailerPrice = signal(0);
   public _cranePrice = signal(0);
+
+  public _selectedCrane = new BehaviorSubject<PalmsCraneOverview | undefined>(undefined);
+  public selectedCrane$ = this._selectedCrane.asObservable();
+
+  public _selectedTrailer = new BehaviorSubject<PalmsTrailerOverview | undefined>(undefined);
+  public selectedTrailer$ = this._selectedTrailer.asObservable();
+
+  public _selectedAccordion = signal(0);
+
+  public _deleteCrane = new BehaviorSubject<boolean>(false);
+  public deleteCrane$ = this._deleteCrane.asObservable();
+
+  public _deleteTrailer = new BehaviorSubject<boolean>(false);
+  public deleteTrailer$ = this._deleteTrailer.asObservable();
+
+  public _craneSelected = new BehaviorSubject<boolean>(false);
+  public craneSelected$ = this._craneSelected.asObservable();
+
+  public _trailerSelected = new BehaviorSubject<boolean>(false);
+  public trailerSelected$ = this._trailerSelected.asObservable();
+
+  // CRANES
+  public selectedControlBlock = signal<ConfigurationItem | undefined>(undefined);
+  public selectedFrameType = signal<ConfigurationItem | undefined>(undefined);
+  public selectedRotator = signal<ConfigurationItem | undefined>(undefined);
+  public selectedGrapple = signal<ConfigurationItem | undefined>(undefined);
+  public selectedGrapples: (ConfigurationItem | undefined)[] = [];
+  public selectedWinch = signal<ConfigurationItem | undefined>(undefined);
+  public selectedProtectionSleeves = signal<ConfigurationItem | undefined>(undefined);
+  public selectedElectricalFloating = signal<ConfigurationItem | undefined>(undefined);
+  public selectedValveBlock = signal<ConfigurationItem | undefined>(undefined);
+  public selectedDamping = signal<ConfigurationItem | undefined>(undefined);
+  public selectedCraneLight = signal<ConfigurationItem | undefined>(undefined);
+  public selectedOperatorSeat = signal<ConfigurationItem | undefined>(undefined);
+  public selectedCraneOilCooler = signal<ConfigurationItem | undefined>(undefined);
+  public selectedRotatorBrake = signal<ConfigurationItem | undefined>(undefined);
+  public selectedJoystickHolder = signal<ConfigurationItem | undefined>(undefined);
+  public selectedHoseGuard = signal<ConfigurationItem | undefined>(undefined);
+  public selectedTurningDeviceCounterPlate = signal<ConfigurationItem | undefined>(undefined);
+  public selectedSupportLegCounterPlate = signal<ConfigurationItem | undefined>(undefined);
+  public selectedBoomGuard = signal<ConfigurationItem | undefined>(undefined);
+  public selectedCover = signal<ConfigurationItem | undefined>(undefined);
+  public selectedWoodControl = signal<ConfigurationItem | undefined>(undefined);
+  public selectedLinkage = signal<ConfigurationItem | undefined>(undefined);
+
+  // TRAILERS
+  public selectedStanchion = signal<ConfigurationItem | undefined>(undefined);
+  public selectedBrake = signal<ConfigurationItem | undefined>(undefined);
+  public selectedPropulsion = signal<ConfigurationItem | undefined>(undefined);
+  public selectedDrawbar = signal<ConfigurationItem | undefined>(undefined);
+  public selectedPlatform = signal<ConfigurationItem | undefined>(undefined);
+  public selectedOilPump = signal<ConfigurationItem | undefined>(undefined);
+  public selectedOilTank = signal<ConfigurationItem | undefined>(undefined);
+  public selectedSupportLeg = signal<ConfigurationItem | undefined>(undefined);
+  public selectedTrailerLight = signal<ConfigurationItem | undefined>(undefined);
+  public selectedTyre = signal<ConfigurationItem | undefined>(undefined);
+  public selectedBolsterLock = signal<ConfigurationItem | undefined>(undefined);
+  public selectedBBox = signal<ConfigurationItem | undefined>(undefined);
+  public selectedWoodSorter = signal<ConfigurationItem | undefined>(undefined);
+  public selectedHandBrake = signal<ConfigurationItem | undefined>(undefined);
+  public selectedChainsawHolder = signal<ConfigurationItem | undefined>(undefined);
+  public selectedUnderrunProtection = signal<ConfigurationItem | undefined>(undefined);
 
   constructor(private httpClient: HttpClient) { }
   
@@ -41,6 +104,7 @@ export class PalmsService {
         for (const crane of trailer.crane){
           crane.imgUrl = `../../../../../assets/${crane.name}-1.svg`
         }
+        this._selectedTrailer.next(trailer);
         return trailer;
       })
   
@@ -61,6 +125,7 @@ export class PalmsService {
   getCrane(id: number): Observable<PalmsCrane>{
     return this.httpClient.get<PalmsCrane>(`${this.url}/Palms/cranes/${id}`).pipe(
       map((crane: PalmsCrane) => {
+        this._selectedCrane.next(crane);
         crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`]
         for (const trailer of crane.trailer){
           trailer.imgUrl = `../../../../../assets/${trailer.name}-1.svg`
@@ -68,5 +133,50 @@ export class PalmsService {
         return crane;
       })
     );
+  }
+
+  deleteTrailer(){
+    this.selectedStanchion.set(undefined);
+    this.selectedBrake.set(undefined);
+    this.selectedPropulsion.set(undefined);
+    this.selectedDrawbar.set(undefined);
+    this.selectedPlatform.set(undefined);
+    this.selectedOilPump.set(undefined);
+    this.selectedOilTank.set(undefined);
+    this.selectedSupportLeg.set(undefined);
+    this.selectedTrailerLight.set(undefined);
+    this.selectedTyre.set(undefined);
+    this.selectedBolsterLock.set(undefined);
+    this.selectedBBox.set(undefined);
+    this.selectedHandBrake.set(undefined);
+    this.selectedChainsawHolder.set(undefined);
+    this.selectedUnderrunProtection.set(undefined);
+  }
+
+  deleteCrane(){
+    console.log('delete in palms service');
+    
+    this.selectedControlBlock.set(undefined);
+    this.selectedFrameType.set(undefined);
+    this.selectedRotator.set(undefined);
+    this.selectedGrapple.set(undefined);
+    this.selectedGrapples = [];
+    this.selectedWinch.set(undefined);
+    this.selectedProtectionSleeves.set(undefined);
+    this.selectedElectricalFloating.set(undefined);
+    this.selectedValveBlock.set(undefined);
+    this.selectedDamping.set(undefined);
+    this.selectedCraneLight.set(undefined);
+    this.selectedOperatorSeat.set(undefined);
+    this.selectedCraneOilCooler.set(undefined);
+    this.selectedRotatorBrake.set(undefined);
+    this.selectedJoystickHolder.set(undefined);
+    this.selectedHoseGuard.set(undefined);
+    this.selectedTurningDeviceCounterPlate.set(undefined);
+    this.selectedSupportLegCounterPlate.set(undefined);
+    this.selectedBoomGuard.set(undefined);
+    this.selectedCover.set(undefined);
+    this.selectedWoodControl.set(undefined);
+    this.selectedLinkage.set(undefined);
   }
 }

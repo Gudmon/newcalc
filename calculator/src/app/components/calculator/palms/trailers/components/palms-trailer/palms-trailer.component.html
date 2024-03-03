@@ -1,18 +1,18 @@
-<app-navigation></app-navigation>
-<app-palms-trailer-information *ngIf="trailer" [trailer]="trailer" (craneSelected)="navigateToCrane($event)"></app-palms-trailer-information>
+
+<app-palms-trailer-information *ngIf="trailer && !fromCrane" [trailer]="trailer" (craneSelected)="navigateToCrane($event)"></app-palms-trailer-information>
 
 <div class="w-full h-full flex justify-center items-center mt-16">
-    <button (click)="loadTrailerConfigurations()" [disabled]="trailerSelected" [ngClass]="{'disabled': trailerSelected}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
+    <button *ngIf="!fromCrane && id" (click)="loadTrailerConfigurations(this.id!)" [disabled]="(palmsService.trailerSelected$ | async)" [ngClass]="{'disabled': (palmsService.trailerSelected$ | async)}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
 </div>
-<div *ngIf="trailerSelected" class="w-full h-full flex justify-center items-center mt-8 mb-2">
+<!-- <div *ngIf="(palmsService.trailerSelected$ | async)" class="w-full h-full flex justify-center items-center mt-8 mb-2">
     <p>Tippek</p>
 </div>
-<div *ngIf="trailerSelected" class="w-full h-full flex justify-center items-center">
+<div *ngIf="(palmsService.trailerSelected$ | async)" class="w-full h-full flex justify-center items-center">
     <p-inputSwitch  [(ngModel)]="hintsChecked"></p-inputSwitch>
 </div>
-<div *ngIf="trailerSelected" class="mx-auto">
+<div *ngIf="(palmsService.trailerSelected$ | async)" class="mx-auto">
     <app-palms-trailer-calculator-hints *ngIf="hintsChecked"></app-palms-trailer-calculator-hints>
-</div>
+</div> -->
 
 <form [formGroup]="trailerFormGroup">
     <div class="bg-slate-200">
@@ -186,93 +186,11 @@
                     <p-listbox (onChange)="handleTyreChange($event)" formControlName="selectedTyre" [options]="tyres" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <hr class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
+                <hr *ngIf="trailer && !fromCrane" class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
             </div>
         </div>
-
-        <div class="mx-10 ">
-            
-<!--             
-            <div class="grid grid-cols-12 gap-4 mt-6 fixed bottom-28 right-40 z-10">
-                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
-                  <p class="text-lg font-bold">Pótkocsi:</p>
-                </div>
-                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
-                  <p class="text-lg font-bold">{{palmsService._trailerPrice() | formatPrice}}</p> 
-                </div>  
-            </div> -->
-            <div *ngIf="trailerSelected && trailer" class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
-                <p-accordion [activeIndex]="">
-                    <p-accordionTab>
-                        <ng-template pTemplate="header" class="flex justify-around">
-                            <div class="flex gap-2 w-full">
-                                <p class="mr-auto text-sm lg:text-base"><span class="">{{trailer.name}} Pótkocsi: </span><span class="font-extrabold text-lg">{{palmsService._trailerPrice() | formatPrice}}</span></p>
-                                <button (click)="delete(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
-                            </div>
-                        </ng-template>
-                        <div class="max-h-96 overflow-auto">
-                            <app-accessory-item [accessoryItem]="originalStanchion"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalBrake"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalPropulsion"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalDrawbar"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalPlatform"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalOilPump"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalOilTank"></app-accessory-item>
-                            <div *ngIf="originalOilTank?.oilTankCooler && originalOilTankCooler" class="grid grid-cols-4 gap-10 py-2">
-                                <div class="col-span-3">
-                                    <p class="text-xs sm:text-sm md:text-md lg:text-lg">{{originalOilTankCooler.name}}</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-xs sm:text-sm md:text-md lg:text-lg">{{originalOilTankCooler.price}} €</p>
-                                </div>
-                            </div>
-                            <app-accessory-item [accessoryItem]="originalBolsterLock"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalBbox"></app-accessory-item>
-                            <div *ngIf="originalWoodSorter && originalWoodSorter.price > 0 && woodSorterNumberSelected" class="grid grid-cols-4 gap-10 py-2">
-                                <div class="col-span-3">
-                                    <p class="text-xs sm:text-sm md:text-md lg:text-lg">{{originalWoodSorter.name}}</p>
-                                </div>
-                                <div class="col-span-1">
-                                    <p class="text-xs sm:text-sm md:text-md lg:text-lg">{{originalWoodSorter.price}} €</p>
-                                </div>
-                            </div>
-                            <app-accessory-item [accessoryItem]="originalHandBrake"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalChainsawHolder"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalUnderrunProtection"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalSupportLeg"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalLight"></app-accessory-item>
-                            <app-accessory-item [accessoryItem]="originalTyre"></app-accessory-item>                          
-                        </div>             
-                    </p-accordionTab>
-
-                    <p-accordionTab *ngIf="craneSelected">
-                        <ng-template pTemplate="header" class="flex justify-around">
-                            <div class="flex gap-2 w-full">
-                                <p class="mr-auto text-sm lg:text-base"><span class="">{{ this.craneFormGroup.get('selectedCrane')?.value}} Daru: </span><span class="font-extrabold text-lg">{{palmsService._cranePrice() | formatPrice}}</span></p>
-                                <button (click)="delete(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
-                            </div>
-                        </ng-template>
-                        <div class="max-h-96 overflow-auto">
-                            <p>asd</p>                        
-                        </div>             
-                    </p-accordionTab>
-                    
-                </p-accordion>
-                
-            </div>
-            <!-- <div class="grid grid-cols-12 pt-6 fixed bottom-4 right-40 z-10">
-                <div class="col-span-8 sm:col-span-9 md:col-span-10 justify-self-end">
-                    
-                </div>
-                <div class="col-span-4 sm:col-span-3 md:col-span-2 justify-self-start">
-                    <button (click)="delete()" class="p-2  bg-red-500  active:bg-gray-700 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1">Törlés</button>
-                </div> 
-            </div> -->     
-            
-        </div> 
-        <app-palms-cranes-cards *ngIf="trailerSelected" [cranes]="trailer.crane" (buttonClickEmitter)="selectCrane($event)"></app-palms-cranes-cards>
+        <app-palms-crane-cards *ngIf="trailer && trailer.crane && trailerSelected && (palmsService.trailerSelected$ | async) && !fromCrane" [cranes]="trailer.crane" (buttonClickEmitter)="selectCrane($event)"></app-palms-crane-cards>
     </div>
-</form>
-<app-footer></app-footer>   
+</form>   
 
 

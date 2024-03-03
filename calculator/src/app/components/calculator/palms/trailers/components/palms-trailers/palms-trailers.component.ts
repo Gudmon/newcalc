@@ -28,7 +28,8 @@ export class PalmsTrailersComponent implements OnInit {
 
   constructor(
     readonly palmsService: PalmsService,
-    readonly loadingService: LoadingService){}
+    readonly loadingService: LoadingService,
+    readonly router: Router){}
 
   
   ngOnInit(): void {
@@ -42,6 +43,10 @@ export class PalmsTrailersComponent implements OnInit {
 
       this.filterTrailers(chassisType!);
     })
+  }
+
+  navigateToTrailer(trailer: PalmsTrailerOverview) {
+    this.router.navigate(['/calculator/palms/trailers', trailer.id]);
   }
 
   filterTrailers(chassisType: number) {
