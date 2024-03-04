@@ -18,14 +18,8 @@
     
 }
 
-.p-galleria .p-galleria-item-nav .p-icon-wrapper .p-icon > * {
-    color: var(--primary-color) !important;
-    padding: 1rem;
-    border-radius: 50%;
-}
-
-.p-galleria .p-galleria-item-nav .p-icon-wrapper .p-icon {
-    background-color: rgba(0,0,0,.7);
+.p-galleria .p-icon-wrapper {
+    background-color: white;
     border-radius: 20%;
 }
 

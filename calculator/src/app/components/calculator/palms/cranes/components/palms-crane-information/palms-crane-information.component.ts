@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
 import { TrailerDataItemComponent } from "../../../shared/components/machine-data-item/machine-data-item.component";
 import { PalmsCrane } from '../../models/palms-crane';
 import { ImageModule } from 'primeng/image';
@@ -17,6 +17,13 @@ export class PalmsCraneInformationComponent {
   responsiveOptions: any[] = []
   @Input({required: true}) crane!: PalmsCrane
   @Output() trailerSelected = new EventEmitter<number>();
+
+
+  @HostListener('document:keyup.escape', ['$event'])
+  onKeyup() {
+    this.displayBasic = false;
+  }
+
 
   constructor(){}
 

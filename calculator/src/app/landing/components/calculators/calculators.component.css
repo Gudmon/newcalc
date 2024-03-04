@@ -5,7 +5,8 @@
 
     .image-holder button:hover,
     .image-holder button:focus-visible {
-        transform: translateY(-.5rem);
-        transition: transform 250ms;
+        /* transform: translateY(-.5rem);
+        transition: transform 250ms; */
+        opacity: 80%;
     }
 }

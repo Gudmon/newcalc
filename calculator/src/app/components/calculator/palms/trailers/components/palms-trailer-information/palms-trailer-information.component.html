@@ -7,10 +7,10 @@
               
                 <p class="font-bold text-lg my-6">Adatok</p>
     
-                <app-trailer-data-item text="Rakodóterület keresztmetszete" [property]="trailer.loadingAreaCross" unit="m2"></app-trailer-data-item>
-                <app-trailer-data-item text="Rakodóterület hossza" [property]="trailer.loadingAreaLength" unit="mm"></app-trailer-data-item>
+                <app-trailer-data-item text="Rakfelület mérete" [property]="trailer.loadingAreaCross" unit="m2"></app-trailer-data-item>
+                <app-trailer-data-item text="Rakfelület hossza" [property]="trailer.loadingAreaLength" unit="mm"></app-trailer-data-item>
                 <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
-                    <p class="sm:w-1/2">Keresztkigészítés hossza</p>
+                    <p class="sm:w-1/2">Raktérhosszabbítás</p>
                     @if (trailer.frameExtensionLength === '-'){
                         <p class="sm:w-1/2">{{trailer.frameExtensionLength}}</p>
                     } @else {
@@ -19,14 +19,14 @@
                 </div>
                 <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
                 <app-trailer-data-item text="Teljes tömeg" [property]="trailer.grossWeight" unit="kg"></app-trailer-data-item>
-                <app-trailer-data-item text="Saját tömeg (opciók nélkül)" [property]="trailer.curbWeight" unit="kg"></app-trailer-data-item>
+                <app-trailer-data-item text="Saját tömeg" [property]="trailer.curbWeight" unit="kg"></app-trailer-data-item>
                 <app-trailer-data-item text="Teljes hossz" [property]="trailer.totalLength" unit="mm"></app-trailer-data-item>
                 <app-trailer-data-item text="Szélesség standard kerekekkel" [property]="trailer.widthWithStandardWheels"></app-trailer-data-item>
-                <app-trailer-data-item text="Standard kerék mérete" [property]="trailer.standardWheelSize"></app-trailer-data-item>
-                <app-trailer-data-item text="Keret" [property]="trailer.frame"></app-trailer-data-item>
-                <app-trailer-data-item text="Maximális daruméret emelési nyomaték alapján" [property]="trailer.maxCraneSize" unit="kNm"></app-trailer-data-item>
-                <app-trailer-data-item text="Vontatókar vezérlő hengerek" [property]="trailer.drawbarControlCylinders" unit="db"></app-trailer-data-item>
-                <app-trailer-data-item text="Keret típusa" [property]="trailer.beamType"></app-trailer-data-item>
+                <app-trailer-data-item text="Standard kerék mérete (mm)" [property]="trailer.standardWheelSize"></app-trailer-data-item>
+                <app-trailer-data-item text="Alváz mérete (mm)" [property]="trailer.frame"></app-trailer-data-item>
+                <app-trailer-data-item text="Maximális daruméret bruttó emelési nyomatéka" [property]="trailer.maxCraneSize" unit="kNm"></app-trailer-data-item>
+                <app-trailer-data-item text="Vonórúd kormány munkahenger száma" [property]="trailer.drawbarControlCylinders" unit="db"></app-trailer-data-item>
+                <app-trailer-data-item text="Alváz típusa" [property]="trailer.beamType"></app-trailer-data-item>
     
                 <p class="font-bold text-lg my-6">Gépkapcsolatok</p>
     
@@ -41,21 +41,32 @@
     
             </div>
             <div class="basis-2/3 flex flex-col align-middle justify-center">
-                <img src="{{trailer.imgUrls[0]}}" alt="">    
-                <div class="flex">
-                    <p-image class="hover:cursor-pointer" src="{{trailer.imgUrls[0]}}" (click)="displayBasic = true" alt="" width="250"/> 
-                    <p-image class="hover:cursor-pointer" src="{{trailer.imgUrls[1]}}" (click)="displayBasic = true" alt="" width="250"/> 
+                <img (click)="displayBasic = true" src="{{trailer.imgUrls[0]}}" alt="Trailer Image 1" class="hover:cursor-pointer">    
+                <div class="flex bg-white">
+                    <div id="video-holder" class="grid grid-cols-4 gap-2 mt-6">
+                        @for (imageUrl of trailer.imgUrls; track $index) {
+                            <p-image [src]="imageUrl" alt='Trailer Image'/>
+                        }
+                        <div #youTubePlayer>
+                            <youtube-player
+                            
+                            [videoId]="trailer.videoId"
+                            suggestedQuality="highres"
+                            [width]="videoWidth"
+                            [height]="videoHeight"
+                            [startSeconds]="4"
+                            [endSeconds]="8">
+                        </youtube-player>
+                        </div>
+                        
+                    </div>
                     
-                    <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
-                        [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
+                    <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="2"
+                        [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false">
                         <ng-template pTemplate="item" let-item>
                             <img [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
                         </ng-template>
-                        <ng-template pTemplate="thumbnail" let-item>
-                            <div class="grid grid-nogutter justify-content-center">
-                                <img [src]="item.thumbnailImageSrc" style="display: block;"/>
-                            </div>
-                        </ng-template>
+                        
                     </p-galleria>
                 </div>
             </div>

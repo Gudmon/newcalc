@@ -19,15 +19,15 @@ export class PalmsTrailerOverviewHintsComponent {
   constructor() {
       this.hints = [
           { title: 'S', description: 'Egyalvázas pótkocsi' },
+          { title: 'SX', description: '?' },
+          { title: 'SC', description: '?' },
           { title: 'D', description: 'Dupla alvázas pótkocsi' },
           { title: 'DWD', description: 'Dupla alvázas pótkocsi 2 kerék hajtással' },
           { title: 'U', description: 'Unibody típusú pótkocsi' },
-          { title: 'UWD', description: 'Unibody alvázas pótkocsi 2 kerék hajtással' },
-          { title: 'UAWD', description: 'Unibody alvázas pótkocsi 4 kerék hajtással' },
-          { title: 'SX', description: '?' },
-          { title: 'SC', description: '?' },
-          { title: 'MWD', description: 'Mechanikus pótkocsi 4 kerék hajtással' },
-          { title: 'HWMD', description: 'Hidromechanikus pótkocsi 4 kerék hajtással' }
+          { title: 'UWD', description: 'Unibody típusú pótkocsi 2 kerék hajtással' },
+          { title: 'UAWD', description: 'Unibody típusú pótkocsi 4 kerék hajtással' },
+          { title: 'MWD', description: 'Professzionális pótkocsi mechanikus 4 kerék hajtással' },
+          { title: 'HWMD', description: 'Professzionális pótkocsi hidromechanikus 4 kerék hajtással' }
       ];
   }
 }

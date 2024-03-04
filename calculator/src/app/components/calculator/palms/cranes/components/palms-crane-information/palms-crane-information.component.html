@@ -122,15 +122,20 @@
     
             </div>
             <div class="basis-2/3 flex flex-col align-middle justify-center">
-                <img src="{{crane.imgUrls[0]}}" alt="">    
-                <div class="flex">
-                    <p-image class="hover:cursor-pointer" src="{{crane.imgUrls[0]}}" (click)="displayBasic = true" alt="" width="250"/> 
-                    <p-image class="hover:cursor-pointer" src="{{crane.imgUrls[1]}}" (click)="displayBasic = true" alt="" width="250"/> 
+                <img (click)="displayBasic = true" src="{{crane.imgUrls[0]}}" alt="Crane Image 1" class="hover:cursor-pointer">    
+                <div class="flex bg-white">
                     
+                    <div class="grid grid-cols-4 gap-2 mt-6">
+                        @for (imageUrl of crane.imgUrls; track $index) {
+                            <p-image [src]="imageUrl" alt='Crane Image'/>
+                        }
+                    </div>
+                   
+               
                     <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="9"
-                        [circular]="true" [fullScreen]="true" [showItemNavigators]="true">
-                        <ng-template pTemplate="item" let-item>
-                            <img [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
+                        [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false">
+                        <ng-template  pTemplate="item" let-item>
+                            <img  [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
                         </ng-template>
                         <ng-template pTemplate="thumbnail" let-item>
                             <div class="grid grid-nogutter justify-content-center">
@@ -140,7 +145,13 @@
                     </p-galleria>
                 </div>
             </div>
-    
+            
+        </div>
+        <div class="max-w-40 max-h-40">
+             
+        </div>
+        <div class="max-w-40 max-h-40">
+            
         </div>
     </div>
     }

@@ -1,6 +1,6 @@
 
 @media (prefers-reduced-motion: no-preference){
-    .animated-card {
+    /* .animated-card {
         scale: .8;
         opacity: .7;
         animation: fade-in linear forwards;
@@ -14,11 +14,12 @@
 
     .image-holder button {
         transition: transform 1000ms;
-    }
+    } */
 
     .image-holder button:hover,
     .image-holder button:focus-visible {
-        transform: translateY(-.5rem);
-        transition: transform 250ms;
+        /* transform: translateY(-.5rem);
+        transition: transform 250ms; */
+        opacity: 80%;
     }
 }

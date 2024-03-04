@@ -42,6 +42,8 @@ export class PalmsService {
   public _trailerSelected = new BehaviorSubject<boolean>(false);
   public trailerSelected$ = this._trailerSelected.asObservable();
 
+  trailerVideos = new Map<string, string>();
+
   // CRANES
   public selectedControlBlock = signal<ConfigurationItem | undefined>(undefined);
   public selectedFrameType = signal<ConfigurationItem | undefined>(undefined);
@@ -99,8 +101,10 @@ export class PalmsService {
 }
 
   getTrailer(id: number): Observable<PalmsTrailer>{
+    this.setTrailerVideos(); 
     return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
       map((trailer: PalmsTrailer) => {
+        trailer.videoId = this.trailerVideos.get(trailer.name)
         trailer.imgUrls = [`../../../../../assets/${trailer.name}-1.svg`, `../../../../../assets/${trailer.name}-2.jpg`]
         for (const crane of trailer.crane){
           crane.imgUrl = `../../../../../assets/${crane.name}-1.svg`
@@ -134,6 +138,10 @@ export class PalmsService {
         return crane;
       })
     );
+  }
+
+  setTrailerVideos(){
+    this.trailerVideos.set("PALMS 6S", "OUXj3T4seD0")
   }
 
   deleteTrailer(){
