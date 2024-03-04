@@ -254,8 +254,22 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
       this.loadingService.enableLoader();
       this.palmsService.getCrane(this.id).pipe().subscribe((response) => {
-          this.crane = response as PalmsCrane;
-      }).add(() => this.loadingService.disableLoader())
+        if(!this.fromTrailer){
+          this.palmsService._deleteCrane.next(true);
+          this.palmsService._deleteTrailer.next(true);
+          this.palmsService._craneSelected.next(false);
+          this.palmsService._trailerSelected.next(false);
+          this.palmsService._selectedCrane.next(undefined);
+          this.palmsService._selectedTrailer.next(undefined);
+          this.palmsService._selectedCrane.next(response);
+        }
+        
+
+        this.crane = response as PalmsCrane;
+        
+      }).add(() => {
+        this.loadingService.disableLoader()
+      })
       
       if(this.fromTrailer){
         this.palmsService.selectedCrane$

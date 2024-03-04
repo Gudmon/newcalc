@@ -209,8 +209,22 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     this.loadingService.enableLoader();
     this.palmsService.getTrailer(this.id).pipe().subscribe((response) => {
-      this.trailer = response as PalmsTrailer; 
-    }).add(() => this.loadingService.disableLoader())
+      if(!this.fromCrane){
+        this.palmsService._deleteTrailer.next(true);
+        this.palmsService._deleteCrane.next(true);
+        this.palmsService._trailerSelected.next(false);
+        this.palmsService._craneSelected.next(false);
+        this.palmsService._selectedTrailer.next(undefined);
+        this.palmsService._selectedCrane.next(undefined);
+        this.palmsService._selectedTrailer.next(response); 
+      }
+     
+
+      this.trailer = response as PalmsTrailer;
+      
+    }).add(() => {
+      this.loadingService.disableLoader();
+    })
     
     if(this.fromCrane){
       this.palmsService.selectedTrailer$
@@ -227,7 +241,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.delete();
     })
 
-    this.palmsService.deleteCrane$.subscribe(() => {
+    this.palmsService.deleteTrailer$.subscribe(() => {
       this.palmsService.deleteCrane();
       this.delete();
     })
@@ -275,9 +289,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         if (stanchions.length > 0){
           
           this.stanchions = stanchions;
-          this.palmsService._trailerPrice.set(stanchions[0].price)
+          this.palmsService._trailerPrice.set(stanchions[0].price);
           this.originalStanchion = stanchions[0];
           this.originalStanchionPrice = stanchions[0].price;
+          this.palmsService.selectedStanchion.set(stanchions[0]);
         }
         
         if (brakes.length > 0){
@@ -370,8 +385,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalStanchion = event.value;
+      this.palmsService.selectedStanchion.set(event.value)
     } else {
       this.originalStanchion = undefined;
+      this.palmsService.selectedStanchion.set(undefined)
     }
 
     const maxNumber = Number(this.originalStanchion?.code[1]) * 2;
@@ -411,8 +428,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalBrake = event.value;
+      this.palmsService.selectedBrake.set(event.value)
     } else {
       this.originalBrake = undefined;
+      this.palmsService.selectedBrake.set(undefined)
     }
   }
 
@@ -429,8 +448,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalPropulsion = event.value;
+      this.palmsService.selectedPropulsion.set(event.value)
     } else {
       this.originalPropulsion = undefined;
+      this.palmsService.selectedPropulsion.set(undefined)
     }
   }
 
@@ -447,8 +468,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalDrawbar = event.value;
+      this.palmsService.selectedDrawbar.set(event.value)
     } else {
       this.originalDrawbar = undefined;
+      this.palmsService.selectedDrawbar.set(undefined)
     }
   }
 
@@ -465,8 +488,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalPlatform = event.value;
+      this.palmsService.selectedPlatform.set(event.value)
     } else {
       this.originalPlatform = undefined;
+      this.palmsService.selectedPlatform.set(undefined)
     }
   }
 
@@ -483,8 +508,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalOilPump = event.value;
+      this.palmsService.selectedOilPump.set(event.value)
     } else {
       this.originalOilPump = undefined;
+      this.palmsService.selectedOilPump.set(undefined)
     }
   }
 
@@ -501,8 +528,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalOilTank = event.value;
+      this.palmsService.selectedOilTank.set(event.value)
     } else {
       this.originalOilTank = undefined;
+      this.palmsService.selectedOilTank.set(undefined)
     } 
 
     setTimeout(() => {
@@ -528,8 +557,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalSupportLeg = event.value;
+      this.palmsService.selectedSupportLeg.set(event.value)
     } else {
       this.originalSupportLeg = undefined;
+      this.palmsService.selectedSupportLeg.set(undefined)
     }
   }
 
@@ -546,8 +577,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalLight = event.value;
+      this.palmsService.selectedTrailerLight.set(event.value)
     } else {
       this.originalLight = undefined;
+      this.palmsService.selectedTrailerLight.set(undefined)
     }
   }
 
@@ -564,67 +597,70 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalTyre = event.value;
+      this.palmsService.selectedTyre.set(event.value)
     } else {
       this.originalTyre = undefined;
+      this.palmsService.selectedTyre.set(undefined)
     }
   }
 
   onOilTankCoolerChange(event: CheckboxChangeEvent){
-
     if (event.checked.length > 0) {
       const current = this.palmsService._trailerPrice();
       const newPrice = current + Number(event.checked[0].price);
       this.palmsService._trailerPrice.set(newPrice);
       this.originalOilTankCoolerPrice = Number(event.checked[0].price);
       this.originalOilTankCooler = event.checked[0];
+      this.palmsService.selectedTrailerOilCooler.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
       const newPrice = current - this.originalOilTankCoolerPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalOilTankCooler = undefined;
+      this.palmsService.selectedTrailerOilCooler.set(undefined);
     }
   }
 
   onBolsterLockChange(event: CheckboxChangeEvent){
-
-
     if (event.checked.length > 0) {
       const current = this.palmsService._trailerPrice();
       const newPrice = current + Number(event.checked[0].price);
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBolsterLockPrice = Number(event.checked[0].price);
       this.originalBolsterLock = event.checked[0];
+      this.palmsService.selectedBolsterLock.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
       const newPrice = current - this.originalBolsterLockPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBolsterLock = undefined;
+      this.palmsService.selectedBolsterLock.set(undefined);
     }
   }
 
   onBBoxChange(event: CheckboxChangeEvent){
-  
-
     if (event.checked.length > 0) {
       const current = this.palmsService._trailerPrice();
       const newPrice = current + Number(event.checked[0].price);
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBboxPrice = Number(event.checked[0].price);
       this.originalBbox = event.checked[0];
+      this.palmsService.selectedBBox.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
       const newPrice = current - this.originalBboxPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBbox = undefined;
+      this.palmsService.selectedBBox.set(undefined);
     }
   }
 
   onWoodSorterChange(event: CheckboxChangeEvent){
-  
     if (event.checked.length > 0) {
         this.originalWoodSorterPrice = Number(event.checked[0].price);
         this.woodSorterChecked = true;
         this.originalWoodSorter = event.checked[0];
+        this.palmsService.selectedWoodSorter.set(event.checked[0]);
 
         setTimeout(() => {
           if(this.woodSorterArrayElements = []){
@@ -648,7 +684,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
           this.initialWoodSorterNumber = 0;
           this.previousWoodSorterNumber = 0;
           this.originalWoodSorter = undefined;
-            this.woodSorterArrayElements = []
+          this.woodSorterArrayElements = []
+          this.palmsService.selectedWoodSorter.set(undefined);
           }, 50);
     }
   }
@@ -677,11 +714,13 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService._trailerPrice.set(newPrice);
       this.originalHandBrakePrice = Number(event.checked[0].price);
       this.originalHandBrake = event.checked[0];
+      this.palmsService.selectedHandBrake.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
       const newPrice = current - this.originalHandBrakePrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalHandBrake = undefined;
+      this.palmsService.selectedHandBrake.set(undefined);
     }
   }
 
@@ -692,11 +731,13 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService._trailerPrice.set(newPrice);
       this.originalChainsawHolderPrice = Number(event.checked[0].price);
       this.originalChainsawHolder = event.checked[0];
+      this.palmsService.selectedChainsawHolder.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
       const newPrice = current - this.originalChainsawHolderPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalChainsawHolder = undefined;
+      this.palmsService.selectedChainsawHolder.set(undefined);
     }
   }
 
@@ -707,11 +748,13 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService._trailerPrice.set(newPrice);
       this.originalUnderrunProtectionPrice = Number(event.checked[0].price);
       this.originalUnderrunProtection = event.checked[0];
+      this.palmsService.selectedUnderrunProtection.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
       const newPrice = current - this.originalUnderrunProtectionPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalUnderrunProtection = undefined;
+      this.palmsService.selectedUnderrunProtection.set(undefined);
     }
   }
 

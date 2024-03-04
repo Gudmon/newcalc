@@ -34,9 +34,18 @@ export class PalmsCranesComponent {
   ngOnInit(): void {
     this.loadingService.enableLoader();
     this.palmsService.getCranes().subscribe((resp) => {
+      this.palmsService._deleteCrane.next(true);
+      this.palmsService._deleteTrailer.next(true);
+      this.palmsService._craneSelected.next(false);
+      this.palmsService._trailerSelected.next(false);
+      this.palmsService._selectedCrane.next(undefined);
+      this.palmsService._selectedTrailer.next(undefined);
+      
       this.cranes = resp as PalmsCraneOverview[];
-      this.originalCranes = resp as PalmsCraneOverview[]
-    }).add(() => this.loadingService.disableLoader())
+      this.originalCranes = resp as PalmsCraneOverview[]  
+    }).add(() => {
+      this.loadingService.disableLoader();
+    })
   }
 
   filterCranes(event: SliderSlideEndEvent) {

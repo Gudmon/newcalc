@@ -74,6 +74,7 @@ export class PalmsService {
   public selectedPlatform = signal<ConfigurationItem | undefined>(undefined);
   public selectedOilPump = signal<ConfigurationItem | undefined>(undefined);
   public selectedOilTank = signal<ConfigurationItem | undefined>(undefined);
+  public selectedTrailerOilCooler = signal<ConfigurationItem | undefined>(undefined);
   public selectedSupportLeg = signal<ConfigurationItem | undefined>(undefined);
   public selectedTrailerLight = signal<ConfigurationItem | undefined>(undefined);
   public selectedTyre = signal<ConfigurationItem | undefined>(undefined);
@@ -104,7 +105,7 @@ export class PalmsService {
         for (const crane of trailer.crane){
           crane.imgUrl = `../../../../../assets/${crane.name}-1.svg`
         }
-        this._selectedTrailer.next(trailer);
+        //this._selectedTrailer.next(trailer);
         return trailer;
       })
   
@@ -125,7 +126,7 @@ export class PalmsService {
   getCrane(id: number): Observable<PalmsCrane>{
     return this.httpClient.get<PalmsCrane>(`${this.url}/Palms/cranes/${id}`).pipe(
       map((crane: PalmsCrane) => {
-        this._selectedCrane.next(crane);
+        //this._selectedCrane.next(crane);
         crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`]
         for (const trailer of crane.trailer){
           trailer.imgUrl = `../../../../../assets/${trailer.name}-1.svg`

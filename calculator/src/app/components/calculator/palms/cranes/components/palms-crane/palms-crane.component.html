@@ -1,12 +1,12 @@
 
 <app-palms-crane-information *ngIf="crane && !fromTrailer" [crane]="crane" (trailerSelected)="navigateToTrailer($event)"></app-palms-crane-information>
 
-<div class="w-full h-full flex justify-center items-center mt-16">
-    <button *ngIf="!fromTrailer && id" (click)="loadCraneConfigurations(this.id!)" [disabled]="(palmsService.craneSelected$ | async)" [ngClass]="{'disabled': (palmsService.craneSelected$ | async)}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
+<div *ngIf="!fromTrailer && id" class="w-full h-full flex justify-center items-center mt-16">
+    <button (click)="loadCraneConfigurations(this.id!)" [disabled]="(palmsService.craneSelected$ | async)" [ngClass]="{'disabled': (palmsService.craneSelected$ | async)}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
 </div>
 
 <form [formGroup]="craneFormGroup">
-    <div *ngIf="(palmsService.craneSelected$ | async)" class="bg-slate-200">
+    <ng-container *ngIf="(palmsService.craneSelected$ | async)" class="bg-slate-200">
         <div #configElement class="flex align-middle justify-center my-10">
             <div class="w-11/12">
 
@@ -237,5 +237,5 @@
             </div>
         </div>
         <app-palms-trailer-cards *ngIf="crane && crane.trailer && (palmsService.craneSelected$ | async) && !fromTrailer" [trailers]="crane.trailer" (buttonClickEmitter)="selectTrailer($event)"></app-palms-trailer-cards>
-    </div>
+    </ng-container>
 </form>

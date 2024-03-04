@@ -35,9 +35,19 @@ export class PalmsTrailersComponent implements OnInit {
   ngOnInit(): void {
     this.loadingService.enableLoader();
     this.palmsService.getTrailers().subscribe((resp) => {
+      this.palmsService._deleteTrailer.next(true);
+      this.palmsService._deleteCrane.next(true);
+      this.palmsService._trailerSelected.next(false);
+      this.palmsService._craneSelected.next(false);
+      this.palmsService._selectedTrailer.next(undefined);
+      this.palmsService._selectedCrane.next(undefined);
+
       this.trailers = resp as PalmsTrailerOverview[];
-      this.originalTrailers = resp as PalmsTrailerOverview[]
-    }).add(() => this.loadingService.disableLoader())
+      this.originalTrailers = resp as PalmsTrailerOverview[];
+    }).add(() => {
+      
+      this.loadingService.disableLoader();
+    })
 
     this.palmsService.selectedChassisType$.pipe().subscribe((chassisType) => {
 
