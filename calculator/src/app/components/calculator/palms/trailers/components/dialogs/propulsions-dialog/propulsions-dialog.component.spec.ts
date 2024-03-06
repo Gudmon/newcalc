@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PropulsionDialogComponent } from './propulsions-dialog.component';
+import { PropulsionsDialogComponent } from './propulsions-dialog.component';
 
 describe('PropulsionDialogComponent', () => {
-  let component: PropulsionDialogComponent;
-  let fixture: ComponentFixture<PropulsionDialogComponent>;
+  let component: PropulsionsDialogComponent;
+  let fixture: ComponentFixture<PropulsionsDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PropulsionDialogComponent]
+      imports: [PropulsionsDialogComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(PropulsionDialogComponent);
+    fixture = TestBed.createComponent(PropulsionsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -42,10 +42,11 @@ export class PalmsTrailerConfigService {
   getPropulsions(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/propulsions`).pipe(
       map((propulsions: ConfigurationItem[]) => {
+        
         for (const propulsion of propulsions){
           if (propulsion.code === "RWD") propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-1.jpg`, `../../../../assets/PALMS trailer-propulsion-1-1.jpg`]
           else if (propulsion.code === "RWD+") propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-2.jpg`, `../../../../assets/PALMS trailer-propulsion-2-1.jpg`, `../../../../assets/PALMS trailer-propulsion-2-2.jpg`]
-          else propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-${id}.jpg`]
+          else propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-${propulsion.id}.jpg`]
           propulsion.namePrice = propulsion.name + " " + propulsion.price + "€"
         }
         return propulsions;
