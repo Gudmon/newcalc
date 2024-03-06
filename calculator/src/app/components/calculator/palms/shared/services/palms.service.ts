@@ -19,8 +19,8 @@ export class PalmsService {
   public _selectedChassisType = new BehaviorSubject<number | null>(null);
   public selectedChassisType$ = this._selectedChassisType.asObservable();
 
-  public _trailerPrice = signal(0);
-  public _cranePrice = signal(0);
+  public _trailerPrice = signal<number>(0);
+  public _cranePrice = signal<number>(0);
 
   public _selectedCrane = new BehaviorSubject<PalmsCraneOverview | undefined>(undefined);
   public selectedCrane$ = this._selectedCrane.asObservable();
@@ -152,6 +152,7 @@ export class PalmsService {
     this.selectedPlatform.set(undefined);
     this.selectedOilPump.set(undefined);
     this.selectedOilTank.set(undefined);
+    this.selectedTrailerOilCooler.set(undefined);
     this.selectedSupportLeg.set(undefined);
     this.selectedTrailerLight.set(undefined);
     this.selectedTyre.set(undefined);

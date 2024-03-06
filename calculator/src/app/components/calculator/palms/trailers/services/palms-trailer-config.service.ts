@@ -28,7 +28,11 @@ export class PalmsTrailerConfigService {
       map((brakes: ConfigurationItem[]) => {
         for (const brake of brakes){
           brake.namePrice = brake.name + " " + brake.price + "€"
-          brake.imgUrl = `../../../../assets/PALMS trailer-brake-${Number(brake.id) - 1}.jpg`
+          if(brake.code === "B1") brake.imgUrl = `../../../../assets/PALMS trailer-brake-1.jpg`
+          if(brake.code === "B2") brake.imgUrl = `../../../../assets/PALMS trailer-brake-2.jpg`
+          if(brake.code === "B3") brake.imgUrl = `../../../../assets/PALMS trailer-brake-3.jpg`
+          if(brake.code === "B4") brake.imgUrl = `../../../../assets/PALMS trailer-brake-4.jpg`
+          
         }    
         return brakes;
       })
@@ -39,6 +43,9 @@ export class PalmsTrailerConfigService {
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/propulsions`).pipe(
       map((propulsions: ConfigurationItem[]) => {
         for (const propulsion of propulsions){
+          if (propulsion.code === "RWD") propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-1.jpg`, `../../../../assets/PALMS trailer-propulsion-1-1.jpg`]
+          else if (propulsion.code === "RWD+") propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-2.jpg`, `../../../../assets/PALMS trailer-propulsion-2-1.jpg`, `../../../../assets/PALMS trailer-propulsion-2-2.jpg`]
+          else propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-${id}.jpg`]
           propulsion.namePrice = propulsion.name + " " + propulsion.price + "€"
         }
         return propulsions;
@@ -93,12 +100,21 @@ export class PalmsTrailerConfigService {
         for (const oiltank of oiltanks){
           oiltank.namePrice = oiltank.name + " " + oiltank.price + "€"
           oiltank.imgUrl = `../../../../assets/PALMS trailer-drawbar-${oiltank.id}.jpg`
-          
-          if (oiltank.oilTankCooler) {
-            oiltank.oilTankCooler.namePrice = oiltank.oilTankCooler.name + " " + oiltank.oilTankCooler.price + "€";
-          }
         }
         return oiltanks;
+      })
+    );
+  }
+
+  getTrailerOilCooler(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/oilcooler`).pipe(
+      map((oilCooler: ConfigurationItem | null) => {
+        if (oilCooler) {
+          oilCooler.namePrice = oilCooler.name + " " + oilCooler.price + "€";
+          return oilCooler;
+        } else {
+          return null;
+        }
       })
     );
   }

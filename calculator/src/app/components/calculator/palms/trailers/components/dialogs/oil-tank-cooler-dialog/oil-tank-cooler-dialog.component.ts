@@ -10,9 +10,9 @@ import { DialogModule } from 'primeng/dialog';
 })
 export class OilTankCoolerDialogComponent {
   @Output() dialogVisible = new EventEmitter<void>()
-  @Input({required: true}) oilTankCoolersDialogVisible: boolean = false;
+  @Input({required: true}) trailerOilCoolerDialogVisible: boolean = false;
 
-  closeOilTankCoolersDialog() {
+  closeOilTankCoolerDialog() {
     this.dialogVisible.emit();
   }
 }

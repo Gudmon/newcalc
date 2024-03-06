@@ -5,12 +5,15 @@
         </div>
     </ng-template>
     @for (brake of brakes; track $index) {
-        @if (getBrakeId(brake) !== 1) {
+        @if (brake.id !== 1) {
             <div>
                 <p class="my-12 text-3xl font-bold">
                     {{brake.name}}
                 </p>
-                <img [src]="brake.imgUrl" alt="brakeImage">
+                @if (brake.code !== "BA-EU" && brake.code !== "BH-EU") {
+
+                    <img [src]="brake.imgUrl" alt="brakeImage">
+                }
             </div>
         }       
     }  

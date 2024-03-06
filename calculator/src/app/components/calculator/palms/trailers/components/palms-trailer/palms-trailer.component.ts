@@ -45,13 +45,14 @@ import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
 import { PalmsCrane } from '../../../cranes/models/palms-crane';
 import { PalmsCraneComponent } from "../../../cranes/components/palms-crane/palms-crane.component";
 import { PalmsCraneCardsComponent } from '../../../cranes/components/palms-crane-cards/palms-crane-cards.component';
+import { PropulsionsDialogComponent } from "../dialogs/propulsions-dialog/propulsions-dialog.component";
 
 @Component({
     selector: 'app-palms-trailer',
     standalone: true,
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, CardModule, FooterComponent, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent]
+    imports: [NavigationComponent, CardModule, FooterComponent, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent, PropulsionsDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit, OnDestroy{
   trailer!: PalmsTrailer
@@ -64,7 +65,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   woodSorterNumberSelected: boolean = false;
   
 
-  @ViewChild('oilTankCoolerCheckBox') oilTankCoolerCheckBox!: Checkbox;
+  @ViewChild('oilCoolerCheckBox') oilCoolerCheckBox!: Checkbox;
   @ViewChild('woodSorterCheckBox') woodSorterCheckBox!: Checkbox;
   @ViewChild('woodSorterDropdown') woodSorterDropdown!: Dropdown;
  
@@ -74,7 +75,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   showPlatformsDialog: boolean = false;
   showOilPumpsDialog: boolean = false;
   showOilTanksDialog: boolean = false;
-  showOilTankCoolersDialog: boolean = false;
+  showTrailerOilCoolerDialog: boolean = false;
   showBolsterLockDialog: boolean = false;
   showBboxDialog: boolean = false;
   showWoodSorterDialog: boolean = false;
@@ -92,6 +93,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   platforms: ConfigurationItem[] = [];
   oilPumps: ConfigurationItem[] = [];
   oilTanks: ConfigurationItem[] = [];
+  trailerOilCooler: ConfigurationItem | undefined = undefined;
   bolsterLock: ConfigurationItem | undefined = undefined;
   bbox: ConfigurationItem | undefined = undefined;
   woodSorter: ConfigurationItem | undefined = undefined;
@@ -111,7 +113,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalPlatformPrice = 0;
   originalOilPumpPrice = 0;
   originalOilTankPrice = 0;
-  originalOilTankCoolerPrice = 0;
+  originalTrailerOilCoolerPrice = 0;
   originalBolsterLockPrice = 0;
   originalBboxPrice = 0;
   originalWoodSorterPrice = 0;
@@ -134,7 +136,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalPlatform: ConfigurationItem | undefined = undefined;
   originalOilPump: ConfigurationItem | undefined = undefined;
   originalOilTank: ConfigurationItem | undefined = undefined;
-  originalOilTankCooler: ConfigurationItem | undefined = undefined;
+  originalTrailerOilCooler: ConfigurationItem | undefined = undefined;
   originalBolsterLock: ConfigurationItem | undefined = undefined;
   originalBbox: ConfigurationItem | undefined = undefined;
   originalWoodSorter: ConfigurationItem | undefined = undefined;
@@ -155,7 +157,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     selectedPlatform: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedOilPump: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedOilTank: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-    selectedOilTankCooler: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedTrailerOilCooler: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedBolsterLock: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedBbox: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedWoodSorter: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
@@ -178,7 +180,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       selectedPlatform: null,
       selectedOilPump: null,
       selectedOilTank: null,
-      selectedOilTankCooler: null,
+      selectedTrailerOilCooler: null,
       selectedBolsterLock: null,
       selectedBbox: null,
       selectedWoodSorter: null,
@@ -219,7 +221,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         this.palmsService._selectedTrailer.next(response); 
       }
      
-
       this.trailer = response as PalmsTrailer;
       
     }).add(() => {
@@ -236,8 +237,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     }
 
     this.palmsService.deleteTrailer$.subscribe(() => { 
-      console.log('should not delete');
-      
       this.delete();
     })
 
@@ -262,9 +261,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   }
 
   loadTrailerConfigurations(id: number){ 
-    
     if(id){
-      
       this.loadingService.enableLoader();
       const stanchions$ = this.palmsTrailerConfigService.getStanchions(id);
       const brakes$ = this.palmsTrailerConfigService.getBrakes(id);
@@ -273,6 +270,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       const platforms$ = this.palmsTrailerConfigService.getPlatforms(id);
       const oilPumps$ = this.palmsTrailerConfigService.getOilPumps(id);
       const oilTanks$ = this.palmsTrailerConfigService.getOilTanks(id);
+      const trailerOilCooler$ = this.palmsTrailerConfigService.getTrailerOilCooler(id);
       const bolsterLock$ = this.palmsTrailerConfigService.getBolsterLock(id);
       const bbox$ = this.palmsTrailerConfigService.getBBox(id);
       const woodSorter$ = this.palmsTrailerConfigService.getWoodSorter(id);
@@ -283,9 +281,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       const lights$ = this.palmsTrailerConfigService.getLights(id);
       const tyres$ = this.palmsTrailerConfigService.getTyres(id);
       
-      const request = forkJoin([stanchions$, brakes$, propulsions$, drawbars$, platforms$, oilPumps$, oilTanks$, bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, underrunProtection$, supportLegs$, lights$, tyres$]);
+      const request = forkJoin([stanchions$, brakes$, propulsions$, drawbars$, platforms$, oilPumps$, oilTanks$, trailerOilCooler$, bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, underrunProtection$, supportLegs$, lights$, tyres$]);
      
-      request.subscribe(([stanchions, brakes, propulsions, drawbars, platforms, oilPumps, oilTanks, bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, underrunProtection, supportLegs, lights, tyres]) => {
+      request.subscribe(([stanchions, brakes, propulsions, drawbars, platforms, oilPumps, oilTanks, trailerOilCooler, bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, underrunProtection, supportLegs, lights, tyres]) => {
         if (stanchions.length > 0){
           
           this.stanchions = stanchions;
@@ -319,6 +317,11 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
           this.oilTanks = oilTanks;
         }
   
+        if (trailerOilCooler){
+          this.trailerOilCooler = trailerOilCooler;
+  
+        }
+
         if (bolsterLock){
           this.bolsterLock = bolsterLock;
   
@@ -446,13 +449,63 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService._trailerPrice.set(newPrice);
     }
 
+    let updatedTyres: ConfigurationItem[] = [];
+
     if (event.value){
+      console.log(event.value);
+      
       this.originalPropulsion = event.value;
       this.palmsService.selectedPropulsion.set(event.value)
+
+      //ROBSON
+      if (event.value.id === 1 || event.value.id === 2 ||
+        event.value.id === 5 || event.value.id === 6){
+        
+        updatedTyres = this.updateTyresForRobsonPropulsion();
+      } else {
+        updatedTyres = this.updateTyresToEnabled();
+      }
+
+      //BB 250
+      if (event.value.id === 3 || event.value.id === 4){
+        
+        updatedTyres = this.updateTyresForBB250Propulsion();
+      } else {
+        updatedTyres = this.updateTyresToEnabled();
+      }
+      
     } else {
       this.originalPropulsion = undefined;
-      this.palmsService.selectedPropulsion.set(undefined)
+      this.palmsService.selectedPropulsion.set(undefined);
+      updatedTyres = this.updateTyresToEnabled();
     }
+
+    this.tyres = updatedTyres;
+  }
+
+  updateTyresForRobsonPropulsion(): ConfigurationItem[] {
+    return this.tyres.map((tyre) => ({
+      ...tyre,
+      disabledOption: tyre.code !== "WH3.6" 
+      && tyre.code !== "WH5.6" 
+      && tyre.code !== "WH8.8"
+      && tyre.code !== "WH6.8"
+      && tyre.code !== "WH7.8"
+    }));
+  }
+
+  updateTyresForBB250Propulsion(): ConfigurationItem[] {
+    return this.tyres.map((tyre) => ({
+      ...tyre,
+      disabledOption: tyre.code === "WH4.8" || tyre.code === "WH3.8" 
+    }));
+  }
+
+  updateTyresToEnabled(): ConfigurationItem[] {
+    return this.tyres.map((tyre) => ({
+      ...tyre,
+      disabledOption: false
+    }));
   }
 
   handleDrawbarChange(event: ListboxChangeEvent) {
@@ -533,15 +586,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.originalOilTank = undefined;
       this.palmsService.selectedOilTank.set(undefined)
     } 
-
-    setTimeout(() => {
-      if(this.oilTankCoolerCheckBox){
-        this.oilTankCoolerCheckBox.writeValue(false);
-      }
-    },50);
-   
-    if(this.originalOilTankCooler) this.palmsService._trailerPrice.set(this.palmsService._trailerPrice() - this.originalOilTankCooler.price)
-    this.originalOilTankCooler = undefined;
   }
 
   handleSupportLegChange(event: ListboxChangeEvent) {
@@ -595,28 +639,57 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService._trailerPrice.set(newPrice);
     }
 
+    let updatedPropulsions: ConfigurationItem[] = [];
+
     if (event.value){
+      console.log(event.value);
+      
       this.originalTyre = event.value;
       this.palmsService.selectedTyre.set(event.value)
+
+      if (event.value.code !== "WH3.6" && event.value.code !== "WH5.6" &&
+      event.value.code !== "WH8.8" && event.value.code !== "WH6.8" && event.value.code !== "WH7.8") {  
+        updatedPropulsions = this.updatePropulsionsForTyre();
+      } else {
+        updatedPropulsions = this.updatePropulsionsToEnabled();
+      }
     } else {
       this.originalTyre = undefined;
-      this.palmsService.selectedTyre.set(undefined)
+      this.palmsService.selectedTyre.set(undefined);
+      updatedPropulsions = this.updatePropulsionsToEnabled();
     }
+
+    this.propulsions = updatedPropulsions;
   }
 
-  onOilTankCoolerChange(event: CheckboxChangeEvent){
+  updatePropulsionsForTyre(): ConfigurationItem[] {
+    return this.propulsions.map((propulsion) => ({
+      ...propulsion,
+      disabledOption: propulsion.id === 1 || propulsion.id === 2 
+      || propulsion.id === 5 || propulsion.id === 6
+    }));
+  }
+
+  updatePropulsionsToEnabled(): ConfigurationItem[] {
+    return this.propulsions.map((propulsion) => ({
+      ...propulsion,
+      disabledOption: false
+    }));
+  }
+
+  onOilCoolerChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current + Number(event.checked[0].price);
+      const newPrice = Number(current) + Number(event.checked[0].price);
       this.palmsService._trailerPrice.set(newPrice);
-      this.originalOilTankCoolerPrice = Number(event.checked[0].price);
-      this.originalOilTankCooler = event.checked[0];
+      this.originalTrailerOilCoolerPrice = Number(event.checked[0].price);
+      this.originalTrailerOilCooler = event.checked[0];
       this.palmsService.selectedTrailerOilCooler.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current - this.originalOilTankCoolerPrice;
+      const newPrice = Number(current) - this.originalTrailerOilCoolerPrice;
       this.palmsService._trailerPrice.set(newPrice);
-      this.originalOilTankCooler = undefined;
+      this.originalTrailerOilCooler = undefined;
       this.palmsService.selectedTrailerOilCooler.set(undefined);
     }
   }
@@ -624,14 +697,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   onBolsterLockChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current + Number(event.checked[0].price);
+      const newPrice = Number(current) + Number(event.checked[0].price);
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBolsterLockPrice = Number(event.checked[0].price);
       this.originalBolsterLock = event.checked[0];
       this.palmsService.selectedBolsterLock.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current - this.originalBolsterLockPrice;
+      const newPrice = Number(current) - this.originalBolsterLockPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBolsterLock = undefined;
       this.palmsService.selectedBolsterLock.set(undefined);
@@ -640,15 +713,15 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
   onBBoxChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
-      const current = this.palmsService._trailerPrice();
-      const newPrice = current + Number(event.checked[0].price);
+      const current = this.palmsService._trailerPrice(); 
+      const newPrice = Number(current) + Number(event.checked[0].price);   
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBboxPrice = Number(event.checked[0].price);
       this.originalBbox = event.checked[0];
       this.palmsService.selectedBBox.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current - this.originalBboxPrice;
+      const newPrice = Number(current) - this.originalBboxPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalBbox = undefined;
       this.palmsService.selectedBBox.set(undefined);
@@ -657,12 +730,15 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
   onWoodSorterChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
+      
         this.originalWoodSorterPrice = Number(event.checked[0].price);
         this.woodSorterChecked = true;
         this.originalWoodSorter = event.checked[0];
         this.palmsService.selectedWoodSorter.set(event.checked[0]);
 
         setTimeout(() => {
+          
+          
           if(this.woodSorterArrayElements = []){
             const maxNumber = Number(this.originalStanchion?.code[1]) * 2;
 
@@ -672,14 +748,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
               if (this.originalWoodSorter){
                 this.originalWoodSorter.name = this.originalWoodSorter?.name.replace(/\s\d+ db$/, '');
                 this.originalWoodSorter.price = 0;
-                this.palmsService._trailerPrice.update(value => value + (65* this.initialWoodSorterNumber));
+                this.palmsService._trailerPrice.update(value => Number(value) + (Number(65)* Number(this.initialWoodSorterNumber)));
               }
             }
           }
         }, 100);
     } else {
         setTimeout(() => {
-          this.palmsService._trailerPrice.update(value => value - (65* this.initialWoodSorterNumber));
+          this.palmsService._trailerPrice.update(value => value - (Number(65)* Number(this.initialWoodSorterNumber)));
           this.woodSorterChecked = false;
           this.initialWoodSorterNumber = 0;
           this.previousWoodSorterNumber = 0;
@@ -692,17 +768,17 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
   onWoodSorterNumberChange(event: DropdownChangeEvent){
     this.woodSorterNumberSelected = true;
-    const number = event.value.number;
+    const number = Number(event.value.number);
     this.initialWoodSorterNumber = number;
-    const previousTotalPrice = this.previousWoodSorterNumber * this.initialWoodSorterPrice;
+    const previousTotalPrice = Number(this.previousWoodSorterNumber) * Number(this.initialWoodSorterPrice);
 
     if (this.originalWoodSorter) {
         this.originalWoodSorter.name = this.originalWoodSorter.name.replace(/\s\d+ db$/, '') + " " + this.initialWoodSorterNumber + " db";
         this.originalWoodSorter.price = this.initialWoodSorterPrice * this.initialWoodSorterNumber;
 
-        this.palmsService._trailerPrice.update(value => value - previousTotalPrice + (this.initialWoodSorterPrice * this.initialWoodSorterNumber));
+        this.palmsService._trailerPrice.update(value => value - previousTotalPrice + (Number(this.initialWoodSorterPrice) * Number(this.initialWoodSorterNumber)));
     } else {
-      this.palmsService._trailerPrice.update(value => value + previousTotalPrice + (this.initialWoodSorterPrice * this.initialWoodSorterNumber));
+      this.palmsService._trailerPrice.update(value => value + previousTotalPrice + (Number(this.initialWoodSorterPrice) * Number(this.initialWoodSorterNumber)));
     }
     this.previousWoodSorterNumber = number;
   }
@@ -710,14 +786,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   onHandBrakeChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current + Number(event.checked[0].price);
+      const newPrice = Number(current) + Number(event.checked[0].price);
       this.palmsService._trailerPrice.set(newPrice);
       this.originalHandBrakePrice = Number(event.checked[0].price);
       this.originalHandBrake = event.checked[0];
       this.palmsService.selectedHandBrake.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current - this.originalHandBrakePrice;
+      const newPrice = Number(current) - this.originalHandBrakePrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalHandBrake = undefined;
       this.palmsService.selectedHandBrake.set(undefined);
@@ -727,14 +803,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   onChainsawHolderChange(event: CheckboxChangeEvent) {
     if (event.checked.length > 0) {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current + Number(event.checked[0].price);
+      const newPrice = Number(current) + Number(event.checked[0].price);
       this.palmsService._trailerPrice.set(newPrice);
       this.originalChainsawHolderPrice = Number(event.checked[0].price);
       this.originalChainsawHolder = event.checked[0];
       this.palmsService.selectedChainsawHolder.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current - this.originalChainsawHolderPrice;
+      const newPrice = Number(current) - this.originalChainsawHolderPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalChainsawHolder = undefined;
       this.palmsService.selectedChainsawHolder.set(undefined);
@@ -744,14 +820,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   onUnderrunProtectionChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current + Number(event.checked[0].price);
+      const newPrice = Number(current) + Number(event.checked[0].price);
       this.palmsService._trailerPrice.set(newPrice);
       this.originalUnderrunProtectionPrice = Number(event.checked[0].price);
       this.originalUnderrunProtection = event.checked[0];
       this.palmsService.selectedUnderrunProtection.set(event.checked[0]);
     } else {
       const current = this.palmsService._trailerPrice();
-      const newPrice = current - this.originalUnderrunProtectionPrice;
+      const newPrice = Number(current) - this.originalUnderrunProtectionPrice;
       this.palmsService._trailerPrice.set(newPrice);
       this.originalUnderrunProtection = undefined;
       this.palmsService.selectedUnderrunProtection.set(undefined);
@@ -765,11 +841,11 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   toggleDialog(dialogType: string, show: boolean) {
     switch (dialogType) {
         case 'brakes':
-            this.showBrakesDialog = show;
-            break;
+          this.showBrakesDialog = show;
+          break;
         case 'propulsions':
-            this.showPropulsionsDialog = show;
-            break;
+          this.showPropulsionsDialog = show;
+          break;
         case 'drawbars':
           this.showDrawbarsDialog = show;
           break; 
@@ -782,8 +858,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         case 'oilTanks':
           this.showOilTanksDialog = show;
           break;  
-        case 'oilTankCoolers':
-          this.showOilTankCoolersDialog = show;
+        case 'trailerOilCooler':
+          this.showTrailerOilCoolerDialog = show;
           break;
         case 'bolsterLock':
           this.showBolsterLockDialog = show;
@@ -807,25 +883,21 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
           this.showSupportLegDialog = show;
           break; 
         case 'lights':
-            this.showLightsDialog = show;
-            break;     
+          this.showLightsDialog = show;
+          break;     
         case 'tyres':
-            this.showTyresDialog = show;
-            break;   
+          this.showTyresDialog = show;
+          break;   
         default:
           break;
       }
   }
 
   selectCrane(crane: PalmsCraneOverview){
-    console.log('select crane runs');
-    
     this.palmsService._selectedCrane.next(crane);
   }
 
   delete() {
-    console.log('delete in palms trailer');
-    
     this.trailerSelected = false;
     this.trailerFormGroup.reset();
     this.originalStanchion = undefined;
@@ -839,9 +911,11 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     this.originalPlatform = undefined;
     this.originalPlatformPrice = 0;
     this.originalOilPump = undefined;
-    this.originalOilPumpPrice
+    this.originalOilPumpPrice = 0;
     this.originalOilTank = undefined; 
-    this.originalOilTankPrice
+    this.originalOilTankPrice = 0;
+    this.originalTrailerOilCooler = undefined;
+    this.originalTrailerOilCoolerPrice = 0
     this.originalBolsterLock = undefined; 
     this.originalBolsterLockPrice = 0;
     this.originalBbox = undefined; 

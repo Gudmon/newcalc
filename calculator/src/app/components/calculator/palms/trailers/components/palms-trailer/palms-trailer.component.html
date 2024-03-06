@@ -40,12 +40,12 @@
                     <div class="flex gap-2">
                         <span>Hajtás</span>
                         <button (click)="toggleDialog('propulsions', true)"><i class="fa-solid fa-circle-info"></i></button>  
-                        
+                        <app-propulsions-dialog [propulsions]="propulsions" [propulsionsDialogVisible]="showPropulsionsDialog" (dialogVisible)="toggleDialog('propulsions', false)"></app-propulsions-dialog>
                     </div>
-                    <p-listbox (onChange)="handlePropulsionChange($event)" formControlName="selectedPropulsion" [options]="propulsions" optionLabel="namePrice"></p-listbox>                   
+                    <p-listbox optionDisabled="disabledOption" (onChange)="handlePropulsionChange($event)" formControlName="selectedPropulsion" [options]="propulsions" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <div *ngIf="trailerSelected && drawbars.length > 0" class="justify-content-center my-4 py-4">
+                <!-- <div *ngIf="trailerSelected && drawbars.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Vonórúd</span>
                         <button (click)="toggleDialog('drawbars', true)"><i class="fa-solid fa-circle-info"></i></button>  
@@ -81,14 +81,14 @@
                     <p-listbox (onChange)="handleOilTankChange($event)" formControlName="selectedOilTank" [options]="oilTanks" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <div *ngIf="originalOilTank?.oilTankCooler" class="justify-content-center my-4 py-4">
+                <div *ngIf="trailerSelected && trailerOilCooler" class="justify-content-center my-4 py-4">
                     <div class="mb-4">
-                        <button (click)="toggleDialog('oilTankCoolers', true)"><i class="fa-solid fa-circle-info"></i></button> 
-                        <app-oil-tank-cooler-dialog [oilTankCoolersDialogVisible]="showOilTankCoolersDialog" (dialogVisible)="toggleDialog('oilTankCoolers', false)"></app-oil-tank-cooler-dialog>            
+                        <button (click)="toggleDialog('trailerOilCooler', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-oil-tank-cooler-dialog [trailerOilCoolerDialogVisible]="showTrailerOilCoolerDialog" (dialogVisible)="toggleDialog('trailerOilCooler', false)"></app-oil-tank-cooler-dialog>            
                     </div>
                     <div class="flex gap-2">
-                        <p-checkbox #oilTankCoolerCheckBox (onChange)="onOilTankCoolerChange($event)" [value]="originalOilTank?.oilTankCooler" formControlName="selectedOilTankCooler" inputId="oiltankSelected"></p-checkbox>
-                        <label class="hover:cursor-pointer" for="oiltankSelected">{{originalOilTank?.oilTankCooler?.namePrice}}</label>
+                        <p-checkbox #oilCoolerCoolerCheckBox (onChange)="onOilCoolerChange($event)" [value]="trailerOilCooler" formControlName="selectedTrailerOilCooler" inputId="trailerOilCoolerSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer" for="trailerOilCoolerSelected">{{trailerOilCooler.namePrice}}</label>
                     </div>
                 </div>
 
@@ -175,7 +175,7 @@
                         <app-trailer-light-dialog [lights]="lights" [lightsDialogVisible]="showLightsDialog" (dialogVisible)="toggleDialog('lights', false)"></app-trailer-light-dialog>                              
                     </div>
                     <p-listbox (onChange)="handleLightChange($event)" formControlName="selectedLight" [options]="lights" optionLabel="namePrice"></p-listbox>                   
-                </div>
+                </div> -->
 
                 <div *ngIf="trailerSelected && tyres"  class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
@@ -183,7 +183,7 @@
                         <button (click)="toggleDialog('tyres', true)"><i class="fa-solid fa-circle-info"></i></button> 
                         <app-tyres-dialog [tyres]="tyres" [tyresDialogVisible]="showTyresDialog" (dialogVisible)="toggleDialog('tyres', false)"></app-tyres-dialog>                                
                     </div>
-                    <p-listbox (onChange)="handleTyreChange($event)" formControlName="selectedTyre" [options]="tyres" optionLabel="namePrice"></p-listbox>                   
+                    <p-listbox optionDisabled="disabledOption" (onChange)="handleTyreChange($event)" formControlName="selectedTyre" [options]="tyres" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
                 <hr *ngIf="trailer && !fromCrane" class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
