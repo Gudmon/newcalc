@@ -43,14 +43,14 @@ export class PalmsCraneInformationComponent {
   private setImages(){
     this.images = [
       {
-        itemImageSrc: `../../../../../../../assets/${this.crane?.name}-1.svg`,
-        thumbnailImageSrc:  `../../../../../../../assets/${this.crane?.name}-1.svg`,
+        itemImageSrc: this.crane.imgUrls[0],
+        thumbnailImageSrc:  this.crane.imgUrls[0],
         alt: 'Description for Crane image 1',
         title: 'Crane image 1'
       },
       {
-        itemImageSrc: `../../../../../../../assets/${this.crane?.name}-2.jpg`,
-        thumbnailImageSrc:  `../../../../../../../assets/${this.crane?.name}-2.jpg`,
+        itemImageSrc: this.crane.imgUrls[1],
+        thumbnailImageSrc:  this.crane.imgUrls[1],
         alt: 'Description for Crane image 2',
         title: 'Crane image 2'
       },

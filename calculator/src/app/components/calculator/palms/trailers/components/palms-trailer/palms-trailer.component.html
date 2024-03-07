@@ -1,5 +1,5 @@
 
-<app-palms-trailer-information *ngIf="trailer && !fromCrane" [trailer]="trailer" (craneSelected)="navigateToCrane($event)"></app-palms-trailer-information>
+<app-palms-trailer-information *ngIf="trailer && !fromCrane" [trailer]="trailer"></app-palms-trailer-information>
 
 <div *ngIf="!fromCrane && id" class="w-full h-full flex justify-center items-center mt-16">
     <button (click)="loadTrailerConfigurations(this.id!)" [disabled]="(palmsService.trailerSelected$ | async)" [ngClass]="{'disabled': (palmsService.trailerSelected$ | async)}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>

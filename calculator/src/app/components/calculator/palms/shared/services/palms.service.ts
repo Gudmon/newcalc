@@ -93,8 +93,12 @@ export class PalmsService {
     return this.httpClient.get<PalmsTrailerOverview[]>(`${this.url}/Palms/trailers`).pipe(
         map((trailerOvewViews: PalmsTrailerOverview[]) => {
             for (const trailerOvewView of trailerOvewViews) {
-              trailerOvewView.imgUrl = `../../../../../assets/${trailerOvewView.name}-1.svg`;
-            }
+              
+              if(trailerOvewView.id === 12 || trailerOvewView.id === 13) trailerOvewView.imgUrl = `../../../../../assets/PALMS 10U-1.svg`;
+              else if(trailerOvewView.id === 14 || trailerOvewView.id === 15 || trailerOvewView.id === 16) trailerOvewView.imgUrl = `../../../../../assets/PALMS 12U-1.svg`;
+              else if(trailerOvewView.id === 17 || trailerOvewView.id === 18 || trailerOvewView.id === 19) trailerOvewView.imgUrl = `../../../../../assets/PALMS 15U-1.svg`;
+              else trailerOvewView.imgUrl = `../../../../../assets/${trailerOvewView.name}-1.svg`;
+            }  
             return trailerOvewViews;
         })
     );
@@ -102,14 +106,23 @@ export class PalmsService {
 
   getTrailer(id: number): Observable<PalmsTrailer>{
     this.setTrailerVideos(); 
+    console.log(id);
+    
     return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
       map((trailer: PalmsTrailer) => {
         trailer.videoId = this.trailerVideos.get(trailer.name)
-        trailer.imgUrls = [`../../../../../assets/${trailer.name}-1.svg`, `../../../../../assets/${trailer.name}-2.jpg`]
+        if(trailer.id === 12 || trailer.id === 13) trailer.imgUrls = [`../../../../../assets/PALMS 10U-1.svg`, `../../../../../assets/PALMS 10U-2.jpg`];
+        else if(trailer.id === 14 || trailer.id === 15 || trailer.id === 16) trailer.imgUrls = [`../../../../../assets/PALMS 12U-1.svg`, `../../../../../assets/PALMS 12U-2.jpg`];
+        else if(trailer.id === 17 || trailer.id === 18 || trailer.id === 19) trailer.imgUrls = [`../../../../../assets/PALMS 15U-1.svg`, `../../../../../assets/PALMS 15U-2.jpg`];
+        else {
+          trailer.imgUrls = [`../../../../../assets/${trailer.name}-1.svg`, `../../../../../assets/${trailer.name}-2.jpg`]
+        }
         for (const crane of trailer.crane){
           crane.imgUrl = `../../../../../assets/${crane.name}-1.svg`
         }
         //this._selectedTrailer.next(trailer);
+        console.log(trailer);
+        
         return trailer;
       })
   

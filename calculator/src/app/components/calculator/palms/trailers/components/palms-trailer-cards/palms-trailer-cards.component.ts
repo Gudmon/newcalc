@@ -4,11 +4,12 @@ import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
 import { CardModule } from 'primeng/card';
 import { PalmsService } from '../../../shared/services/palms.service';
 import { CommonModule } from '@angular/common';
+import { TagModule } from 'primeng/tag';
 
 @Component({
   selector: 'app-palms-trailer-cards',
   standalone: true,
-  imports: [CardModule, CommonModule],
+  imports: [CardModule, CommonModule, TagModule],
   templateUrl: './palms-trailer-cards.component.html',
   styleUrl: './palms-trailer-cards.component.css'
 })

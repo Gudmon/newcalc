@@ -45,11 +45,10 @@
                 <div class="flex bg-white">
                     <div id="video-holder" class="grid grid-cols-4 gap-2 mt-6">
                         @for (imageUrl of trailer.imgUrls; track $index) {
-                            <p-image [src]="imageUrl" alt='Trailer Image'/>
+                            <p-image [src]="imageUrl" alt='Trailer Image' />
                         }
-                        <div #youTubePlayer>
+                        <!-- <div *ngIf="!smallScreen()" #youTubePlayer>
                             <youtube-player
-                            
                             [videoId]="trailer.videoId"
                             suggestedQuality="highres"
                             [width]="videoWidth"
@@ -57,20 +56,26 @@
                             [startSeconds]="4"
                             [endSeconds]="8">
                         </youtube-player>
-                        </div>
-                        
+                        </div> -->
                     </div>
-                    
-                    <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="{'max-width': '50%'}" [numVisible]="2"
+                    <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="galleryContainerStyle" [numVisible]="2"
                         [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false">
                         <ng-template pTemplate="item" let-item>
                             <img [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
-                        </ng-template>
-                        
+                        </ng-template>          
                     </p-galleria>
                 </div>
             </div>
-    
+            <!-- <div *ngIf="smallScreen()" #youTubePlayer>
+                <youtube-player
+                [videoId]="trailer.videoId"
+                suggestedQuality="highres"
+                [width]="videoWidth"
+                [height]="videoHeight"
+                [startSeconds]="4"
+                [endSeconds]="8">
+            </youtube-player>
+            </div> -->
         </div>
     </div>
     }

@@ -55,7 +55,7 @@ import { PropulsionsDialogComponent } from "../dialogs/propulsions-dialog/propul
     imports: [NavigationComponent, CardModule, FooterComponent, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent, PropulsionsDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit, OnDestroy{
-  trailer!: PalmsTrailer
+  @Input() trailer!: PalmsTrailer
   craneId?: number
   @Input() id?: number;
   fromCrane: boolean = false;

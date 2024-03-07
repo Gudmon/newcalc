@@ -18,6 +18,7 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
   responsiveOptions: any[] = []
   videoHeight: number | undefined;
   videoWidth: number | undefined;
+  galleryContainerStyle: any = { 'max-width': '50%' };
   @Input({required: true}) trailer!: PalmsTrailer
   @Output() craneSelected = new EventEmitter<number>();
   @ViewChild("youTubePlayer") youTubePlayer!: ElementRef<HTMLDivElement>;
@@ -29,26 +30,44 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     this.displayBasic = false;
   }
 
-  ngAfterViewInit(): void {
-    this.onResize();
-    window.addEventListener("resize", this.onResize.bind(this));
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.updateContainerStyle();
   }
 
-  onResize(): void {
-    // you can remove this line if you want to have wider video player than 1200px
+  ngAfterViewInit(): void {
+    this.resize();
+    window.addEventListener("resize", this.resize.bind(this));
+  }
+
+  resize(): void {
     this.videoWidth = Math.min(
-      this.youTubePlayer.nativeElement.clientWidth + 75,
+      this.youTubePlayer.nativeElement.clientWidth,
       1200
     );
-    // so you keep the ratio
     this.videoHeight = this.videoWidth * 0.6;
     this.changeDetectorRef.detectChanges();
   }
 
+  private updateContainerStyle(): void {
+    if (window.innerWidth <= 640) {
+      this.galleryContainerStyle = { 'max-width': '100%' };
+    } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
+      this.galleryContainerStyle = { 'max-width': '75%' };
+    } else {
+      this.galleryContainerStyle = { 'max-width': '50%' };
+    }
+  }
+
+  smallScreen(){
+    return window.innerWidth < 640;
+  }
 
   ngOnInit(): void {
     this.setResponsiveOptions();
     this.setImages();  
+    this.videoWidth = window.innerWidth;
+    this.videoHeight = window.innerHeight;
   }
 
   getCranes(){
@@ -62,17 +81,17 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
   private setImages(){
     this.images = [
       {
-        itemImageSrc: `../../../../../../../assets/${this.trailer?.name}-1.svg`,
-        thumbnailImageSrc:  `../../../../../../../assets/${this.trailer?.name}-1.svg`,
+        itemImageSrc: this.trailer.imgUrls[0],
+        thumbnailImageSrc:  this.trailer.imgUrls[0],
         alt: 'Description for trailer image 1',
         title: 'Trailer image 1'
       },
       {
-        itemImageSrc: `../../../../../../../assets/${this.trailer?.name}-2.jpg`,
-        thumbnailImageSrc:  `../../../../../../../assets/${this.trailer?.name}-2.jpg`,
+        itemImageSrc: this.trailer.imgUrls[1],
+        thumbnailImageSrc:  this.trailer.imgUrls[1],
         alt: 'Description for trailer image 2',
         title: 'Trailer image 2'
-      },
+      }
     ]  
   }
 

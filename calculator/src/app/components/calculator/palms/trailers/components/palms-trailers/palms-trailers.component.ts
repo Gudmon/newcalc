@@ -61,11 +61,11 @@ export class PalmsTrailersComponent implements OnInit {
 
   filterTrailers(chassisType: number) {
     if (chassisType === 1) {
-        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Egy");
+        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Egyalvázas");
     } else if (chassisType === 2) {
-        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Dupla");
+        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Dupla alvázas");
     } else if (chassisType === 3) {
-        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Unibody");
+        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Unibody (Forwarder)");
     } else {
       this.trailers = this.originalTrailers;
     }

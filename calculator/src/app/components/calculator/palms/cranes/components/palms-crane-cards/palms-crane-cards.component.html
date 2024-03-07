@@ -13,12 +13,13 @@
                 <p class="block text-xs lg:text-lg">Forgató munkahengerek száma: <span class="font-bold">{{crane.slewingCylinder}}</span> db</p>
                 <p class="block text-xs lg:text-lg">Forgatási erő: <span class="font-bold">{{crane.slewingTorque}}</span> kNm</p>
                 <ng-template pTemplate="footer">
-                    <div class="grid grid-cols-2">  
-                        <div class="">
-                          <button [disabled]="(palmsService.craneSelected$ | async)" [ngClass]="{'disabled': palmsService.craneSelected$ | async}"  (click)="buttonClickEmit(crane)" label="Kalkulál"
-                          class="rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12">Kiválaszt</button>
-                        </div>                      
-                      </div>           
+                    <div class="">
+                        <button [disabled]="(palmsService.craneSelected$ | async)" [ngClass]="{'disabled': palmsService.craneSelected$ | async}"  (click)="buttonClickEmit(crane)"
+                        class="rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer hover:opacity-80 px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12 relative">
+                        Kiválaszt <i class="pi pi-arrow-right" style="position: relative; top: 2px; left:10px"></i>
+                        </button>
+    
+                    </div>                                 
                 </ng-template>
             </p-card>
         } 
