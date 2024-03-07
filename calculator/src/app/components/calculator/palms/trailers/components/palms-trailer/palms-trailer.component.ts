@@ -46,13 +46,16 @@ import { PalmsCrane } from '../../../cranes/models/palms-crane';
 import { PalmsCraneComponent } from "../../../cranes/components/palms-crane/palms-crane.component";
 import { PalmsCraneCardsComponent } from '../../../cranes/components/palms-crane-cards/palms-crane-cards.component';
 import { PropulsionsDialogComponent } from "../dialogs/propulsions-dialog/propulsions-dialog.component";
+import { BunkAdapterDialogComponent } from "../dialogs/bunk-adapter-dialog/bunk-adapter-dialog.component";
+import { BunkExtensionDialogComponent } from "../dialogs/bunk-extension-dialog/bunk-extension-dialog.component";
+import { FrameExtensionDialogComponent } from "../dialogs/frame-extension-dialog/frame-extension-dialog.component";
 
 @Component({
     selector: 'app-palms-trailer',
     standalone: true,
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, CardModule, FooterComponent, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent, PropulsionsDialogComponent]
+    imports: [NavigationComponent, CardModule, FooterComponent, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent, PropulsionsDialogComponent, BunkAdapterDialogComponent, BunkExtensionDialogComponent, FrameExtensionDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit, OnDestroy{
   @Input() trailer!: PalmsTrailer
@@ -1021,6 +1024,23 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService._trailerPrice.update(value => value + previousTotalPrice + (Number(this.initialBunkExtensionPrice) * Number(this.initialBunkExtensionNumber)));
     }
     this.previousBunkExtensionNumber = number;
+  }
+
+  onFrameExtensionChange(event: CheckboxChangeEvent) {
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = Number(current) + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalFrameExtensionPrice = Number(event.checked[0].price);
+      this.originalFrameExtension = event.checked[0];
+      this.palmsService.selectedFrameExtension.set(event.checked[0]);
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = Number(current) - this.originalFrameExtensionPrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalFrameExtension = undefined;
+      this.palmsService.selectedFrameExtension.set(undefined);
+    }
   }
 
   navigateToCrane(craneId: number){
