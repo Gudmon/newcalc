@@ -241,4 +241,43 @@ export class PalmsTrailerConfigService {
       })
     );
   }
+
+  getBunkAdapter(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/bunkadapter`).pipe(
+      map((bunkAdapter: ConfigurationItem | null) => {
+        if (bunkAdapter) {
+          bunkAdapter.namePrice = bunkAdapter.name + " " + bunkAdapter.price + "€";
+          return bunkAdapter;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getBunkExtension(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/bunkextension`).pipe(
+      map((bunkExtension: ConfigurationItem | null) => {
+        if (bunkExtension) {
+          bunkExtension.namePrice = bunkExtension.name + " " + bunkExtension.price + "€";
+          return bunkExtension;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  getFrameExtension(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/frameextension`).pipe(
+      map((frameExtension: ConfigurationItem | null) => {
+        if (frameExtension) {
+          frameExtension.namePrice = frameExtension.name + " " + frameExtension.price + "€";
+          return frameExtension;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
 }

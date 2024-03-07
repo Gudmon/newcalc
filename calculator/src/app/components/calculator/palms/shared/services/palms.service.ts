@@ -86,6 +86,9 @@ export class PalmsService {
   public selectedHandBrake = signal<ConfigurationItem | undefined>(undefined);
   public selectedChainsawHolder = signal<ConfigurationItem | undefined>(undefined);
   public selectedUnderrunProtection = signal<ConfigurationItem | undefined>(undefined);
+  public selectedBunkAdapter = signal<ConfigurationItem | undefined>(undefined);
+  public selectedBunkExtension = signal<ConfigurationItem | undefined>(undefined);
+  public selectedFrameExtension = signal<ConfigurationItem | undefined>(undefined);
 
   constructor(private httpClient: HttpClient) { }
   
@@ -174,6 +177,9 @@ export class PalmsService {
     this.selectedHandBrake.set(undefined);
     this.selectedChainsawHolder.set(undefined);
     this.selectedUnderrunProtection.set(undefined);
+    this.selectedBunkAdapter.set(undefined);
+    this.selectedBunkExtension.set(undefined);
+    this.selectedFrameExtension.set(undefined);
   }
 
   deleteCrane(){

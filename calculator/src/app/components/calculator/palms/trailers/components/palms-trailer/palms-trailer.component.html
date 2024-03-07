@@ -27,7 +27,7 @@
                     <p-listbox (onChange)="handleStanchionChange($event)" formControlName="selectedStanchion" [options]="stanchions" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
-                <div *ngIf="trailerSelected && brakes.length > 0" class="justify-content-center my-4 py-4">
+                <!-- <div *ngIf="trailerSelected && brakes.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Fék</span>
                         <button (click)="toggleDialog('brakes', true)"><i class="fa-solid fa-circle-info"></i></button>                
@@ -112,7 +112,7 @@
                         <p-checkbox #bboxCheckBox (onChange)="onBBoxChange($event)" [value]="bbox" formControlName="selectedBbox" inputId="BboxSelected"></p-checkbox>
                         <label class="hover:cursor-pointer" for="BboxSelected">{{bbox.namePrice}}</label>
                     </div>
-                </div>
+                </div> -->
 
                 <div *ngIf="trailerSelected && woodSorter" class="justify-content-center my-4 py-4">
                     <div class="mb-4">
@@ -130,7 +130,7 @@
                     <p-dropdown *ngIf="woodSorterChecked" [disabled]="!woodSorterChecked" #woodSorterDropdown (onChange)="onWoodSorterNumberChange($event)" [options]="woodSorterArrayElements" optionLabel="number" placeholder="Válasszon egy számot..."></p-dropdown>
                 </div>
 
-                <div *ngIf="trailerSelected && handBrake" class="justify-content-center my-6 py-4 mt-12">
+                <!-- <div *ngIf="trailerSelected && handBrake" class="justify-content-center my-6 py-4 mt-12">
                     <div class="flex gap-2">
                         <p-checkbox #handBrakeCheckBox (onChange)="onHandBrakeChange($event)" [value]="handBrake" formControlName="selectedHandBrake" inputId="HandBrakeSelected"></p-checkbox>
                         <label class="hover:cursor-pointer" for="HandBrakeSelected">{{handBrake.namePrice}}</label>
@@ -184,6 +184,38 @@
                         <app-tyres-dialog [tyres]="tyres" [tyresDialogVisible]="showTyresDialog" (dialogVisible)="toggleDialog('tyres', false)"></app-tyres-dialog>                                
                     </div>
                     <p-listbox optionDisabled="disabledOption" (onChange)="handleTyreChange($event)" formControlName="selectedTyre" [options]="tyres" optionLabel="namePrice"></p-listbox>                   
+                </div> -->
+
+                <div *ngIf="trailerSelected && bunkAdapter" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('bunkAdapter', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <!-- <app-woodsorter-dialog [woodSorter]="woodSorter" [woodSorterDialogVisible]="showWoodSorterDialog" (dialogVisible)="toggleDialog('bunkAdapter', false)"></app-woodsorter-dialog>             -->
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #bunkAdapterCheckBox (onChange)="onBunkAdapterChange($event)" [value]="bunkAdapter" formControlName="selectedBunkAdapter" inputId="BunkAdapterSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer pt-2" for="BunkAdapterSelected">{{bunkAdapter.namePrice}}</label>
+                        
+                    </div>
+                </div>
+
+                <div *ngIf="trailerSelected && bunkAdapter" class="justify-content-center">
+                    <p-dropdown *ngIf="bunkAdapterChecked" [disabled]="!bunkAdapterChecked" #bunkAdapterDropdown (onChange)="onBunkAdapterNumberChange($event)" [options]="bunkAdapterArrayElements" optionLabel="number" placeholder="Válasszon egy számot..."></p-dropdown>
+                </div>
+
+                <div *ngIf="trailerSelected && bunkExtension" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <button (click)="toggleDialog('bunkExtension', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <!-- <app-woodsorter-dialog [woodSorter]="woodSorter" [woodSorterDialogVisible]="showWoodSorterDialog" (dialogVisible)="toggleDialog('bunkExtension', false)"></app-woodsorter-dialog>             -->
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox #bunkExtensionCheckBox (onChange)="onBunkExtensionChange($event)" [value]="bunkExtension" formControlName="selectedBunkExtension" inputId="BunkExtensionSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer pt-2" for="BunkExtensionSelected">{{bunkExtension.namePrice}}</label>
+                        
+                    </div>
+                </div>
+
+                <div *ngIf="trailerSelected && bunkExtension" class="justify-content-center">
+                    <p-dropdown *ngIf="bunkExtensionChecked" [disabled]="!bunkExtensionChecked" #bunkExtensionDropdown (onChange)="onBunkExtensionNumberChange($event)" [options]="bunkExtensionArrayElements" optionLabel="number" placeholder="Válasszon egy számot..."></p-dropdown>
                 </div>
 
                 <hr *ngIf="trailer && !fromCrane" class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
