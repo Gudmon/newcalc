@@ -21,8 +21,7 @@
 
                 <div *ngIf="trailerSelected && stanchions.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
-                        <span>Rakonca</span>
-                        <button ><i class="fa-solid fa-circle-info"></i></button>                      
+                        <span>Rakonca</span>                   
                     </div>
                     <p-listbox (onChange)="handleStanchionChange($event)" formControlName="selectedStanchion" [options]="stanchions" optionLabel="namePrice"></p-listbox>                   
                 </div>
@@ -157,6 +156,15 @@
                     <p-dropdown *ngIf="woodSorterChecked" [disabled]="!woodSorterChecked" #woodSorterDropdown (onChange)="onWoodSorterNumberChange($event)" [options]="woodSorterArrayElements" optionLabel="number" placeholder="Válasszon egy számot..."></p-dropdown>
                 </div>
 
+                <div *ngIf="trailerSelected && supportLegs"  class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <span>Kitámasztó láb</span>
+                        <button (click)="toggleDialog('supportLeg', true)"><i class="fa-solid fa-circle-info"></i></button> 
+                        <app-support-leg-dialog [supportLegs]="supportLegs" [supportLegDialogVisible]="showSupportLegDialog" (dialogVisible)="toggleDialog('supportLeg', false)"></app-support-leg-dialog>                                   
+                    </div>
+                    <p-listbox (onChange)="handleSupportLegChange($event)" formControlName="selectedSupportLeg" [options]="supportLegs" optionLabel="namePrice"></p-listbox>                   
+                </div>
+
                 <div *ngIf="trailerSelected && handBrake" class="justify-content-center my-6 py-4 mt-12">
                     <div class="flex gap-2">
                         <p-checkbox #handBrakeCheckBox (onChange)="onHandBrakeChange($event)" [value]="handBrake" formControlName="selectedHandBrake" inputId="HandBrakeSelected"></p-checkbox>
@@ -197,15 +205,6 @@
                     </div>
                 </div>
 
-                <div *ngIf="trailerSelected && supportLegs"  class="justify-content-center my-4 py-4">
-                    <div class="flex gap-2">
-                        <span>Kitámasztó láb</span>
-                        <button (click)="toggleDialog('supportLeg', true)"><i class="fa-solid fa-circle-info"></i></button> 
-                        <app-support-leg-dialog [supportLegs]="supportLegs" [supportLegDialogVisible]="showSupportLegDialog" (dialogVisible)="toggleDialog('supportLeg', false)"></app-support-leg-dialog>                                   
-                    </div>
-                    <p-listbox (onChange)="handleSupportLegChange($event)" formControlName="selectedSupportLeg" [options]="supportLegs" optionLabel="namePrice"></p-listbox>                   
-                </div>
-
                 <div *ngIf="trailerSelected && lights"  class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Lámpák</span>
@@ -222,17 +221,6 @@
                         <app-tyres-dialog [tyres]="tyres" [tyresDialogVisible]="showTyresDialog" (dialogVisible)="toggleDialog('tyres', false)"></app-tyres-dialog>                                
                     </div>
                     <p-listbox optionDisabled="disabledOption" (onChange)="handleTyreChange($event)" formControlName="selectedTyre" [options]="tyres" optionLabel="namePrice"></p-listbox>                   
-                </div>
-
-                <div *ngIf="trailerSelected && underrunProtection" class="justify-content-center my-4 py-4">
-                    <div class="mb-4">
-                        <button (click)="toggleDialog('underrunProtection', true)"><i class="fa-solid fa-circle-info"></i></button> 
-                        <app-underrun-protection-dialog [underrunProtection]="underrunProtection" [underrunProtectionDialogVisible]="showUnderrunProtectionDialog" (dialogVisible)="toggleDialog('underrunProtection', false)"></app-underrun-protection-dialog>            
-                    </div>
-                    <div class="flex gap-2">
-                        <p-checkbox #underrunProtectionCheckBox (onChange)="onUnderrunProtectionChange($event)" [value]="underrunProtection" formControlName="selectedUnderrunProtection" inputId="UnderrunProtectionSelected"></p-checkbox>
-                        <label class="hover:cursor-pointer" for="UnderrunProtectionSelected">{{underrunProtection.namePrice}}</label>
-                    </div>
                 </div>
 
                 <hr *ngIf="trailer && !fromCrane" class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />

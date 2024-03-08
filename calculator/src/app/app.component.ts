@@ -1,5 +1,5 @@
 import { Component  } from '@angular/core';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { ProductListComponent } from "./components/product-list/product-list.component";
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api/menuitem';
@@ -21,7 +21,9 @@ export class AppComponent {
   items: MenuItem[] | undefined;
   readonly loading$ = this.loadingService.status$;
 
-  constructor(private readonly loadingService: LoadingService){}
+  constructor(
+    private readonly loadingService: LoadingService,
+    private readonly router: Router){}
 
     ngOnInit() {
         this.items = [
@@ -41,5 +43,12 @@ export class AppComponent {
               ]
             },
         ];
+
+        this.router.events.subscribe((event) => { 
+            if (!(event instanceof NavigationEnd)) { 
+                return; 
+            }  
+            window.scrollTo(0, 0) 
+        }); 
     }
 }
