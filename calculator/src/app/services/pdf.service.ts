@@ -2,13 +2,28 @@ import { Injectable } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import { FormatPricePipe } from '../components/pipes/format-price.pipe';
 import { RemovePricePipe } from '../components/pipes/remove-price.pipe';
+import { HttpClient } from '@angular/common/http';
+import { PalmsService } from '../components/calculator/palms/shared/services/palms.service';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PdfService {
+  private url = 'http://localhost:5140';
+  //private url = 'https://calculator-app-api.azurewebsites.net';
 
-  constructor() { }
+  constructor(private httpClient: HttpClient,
+    private palmsService: PalmsService) { }
+
+  sendPdf(){
+    const body = { stanchion: this.palmsService.selectedStanchion() };
+    return this.httpClient.post<any>(`${this.url}/Pdf`, body).subscribe((resp) => console.log(resp));
+  }
+
+  getPdf(): Observable<Blob> {
+    return this.httpClient.get(`${this.url}/Pdf/Get`, { responseType: 'blob' });
+  }
 
   downloadPDF(formData: Record<string, any>) {
     const now = new Date().getTime();

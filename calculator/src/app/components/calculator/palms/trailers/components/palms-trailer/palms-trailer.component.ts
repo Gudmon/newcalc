@@ -49,6 +49,7 @@ import { PropulsionsDialogComponent } from "../dialogs/propulsions-dialog/propul
 import { BunkAdapterDialogComponent } from "../dialogs/bunk-adapter-dialog/bunk-adapter-dialog.component";
 import { BunkExtensionDialogComponent } from "../dialogs/bunk-extension-dialog/bunk-extension-dialog.component";
 import { FrameExtensionDialogComponent } from "../dialogs/frame-extension-dialog/frame-extension-dialog.component";
+import { PdfService } from '../../../../../../services/pdf.service';
 
 @Component({
     selector: 'app-palms-trailer',
@@ -240,7 +241,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     readonly loadingService: LoadingService,
     private activatedRoute: ActivatedRoute,
     private fb: FormBuilder,
-    private router: Router) {}
+    private router: Router,
+    private pdfService: PdfService) {}
 
   ngOnInit(): void {
     if (this.id) {
@@ -1045,6 +1047,24 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
   navigateToCrane(craneId: number){
     this.router.navigate(['/calculator/palms/cranes', craneId]);
+  }
+
+  sendPdf(){
+    this.pdfService.sendPdf();
+  }
+  getPdf() {
+    this.pdfService.getPdf().subscribe(
+      (resp) => {
+        const blob = new Blob([resp], { type: 'application/pdf' });
+        const link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        link.download = 'file.pdf';
+        link.click();
+      },
+      (error) => {
+        console.error('Error downloading PDF', error);
+      }
+    );
   }
 
   toggleDialog(dialogType: string, show: boolean) {

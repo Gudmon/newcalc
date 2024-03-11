@@ -1,6 +1,6 @@
 
 <app-palms-trailer-information *ngIf="trailer && !fromCrane" [trailer]="trailer"></app-palms-trailer-information>
-
+<button (click)="getPdf()">Send Pdf</button>
 <div *ngIf="!fromCrane && id" class="w-full h-full flex justify-center items-center mt-16">
     <button (click)="loadTrailerConfigurations(this.id!)" [disabled]="(palmsService.trailerSelected$ | async)" [ngClass]="{'disabled': (palmsService.trailerSelected$ | async)}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
 </div>
@@ -226,6 +226,8 @@
                 <hr *ngIf="trailer && !fromCrane" class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
             </div>
         </div>
+
+        
         <app-palms-crane-cards *ngIf="trailer && trailer.crane && trailerSelected && (palmsService.trailerSelected$ | async) && !fromCrane" [cranes]="trailer.crane" (buttonClickEmitter)="selectCrane($event)"></app-palms-crane-cards>
     </ng-container>
 </form>   
