@@ -6,17 +6,16 @@ import { map } from 'rxjs/internal/operators/map';
   providedIn: 'root'
 })
 export class EmailService {
-  private url = "https://formspree.io/f/xyyrkaql"
-  constructor(private http: HttpClient){}
+  //private url = 'http://localhost:5140';
+  private url = 'https://calculator-app-api.azurewebsites.net';
+  constructor(private httpClient: HttpClient){}
 
-  sendEmail(data: any) {
-      const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-      this.http.post('https://formspree.io/f/xyyrkaql',
-        { name: data.name, replyto: data.email, message: data.message },
-        { 'headers': headers }).subscribe(
-          (response:any) => {
-            console.log(response);
-          }
-        );
+  sendEmail(subject:string, body: string, blobName: string){
+    const email = {
+      Subject: subject,
+      Body: body,
+      BlobName: blobName
+    }
+    return this.httpClient.post<any>(`${this.url}/Email`, email).pipe()
   }
 }

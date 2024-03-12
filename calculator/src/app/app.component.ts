@@ -10,6 +10,7 @@ import { LoadingService } from './services/loading.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
 
+
 @Component({
     selector: 'app-root',
     standalone: true,

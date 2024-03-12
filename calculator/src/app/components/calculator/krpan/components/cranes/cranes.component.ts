@@ -169,8 +169,6 @@ export class CranesComponent implements OnInit, OnDestroy{
     if (this.formGroup.invalid) {
       return;
     }
-  
-    this.sendEmail();
   }
 
   downloadPDF(){
@@ -180,15 +178,7 @@ export class CranesComponent implements OnInit, OnDestroy{
     this.pdfService.downloadPDF(formDataTosend);
     
   }
-
-  sendEmail() {
-      const formDataTosend = this.formatForEmail();
-      console.log(formDataTosend);
-      this.emailService.sendEmail(formDataTosend);
-      this.submitted = false;
-  }
   
-
   formatForEmail(){
     let formDataToSend: {
       [key: string]: any;     

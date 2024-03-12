@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { jsPDF } from 'jspdf';
 import { FormatPricePipe } from '../components/pipes/format-price.pipe';
 import { RemovePricePipe } from '../components/pipes/remove-price.pipe';
@@ -16,14 +16,17 @@ export class PdfService {
   constructor(private httpClient: HttpClient,
     private palmsService: PalmsService) { }
 
-  sendPdf(){
-    const body = { stanchion: this.palmsService.selectedStanchion() };
-    return this.httpClient.post<any>(`${this.url}/Pdf`, body).subscribe((resp) => console.log(resp));
+
+    pdfId = signal("");
+
+  sendPdf(body: any){
+    return this.httpClient.post<any>(`${this.url}/Pdf`, body).pipe()
   }
 
-  getPdf(): Observable<Blob> {
-    return this.httpClient.get(`${this.url}/Pdf/Get`, { responseType: 'blob' });
+  getPdf(id: string): Observable<Blob> {
+    return this.httpClient.get(`${this.url}/Pdf/${id}`, { responseType: 'blob' });
   }
+  
 
   downloadPDF(formData: Record<string, any>) {
     const now = new Date().getTime();

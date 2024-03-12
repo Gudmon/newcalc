@@ -1,8 +1,8 @@
 
 <app-palms-trailer-information *ngIf="trailer && !fromCrane" [trailer]="trailer"></app-palms-trailer-information>
-<button (click)="getPdf()">Send Pdf</button>
+
 <div *ngIf="!fromCrane && id" class="w-full h-full flex justify-center items-center mt-16">
-    <button (click)="loadTrailerConfigurations(this.id!)" [disabled]="(palmsService.trailerSelected$ | async)" [ngClass]="{'disabled': (palmsService.trailerSelected$ | async)}" class="m-auto bg-[--primary-color] py-10 px-20 rounded-xl mb-2 text-black text-md font-extrabold uppercase"><span class="">Kalkulálás</span></button>
+    <button (click)="loadTrailerConfigurations(this.id!)" [disabled]="(palmsService.trailerSelected$ | async)" [ngClass]="{'disabled': (palmsService.trailerSelected$ | async)}" class="m-auto py-10 px-20 rounded-xl mb-2 bg-[--primary-color] active:bg-gray-700 text-base font-bold uppercase shadow hover:opacity-80 outline-none focus:outline-none">Kalkulálás</button>
 </div>
 <!-- <div *ngIf="(palmsService.trailerSelected$ | async)" class="w-full h-full flex justify-center items-center mt-8 mb-2">
     <p>Tippek</p>

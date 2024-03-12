@@ -9,13 +9,14 @@ import { PalmsService } from '../../../shared/services/palms.service';
 import { PalmsTrailer } from '../../models/palms-trailer';
 import { FormatPricePipe } from "../../../../../pipes/format-price.pipe";
 import { PalmsCraneComponent } from "../../../cranes/components/palms-crane/palms-crane.component";
+import { PdfComponent } from "../../../../shared/components/pdf/pdf.component";
 
 @Component({
     selector: 'app-palms-trailer-page',
     standalone: true,
     templateUrl: './palms-trailer-page.component.html',
     styleUrl: './palms-trailer-page.component.css',
-    imports: [CommonModule, FooterComponent, NavigationComponent, PalmsTrailerComponent, AccordionModule, AccessoryItemComponent, FormatPricePipe, PalmsCraneComponent]
+    imports: [CommonModule, FooterComponent, NavigationComponent, PalmsTrailerComponent, AccordionModule, AccessoryItemComponent, FormatPricePipe, PalmsCraneComponent, PdfComponent]
 })
 export class PalmsTrailerPageComponent {
   craneSelected = false;
