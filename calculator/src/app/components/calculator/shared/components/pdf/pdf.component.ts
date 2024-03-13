@@ -80,6 +80,15 @@ export class PdfComponent implements OnInit{
             price: woodSorter.price.toString(),
           }
         : undefined;
+
+      const bunkAdapter = this.palmsService.selectedBunkAdapter();
+      const newBunkAdapter: ConfigurationItem | undefined = bunkAdapter
+        ? {
+            ...bunkAdapter,
+            price: bunkAdapter.price.toString(),
+          }
+        : undefined;  
+      object.TrailerName = this.palmsService._selectedTrailer.value?.name;
       object.Stanchion = this.palmsService.selectedStanchion();
       object.Brake = this.palmsService.selectedBrake();
       object.Propulsion = this.palmsService.selectedPropulsion();
@@ -94,7 +103,7 @@ export class PdfComponent implements OnInit{
       object.HandBrake = this.palmsService.selectedHandBrake();
       object.ChainsawHolder = this.palmsService.selectedChainsawHolder();
       object.UnderrunProtection = this.palmsService.selectedUnderrunProtection();
-      object.BunkAdapter = this.palmsService.selectedBunkAdapter();
+      object.BunkAdapter = newBunkAdapter;
       object.BunkExtension = this.palmsService.selectedBunkExtension();
       object.FrameExtension = this.palmsService.selectedFrameExtension();
       object.TrailerLight = this.palmsService.selectedTrailerLight();
@@ -105,6 +114,7 @@ export class PdfComponent implements OnInit{
     console.log(this.palmsService._craneSelected.value);
 
     if (this.palmsService._craneSelected.value === true) {
+      object.CraneName = this.palmsService._selectedCrane.value?.name
       object.ControlBlock = this.palmsService.selectedControlBlock();
       object.FrameType = this.palmsService.selectedFrameType();
       object.Rotator = this.palmsService.selectedRotator();
@@ -200,6 +210,7 @@ export class PdfComponent implements OnInit{
 
 
 interface PdfTrailerModel {
+  TrailerName?: string | undefined,
   Stanchion?: ConfigurationItem | undefined,
   Brake?: ConfigurationItem | undefined,
   Propulsion?: ConfigurationItem | undefined,
@@ -222,6 +233,7 @@ interface PdfTrailerModel {
 }
 
 interface PdfCraneModel {
+  CraneName?: string | undefined,
   ControlBlock?: ConfigurationItem | undefined,
   FrameType?: ConfigurationItem | undefined,
   Rotator?: ConfigurationItem | undefined,

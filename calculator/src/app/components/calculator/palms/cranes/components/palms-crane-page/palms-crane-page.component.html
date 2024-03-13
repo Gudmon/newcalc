@@ -68,5 +68,6 @@
             </p-accordionTab>   
         </p-accordion>
     </div>   
+    <app-pdf *ngIf="(palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async) || (palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)"></app-pdf> 
 </div> 
 <app-footer></app-footer>

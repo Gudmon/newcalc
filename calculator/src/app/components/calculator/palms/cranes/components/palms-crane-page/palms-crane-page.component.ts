@@ -11,13 +11,14 @@ import { PalmsTrailerComponent } from "../../../trailers/components/palms-traile
 import { ConfigurationItem } from '../../../../../../models/configuration-item';
 import { FooterComponent } from "../../../../../footer/footer.component";
 import { NavigationComponent } from "../../../../../navigation/navigation.component";
+import { PdfComponent } from "../../../../shared/components/pdf/pdf.component";
 
 @Component({
     selector: 'app-palms-crane-page',
     standalone: true,
     templateUrl: './palms-crane-page.component.html',
     styleUrl: './palms-crane-page.component.css',
-    imports: [CommonModule, AccordionModule, AccessoryItemComponent, FormatPricePipe, PalmsCraneComponent, PalmsTrailerCardsComponent, PalmsTrailerComponent, FooterComponent, NavigationComponent]
+    imports: [CommonModule, AccordionModule, AccessoryItemComponent, FormatPricePipe, PalmsCraneComponent, PalmsTrailerCardsComponent, PalmsTrailerComponent, FooterComponent, NavigationComponent, PdfComponent]
 })
 export class PalmsCranePageComponent {
   craneSelected = false;
