@@ -2,7 +2,7 @@ export interface ConfigurationItem {
     id: number,
     name: string,
     code: string,
-    price: number,
+    price: number | string;
     namePrice: string,
     imgUrl?: string,
     imgUrls?: string[],

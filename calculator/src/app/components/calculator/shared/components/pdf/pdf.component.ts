@@ -1,3 +1,4 @@
+import { FrameType } from './../../../palms/cranes/models/frame-type';
 import { Component, OnInit } from '@angular/core';
 import { PalmsService } from '../../../palms/shared/services/palms.service';
 import { PdfService } from '../../../../../services/pdf.service';
@@ -69,9 +70,67 @@ export class PdfComponent implements OnInit{
   }
 
   sendPdfAndDownload() {
-    const object: PdfModel = {
-      Stanchion: this.palmsService.selectedStanchion(),
-    };
+    const object: PdfModel = {};
+    console.log(this.palmsService._trailerSelected.value);
+    if (this.palmsService._trailerSelected.value === true) {
+      const woodSorter = this.palmsService.selectedWoodSorter();
+      const newWoodSorter: ConfigurationItem | undefined = woodSorter
+        ? {
+            ...woodSorter,
+            price: woodSorter.price.toString(),
+          }
+        : undefined;
+      object.Stanchion = this.palmsService.selectedStanchion();
+      object.Brake = this.palmsService.selectedBrake();
+      object.Propulsion = this.palmsService.selectedPropulsion();
+      object.Drawbar = this.palmsService.selectedDrawbar();
+      object.Platform = this.palmsService.selectedPlatform();
+      object.OilPump = this.palmsService.selectedOilPump();
+      object.OilTank = this.palmsService.selectedOilTank();
+      object.TrailerOilCooler = this.palmsService.selectedTrailerOilCooler();
+      object.BolsterLock = this.palmsService.selectedBolsterLock();
+      object.BBox = this.palmsService.selectedBBox();
+      object.WoodSorter = newWoodSorter;
+      object.HandBrake = this.palmsService.selectedHandBrake();
+      object.ChainsawHolder = this.palmsService.selectedChainsawHolder();
+      object.UnderrunProtection = this.palmsService.selectedUnderrunProtection();
+      object.BunkAdapter = this.palmsService.selectedBunkAdapter();
+      object.BunkExtension = this.palmsService.selectedBunkExtension();
+      object.FrameExtension = this.palmsService.selectedFrameExtension();
+      object.TrailerLight = this.palmsService.selectedTrailerLight();
+      object.Tyre = this.palmsService.selectedTyre();
+    }else {
+      object.Grapples = [];
+    }
+    console.log(this.palmsService._craneSelected.value);
+
+    if (this.palmsService._craneSelected.value === true) {
+      object.ControlBlock = this.palmsService.selectedControlBlock();
+      object.FrameType = this.palmsService.selectedFrameType();
+      object.Rotator = this.palmsService.selectedRotator();
+      object.Grapple = this.palmsService.selectedGrapple();
+      object.Grapples = this.palmsService.selectedGrapples;
+      object.Winch = this.palmsService.selectedWinch();
+      object.ProtectionSleeves = this.palmsService.selectedProtectionSleeves();
+      object.ElectricalFloating = this.palmsService.selectedElectricalFloating();
+      object.ValveBlock = this.palmsService.selectedValveBlock();
+      object.Damping = this.palmsService.selectedDamping();
+      object.CraneLight = this.palmsService.selectedCraneLight();
+      object.OperatorSeat = this.palmsService.selectedOperatorSeat();
+      object.CraneOilCooler = this.palmsService.selectedCraneOilCooler();
+      object.RotatorBrake = this.palmsService.selectedRotatorBrake();
+      object.JoystickHolder = this.palmsService.selectedJoystickHolder();
+      object.HoseGuard = this.palmsService.selectedHoseGuard();
+      object.TurningDeviceCounterPlate = this.palmsService.selectedTurningDeviceCounterPlate();
+      object.SupportLegCounterPlate = this.palmsService.selectedSupportLegCounterPlate();
+      object.BoomGuard = this.palmsService.selectedBoomGuard();
+      object.Cover = this.palmsService.selectedCover();
+      object.WoodControl = this.palmsService.selectedWoodControl();
+      object.Linkage = this.palmsService.selectedLinkage();
+    } else {
+      object.Grapples = [];
+    }
+
     this.loadingService.enableLoader();
     this.pdfService
       .sendPdf(object)
@@ -93,7 +152,8 @@ export class PdfComponent implements OnInit{
 
   sendPdf(){
     const object: PdfModel = {
-      Stanchion: this.palmsService.selectedStanchion()
+      Stanchion: this.palmsService.selectedStanchion(),
+      Brake: this.palmsService.selectedBrake()
     }
     this.pdfService.sendPdf(object).subscribe((resp) => {
       console.log('resp', resp);
@@ -139,6 +199,53 @@ export class PdfComponent implements OnInit{
 
 
 
-interface PdfModel {
-  Stanchion: ConfigurationItem | undefined
+interface PdfTrailerModel {
+  Stanchion?: ConfigurationItem | undefined,
+  Brake?: ConfigurationItem | undefined,
+  Propulsion?: ConfigurationItem | undefined,
+  Drawbar?: ConfigurationItem | undefined,
+  Platform?: ConfigurationItem | undefined,
+  OilPump?: ConfigurationItem | undefined,
+  OilTank?: ConfigurationItem | undefined,
+  TrailerOilCooler?: ConfigurationItem | undefined,
+  BolsterLock?: ConfigurationItem | undefined,
+  BBox?: ConfigurationItem | undefined,
+  WoodSorter?: ConfigurationItem | undefined,
+  HandBrake?: ConfigurationItem | undefined,
+  ChainsawHolder?: ConfigurationItem | undefined,
+  UnderrunProtection?: ConfigurationItem | undefined,
+  BunkAdapter?: ConfigurationItem | undefined,
+  BunkExtension?: ConfigurationItem | undefined,
+  FrameExtension?: ConfigurationItem | undefined,
+  TrailerLight?: ConfigurationItem | undefined,
+  Tyre?: ConfigurationItem | undefined,
+}
+
+interface PdfCraneModel {
+  ControlBlock?: ConfigurationItem | undefined,
+  FrameType?: ConfigurationItem | undefined,
+  Rotator?: ConfigurationItem | undefined,
+  Grapple?: ConfigurationItem | undefined,
+  Grapples?: (ConfigurationItem | undefined)[],
+  Winch?: ConfigurationItem | undefined,
+  ProtectionSleeves?: ConfigurationItem | undefined,
+  ElectricalFloating?: ConfigurationItem | undefined,
+  ValveBlock?: ConfigurationItem | undefined,
+  Damping?: ConfigurationItem | undefined,
+  CraneLight?: ConfigurationItem | undefined,
+  OperatorSeat?: ConfigurationItem | undefined,
+  CraneOilCooler?: ConfigurationItem | undefined,
+  RotatorBrake?: ConfigurationItem | undefined,
+  JoystickHolder?: ConfigurationItem | undefined,
+  HoseGuard?: ConfigurationItem | undefined,
+  TurningDeviceCounterPlate?: ConfigurationItem | undefined,
+  SupportLegCounterPlate?: ConfigurationItem | undefined,
+  BoomGuard?: ConfigurationItem | undefined,
+  Cover?: ConfigurationItem | undefined,
+  WoodControl?: ConfigurationItem | undefined,
+  Linkage?: ConfigurationItem | undefined,
+}
+
+export interface PdfModel extends PdfTrailerModel, PdfCraneModel{
+
 }

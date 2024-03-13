@@ -13,7 +13,7 @@ import { ImageModule } from 'primeng/image';
 import { ConfigurationItem } from '../../../../../../models/configuration-item';
 import { PalmsTrailerConfigService } from '../../services/palms-trailer-config.service';
 import { FormatPricePipe } from "../../../../../pipes/format-price.pipe";
-import { Subject, forkJoin, takeUntil } from 'rxjs';
+import { Subject, forkJoin, takeUntil, map } from 'rxjs';
 import { BrakesDialogComponent } from "../dialogs/brakes-dialog/brakes-dialog.component";
 import { DrawbarDialogComponent } from "../dialogs/drawbar-dialog/drawbar-dialog.component";
 import { PlatormDialogComponent } from '../dialogs/platorm-dialog/platorm-dialog.component';
@@ -334,9 +334,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         if (stanchions.length > 0){
           
           this.stanchions = stanchions;
-          this.palmsService._trailerPrice.set(stanchions[0].price);
+          this.palmsService._trailerPrice.set(Number(stanchions[0].price));
           this.originalStanchion = stanchions[0];
-          this.originalStanchionPrice = stanchions[0].price;
+          this.originalStanchionPrice = Number(stanchions[0].price);
           this.palmsService.selectedStanchion.set(stanchions[0]);
         }
         
@@ -379,7 +379,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   
         if (woodSorter){
           this.woodSorter = woodSorter;
-          this.initialWoodSorterPrice = woodSorter.price;
+          this.initialWoodSorterPrice = Number(woodSorter.price) 
         }
   
         if (handBrake){
@@ -408,12 +408,12 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
         if (bunkAdapter){
           this.bunkAdapter = bunkAdapter;
-          this.initialBunkAdapterPrice = bunkAdapter.price;
+          this.initialBunkAdapterPrice = Number(bunkAdapter.price);
         }
 
         if (bunkExtension){
           this.bunkExtension = bunkExtension;
-          this.initialBunkExtensionPrice = bunkExtension.price;
+          this.initialBunkExtensionPrice = Number(bunkExtension.price);
         }
 
         if (frameExtension){
@@ -825,6 +825,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         this.originalWoodSorterPrice = Number(event.checked[0].price);
         this.woodSorterChecked = true;
         this.originalWoodSorter = event.checked[0];
+        console.log(event.checked[0]);
+        
         this.palmsService.selectedWoodSorter.set(event.checked[0]);
         setTimeout(() => {
           if(this.woodSorterArrayElements?.length === 0){

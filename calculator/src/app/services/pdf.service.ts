@@ -5,6 +5,7 @@ import { RemovePricePipe } from '../components/pipes/remove-price.pipe';
 import { HttpClient } from '@angular/common/http';
 import { PalmsService } from '../components/calculator/palms/shared/services/palms.service';
 import { Observable } from 'rxjs';
+import { PdfModel } from '../components/calculator/shared/components/pdf/pdf.component';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +14,13 @@ export class PdfService {
   //private url = 'http://localhost:5140';
   private url = 'https://calculator-app-api.azurewebsites.net';
 
-  constructor(private httpClient: HttpClient,
+  constructor(
+    private httpClient: HttpClient,
     private palmsService: PalmsService) { }
 
+  pdfId = signal("");
 
-    pdfId = signal("");
-
-  sendPdf(body: any){
+  sendPdf(body: PdfModel){
     return this.httpClient.post<any>(`${this.url}/Pdf`, body).pipe()
   }
 
