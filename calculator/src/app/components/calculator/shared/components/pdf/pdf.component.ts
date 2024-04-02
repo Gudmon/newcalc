@@ -143,11 +143,11 @@ export class PdfComponent implements OnInit{
 
     this.loadingService.enableLoader();
     this.pdfService
-      .sendPdf(object)
+      .sendUserPdf(object)
       .pipe(
         concatMap((resp) => {
           this.pdfService.pdfId.set(resp.id);
-          return this.pdfService.getPdf(resp.id)
+          return this.pdfService.getUserPdf(resp.id)
         })
       )
       .subscribe(
@@ -165,7 +165,7 @@ export class PdfComponent implements OnInit{
       Stanchion: this.palmsService.selectedStanchion(),
       Brake: this.palmsService.selectedBrake()
     }
-    this.pdfService.sendPdf(object).subscribe((resp) => {
+    this.pdfService.sendUserPdf(object).subscribe((resp) => {
       console.log('resp', resp);
       
       this.pdfService.pdfId.set(resp.id)
@@ -194,7 +194,7 @@ export class PdfComponent implements OnInit{
   getPdf(){
     console.log(this.pdfService.pdfId());
     this.loadingService.enableLoader();
-    this.pdfService.getPdf(this.pdfService.pdfId()).subscribe(
+    this.pdfService.getUserPdf(this.pdfService.pdfId()).subscribe(
       (resp) => {
         const blob = new Blob([resp], { type: 'application/pdf' });
         const link = document.createElement('a');

@@ -20,12 +20,20 @@ export class PdfService {
 
   pdfId = signal("");
 
-  sendPdf(body: PdfModel){
-    return this.httpClient.post<any>(`${this.url}/Pdf`, body).pipe()
+  sendUserPdf(body: PdfModel){
+    return this.httpClient.post<any>(`${this.url}/Pdf/user`, body).pipe()
   }
 
-  getPdf(id: string): Observable<Blob> {
-    return this.httpClient.get(`${this.url}/Pdf/${id}`, { responseType: 'blob' });
+  sendDealerPdf(body: PdfModel){
+    return this.httpClient.post<any>(`${this.url}/Pdf/dealer`, body).pipe()
+  }
+
+  getUserPdf(id: string): Observable<Blob> {
+    return this.httpClient.get(`${this.url}/Pdf/user/${id}`, { responseType: 'blob' });
+  }
+
+  getDealerPdf(id: string): Observable<Blob> {
+    return this.httpClient.get(`${this.url}/Pdf/dealer/${id}`, { responseType: 'blob' });
   }
   
 
