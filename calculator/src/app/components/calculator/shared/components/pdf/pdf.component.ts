@@ -143,7 +143,7 @@ export class PdfComponent implements OnInit{
 
     this.loadingService.enableLoader();
     this.pdfService
-      .sendUserPdf(object)
+      .sendPdf(object)
       .pipe(
         concatMap((resp) => {
           this.pdfService.pdfId.set(resp.id);
@@ -165,7 +165,7 @@ export class PdfComponent implements OnInit{
       Stanchion: this.palmsService.selectedStanchion(),
       Brake: this.palmsService.selectedBrake()
     }
-    this.pdfService.sendUserPdf(object).subscribe((resp) => {
+    this.pdfService.sendPdf(object).subscribe((resp) => {
       console.log('resp', resp);
       
       this.pdfService.pdfId.set(resp.id)

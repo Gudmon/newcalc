@@ -20,12 +20,8 @@ export class PdfService {
 
   pdfId = signal("");
 
-  sendUserPdf(body: PdfModel){
-    return this.httpClient.post<any>(`${this.url}/Pdf/user`, body).pipe()
-  }
-
-  sendDealerPdf(body: PdfModel){
-    return this.httpClient.post<any>(`${this.url}/Pdf/dealer`, body).pipe()
+  sendPdf(body: PdfModel){
+    return this.httpClient.post<any>(`${this.url}/Pdf`, body).pipe()
   }
 
   getUserPdf(id: string): Observable<Blob> {
