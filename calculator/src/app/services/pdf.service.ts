@@ -18,7 +18,7 @@ export class PdfService {
     private httpClient: HttpClient,
     private palmsService: PalmsService) { }
 
-  pdfId = signal("");
+  pdfId = signal<string>("");
 
   sendPdf(body: PdfModel){
     return this.httpClient.post<any>(`${this.url}/Pdf`, body).pipe()

@@ -179,7 +179,9 @@ export class PdfComponent implements OnInit{
   sendEmail(){
     const subject = `Sikeres kalkuláció - ${this.pdfService.pdfId()}`;
     const body = "Sikeres kalkuláció";
-    const blobName = this.pdfService.pdfId();
+    
+    const blobName = this.pdfService.pdfId().toString();
+    console.log(blobName);
     this.loadingService.enableLoader();
     this.emailService.sendEmail(subject, body, blobName).subscribe((resp) => {
       console.log('resp', resp);
