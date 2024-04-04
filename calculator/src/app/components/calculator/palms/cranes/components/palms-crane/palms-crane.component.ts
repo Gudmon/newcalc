@@ -42,13 +42,14 @@ import { LinkageDialogComponent } from "../dialogs/linkage-dialog/linkage-dialog
 import { PalmsTrailerComponent } from "../../../trailers/components/palms-trailer/palms-trailer.component";
 import { PalmsTrailerCardsComponent } from "../../../trailers/components/palms-trailer-cards/palms-trailer-cards.component";
 import { PalmsTrailerOverview } from '../../../trailers/models/palms-trailer-overview';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 @Component({
     selector: 'app-palms-crane',
     standalone: true,
     templateUrl: './palms-crane.component.html',
     styleUrl: './palms-crane.component.css',
-    imports: [FormsModule, ReactiveFormsModule, AccordionModule, CheckboxModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent, RotatorsDialogComponent, GrapplesDialogComponent, WinchesDialogComponent, ProtectionSleevesDialogComponent, ElectricalFloatingDialogComponent, ValveBlockDialogComponent, DampingsDialogComponent, CraneLightDialogComponent, OperatorSeatDialogComponent, CraneOilcoolerDialogComponent, RotatorBrakesDialogComponent, JoystickHolderDialogComponent, HoseGuardsDialogComponent, TurningCounterPlateDialogComponent, SupportCounterPlateDialogComponent, BoomguardDialogComponent, CoverDialogComponent, WoodcontrolDialogComponent, LinkageDialogComponent, PalmsTrailerComponent, PalmsTrailerCardsComponent]
+    imports: [FormsModule, ReactiveFormsModule, AccordionModule, RadioButtonModule, CheckboxModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent, RotatorsDialogComponent, GrapplesDialogComponent, WinchesDialogComponent, ProtectionSleevesDialogComponent, ElectricalFloatingDialogComponent, ValveBlockDialogComponent, DampingsDialogComponent, CraneLightDialogComponent, OperatorSeatDialogComponent, CraneOilcoolerDialogComponent, RotatorBrakesDialogComponent, JoystickHolderDialogComponent, HoseGuardsDialogComponent, TurningCounterPlateDialogComponent, SupportCounterPlateDialogComponent, BoomguardDialogComponent, CoverDialogComponent, WoodcontrolDialogComponent, LinkageDialogComponent, PalmsTrailerComponent, PalmsTrailerCardsComponent]
 })
 export class PalmsCraneComponent implements OnInit, OnDestroy {
     crane!: PalmsCrane
@@ -114,6 +115,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     cover: ConfigurationItem | undefined = undefined;
     woodControl: ConfigurationItem | undefined = undefined;
     linkage: ConfigurationItem | undefined = undefined;
+    craneShipping: ConfigurationItem | undefined = undefined;
 
     originalControlBlockPrice = 0;
     originalFrameTypePrice = 0;
@@ -163,8 +165,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalCover: ConfigurationItem | undefined = undefined;
     originalWoodControl: ConfigurationItem | undefined = undefined;
     originalLinkage: ConfigurationItem | undefined = undefined;
-
-   
+    originalShipping: ConfigurationItem | undefined = undefined;
 
       get selectedGrapples(): FormArray {
         return this.craneFormGroup.get('selectedGrapples') as FormArray;
@@ -207,6 +208,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         selectedCover: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedWoodControl: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedLinkage: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+        selectedShipping: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     });
 
     private initializeFormGroup(): void {
@@ -233,7 +235,8 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             selectedBoomGuard: null,
             selectedCover: [{value: null, disabled: true}],
             selectedWoodControl: null,
-            selectedLinkage: [{value: null, disabled: true}]
+            selectedLinkage: [{value: null, disabled: true}],
+            selectedShipping: this.craneShipping
         });
     }  
     private destroy$ = new Subject<void>();
@@ -264,7 +267,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
           this.palmsService._selectedCrane.next(response);
         }
         
-
         this.crane = response as PalmsCrane;
         
       }).add(() => {
@@ -280,7 +282,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         });
       }
 
-      this.palmsService.deleteCrane$.subscribe(() => {    
+      this.palmsService.deleteCrane$.subscribe(() => {  
         this.delete();
       })
     }
@@ -317,16 +319,19 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         const cover$ = this.palmsCraneConfigService.getCover(id);
         const woodControl$ = this.palmsCraneConfigService.getWoodControl(id);
         const linkage$ = this.palmsCraneConfigService.getLinkage(id);
+        const craneShipping$ = this.palmsCraneConfigService.getShipping(id);
         
         const request = forkJoin([controlBlocks$, frameTypes$, rotators$, grapples$, winches$, 
           protectionSleeves$, electricalFloating$, valveBlock$, dampings$, light$,
           operatorSeat$, oilCooler$, rotatorBrakes$, joystickHolder$, hoseguards$,
-          turningDeviceCounterPlate$, supportLegCounterPlate$, boomGuard$, cover$, woodControl$, linkage$]);
+          turningDeviceCounterPlate$, supportLegCounterPlate$, boomGuard$, cover$, 
+          woodControl$, linkage$, craneShipping$]);
        
         request.subscribe(([controlBlocks, frameTypes, rotators, grapples, winches, 
           protectionSleeves, electricalFloating, valveBlock, dampings, light,
           operatorSeat, oilCooler, rotatorBrakes, joystickHolder, hoseGuards,
-          turningDeviceCounterPlate, supportLegCounterPlate, boomGuard, cover, woodControl, linkage]) => {
+          turningDeviceCounterPlate, supportLegCounterPlate, boomGuard, cover, 
+          woodControl, linkage, craneShipping]) => {
             if(controlBlocks){
               this.controlBlocks = controlBlocks;
             }
@@ -418,6 +423,11 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
             if (linkage){
               this.linkage = linkage;
+            }
+
+            if (craneShipping){
+              this.craneShipping = craneShipping;
+              this.palmsService.selectedCraneShipping.set(craneShipping);
             }
 
             this.initializeFormGroup();

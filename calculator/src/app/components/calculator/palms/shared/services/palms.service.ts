@@ -67,6 +67,7 @@ export class PalmsService {
   public selectedCover = signal<ConfigurationItem | undefined>(undefined);
   public selectedWoodControl = signal<ConfigurationItem | undefined>(undefined);
   public selectedLinkage = signal<ConfigurationItem | undefined>(undefined);
+  public selectedCraneShipping = signal<ConfigurationItem | undefined>(undefined);
 
   // TRAILERS
   public selectedStanchion = signal<ConfigurationItem | undefined>(undefined);
@@ -89,6 +90,7 @@ export class PalmsService {
   public selectedBunkAdapter = signal<ConfigurationItem | undefined>(undefined);
   public selectedBunkExtension = signal<ConfigurationItem | undefined>(undefined);
   public selectedFrameExtension = signal<ConfigurationItem | undefined>(undefined);
+  public selectedTrailerShipping = signal<ConfigurationItem | undefined>(undefined);
 
   constructor(private httpClient: HttpClient) { }
   
@@ -185,11 +187,10 @@ export class PalmsService {
     this.selectedBunkAdapter.set(undefined);
     this.selectedBunkExtension.set(undefined);
     this.selectedFrameExtension.set(undefined);
+    this.selectedTrailerShipping.set(undefined);
   }
 
   deleteCrane(){
-    console.log('delete in palms service');
-    
     this.selectedControlBlock.set(undefined);
     this.selectedFrameType.set(undefined);
     this.selectedRotator.set(undefined);
@@ -212,5 +213,6 @@ export class PalmsService {
     this.selectedCover.set(undefined);
     this.selectedWoodControl.set(undefined);
     this.selectedLinkage.set(undefined);
+    this.selectedCraneShipping.set(undefined);
   }
 }

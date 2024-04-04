@@ -109,6 +109,7 @@ export class PdfComponent implements OnInit{
       object.FrameExtension = this.palmsService.selectedFrameExtension();
       object.TrailerLight = this.palmsService.selectedTrailerLight();
       object.Tyre = this.palmsService.selectedTyre();
+      object.TrailerShipping = this.palmsService.selectedTrailerShipping();
     }else {
       object.Grapples = [];
     }
@@ -145,6 +146,7 @@ export class PdfComponent implements OnInit{
       object.Cover = this.palmsService.selectedCover();
       object.WoodControl = this.palmsService.selectedWoodControl();
       object.Linkage = this.palmsService.selectedLinkage();
+      object.CraneShipping = this.palmsService.selectedCraneShipping();
     } else {
       object.Grapples = [];
     }
@@ -240,6 +242,7 @@ interface PdfTrailerModel {
   FrameExtension?: ConfigurationItem | undefined,
   TrailerLight?: ConfigurationItem | undefined,
   Tyre?: ConfigurationItem | undefined,
+  TrailerShipping?: ConfigurationItem | undefined,
 }
 
 interface PdfCraneModel {
@@ -266,6 +269,7 @@ interface PdfCraneModel {
   Cover?: ConfigurationItem | undefined,
   WoodControl?: ConfigurationItem | undefined,
   Linkage?: ConfigurationItem | undefined,
+  CraneShipping?: ConfigurationItem | undefined,
 }
 
 export interface PdfModel extends PdfTrailerModel, PdfCraneModel{

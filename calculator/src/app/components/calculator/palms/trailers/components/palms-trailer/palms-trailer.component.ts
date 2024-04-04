@@ -279,7 +279,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     }
 
     this.palmsService.deleteTrailer$.subscribe(() => {
-      this.palmsService.deleteCrane();
       this.delete();
     })
   }
@@ -425,6 +424,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
         if (trailerShipping){
           this.trailerShipping = trailerShipping;
+          this.palmsService.selectedTrailerShipping.set(trailerShipping);
         }
         
         this.trailerSelected = true;
