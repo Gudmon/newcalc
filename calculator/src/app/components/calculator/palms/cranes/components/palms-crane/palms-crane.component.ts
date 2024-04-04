@@ -140,7 +140,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalWoodControlPrice = 0;
     originalLinkagePrice = 0;
      
-
+    originalCrane: ConfigurationItem | undefined = undefined;
     originalControlBlock: ConfigurationItem | undefined = undefined;
     originalFrameType: ConfigurationItem | undefined = undefined;
     originalRotator: ConfigurationItem | undefined = undefined;
@@ -184,7 +184,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
       
     craneFormGroup: FormGroup = new FormGroup({
-        selectedCrane: new FormControl<string>(''),
+        selectedCrane: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedControlBlock: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedFrameType: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
         selectedGrapples: this.fb.array([]),
@@ -274,8 +274,8 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
       if(this.fromTrailer){
         this.palmsService.selectedCrane$
         .pipe(takeUntil(this.destroy$))
-        .subscribe((trailer) => {
-          this.id = trailer?.id;
+        .subscribe((crane) => {
+          this.id = crane?.id;
           this.loadCraneConfigurations(this.id!);
         });
       }

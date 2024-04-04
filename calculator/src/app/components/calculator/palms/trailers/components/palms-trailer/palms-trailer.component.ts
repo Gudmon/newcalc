@@ -449,7 +449,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService.selectedStanchion.set(undefined)
     }
 
-    const maxNumber = Number(this.originalStanchion?.code[1]) * 2;
+    const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
     this.woodSorterArrayElements = [];
     this.bunkAdapterArrayElements = [];
     this.bunkExtensionArrayElements = [];
@@ -830,7 +830,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         this.palmsService.selectedWoodSorter.set(event.checked[0]);
         setTimeout(() => {
           if(this.woodSorterArrayElements?.length === 0){
-            const maxNumber = Number(this.originalStanchion?.code[1]) * 2;
+            const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
 
             this.woodSorterArrayElements = [];
             for (let i = 1; i <= maxNumber; i++) {
@@ -934,7 +934,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         this.palmsService.selectedBunkAdapter.set(event.checked[0]);
         setTimeout(() => {
           if(this.bunkAdapterArrayElements?.length === 0){
-            const maxNumber = Number(this.originalStanchion?.code[1]) * 2;
+            const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
 
             this.bunkAdapterArrayElements = [];
             for (let i = 1; i <= maxNumber; i++) {
@@ -985,7 +985,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         this.palmsService.selectedBunkExtension.set(event.checked[0]);
         setTimeout(() => {
           if(this.bunkExtensionArrayElements?.length === 0){
-            const maxNumber = Number(this.originalStanchion?.code[1]) * 2;
+            const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
 
             this.bunkExtensionArrayElements = [];
             for (let i = 1; i <= maxNumber; i++) {

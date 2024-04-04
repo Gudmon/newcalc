@@ -10,6 +10,7 @@ import { EmailService } from '../../../../../services/email.service';
 import { LoadingService } from '../../../../../services/loading.service';
 import { MessageService } from 'primeng/api'
 import { ToastModule } from 'primeng/toast';
+import { PalmsCraneOverview } from '../../../palms/cranes/models/palms-crane-overview';
 
 @Component({
   selector: 'app-pdf',
@@ -114,7 +115,14 @@ export class PdfComponent implements OnInit{
     console.log(this.palmsService._craneSelected.value);
 
     if (this.palmsService._craneSelected.value === true) {
-      object.CraneName = this.palmsService._selectedCrane.value?.name
+      const crane: ConfigurationItem = {
+        id: this.palmsService._selectedCrane.value!.id,
+        name: this.palmsService._selectedCrane.value!.name,
+        price: this.palmsService._selectedCrane.value!.price,
+        code: '',
+        namePrice: this.palmsService._selectedCrane.value!.name + " " + this.palmsService._selectedCrane.value!.price + "€"
+      }
+      object.Crane = crane;
       object.ControlBlock = this.palmsService.selectedControlBlock();
       object.FrameType = this.palmsService.selectedFrameType();
       object.Rotator = this.palmsService.selectedRotator();
@@ -185,7 +193,7 @@ export class PdfComponent implements OnInit{
     this.loadingService.enableLoader();
     this.emailService.sendEmail(subject, body, blobName).subscribe((resp) => {
       console.log('resp', resp);
-      this.messageService.add({ key: 'tc', severity: 'success', summary: 'Success', detail: 'Sikeres e-mail küldés!' });
+      this.messageService.add({ key: 'tc', severity: 'success', summary: 'Siker!', detail: 'Sikeres e-mail küldés!' });
     }).add(() => {
       this.submitted = false;
       this.loadingService.disableLoader()
@@ -235,7 +243,7 @@ interface PdfTrailerModel {
 }
 
 interface PdfCraneModel {
-  CraneName?: string | undefined,
+  Crane?: ConfigurationItem | undefined,
   ControlBlock?: ConfigurationItem | undefined,
   FrameType?: ConfigurationItem | undefined,
   Rotator?: ConfigurationItem | undefined,

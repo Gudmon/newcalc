@@ -7,5 +7,6 @@ export interface PalmsCraneOverview {
     telescopeLength: string;
     slewingCylinder: string;
     slewingTorque: string;
-    imgUrl: string  
+    imgUrl: string;  
+    price: string;
 }
