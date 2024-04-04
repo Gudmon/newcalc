@@ -26,19 +26,13 @@ export class GalleriaComponent implements OnInit {
 
     this.images = [
       { 
-        itemImageSrc: '../../../../assets/krpan_default.png',
+        itemImageSrc: '../../../../assets/palms_default.png',
         thumbnailImageSrc: '../../../../assets/krpan_default.png',
         alt: 'Description for Image 1',
         title: 'Title 1'
       },
       { 
-        itemImageSrc: '../../../../assets/palms_default.png',
-        thumbnailImageSrc: '../../../../assets/daru2.png',
-        alt: 'Description for Image 3',
-        title: 'Title 3'
-      },
-      { 
-        itemImageSrc: '../../../../assets/krpan_default2.png',
+        itemImageSrc: '../../../../assets/krpan_default.png',
         thumbnailImageSrc: '../../../../assets/daru2.png',
         alt: 'Description for Image 3',
         title: 'Title 3'
@@ -50,13 +44,19 @@ export class GalleriaComponent implements OnInit {
         title: 'Title 3'
       },
       { 
-        itemImageSrc: '../../../../assets/krpan_default3.png',
+        itemImageSrc: '../../../../assets/krpan_default2.png',
         thumbnailImageSrc: '../../../../assets/daru2.png',
         alt: 'Description for Image 3',
         title: 'Title 3'
       },
       { 
         itemImageSrc: '../../../../assets/palms_default3.png',
+        thumbnailImageSrc: '../../../../assets/daru2.png',
+        alt: 'Description for Image 3',
+        title: 'Title 3'
+      },
+      { 
+        itemImageSrc: '../../../../assets/krpan_default3.png',
         thumbnailImageSrc: '../../../../assets/daru2.png',
         alt: 'Description for Image 3',
         title: 'Title 3'

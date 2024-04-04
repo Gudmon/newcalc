@@ -40,9 +40,7 @@ import { CardModule } from 'primeng/card';
 import { PalmsTrailer } from '../../models/palms-trailer';
 import { PalmsTrailerInformationComponent } from "../palms-trailer-information/palms-trailer-information.component";
 import { PalmsTrailerCardsComponent } from "../palms-trailer-cards/palms-trailer-cards.component";
-import { PalmsCraneConfigService } from '../../../cranes/services/palms-crane-config.service';
-import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
-import { PalmsCrane } from '../../../cranes/models/palms-crane';
+import { RadioButtonModule } from 'primeng/radiobutton';
 import { PalmsCraneComponent } from "../../../cranes/components/palms-crane/palms-crane.component";
 import { PalmsCraneCardsComponent } from '../../../cranes/components/palms-crane-cards/palms-crane-cards.component';
 import { PropulsionsDialogComponent } from "../dialogs/propulsions-dialog/propulsions-dialog.component";
@@ -55,7 +53,7 @@ import { FrameExtensionDialogComponent } from "../dialogs/frame-extension-dialog
     standalone: true,
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, CardModule, FooterComponent, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent, PropulsionsDialogComponent, BunkAdapterDialogComponent, BunkExtensionDialogComponent, FrameExtensionDialogComponent]
+    imports: [NavigationComponent, CardModule, FooterComponent, RadioButtonModule, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent, PropulsionsDialogComponent, BunkAdapterDialogComponent, BunkExtensionDialogComponent, FrameExtensionDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit, OnDestroy{
   @Input() trailer!: PalmsTrailer
@@ -120,6 +118,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   bunkAdapter: ConfigurationItem | undefined = undefined;
   bunkExtension: ConfigurationItem | undefined = undefined;
   frameExtension: ConfigurationItem | undefined = undefined;
+  trailerShipping: ConfigurationItem | undefined = undefined;
 
   selectedConfigurationItems: ConfigurationItem[] = [];
 
@@ -181,6 +180,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalBunkExtension: ConfigurationItem | undefined = undefined;
   bunkExtensionArrayElements: any[] | undefined = [];
   originalFrameExtension: ConfigurationItem | undefined = undefined;
+  originalShipping: ConfigurationItem | undefined = undefined;
 
   trailerFormGroup: FormGroup = new FormGroup({
     selectedTrailer: new FormControl<string>(''),
@@ -204,6 +204,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     selectedBunkAdapter: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedBunkExtension: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedFrameExtension: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedShipping: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
   });
 
   private initializeFormGroup(): void {
@@ -230,7 +231,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       selectedCrane: null,
       selectedBunkAdapter: null,
       selectedBunkExtension: null,
-      selectedFrameExtension: null
+      selectedFrameExtension: null,
+      selectedShipping: this.trailerShipping
     });
   }   
   private destroy$ = new Subject<void>();
@@ -319,18 +321,19 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       const bunkAdapter$ = this.palmsTrailerConfigService.getBunkAdapter(id);
       const bunkExtension$ = this.palmsTrailerConfigService.getBunkExtension(id);
       const frameExtension$ = this.palmsTrailerConfigService.getFrameExtension(id);
+      const trailerShipping$ = this.palmsTrailerConfigService.getShipping(id);
       
       const request = forkJoin([stanchions$, brakes$, propulsions$, 
         drawbars$, platforms$, oilPumps$, oilTanks$, trailerOilCooler$, 
         bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, 
         underrunProtection$, supportLegs$, lights$, tyres$, 
-        bunkAdapter$, bunkExtension$, frameExtension$]);
+        bunkAdapter$, bunkExtension$, frameExtension$, trailerShipping$]);
      
       request.subscribe(([stanchions, brakes, propulsions,
          drawbars, platforms, oilPumps, oilTanks, trailerOilCooler,
           bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, 
           underrunProtection, supportLegs, lights, tyres,
-          bunkAdapter, bunkExtension, frameExtension]) => {
+          bunkAdapter, bunkExtension, frameExtension, trailerShipping]) => {
         if (stanchions.length > 0){
           
           this.stanchions = stanchions;
@@ -418,6 +421,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
         if (frameExtension){
           this.frameExtension = frameExtension;
+        }
+
+        if (trailerShipping){
+          this.trailerShipping = trailerShipping;
         }
         
         this.trailerSelected = true;

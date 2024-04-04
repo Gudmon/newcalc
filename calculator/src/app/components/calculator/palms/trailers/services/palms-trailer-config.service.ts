@@ -281,4 +281,17 @@ export class PalmsTrailerConfigService {
       })
     );
   }
+
+  getShipping(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/shipping`).pipe(
+      map((shipping: ConfigurationItem | null) => {
+        if (shipping) {
+          shipping.namePrice = shipping.name + " " + shipping.price + "€";
+          return shipping;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
 }

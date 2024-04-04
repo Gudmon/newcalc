@@ -1,5 +1,6 @@
 .image-holder img {
     object-fit: cover;
+    object-position: 50% 55%; 
 }
 
 .p-element.p-icon-wrapper.ng-star-inserted {
