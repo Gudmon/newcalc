@@ -429,6 +429,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         if (trailerShipping){
           this.trailerShipping = trailerShipping;
           this.palmsService.selectedTrailerShipping.set(trailerShipping);
+          this.palmsService._trailerPrice.update((trailerPrice => trailerPrice + Number(trailerShipping.price)));
         }
         
         this.trailerSelected = true;
@@ -1059,7 +1060,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   }
 
   navigateToCrane(craneId: number){
-    this.router.navigate(['/calculator/palms/cranes', craneId]);
+    const url = `/calculator/palms/cranes/${craneId}`;
+    window.open(url, '_blank');
   }
 
   toggleDialog(dialogType: string, show: boolean) {
