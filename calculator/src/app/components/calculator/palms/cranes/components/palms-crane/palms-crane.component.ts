@@ -279,7 +279,10 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         .subscribe((crane) => {
           this.id = crane?.id;
           this.loadCraneConfigurations(this.id!);
+          this.palmsService._selectedAccordion.set(1);
         });
+      } else {
+        this.palmsService._selectedAccordion.set(0);
       }
 
       this.palmsService.deleteCrane$.subscribe(() => {  

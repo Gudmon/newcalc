@@ -41,6 +41,8 @@ export class PalmsCranePageComponent {
 
     this.palmsService._cranePrice.set(0);
     this.palmsService._trailerPrice.set(0);
+
+    this.palmsService._selectedAccordion.set(0);
   }
 
   deleteTrailer() { 
@@ -48,5 +50,7 @@ export class PalmsCranePageComponent {
     this.palmsService.deleteTrailer();
     this.palmsService._trailerSelected.next(false);
     this.palmsService._trailerPrice.set(0);
+
+    this.palmsService._selectedAccordion.set(0);
   }
 }

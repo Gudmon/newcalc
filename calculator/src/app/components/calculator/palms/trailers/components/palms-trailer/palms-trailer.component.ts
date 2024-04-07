@@ -275,7 +275,11 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       .subscribe((trailer) => {
         this.id = trailer?.id;
         this.loadTrailerConfigurations(this.id!);
+        this.palmsService._selectedAccordion.set(1);
       });
+    }
+    else {
+      this.palmsService._selectedAccordion.set(0);
     }
 
     this.palmsService.deleteTrailer$.subscribe(() => {
@@ -434,6 +438,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     ).add(() => {
       this.loadingService.disableLoader();
       this.palmsService._trailerSelected.next(true);
+
+      
     })};
   }
 

@@ -3,7 +3,7 @@
 <app-palms-trailer *ngIf="(palmsService.selectedTrailer$ | async)" [id]="(palmsService.selectedTrailer$ | async)?.id"></app-palms-trailer>
 <div class="mx-10 ">       
     <div class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
-        <p-accordion *ngIf="(palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)" [activeIndex]="0">
+        <p-accordion *ngIf="(palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)" [activeIndex]="this.palmsService._selectedAccordion()">
             <p-accordionTab>
                 <ng-template pTemplate="header" class="flex justify-around">
                     <div class="flex gap-2 w-full">
