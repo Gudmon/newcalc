@@ -11,8 +11,8 @@ import { PdfModel } from '../components/calculator/shared/components/pdf/pdf.com
   providedIn: 'root'
 })
 export class PdfService {
-  //private url = 'http://localhost:5140';
-  private url = 'https://calculator-app-api.azurewebsites.net';
+  private url = 'http://localhost:5140';
+  //private url = 'https://calculator-app-api.azurewebsites.net';
 
   constructor(
     private httpClient: HttpClient,
@@ -32,7 +32,6 @@ export class PdfService {
     return this.httpClient.get(`${this.url}/Pdf/dealer/${id}`, { responseType: 'blob' });
   }
   
-
   downloadPDF(formData: Record<string, any>) {
     const now = new Date().getTime();
     const report_generated_at = this.getFormattedDateAndTime(now);

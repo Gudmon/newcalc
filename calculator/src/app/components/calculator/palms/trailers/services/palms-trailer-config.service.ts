@@ -294,4 +294,17 @@ export class PalmsTrailerConfigService {
       })
     );
   }
+
+  getMOT(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/mot`).pipe(
+      map((MOT: ConfigurationItem | null) => {
+        if (MOT) {
+          MOT.namePrice = MOT.name + " " + MOT.price + "€";
+          return MOT;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
 }

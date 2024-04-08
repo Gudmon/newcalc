@@ -10,8 +10,8 @@ import { ConfigurationItem } from '../../../../../models/configuration-item';
   providedIn: 'root'
 })
 export class PalmsService {
-  //private url = 'http://localhost:5140';
-  private url = 'https://calculator-app-api.azurewebsites.net';
+  private url = 'http://localhost:5140';
+  //private url = 'https://calculator-app-api.azurewebsites.net';
 
   public _selectedMachineType = new BehaviorSubject<number | null>(null);
   public selectedMachineType$ = this._selectedMachineType.asObservable();
@@ -91,6 +91,7 @@ export class PalmsService {
   public selectedBunkExtension = signal<ConfigurationItem | undefined>(undefined);
   public selectedFrameExtension = signal<ConfigurationItem | undefined>(undefined);
   public selectedTrailerShipping = signal<ConfigurationItem | undefined>(undefined);
+  public selectedMOT = signal<ConfigurationItem | undefined>(undefined);
 
   constructor(private httpClient: HttpClient) { }
   

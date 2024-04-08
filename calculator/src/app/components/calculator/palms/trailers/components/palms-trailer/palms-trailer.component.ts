@@ -119,6 +119,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   bunkExtension: ConfigurationItem | undefined = undefined;
   frameExtension: ConfigurationItem | undefined = undefined;
   trailerShipping: ConfigurationItem | undefined = undefined;
+  MOT: ConfigurationItem | undefined = undefined;
 
   selectedConfigurationItems: ConfigurationItem[] = [];
 
@@ -181,6 +182,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   bunkExtensionArrayElements: any[] | undefined = [];
   originalFrameExtension: ConfigurationItem | undefined = undefined;
   originalShipping: ConfigurationItem | undefined = undefined;
+  originalMOT: ConfigurationItem | undefined = undefined;
 
   trailerFormGroup: FormGroup = new FormGroup({
     selectedTrailer: new FormControl<string>(''),
@@ -205,6 +207,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     selectedBunkExtension: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedFrameExtension: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedShipping: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedMOT: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
   });
 
   private initializeFormGroup(): void {
@@ -232,7 +235,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       selectedBunkAdapter: null,
       selectedBunkExtension: null,
       selectedFrameExtension: null,
-      selectedShipping: this.trailerShipping
+      selectedShipping: this.trailerShipping,
+      selectedMOT: this.MOT,
     });
   }   
   private destroy$ = new Subject<void>();
@@ -325,18 +329,19 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       const bunkExtension$ = this.palmsTrailerConfigService.getBunkExtension(id);
       const frameExtension$ = this.palmsTrailerConfigService.getFrameExtension(id);
       const trailerShipping$ = this.palmsTrailerConfigService.getShipping(id);
+      const MOT$ = this.palmsTrailerConfigService.getMOT(id);
       
       const request = forkJoin([stanchions$, brakes$, propulsions$, 
         drawbars$, platforms$, oilPumps$, oilTanks$, trailerOilCooler$, 
         bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, 
         underrunProtection$, supportLegs$, lights$, tyres$, 
-        bunkAdapter$, bunkExtension$, frameExtension$, trailerShipping$]);
+        bunkAdapter$, bunkExtension$, frameExtension$, trailerShipping$, MOT$]);
      
       request.subscribe(([stanchions, brakes, propulsions,
          drawbars, platforms, oilPumps, oilTanks, trailerOilCooler,
           bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, 
           underrunProtection, supportLegs, lights, tyres,
-          bunkAdapter, bunkExtension, frameExtension, trailerShipping]) => {
+          bunkAdapter, bunkExtension, frameExtension, trailerShipping, MOT]) => {
         if (stanchions.length > 0){
           
           this.stanchions = stanchions;
@@ -430,6 +435,12 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
           this.trailerShipping = trailerShipping;
           this.palmsService.selectedTrailerShipping.set(trailerShipping);
           this.palmsService._trailerPrice.update((trailerPrice => trailerPrice + Number(trailerShipping.price)));
+        }
+
+        if (MOT){
+          this.MOT = MOT;
+          this.palmsService.selectedMOT.set(MOT);
+          this.palmsService._trailerPrice.update((trailerPrice => trailerPrice + Number(MOT.price)));
         }
         
         this.trailerSelected = true;

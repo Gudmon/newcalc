@@ -110,6 +110,7 @@ export class PdfComponent implements OnInit{
       object.TrailerLight = this.palmsService.selectedTrailerLight();
       object.Tyre = this.palmsService.selectedTyre();
       object.TrailerShipping = this.palmsService.selectedTrailerShipping();
+      object.MOT = this.palmsService.selectedMOT();
     }else {
       object.Grapples = [];
     }
@@ -243,6 +244,7 @@ interface PdfTrailerModel {
   TrailerLight?: ConfigurationItem | undefined,
   Tyre?: ConfigurationItem | undefined,
   TrailerShipping?: ConfigurationItem | undefined,
+  MOT?: ConfigurationItem | undefined,
 }
 
 interface PdfCraneModel {
