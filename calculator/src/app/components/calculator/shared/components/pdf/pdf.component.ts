@@ -108,6 +108,7 @@ export class PdfComponent implements OnInit{
       object.BunkExtension = this.palmsService.selectedBunkExtension();
       object.FrameExtension = this.palmsService.selectedFrameExtension();
       object.TrailerLight = this.palmsService.selectedTrailerLight();
+      object.SupportLeg = this.palmsService.selectedSupportLeg();
       object.Tyre = this.palmsService.selectedTyre();
       object.TrailerShipping = this.palmsService.selectedTrailerShipping();
       object.MOT = this.palmsService.selectedMOT();
@@ -189,12 +190,11 @@ export class PdfComponent implements OnInit{
 
   sendEmail(){
     const subject = `Sikeres kalkuláció - ${this.pdfService.pdfId()}`;
-    const body = "Sikeres kalkuláció";
     
     const blobName = this.pdfService.pdfId().toString();
     console.log(blobName);
     this.loadingService.enableLoader();
-    this.emailService.sendEmail(subject, body, blobName).subscribe((resp) => {
+    this.emailService.sendEmail(this.formGroup.controls['email'].value , subject, this.formGroup.controls['message'].value, this.formGroup.controls['name'].value, blobName).subscribe((resp) => {
       console.log('resp', resp);
       this.messageService.add({ key: 'tc', severity: 'success', summary: 'Siker!', detail: 'Sikeres e-mail küldés!' });
     }).add(() => {
@@ -242,6 +242,7 @@ interface PdfTrailerModel {
   BunkExtension?: ConfigurationItem | undefined,
   FrameExtension?: ConfigurationItem | undefined,
   TrailerLight?: ConfigurationItem | undefined,
+  SupportLeg?: ConfigurationItem | undefined,
   Tyre?: ConfigurationItem | undefined,
   TrailerShipping?: ConfigurationItem | undefined,
   MOT?: ConfigurationItem | undefined,

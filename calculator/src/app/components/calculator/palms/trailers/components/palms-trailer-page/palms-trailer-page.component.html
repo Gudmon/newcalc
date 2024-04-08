@@ -2,12 +2,15 @@
 <app-palms-trailer></app-palms-trailer>
 <app-palms-crane *ngIf="(palmsService.selectedCrane$ | async)" [id]="(palmsService.selectedCrane$ | async)?.id"></app-palms-crane>
 <div class="mx-10 ">       
-    <div class="w-full sm:w-6/12 lg:w-4/12 fixed bottom-1 right-1 z-10">
+    <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
         <p-accordion *ngIf="(palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async)" [activeIndex]="this.palmsService._selectedAccordion()">
             <p-accordionTab>
                 <ng-template pTemplate="header" class="flex justify-around">
                     <div class="flex gap-2 w-full">
                         <p class="mr-auto text-sm lg:text-base"><span class="">{{(palmsService.selectedTrailer$ | async)?.name}} Pótkocsi: </span><span class="font-extrabold text-lg">{{palmsService._trailerPrice() | formatPrice}}</span></p>
+                        @if((palmsService.trailerSelected$ | async) && (palmsService.craneSelected$ | async)){
+                            <p class="mr-auto text-sm lg:text-base"><span class="">Összesen: </span><span class="font-extrabold text-lg">{{palmsService._totalPrice() | formatPrice}}</span></p>
+                        }
                         <button (click)="deleteTrailer(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
                     </div>
                 </ng-template>

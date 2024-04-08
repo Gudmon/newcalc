@@ -32,19 +32,7 @@ export class GalleriaComponent implements OnInit {
         title: 'Title 1'
       },
       { 
-        itemImageSrc: '../../../../assets/krpan_default.png',
-        thumbnailImageSrc: '../../../../assets/daru2.png',
-        alt: 'Description for Image 3',
-        title: 'Title 3'
-      },
-      { 
         itemImageSrc: '../../../../assets/palms_default2.png',
-        thumbnailImageSrc: '../../../../assets/daru2.png',
-        alt: 'Description for Image 3',
-        title: 'Title 3'
-      },
-      { 
-        itemImageSrc: '../../../../assets/krpan_default2.png',
         thumbnailImageSrc: '../../../../assets/daru2.png',
         alt: 'Description for Image 3',
         title: 'Title 3'
@@ -54,13 +42,7 @@ export class GalleriaComponent implements OnInit {
         thumbnailImageSrc: '../../../../assets/daru2.png',
         alt: 'Description for Image 3',
         title: 'Title 3'
-      },
-      { 
-        itemImageSrc: '../../../../assets/krpan_default3.png',
-        thumbnailImageSrc: '../../../../assets/daru2.png',
-        alt: 'Description for Image 3',
-        title: 'Title 3'
-      },
+      }
     ];
   }
 

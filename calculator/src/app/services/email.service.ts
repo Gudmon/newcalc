@@ -10,10 +10,12 @@ export class EmailService {
   private url = 'https://calculator-app-api.azurewebsites.net';
   constructor(private httpClient: HttpClient){}
 
-  sendEmail(subject:string, body: string, blobName: string){
+  sendEmail(fromEmail: string, subject:string, body: string, name: string, blobName: string){
     const email = {
+      FromEmail: fromEmail,
       Subject: subject,
       Body: body,
+      Name: name,
       BlobName: blobName
     }
     return this.httpClient.post<any>(`${this.url}/Email`, email).pipe()

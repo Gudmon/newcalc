@@ -25,17 +25,8 @@ constructor(){
                 routerLink: '/'
             },
             {
-                label: 'Kalkulátorok',
-                items: [
-                  {
-                      label: 'Krpan',
-                      routerLink: '/calculator/krpan'
-                  },
-                  {
-                      label: 'Palms',
-                      routerLink: '/calculator/palms'
-                  }
-              ]
+                label: 'Kalkulátor',
+                routerLink: '/calculator/palms'
             },
         ];
     }

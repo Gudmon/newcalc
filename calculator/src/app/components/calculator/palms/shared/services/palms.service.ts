@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, computed, signal } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
 import { PalmsTrailerOverview } from '../../trailers/models/palms-trailer-overview';
 import { PalmsTrailer } from '../../trailers/models/palms-trailer';
@@ -10,8 +10,8 @@ import { ConfigurationItem } from '../../../../../models/configuration-item';
   providedIn: 'root'
 })
 export class PalmsService {
-  private url = 'http://localhost:5140';
-  //private url = 'https://calculator-app-api.azurewebsites.net';
+  //private url = 'http://localhost:5140';
+  private url = 'https://calculator-app-api.azurewebsites.net';
 
   public _selectedMachineType = new BehaviorSubject<number | null>(null);
   public selectedMachineType$ = this._selectedMachineType.asObservable();
@@ -41,6 +41,8 @@ export class PalmsService {
 
   public _trailerSelected = new BehaviorSubject<boolean>(false);
   public trailerSelected$ = this._trailerSelected.asObservable();
+
+  public _totalPrice = computed(() => this._trailerPrice() + this._cranePrice());
 
   trailerVideos = new Map<string, string>();
 
