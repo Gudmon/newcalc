@@ -1,7 +1,7 @@
 import { Component, DestroyRef, OnInit } from '@angular/core';
 import { NavigationComponent } from '../components/navigation/navigation.component';
 import { FooterComponent } from '../components/footer/footer.component';
-import { GalleriaComponent } from "./components/galleria/galleria.component";
+import { CarouselComponent } from "./components/carousel/carousel.component";
 import { ActivitiesComponent } from "./components/activities/activities.component";
 import { CalculatorComponent } from "./components/calculator/calculator.component";
 import { HighlightsComponent } from "./components/highlights/highlights.component";
@@ -11,6 +11,7 @@ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { CatalogComponent } from "./components/catalog/catalog.component";
 import { FeaturesComponent } from "./components/features/features.component";
+import { GalleriaComponent } from "./components/galleria/galleria.component";
 
 @Component({
     selector: 'app-landing',
@@ -18,7 +19,7 @@ import { FeaturesComponent } from "./components/features/features.component";
     templateUrl: './landing.component.html',
     styleUrl: './landing.component.css',
     providers: [HttpClient],
-    imports: [NavigationComponent, GoogleMapsModule, GalleriaComponent, HttpClientModule, ActivitiesComponent, CalculatorComponent, HighlightsComponent, FooterComponent, MapsComponent, CatalogComponent, FeaturesComponent]
+    imports: [NavigationComponent, GoogleMapsModule, CarouselComponent, HttpClientModule, ActivitiesComponent, CalculatorComponent, HighlightsComponent, FooterComponent, MapsComponent, CatalogComponent, FeaturesComponent, GalleriaComponent]
 })
 export class LandingComponent implements OnInit{
     constructor(private readonly httpService: HttpClient){}

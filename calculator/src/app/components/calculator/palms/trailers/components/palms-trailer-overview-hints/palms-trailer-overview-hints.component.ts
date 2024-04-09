@@ -19,8 +19,8 @@ export class PalmsTrailerOverviewHintsComponent {
   constructor() {
       this.hints = [
           { title: 'S', description: 'Egyalvázas pótkocsi' },
-          { title: 'SX', description: '?' },
-          { title: 'SC', description: '?' },
+          { title: 'SX', description: 'Egyalvázas fix tengelyű kivitel' },
+          { title: 'SC', description: 'Egyalvázas kompakt kivitel' },
           { title: 'D', description: 'Dupla alvázas pótkocsi' },
           { title: 'DWD', description: 'Dupla alvázas pótkocsi 2 kerék hajtással' },
           { title: 'U', description: 'Unibody típusú pótkocsi' },
