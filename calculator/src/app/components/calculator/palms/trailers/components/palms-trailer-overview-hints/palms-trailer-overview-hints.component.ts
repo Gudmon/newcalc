@@ -27,7 +27,7 @@ export class PalmsTrailerOverviewHintsComponent {
           { title: 'UWD', description: 'Unibody típusú pótkocsi 2 kerék hajtással' },
           { title: 'UAWD', description: 'Unibody típusú pótkocsi 4 kerék hajtással' },
           { title: 'MWD', description: 'Professzionális pótkocsi mechanikus 4 kerék hajtással' },
-          { title: 'HWMD', description: 'Professzionális pótkocsi hidromechanikus 4 kerék hajtással' }
+          { title: 'HMWD', description: 'Professzionális pótkocsi hidromechanikus 4 kerék hajtással' }
       ];
   }
 }
