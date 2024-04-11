@@ -569,8 +569,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     let updatedTyres: ConfigurationItem[] = [];
 
     if (event.value){
-      console.log(event.value);
-      
       this.originalPropulsion = event.value;
       this.palmsService.selectedPropulsion.set(event.value)
 
@@ -636,13 +634,40 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService._trailerPrice.set(newPrice);
     }
 
+    let updatedOilPumps: ConfigurationItem[] = [];
+
+
     if (event.value){
       this.originalDrawbar = event.value;
       this.palmsService.selectedDrawbar.set(event.value)
+      
+      if (event.value.code === "C6") {
+        updatedOilPumps = this.updateOilPumpsForDrawbars();
+      } else {
+        updatedOilPumps = this.updateOilPumpsTypesToEnabled();
+      }
+
     } else {
       this.originalDrawbar = undefined;
       this.palmsService.selectedDrawbar.set(undefined)
+      updatedOilPumps = this.updateOilPumpsTypesToEnabled();
     }
+
+    this.oilPumps = updatedOilPumps;
+  }
+
+  updateOilPumpsForDrawbars(): ConfigurationItem[] {
+    return this.oilPumps.map((oilPump) => ({
+      ...oilPump,
+      disabledOption: oilPump.code !== "P1" && oilPump.code !== "P2"
+    }));
+  }
+
+  updateOilPumpsTypesToEnabled(): ConfigurationItem[] {
+    return this.oilPumps.map((oilPump) => ({
+      ...oilPump,
+      disabledOption: false
+    }));
   }
 
   handlePlatformChange(event: ListboxChangeEvent) {
@@ -658,10 +683,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
     if (event.value){
       this.originalPlatform = event.value;
-      this.palmsService.selectedPlatform.set(event.value)
+      this.palmsService.selectedPlatform.set(event.value);
     } else {
       this.originalPlatform = undefined;
-      this.palmsService.selectedPlatform.set(undefined)
+      this.palmsService.selectedPlatform.set(undefined);
     }
   }
 
@@ -671,6 +696,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     const nextValue = this.originalOilPumpPrice;
     const current = this.palmsService._trailerPrice();
   
+    let updatedDrawbars: ConfigurationItem[] = [];
+
     if (previousValue !== nextValue) {
       const newPrice = current - previousValue + Number(nextValue);
       this.palmsService._trailerPrice.set(newPrice);
@@ -679,10 +706,34 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     if (event.value){
       this.originalOilPump = event.value;
       this.palmsService.selectedOilPump.set(event.value)
+
+      // drawbars
+      if (event.value.code === "P1" || event.value.code === "P2") {
+        updatedDrawbars = this.updateDrawbarsToEnabled();
+      } else {
+        updatedDrawbars = this.updateDrawbarsForOilPumps();
+      }
+
     } else {
       this.originalOilPump = undefined;
       this.palmsService.selectedOilPump.set(undefined)
+      updatedDrawbars = this.updateDrawbarsToEnabled();
     }
+    this.drawbars = updatedDrawbars;
+  }
+
+  updateDrawbarsForOilPumps(): ConfigurationItem[] {
+    return this.drawbars.map((drawbar) => ({
+      ...drawbar,
+      disabledOption: drawbar.code === "C6"
+    }));
+  }
+
+  updateDrawbarsToEnabled(): ConfigurationItem[] {
+    return this.drawbars.map((drawbar) => ({
+      ...drawbar,
+      disabledOption: false
+    }));
   }
 
   handleOilTankChange(event: ListboxChangeEvent) {
@@ -759,8 +810,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     let updatedPropulsions: ConfigurationItem[] = [];
 
     if (event.value){
-      console.log(event.value);
-      
       this.originalTyre = event.value;
       this.palmsService.selectedTyre.set(event.value)
 
@@ -850,7 +899,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         this.originalWoodSorterPrice = Number(event.checked[0].price);
         this.woodSorterChecked = true;
         this.originalWoodSorter = event.checked[0];
-        console.log(event.checked[0]);
         
         this.palmsService.selectedWoodSorter.set(event.checked[0]);
         setTimeout(() => {
@@ -951,8 +999,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
   onBunkAdapterChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
-      console.log('asd');
-      
         this.originalBunkAdapterPrice = Number(event.checked[0].price);
         this.bunkAdapterChecked = true;
         this.originalBunkAdapter = event.checked[0];

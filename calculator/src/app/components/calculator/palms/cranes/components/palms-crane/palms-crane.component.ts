@@ -457,7 +457,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     
       let updatedFrameTypes: FrameType[] = [];
       let updatedWinches: ConfigurationItem[] = [];
-      
     
       if (event.value) {
         this.originalControlBlock = event.value;
@@ -723,6 +722,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.palmsService._cranePrice.update(value => value - Number(this.originalHoseGuard?.price))
         this.hoseGuardListBox.writeValue(undefined);
         this.originalHoseGuard = undefined;
+        this.palmsService.selectedHoseGuard.set(undefined);
         this.originalHoseGuardPrice = 0;
       }
     }
@@ -835,6 +835,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.palmsService._cranePrice.update(value => value - Number(this.originalElectricalFloating?.price))
         this.electricalFloatingCheckBox.writeValue(undefined);
         this.originalElectricalFloating = undefined;
+        this.palmsService.selectedElectricalFloating.set(undefined);
         this.originalElectricalFloatingPrice = 0;
       }
       this.craneFormGroup.get('selectedElectricalFloating')?.disable();
@@ -1132,6 +1133,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.palmsService._cranePrice.update(value => value - Number(this.originalLinkage?.price))
         this.linkageCheckBox.writeValue(undefined);
         this.originalLinkage = undefined;
+        this.palmsService.selectedLinkage.set(undefined);
         this.originalLinkagePrice = 0;
       }
       this.craneFormGroup.get('selectedLinkage')?.disable();
