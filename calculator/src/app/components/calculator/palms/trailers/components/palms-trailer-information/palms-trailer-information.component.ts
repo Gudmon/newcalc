@@ -37,7 +37,7 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.resize();
-    window.addEventListener("resize", this.resize.bind(this));
+    //window.addEventListener("resize", this.resize.bind(this));
   }
 
   resize(): void {
