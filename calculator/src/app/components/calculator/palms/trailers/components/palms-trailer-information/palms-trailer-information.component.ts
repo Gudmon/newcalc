@@ -33,7 +33,7 @@ export class PalmsTrailerInformationComponent implements OnInit {
   private updateContainerStyle(): void {
     if (window.innerWidth <= 1100) {
       this.galleryContainerStyle = { 'max-width': '100%' };
-      this.videoWidth = window.innerWidth * 0.6
+      this.videoWidth = window.innerWidth
       this.videoHeight = this.videoWidth * 0.6
     } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
       this.galleryContainerStyle = { 'max-width': '75%' };
