@@ -12,7 +12,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
   templateUrl: './palms-trailer-information.component.html',
   styleUrl: './palms-trailer-information.component.css'
 })
-export class PalmsTrailerInformationComponent implements OnInit {
+export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
   displayBasic: boolean = false;
   images: any[] | undefined = []
   responsiveOptions: any[] = []
@@ -30,19 +30,32 @@ export class PalmsTrailerInformationComponent implements OnInit {
     this.displayBasic = false;
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.updateContainerStyle();
+  }
+
+  ngAfterViewInit(): void {
+    this.resize();
+    window.addEventListener("resize", this.resize.bind(this));
+  }
+
+  resize(): void {
+    this.videoWidth = Math.min(
+      this.youTubePlayer.nativeElement.clientWidth,
+      1200
+    );
+    this.videoHeight = this.videoWidth * 0.6;
+    this.changeDetectorRef.detectChanges();
+  }
+
   private updateContainerStyle(): void {
-    if (window.innerWidth <= 1100) {
+    if (window.innerWidth <= 640) {
       this.galleryContainerStyle = { 'max-width': '100%' };
-      this.videoWidth = window.innerWidth
-      this.videoHeight = this.videoWidth * 0.6
     } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
       this.galleryContainerStyle = { 'max-width': '75%' };
-      this.videoWidth = window.innerWidth * 0.2
-      this.videoHeight = this.videoWidth * 0.5
     } else {
       this.galleryContainerStyle = { 'max-width': '50%' };
-      this.videoWidth = window.innerWidth * 0.2
-      this.videoHeight = this.videoWidth * 0.5
     }
   }
 
@@ -51,12 +64,10 @@ export class PalmsTrailerInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const scriptTag = document.createElement('script');
-    scriptTag.src = "https://www.youtube.com/iframe_api";
-    document.body.appendChild(scriptTag);
     this.setResponsiveOptions();
     this.setImages();  
-    this.updateContainerStyle();
+    this.videoWidth = window.innerWidth;
+    this.videoHeight = window.innerHeight;
   }
 
   getCranes(){

@@ -47,18 +47,17 @@
                         @for (imageUrl of trailer.imgUrls; track $index) {
                             <p-image [src]="imageUrl" alt='Trailer Image' />
                         }
-                        <!-- @if (!smallScreen()) {
+                        @if (!smallScreen()) {
                             <div #youTubePlayer>
                                 <youtube-player
                                     [videoId]="trailer.videoId"
                                     suggestedQuality="highres"
                                     [width]="videoWidth"
-                                    [height]="videoHeight"
-                                    [startSeconds]=""
-                                    [endSeconds]="">
+                                    [height]="videoHeight">
                                 </youtube-player>
                             </div>
-                        } -->
+                        }
+                        
                     </div>
                     <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="galleryContainerStyle" [numVisible]="2"
                         [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false">
@@ -69,9 +68,15 @@
                 </div>
             </div>
             @if (smallScreen()) {
-                <youtube-player videoId="OUXj3T4seD0" placeholderImageQuality="standard"></youtube-player>
+                <div #youTubePlayer>
+                    <youtube-player
+                        [videoId]="trailer.videoId"
+                        suggestedQuality="highres"
+                        [width]="videoWidth"
+                        [height]="videoHeight">
+                    </youtube-player>
+                </div>
             }
-            
         </div>
     </div>
     }
