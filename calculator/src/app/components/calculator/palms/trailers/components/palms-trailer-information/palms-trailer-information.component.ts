@@ -51,6 +51,9 @@ export class PalmsTrailerInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    const scriptTag = document.createElement('script');
+    scriptTag.src = "https://www.youtube.com/iframe_api";
+    document.body.appendChild(scriptTag);
     this.setResponsiveOptions();
     this.setImages();  
     this.updateContainerStyle();
