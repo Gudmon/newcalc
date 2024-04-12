@@ -12,7 +12,7 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
   templateUrl: './palms-trailer-information.component.html',
   styleUrl: './palms-trailer-information.component.css'
 })
-export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
+export class PalmsTrailerInformationComponent implements OnInit {
   displayBasic: boolean = false;
   images: any[] | undefined = []
   responsiveOptions: any[] = []
@@ -30,33 +30,10 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     this.displayBasic = false;
   }
 
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event: any): void {
-  //   this.updateContainerStyle();
-  // }
-
-  ngAfterViewInit(): void {
-    //this.resize();
-    //this.updateContainerStyle();
-    //window.addEventListener("resize", this.resize.bind(this));
-  }
-
-  resize(): void {
-    this.videoWidth = Math.min(
-      this.youTubePlayer.nativeElement.clientWidth,
-      1200
-    );
-    this.videoHeight = this.videoWidth * 0.6;
-    //this.changeDetectorRef.detectChanges();
-  }
-
   private updateContainerStyle(): void {
     if (window.innerWidth <= 1100) {
       this.galleryContainerStyle = { 'max-width': '100%' };
-      this.videoWidth = Math.min(
-        window.innerWidth * 0.6,
-        500
-      );
+      this.videoWidth = window.innerWidth * 0.6
       this.videoHeight = this.videoWidth * 0.6
     } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
       this.galleryContainerStyle = { 'max-width': '75%' };
