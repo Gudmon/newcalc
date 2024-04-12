@@ -69,21 +69,22 @@
                     </p-galleria>
                 </div>
             </div>
-            @if (smallScreen()) {
-                <div #youTubePlayer>
-                    <youtube-player
-                        [videoId]="trailer.videoId"
-                        suggestedQuality="highres"
-                        [width]="videoWidth"
-                        [height]="videoHeight"
-                        [startSeconds]=""
-                        [endSeconds]="">
-                    </youtube-player>
-                </div>
-            }
+            
             
         </div>
     </div>
+        @if (smallScreen()) {
+            <div #youTubePlayer>
+                <youtube-player
+                    [videoId]="trailer.videoId"
+                    suggestedQuality="highres"
+                    [width]="videoWidth"
+                    [height]="videoHeight"
+                    [startSeconds]=""
+                    [endSeconds]="">
+                </youtube-player>
+            </div>
+        }
     }
     @else {
         <p>Nem található pótkocsi</p>
