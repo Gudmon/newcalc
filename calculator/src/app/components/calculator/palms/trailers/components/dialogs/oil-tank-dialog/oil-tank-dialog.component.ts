@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
+import { ConfigurationItem } from '../../../../../../../models/configuration-item';
 
 @Component({
   selector: 'app-oil-tank-dialog',
@@ -11,6 +12,7 @@ import { DialogModule } from 'primeng/dialog';
 export class OilTankDialogComponent {
   @Output() dialogVisible = new EventEmitter<void>()
   @Input({required: true}) oilTanksDialogVisible: boolean = false;
+  @Input({required: true}) oilTanks: ConfigurationItem[] = []
 
   closeOilTanksDialog() {
     this.dialogVisible.emit();

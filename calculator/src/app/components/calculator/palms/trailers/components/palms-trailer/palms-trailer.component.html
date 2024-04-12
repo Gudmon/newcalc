@@ -75,7 +75,7 @@
                     <div class="flex gap-2">
                         <span>Olajtank</span>
                         <button (click)="toggleDialog('oilTanks', true)"><i class="fa-solid fa-circle-info"></i></button>   
-                        <app-oil-tank-dialog [oilTanksDialogVisible]="showOilTanksDialog" (dialogVisible)="toggleDialog('oilTanks', false)"></app-oil-tank-dialog>          
+                        <app-oil-tank-dialog [oilTanks]="oilTanks" [oilTanksDialogVisible]="showOilTanksDialog" (dialogVisible)="toggleDialog('oilTanks', false)"></app-oil-tank-dialog>          
                     </div>
                     <p-listbox (onChange)="handleOilTankChange($event)" formControlName="selectedOilTank" [options]="oilTanks" optionLabel="namePrice"></p-listbox>                   
                 </div>
@@ -156,7 +156,7 @@
                     <p-dropdown *ngIf="woodSorterChecked" [disabled]="!woodSorterChecked" #woodSorterDropdown (onChange)="onWoodSorterNumberChange($event)" [options]="woodSorterArrayElements" optionLabel="number" placeholder="Válasszon egy számot..."></p-dropdown>
                 </div>
 
-                <div *ngIf="trailerSelected && supportLegs"  class="justify-content-center my-4 py-4">
+                <div *ngIf="trailerSelected && supportLegs.length > 0"  class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Kitámasztó láb</span>
                         <button (click)="toggleDialog('supportLeg', true)"><i class="fa-solid fa-circle-info"></i></button> 

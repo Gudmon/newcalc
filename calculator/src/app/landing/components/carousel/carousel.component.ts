@@ -27,22 +27,46 @@ export class CarouselComponent implements OnInit {
     this.images = [
       { 
         itemImageSrc: '../../../../assets/palms_default.png',
-        thumbnailImageSrc: '../../../../assets/krpan_default.png',
+        thumbnailImageSrc: '../../../../assets/palms_default.png',
         alt: 'Description for Image 1',
         title: 'Title 1'
       },
       { 
-        itemImageSrc: '../../../../assets/palms_default2.png',
-        thumbnailImageSrc: '../../../../assets/daru2.png',
+        itemImageSrc: '../../../../assets/palms_default12.png',
+        thumbnailImageSrc: '../../../../assets/palms_default12.png',
         alt: 'Description for Image 3',
         title: 'Title 3'
       },
       { 
         itemImageSrc: '../../../../assets/palms_default3.png',
-        thumbnailImageSrc: '../../../../assets/daru2.png',
+        thumbnailImageSrc: '../../../../assets/palms_default3.png',
         alt: 'Description for Image 3',
         title: 'Title 3'
-      }
+      },
+      { 
+        itemImageSrc: '../../../../assets/palms_default6.png',
+        thumbnailImageSrc: '../../../../assets/palms_default6.png',
+        alt: 'Description for Image 1',
+        title: 'Title 1'
+      },
+      { 
+        itemImageSrc: '../../../../assets/palms_default7.png',
+        thumbnailImageSrc: '../../../../assets/palms_default7.png',
+        alt: 'Description for Image 1',
+        title: 'Title 1'
+      },
+      { 
+        itemImageSrc: '../../../../assets/palms_default8.png',
+        thumbnailImageSrc: '../../../../assets/palms_default.png',
+        alt: 'Description for Image 1',
+        title: 'Title 1'
+      },
+      { 
+        itemImageSrc: '../../../../assets/palms_default14.png',
+        thumbnailImageSrc: '../../../../assets/palms_default14.png',
+        alt: 'Description for Image 1',
+        title: 'Title 1'
+      },
     ];
   }
 

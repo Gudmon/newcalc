@@ -7,8 +7,8 @@ import { ConfigurationItem } from '../../../../../models/configuration-item';
   providedIn: 'root'
 })
 export class PalmsTrailerConfigService {
-  //private url = 'http://localhost:5140';
-  private url = 'https://calculator-app-api.azurewebsites.net';
+  private url = 'http://localhost:5140';
+  //private url = 'https://calculator-app-api.azurewebsites.net';
   
   constructor(private httpClient: HttpClient) { }
 
@@ -60,7 +60,20 @@ export class PalmsTrailerConfigService {
       map((drawbars: ConfigurationItem[]) => {
         for (const drawbar of drawbars){
           drawbar.namePrice = drawbar.name + " " + drawbar.price + "€"
-          drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-${drawbar.id}.jpg`
+
+          if(drawbar.code === "C1") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-1.jpg`
+          else if(drawbar.code === "C2") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-2.jpg`
+          else if(drawbar.code === "C3") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-3.jpg`
+          else if(drawbar.code === "C4") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-4.jpg`
+          else if(drawbar.code === "C5") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-5.jpg`
+          else if(drawbar.code === "C6") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-6.jpg`
+          else if(drawbar.code === "C7") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-7.jpg`
+          else if(drawbar.code === "C8") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-8.jpg`
+          else if(drawbar.code === "C9") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-9.jpg`
+          else if(drawbar.code === "CY") drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-Y.jpg`
+          else {
+            drawbar.imgUrl = `../../../../assets/PALMS trailer-drawbar-${drawbar.id}.jpg`
+          }
         }
         return drawbars;
       })
@@ -101,7 +114,11 @@ export class PalmsTrailerConfigService {
       map((oiltanks: ConfigurationItem[]) => {
         for (const oiltank of oiltanks){
           oiltank.namePrice = oiltank.name + " " + oiltank.price + "€"
-          oiltank.imgUrl = `../../../../assets/PALMS trailer-drawbar-${oiltank.id}.jpg`
+          if(oiltank.code === "T2" || oiltank.code === "T2+" || oiltank.code === "T4+") oiltank.imgUrl = `../../../../assets/PALMS trailer-oiltank-1.jpg`
+          else if(oiltank.code === "T2SOV+" ||oiltank.code === "T2SOV") oiltank.imgUrl = `../../../../assets/PALMS trailer-oiltank-2.jpg`
+          else {
+            oiltank.imgUrl = `../../../../assets/PALMS trailer-drawbar-${oiltank.id}.jpg`
+          }
         }
         return oiltanks;
       })
@@ -221,7 +238,12 @@ export class PalmsTrailerConfigService {
       map((lights: ConfigurationItem[]) => {
         for (const light of lights){
           light.namePrice = light.name + " " + light.price + "€"
-          light.imgUrls = [`../../../../assets/PALMS trailer-light-${light.id}.jpg`, `../../../../assets/PALMS trailer-light-${light.id}-1.jpg`]         
+
+          if(light.code === "L1") light.imgUrls = [`../../../../assets/PALMS trailer-light-1.jpg`, `../../../../assets/PALMS trailer-light-1-1.jpg`] 
+          else if(light.code === "L2") light.imgUrls = [`../../../../assets/PALMS trailer-light-2.jpg`, `../../../../assets/PALMS trailer-light-2-1.jpg`]         
+          else {
+            light.imgUrls = [`../../../../assets/PALMS trailer-light-${light.id}.jpg`, `../../../../assets/PALMS trailer-light-${light.id}-1.jpg`]         
+          }
         }
         return lights;
       })

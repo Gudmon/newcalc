@@ -4,16 +4,14 @@
             <span class="font-bold white-space-nowrap"></span>
         </div>
     </ng-template>
-    <div>
-        <p class="my-12 text-3xl font-bold">95 l-es olajtartály</p>
-        <img src="../../../../assets/PALMS trailer-oiltank-1.jpg" alt="oilTankImage1">
-    </div>
-
-    <div>
-        <p class="my-12 text-3xl font-bold">95 l-es olajtartály HVLP-olajjal, elzáró csappal</p>
-        <img src="../../../../assets/PALMS trailer-oiltank-1.jpg" alt="oilTankImage2">
-    </div>
-    
+    @for (oilTank of oilTanks; track $index) {   
+        <div>
+            <p class="my-12 text-3xl font-bold">
+                {{oilTank.name}}
+            </p>
+            <img [src]="oilTank.imgUrl" alt="drawbarImage">
+        </div>
+    }  
     <ng-template pTemplate="footer">
       <button class="bg-primary-color p-1 mt-2" (click)="closeOilTanksDialog()"><i class="fa-solid fa-check mr-1"></i>Értem</button>  
     </ng-template>
