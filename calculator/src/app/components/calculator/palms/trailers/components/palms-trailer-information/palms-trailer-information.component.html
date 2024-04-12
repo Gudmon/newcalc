@@ -47,7 +47,7 @@
                         @for (imageUrl of trailer.imgUrls; track $index) {
                             <p-image [src]="imageUrl" alt='Trailer Image' />
                         }
-                        @if (!smallScreen()) {
+                        <!-- @if (!smallScreen()) {
                             <div #youTubePlayer>
                                 <youtube-player
                                     [videoId]="trailer.videoId"
@@ -58,7 +58,7 @@
                                     [endSeconds]="">
                                 </youtube-player>
                             </div>
-                        }
+                        } -->
                         
                     </div>
                     <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="galleryContainerStyle" [numVisible]="2"
