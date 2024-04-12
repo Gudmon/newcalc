@@ -60,7 +60,7 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
   }
 
   smallScreen(){
-    return window.innerWidth < 640;
+    return window.innerWidth < 1100;
   }
 
   ngOnInit(): void {
