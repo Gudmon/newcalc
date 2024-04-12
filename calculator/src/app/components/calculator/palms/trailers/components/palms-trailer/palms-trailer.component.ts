@@ -1190,8 +1190,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   }
 
   delete() {
-    console.log(this.trailerFormGroup.value);
-    
     this.trailerSelected = false;
     this.trailerFormGroup.reset();
     this.originalStanchion = undefined;

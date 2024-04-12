@@ -60,8 +60,6 @@ export class PdfComponent implements OnInit{
   }
 
   onSubmit(): void {
-    console.log(this.formGroup.valid);
-    console.log(this.pdfService.pdfId());
     this.submitted = true;
 
     if(this.formGroup.valid){
@@ -72,7 +70,6 @@ export class PdfComponent implements OnInit{
 
   sendPdfAndDownload() {
     const object: PdfModel = {};
-    console.log(this.palmsService._trailerSelected.value);
     if (this.palmsService._trailerSelected.value === true) {
       const woodSorter = this.palmsService.selectedWoodSorter();
       const newWoodSorter: ConfigurationItem | undefined = woodSorter
@@ -115,7 +112,6 @@ export class PdfComponent implements OnInit{
     }else {
       object.Grapples = [];
     }
-    console.log(this.palmsService._craneSelected.value);
 
     if (this.palmsService._craneSelected.value === true) {
       const crane: ConfigurationItem = {
@@ -178,12 +174,7 @@ export class PdfComponent implements OnInit{
       Brake: this.palmsService.selectedBrake()
     }
     this.pdfService.sendPdf(object).subscribe((resp) => {
-      console.log('resp', resp);
-      
-      this.pdfService.pdfId.set(resp.id)
-
-      console.log(this.pdfService.pdfId());
-      
+      this.pdfService.pdfId.set(resp.id);
     });
     
   }
@@ -192,10 +183,8 @@ export class PdfComponent implements OnInit{
     const subject = `Sikeres kalkuláció - ${this.pdfService.pdfId()}`;
     
     const blobName = this.pdfService.pdfId().toString();
-    console.log(blobName);
     this.loadingService.enableLoader();
     this.emailService.sendEmail(this.formGroup.controls['email'].value , subject, this.formGroup.controls['message'].value, this.formGroup.controls['name'].value, blobName).subscribe((resp) => {
-      console.log('resp', resp);
       this.messageService.add({ key: 'tc', severity: 'success', summary: 'Siker!', detail: 'Sikeres e-mail küldés!' });
     }).add(() => {
       this.submitted = false;
@@ -205,7 +194,6 @@ export class PdfComponent implements OnInit{
   }
 
   getPdf(){
-    console.log(this.pdfService.pdfId());
     this.loadingService.enableLoader();
     this.pdfService.getUserPdf(this.pdfService.pdfId()).subscribe(
       (resp) => {

@@ -165,7 +165,6 @@ export class CranesComponent implements OnInit, OnDestroy{
 
   onSubmit(): void {
     this.submitted = true;
-    console.log(this.formGroup.valid);
     if (this.formGroup.invalid) {
       return;
     }
@@ -173,8 +172,6 @@ export class CranesComponent implements OnInit, OnDestroy{
 
   downloadPDF(){
     const formDataTosend = this.formatForPDF();
-    console.log(this.formGroup);
-    console.log(formDataTosend);
     this.pdfService.downloadPDF(formDataTosend);
     
   }
@@ -340,7 +337,6 @@ export class CranesComponent implements OnInit, OnDestroy{
   }
 
   handleChange(name: string, price: number, event: CheckboxChangeEvent) {
-    console.log(event);
     if (event.checked.length > 0) {
       this.addToPrice(price);
       this.addToConfigItemsArray(name, price);

@@ -114,7 +114,6 @@ export class PalmsService {
 
   getTrailer(id: number): Observable<PalmsTrailer>{
     this.setTrailerVideos(); 
-    console.log(id);
     
     return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
       map((trailer: PalmsTrailer) => {
@@ -129,7 +128,6 @@ export class PalmsService {
           crane.imgUrl = `../../../../../assets/${crane.name}-1.svg`
         }
         //this._selectedTrailer.next(trailer);
-        console.log(trailer);
         
         return trailer;
       })

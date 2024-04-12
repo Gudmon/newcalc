@@ -1145,8 +1145,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
       this.palmsService._selectedTrailer.next(trailer);
     }
   
-    delete() {
-        console.log('crane fg', this.craneFormGroup.value);    
+    delete() {  
         this.craneFormGroup.reset();
         this.originalControlBlock = undefined;
         this.originalControlBlockPrice = 0;

@@ -56,7 +56,6 @@ export class PalmsCranesComponent {
 
         this.cranes = this.originalCranes.filter(crane => {
             const maxReach = parseFloat(crane.maxReach as string);
-            console.log(maxReach);
             
             return !isNaN(maxReach) && maxReach >= min && maxReach <= max;
         });
