@@ -46,7 +46,7 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
       1200
     );
     this.videoHeight = this.videoWidth * 0.6;
-    this.changeDetectorRef.detectChanges();
+    //this.changeDetectorRef.detectChanges();
   }
 
   private updateContainerStyle(): void {
