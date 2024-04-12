@@ -30,13 +30,14 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     this.displayBasic = false;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
-    this.updateContainerStyle();
-  }
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: any): void {
+  //   this.updateContainerStyle();
+  // }
 
   ngAfterViewInit(): void {
-    this.resize();
+    //this.resize();
+    //this.updateContainerStyle();
     //window.addEventListener("resize", this.resize.bind(this));
   }
 
@@ -50,12 +51,21 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
   }
 
   private updateContainerStyle(): void {
-    if (window.innerWidth <= 640) {
+    if (window.innerWidth <= 1100) {
       this.galleryContainerStyle = { 'max-width': '100%' };
+      this.videoWidth = Math.min(
+        window.innerWidth * 0.6,
+        500
+      );
+      this.videoHeight = this.videoWidth * 0.6
     } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
       this.galleryContainerStyle = { 'max-width': '75%' };
+      this.videoWidth = window.innerWidth * 0.2
+      this.videoHeight = this.videoWidth * 0.5
     } else {
       this.galleryContainerStyle = { 'max-width': '50%' };
+      this.videoWidth = window.innerWidth * 0.2
+      this.videoHeight = this.videoWidth * 0.5
     }
   }
 
@@ -66,8 +76,7 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.setResponsiveOptions();
     this.setImages();  
-    this.videoWidth = window.innerWidth;
-    this.videoHeight = window.innerHeight;
+    this.updateContainerStyle();
   }
 
   getCranes(){
