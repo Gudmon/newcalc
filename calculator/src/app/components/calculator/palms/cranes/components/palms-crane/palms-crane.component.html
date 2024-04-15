@@ -5,6 +5,16 @@
     <button (click)="loadCraneConfigurations(this.id!)" [disabled]="(palmsService.craneSelected$ | async)" [ngClass]="{'disabled': (palmsService.craneSelected$ | async)}" class="m-auto py-10 px-20 rounded-xl mb-2 bg-[--primary-color] active:bg-gray-700 text-base font-bold uppercase shadow hover:opacity-80 outline-none focus:outline-none">Kalkulálás</button>
 </div>
 
+<div *ngIf="(palmsService.craneSelected$ | async) && !fromTrailer" class="w-full h-full flex justify-center items-center mt-8 mb-2">
+    <p>Tippek</p>
+</div>
+<div *ngIf="(palmsService.craneSelected$ | async) && !fromTrailer" class="w-full h-full flex justify-center items-center">
+    <p-inputSwitch  [(ngModel)]="hintsChecked"></p-inputSwitch>
+</div>
+<div *ngIf="(palmsService.craneSelected$ | async) && !fromTrailer" class="mx-auto">
+    <app-palms-crane-calculator-hints *ngIf="hintsChecked"></app-palms-crane-calculator-hints>
+</div>
+
 <form [formGroup]="craneFormGroup">
     <ng-container *ngIf="(palmsService.craneSelected$ | async)" class="bg-slate-200">
         <div #configElement class="flex align-middle justify-center my-10">

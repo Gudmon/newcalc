@@ -23,6 +23,7 @@ import { PalmsCraneOverview } from '../../../palms/cranes/models/palms-crane-ove
 export class PdfComponent implements OnInit{
   submitted: boolean = false;
   blurred: boolean = false;
+  pdfSaved: boolean = false;
 
   constructor(private readonly palmsService: PalmsService,
     private readonly pdfService: PdfService,
@@ -65,7 +66,6 @@ export class PdfComponent implements OnInit{
     if(this.formGroup.valid){
       this.sendEmail();
     }
-    
   }
 
   sendPdfAndDownload() {
@@ -164,6 +164,7 @@ export class PdfComponent implements OnInit{
           link.href = window.URL.createObjectURL(blob);
           link.download = `${this.pdfService.pdfId()}.pdf`;
           link.click();
+          this.pdfSaved = true;
         }
       ).add(() => this.loadingService.disableLoader());
   }
@@ -190,7 +191,6 @@ export class PdfComponent implements OnInit{
       this.submitted = false;
       this.loadingService.disableLoader()
     });
-    
   }
 
   getPdf(){
@@ -205,10 +205,7 @@ export class PdfComponent implements OnInit{
       }
     ).add(() => this.loadingService.disableLoader());
   }
-  
 }
-
-
 
 interface PdfTrailerModel {
   TrailerName?: string | undefined,

@@ -4,15 +4,15 @@
 <div *ngIf="!fromCrane && id" class="w-full h-full flex justify-center items-center mt-16">
     <button (click)="loadTrailerConfigurations(this.id!)" [disabled]="(palmsService.trailerSelected$ | async)" [ngClass]="{'disabled': (palmsService.trailerSelected$ | async)}" class="m-auto py-10 px-20 rounded-xl mb-2 bg-[--primary-color] active:bg-gray-700 text-base font-bold uppercase shadow hover:opacity-80 outline-none focus:outline-none">Kalkulálás</button>
 </div>
-<!-- <div *ngIf="(palmsService.trailerSelected$ | async)" class="w-full h-full flex justify-center items-center mt-8 mb-2">
+<div *ngIf="(palmsService.trailerSelected$ | async) && !fromCrane" class="w-full h-full flex justify-center items-center mt-8 mb-2">
     <p>Tippek</p>
 </div>
-<div *ngIf="(palmsService.trailerSelected$ | async)" class="w-full h-full flex justify-center items-center">
+<div *ngIf="(palmsService.trailerSelected$ | async) && !fromCrane" class="w-full h-full flex justify-center items-center">
     <p-inputSwitch  [(ngModel)]="hintsChecked"></p-inputSwitch>
 </div>
-<div *ngIf="(palmsService.trailerSelected$ | async)" class="mx-auto">
+<div *ngIf="(palmsService.trailerSelected$ | async) && !fromCrane" class="mx-auto">
     <app-palms-trailer-calculator-hints *ngIf="hintsChecked"></app-palms-trailer-calculator-hints>
-</div> -->
+</div>
 
 <form [formGroup]="trailerFormGroup">
     <ng-container *ngIf="(palmsService.trailerSelected$ | async)" class="bg-slate-200">

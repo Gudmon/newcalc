@@ -1,7 +1,7 @@
 <form [formGroup]="formGroup">
     <div #configElement class="my-10">
         <div class="w-12/12 flex align-middle justify-center my-12">
-            <button class="px-6 py-2 bg-[--primary-color] active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:opacity-80 outline-none focus:outline-none" (click)="sendPdfAndDownload()">Mentés PDF-ben</button>
+            <button class="py-10 px-20 bg-[--primary-color] text-sm font-bold uppercase rounded shadow hover:opacity-80 outline-none focus:outline-none" (click)="sendPdfAndDownload()">Mentés PDF-ben</button>
         </div>
         <div class="flex align-middle justify-center mb-32">
             <div class="w-11/12">
@@ -83,7 +83,9 @@
                         <div class="text-center mt-6">
                         <button
                         (click)="onSubmit()"
-                            class="px-6 py-2 bg-[--primary-color] active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:opacity-80 outline-none focus:outline-none"
+                            [disabled]="!pdfSaved"
+                            [ngClass]="{'disabled': !pdfSaved}"
+                            class="px-6 py-2 bg-[--primary-color] text-sm font-bold hover:opacity-80 uppercase rounded shadow outline-none focus:outline-none"
                             type="button"
                             style="transition: all 0.15s ease 0s;"
                         >
@@ -93,7 +95,7 @@
 
                         <div class="text-center mt-6">
                             <p class="leading-relaxed mt-1 mb-4 text-gray-600">
-                                Sikeres PDF mentés esetén a legutolsó kalkuláció adatait automatikusan csatoljuk az e-mail küldésekor
+                                Sikeres PDF mentés esetén a legutolsó kalkuláció adatait automatikusan csatoljuk az e-mail küldésekor. (csak pdf mentés után aktív)
                             </p>
                         </div>
     

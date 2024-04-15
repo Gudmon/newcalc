@@ -18,12 +18,12 @@ export class PalmsTrailerCalculatorHintsComponent {
 
     constructor() {
         this.hints = [
-            { title: 'Pótkocsi konfigurálása', description: 'Kérem válassza ki a pótkocsi feltétlenül szükséges elemeit (piros csillaggal jelölt mezők)' },
-            { title: 'Opcionális elemek konfigurálása', description: 'Ezután kérem válassza ki a pótkocsi opcionális elemeit' },
-            { title: 'Daru konfigurálása (opcionális)', description: 'Amennyiben szeretné, a pótkocsihoz illeszthető daru konfigurálását is elvégezheti a pótkocsi konfigurálásához hasonlóan (kötelező és opcionális mezők)' },
-            { title: 'Információ az elemekről', description: 'Az adott elem(ek)ről további infomációt találhat, amennyiben rákattint az információ gombra' },
-            { title: 'Összegzés / Kapcsolat', description: 'Végezetül üzenhet nekünk a konfigurálásával kapcsolatban' },
-            { title: 'Új konfiguráció kezdése', description: 'Alul a törlés gombra kattintva új kalkulálást tud indítani, enélkül a "Kalkulál" gomb inaktív' },
+            { title: 'Pótkocsi konfigurálása', description: 'Válassza ki a kívánt elemeket' },
+            { title: 'Daru konfigurálása (opcionális)', description: 'Amennyiben szeretné, a pótkocsihoz illeszthető daru konfigurálását is elvégezheti a "Kiválaszt" gombra kattintva' },
+            { title: 'Információ az elemekről', description: 'Az adott elem(ek)ről további infomációt találhat, amennyiben rákattint az "i" gombra' },
+            { title: 'PDF mentés', description: 'Kalkulációját elmentheti a "Mentés PDF-ben" gombra kattintva' },
+            { title: 'Üzenet küldés', description: 'Sikeres PDF mentés után üzenhet nekünk' },
+            { title: 'Új konfiguráció', description: '"Törlés" gombra kattintva törölheti a pótkocsit vagy darut' },
         ];
     }
 }
