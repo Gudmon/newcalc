@@ -129,6 +129,16 @@
                         @for (imageUrl of crane.imgUrls; track $index) {
                             <p-image [src]="imageUrl" alt='Crane Image'/>
                         }
+                        @if (!smallScreen()) {
+                            <div #youTubePlayer>
+                                <youtube-player
+                                    [videoId]="crane.videoId"
+                                    suggestedQuality="highres"
+                                    [width]="videoWidth"
+                                    [height]="videoHeight">
+                                </youtube-player>
+                            </div>
+                        }
                     </div>
                    
                
@@ -145,13 +155,16 @@
                     </p-galleria>
                 </div>
             </div>
-            
-        </div>
-        <div class="max-w-40 max-h-40">
-             
-        </div>
-        <div class="max-w-40 max-h-40">
-            
+            @if (smallScreen()) {
+                <div #youTubePlayer>
+                    <youtube-player
+                        [videoId]="crane.videoId"
+                        suggestedQuality="highres"
+                        [width]="videoWidth"
+                        [height]="videoHeight">
+                    </youtube-player>
+                </div>
+            }
         </div>
     </div>
     }

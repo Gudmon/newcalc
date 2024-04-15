@@ -44,7 +44,7 @@ export class PalmsService {
 
   public _totalPrice = computed(() => this._trailerPrice() + this._cranePrice());
 
-  trailerVideos = new Map<string, string>();
+  videos = new Map<string, string>();
 
   // CRANES
   public selectedControlBlock = signal<ConfigurationItem | undefined>(undefined);
@@ -113,11 +113,11 @@ export class PalmsService {
 }
 
   getTrailer(id: number): Observable<PalmsTrailer>{
-    this.setTrailerVideos(); 
+    this.setVideos(); 
     
     return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
       map((trailer: PalmsTrailer) => {
-        trailer.videoId = this.trailerVideos.get(trailer.name)
+        trailer.videoId = this.videos.get(trailer.name)
         if(trailer.id === 12 || trailer.id === 13) trailer.imgUrls = [`../../../../../assets/PALMS 10U-1.svg`, `../../../../../assets/PALMS 10U-2.jpg`];
         else if(trailer.id === 14 || trailer.id === 15 || trailer.id === 16) trailer.imgUrls = [`../../../../../assets/PALMS 12U-1.svg`, `../../../../../assets/PALMS 12U-2.jpg`];
         else if(trailer.id === 17 || trailer.id === 18 || trailer.id === 19) trailer.imgUrls = [`../../../../../assets/PALMS 15U-1.svg`, `../../../../../assets/PALMS 15U-2.jpg`];
@@ -147,8 +147,11 @@ export class PalmsService {
   }
 
   getCrane(id: number): Observable<PalmsCrane>{
+    this.setVideos();
+
     return this.httpClient.get<PalmsCrane>(`${this.url}/Palms/cranes/${id}`).pipe(
       map((crane: PalmsCrane) => {
+        crane.videoId = this.videos.get(crane.name)
         //this._selectedCrane.next(crane);
         crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`]
         for (const trailer of crane.trailer){
@@ -164,8 +167,9 @@ export class PalmsService {
     );
   }
 
-  setTrailerVideos(){
-    this.trailerVideos.set("PALMS 6S", "OUXj3T4seD0")
+  setVideos(){
+    this.videos.set("PALMS 6S", "OUXj3T4seD0");
+    this.videos.set("PALMS 2.54", "OUXj3T4seD0");
   }
 
   deleteTrailer(){

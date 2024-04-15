@@ -1,35 +1,65 @@
-import { Component, EventEmitter, HostListener, Input, Output } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { TrailerDataItemComponent } from "../../../shared/components/machine-data-item/machine-data-item.component";
 import { PalmsCrane } from '../../models/palms-crane';
 import { ImageModule } from 'primeng/image';
 import { GalleriaModule } from 'primeng/galleria';
+import { YouTubePlayerModule } from '@angular/youtube-player';
 
 @Component({
     selector: 'app-palms-crane-information',
     standalone: true,
     templateUrl: './palms-crane-information.component.html',
     styleUrl: './palms-crane-information.component.css',
-    imports: [TrailerDataItemComponent, ImageModule, GalleriaModule]
+    imports: [TrailerDataItemComponent, ImageModule, GalleriaModule, YouTubePlayerModule]
 })
-export class PalmsCraneInformationComponent {
+export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
   displayBasic: boolean = false;
   images: any[] | undefined = []
   responsiveOptions: any[] = []
+  videoHeight: number | undefined;
+  videoWidth: number | undefined;
+  galleryContainerStyle: any = { 'max-width': '50%' };
   @Input({required: true}) crane!: PalmsCrane
   @Output() trailerSelected = new EventEmitter<number>();
-
-
+  @ViewChild("youTubePlayer") youTubePlayer!: ElementRef<HTMLDivElement>;
+  
   @HostListener('document:keyup.escape', ['$event'])
   onKeyup() {
     this.displayBasic = false;
   }
 
+  @HostListener('window:resize', ['$event'])
+  onResize(event: any): void {
+    this.updateContainerStyle();
+  }
 
-  constructor(){}
+  constructor(private changeDetectorRef: ChangeDetectorRef){}
 
   ngOnInit(): void {
+    console.log(this.crane);
+    
     this.setResponsiveOptions();
-    this.setImages();  
+    this.setImages(); 
+    this.videoWidth = window.innerWidth;
+    this.videoHeight = window.innerHeight; 
+  }
+
+  ngAfterViewInit(): void {
+    this.resize();
+    window.addEventListener("resize", this.resize.bind(this));
+  }
+
+  resize(): void {
+    this.videoWidth = Math.min(
+      this.youTubePlayer.nativeElement.clientWidth,
+      1200
+    );
+    this.videoHeight = this.videoWidth * 0.6;
+    this.changeDetectorRef.detectChanges();
+  }
+
+  smallScreen(){
+    return window.innerWidth < 1100;
   }
 
   getTrailers(): { id: number, name: string }[] {
@@ -38,6 +68,16 @@ export class PalmsCraneInformationComponent {
 
   trailerSelectedEmit(trailerId: number){
     this.trailerSelected.emit(trailerId)
+  }
+
+  private updateContainerStyle(): void {
+    if (window.innerWidth <= 640) {
+      this.galleryContainerStyle = { 'max-width': '100%' };
+    } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
+      this.galleryContainerStyle = { 'max-width': '75%' };
+    } else {
+      this.galleryContainerStyle = { 'max-width': '50%' };
+    }
   }
 
   private setImages(){
