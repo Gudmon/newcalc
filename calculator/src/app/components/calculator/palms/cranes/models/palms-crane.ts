@@ -30,5 +30,5 @@ export interface PalmsCrane {
     selectedTrailer?: PalmsTrailer;
     imgUrls: string[];
     imgUrl: string;
-    videoId?: string;
+    videoIds?: string[];
 }

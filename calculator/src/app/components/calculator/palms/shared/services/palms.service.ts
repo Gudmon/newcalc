@@ -44,7 +44,7 @@ export class PalmsService {
 
   public _totalPrice = computed(() => this._trailerPrice() + this._cranePrice());
 
-  videos = new Map<string, string>();
+  videos = new Map<string, string[]>();
 
   // CRANES
   public selectedControlBlock = signal<ConfigurationItem | undefined>(undefined);
@@ -117,7 +117,7 @@ export class PalmsService {
     
     return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
       map((trailer: PalmsTrailer) => {
-        trailer.videoId = this.videos.get(trailer.name)
+        trailer.videoIds = this.getVideosByKey(trailer.name)
         if(trailer.id === 12 || trailer.id === 13) trailer.imgUrls = [`../../../../../assets/PALMS 10U-1.svg`, `../../../../../assets/PALMS 10U-2.jpg`];
         else if(trailer.id === 14 || trailer.id === 15 || trailer.id === 16) trailer.imgUrls = [`../../../../../assets/PALMS 12U-1.svg`, `../../../../../assets/PALMS 12U-2.jpg`];
         else if(trailer.id === 17 || trailer.id === 18 || trailer.id === 19) trailer.imgUrls = [`../../../../../assets/PALMS 15U-1.svg`, `../../../../../assets/PALMS 15U-2.jpg`];
@@ -151,7 +151,10 @@ export class PalmsService {
 
     return this.httpClient.get<PalmsCrane>(`${this.url}/Palms/cranes/${id}`).pipe(
       map((crane: PalmsCrane) => {
-        crane.videoId = this.videos.get(crane.name)
+        
+        crane.videoIds = this.getVideosByKey(crane.name)
+        console.log(crane.name, crane.videoIds);
+        
         //this._selectedCrane.next(crane);
         crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`]
         for (const trailer of crane.trailer){
@@ -167,9 +170,39 @@ export class PalmsService {
     );
   }
 
+  getVideosByKey(key: string): string[] | undefined {
+    return this.videos.get(key);
+  }
+
   setVideos(){
-    this.videos.set("PALMS 6S", "OUXj3T4seD0");
-    this.videos.set("PALMS 2.54", "OUXj3T4seD0");
+    // trailers
+    this.videos.set("PALMS 6S", ["5-tqIrDOU0I", "OUXj3T4seD0"]);
+    this.videos.set("PALMS 8SX", ["VEvGOG-aFyM"]);
+    this.videos.set("PALMS 8D", ["cdz1OF0USqI"]);
+    //this.videos.set("PALMS 8DWD", ["cdz1OF0USqI"]);
+    this.videos.set("PALMS 9SC", ["4ZeFp4Yofak"]);
+    this.videos.set("PALMS 10D", ["0u8VqxRevL4"]);
+   // this.videos.set("PALMS 10DWD", ["0u8VqxRevL4"]);
+    this.videos.set("PALMS 12U", ["akmzrXf3EnU"]);
+    //this.videos.set("PALMS 12UWD", ["akmzrXf3EnU"]);
+    //this.videos.set("PALMS 12UAWD", ["akmzrXf3EnU"]);
+    this.videos.set("PALMS 15U", ["cH3t306elVs"]);
+    //this.videos.set("PALMS 15UWD", ["cH3t306elVs"]);
+    //this.videos.set("PALMS 15UAWD", ["cH3t306elVs"]);
+
+    // cranes
+    this.videos.set("PALMS 2.42", ["fEDDjo_K3E8"]);
+    this.videos.set("PALMS 2.54", ["fEDDjo_K3E8", "OUXj3T4seD0"]);
+    this.videos.set("PALMS 3.63", ["z9VS2BuQwvM"]);
+    this.videos.set("PALMS 3.67", ["z9VS2BuQwvM"]);
+    this.videos.set("PALMS 4.71", ["NYLCfmf-Nfc"]);
+    this.videos.set("PALMS 5.72", ["-f0tPn8V78g"]);
+    this.videos.set("PALMS 5.85", ["-f0tPn8V78g"]);
+    this.videos.set("PALMS 5.87Z", ["pLvH1NAPEzI"]);
+    this.videos.set("PALMS 7.75", ["z55HswaDwSA"]);
+    this.videos.set("PALMS 7.86", ["z55HswaDwSA"]);
+    this.videos.set("PALMS 7.94", ["z55HswaDwSA"]);
+    this.videos.set("PALMS X100", ["x9GnpJnvNVU"]);
   }
 
   deleteTrailer(){

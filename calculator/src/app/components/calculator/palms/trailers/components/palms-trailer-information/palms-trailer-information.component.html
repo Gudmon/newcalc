@@ -47,17 +47,6 @@
                         @for (imageUrl of trailer.imgUrls; track $index) {
                             <p-image [src]="imageUrl" alt='Trailer Image' />
                         }
-                        @if (!smallScreen()) {
-                            <div #youTubePlayer>
-                                <youtube-player
-                                    [videoId]="trailer.videoId"
-                                    suggestedQuality="highres"
-                                    [width]="videoWidth"
-                                    [height]="videoHeight">
-                                </youtube-player>
-                            </div>
-                        }
-                        
                     </div>
                     <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="galleryContainerStyle" [numVisible]="2"
                         [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false">
@@ -66,18 +55,34 @@
                         </ng-template>          
                     </p-galleria>
                 </div>
+                @if (!smallScreen()) {
+                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-2">
+                    @for (videoId of trailer.videoIds; track $index) {
+                        <div #youTubePlayer>
+                            <youtube-player
+                                [videoId]="videoId"
+                                suggestedQuality="highres"
+                                [width]="videoWidth"
+                                [height]="videoHeight">
+                            </youtube-player>
+                        </div>
+                    }
+                    </div>
+                }
             </div>
-            @if (smallScreen()) {
+        </div>
+        @if (smallScreen()) {
+            @for (videoId of trailer.videoIds; track $index) {
                 <div #youTubePlayer>
                     <youtube-player
-                        [videoId]="trailer.videoId"
+                        [videoId]="videoId"
                         suggestedQuality="highres"
                         [width]="videoWidth"
                         [height]="videoHeight">
                     </youtube-player>
                 </div>
             }
-        </div>
+        }
     </div>
     }
     @else {

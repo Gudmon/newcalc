@@ -22,5 +22,5 @@ export interface PalmsTrailer {
     selectedCrane?: PalmsCrane;
     imgUrls: string[];
     imgUrl: string;
-    videoId?: string;
+    videoIds?: string[];
 }
