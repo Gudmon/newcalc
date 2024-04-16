@@ -223,6 +223,16 @@
                     <p-listbox optionDisabled="disabledOption" (onChange)="handleTyreChange($event)" formControlName="selectedTyre" [options]="tyres" optionLabel="namePrice"></p-listbox>                   
                 </div>
 
+                <div *ngIf="trailerSelected && stanchionExtension" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <p-checkbox #stanchionExtensionCheckBox (onChange)="onStanchionExtensionChange($event)" [value]="stanchionExtension" formControlName="selectedStanchionExtension" inputId="StanchionExtensionSelected"></p-checkbox>
+                        <label class="hover:cursor-pointer pt-2" for="StanchionExtensionSelected">{{stanchionExtension.namePrice}}</label>
+                    </div>
+                </div>
+                <div *ngIf="trailerSelected && stanchionExtension" class="justify-content-center">
+                    <p-dropdown *ngIf="stanchionExtensionChecked" [disabled]="!stanchionExtensionChecked" #stanchionExtensionDropdown (onChange)="onStanchionExtensionNumberChange($event)" [options]="stanchionExtensionArrayElements" optionLabel="number" placeholder="Válasszon egy számot..."></p-dropdown>
+                </div>
+
                 <div *ngIf="trailerSelected && trailerShipping" class="justify-content-center my-4 py-4">
                     <div class="flex">
                         <p-radioButton id="trailerShipping" [value]="trailerShipping" formControlName="selectedShipping"></p-radioButton>
@@ -235,16 +245,6 @@
                         <p-radioButton id="MOT" [value]="MOT" formControlName="selectedMOT"></p-radioButton>
                         <label [for]="MOT.id" class="ml-2">{{ MOT.namePrice }}</label>
                     </div>
-                </div>
-
-                <div *ngIf="trailerSelected && stanchionExtension" class="justify-content-center my-4 py-4">
-                    <div class="flex gap-2">
-                        <p-checkbox #stanchionExtensionCheckBox (onChange)="onStanchionExtensionChange($event)" [value]="stanchionExtension" formControlName="selectedStanchionExtension" inputId="StanchionExtensionSelected"></p-checkbox>
-                        <label class="hover:cursor-pointer pt-2" for="StanchionExtensionSelected">{{stanchionExtension.namePrice}}</label>
-                    </div>
-                </div>
-                <div *ngIf="trailerSelected && stanchionExtension" class="justify-content-center">
-                    <p-dropdown *ngIf="stanchionExtensionChecked" [disabled]="!stanchionExtensionChecked" #stanchionExtensionDropdown (onChange)="onStanchionExtensionNumberChange($event)" [options]="stanchionExtensionArrayElements" optionLabel="number" placeholder="Válasszon egy számot..."></p-dropdown>
                 </div>
                 
                 <hr *ngIf="trailer && !fromCrane" class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
