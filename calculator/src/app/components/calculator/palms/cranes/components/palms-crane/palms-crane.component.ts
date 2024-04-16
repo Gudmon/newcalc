@@ -593,11 +593,14 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         if (event.value.code === "B3" || event.value.code === "B6.1") {
           updatedHoseGuardIds = [1];
           updatedHoseGuards = this.updateHoseGuardsForFrameType(updatedHoseGuardIds);
+          this.setHoseGuardToDefault();
         } else if (event.value.code === "B09" || event.value.code === "B9") {
           updatedHoseGuardIds = [2];
           updatedHoseGuards = this.updateHoseGuardsForFrameType(updatedHoseGuardIds);
+          this.setHoseGuardToDefault();
         } else {
           updatedHoseGuards = this.updateHoseGuardsToDisabled();
+          this.setHoseGuardToDefault();
         }
 
         if (event.value.code === "B9" || event.value.code === "B10") {
@@ -608,11 +611,11 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
       } else {
         this.originalFrameType = undefined;
-        this.palmsService.selectedFrameType.set(undefined)
+        this.palmsService.selectedFrameType.set(undefined);
         updatedControlBlocks = this.updateControlBlocksToEnabled();
         updatedHoseGuards = this.updateHoseGuardsToDisabled();
         this.setHoseGuardToDefault();
-        this.setLinkageDefault()
+        this.setLinkageDefault();
       }
     
       this.controlBlocks = updatedControlBlocks;
@@ -634,7 +637,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     }
 
     updateHoseGuardsForFrameType(ids: number[]): ConfigurationItem[] {
-      
       return this.hoseGuards.map((hoseGuard) => ({
         ...hoseGuard,
         disabledOption: !ids.includes(hoseGuard.id)
@@ -1011,10 +1013,10 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     
       if (event.value){
         this.originalHoseGuard = event.value;
-        this.palmsService.selectedJoystickHolder.set(event.value)
+        this.palmsService.selectedHoseGuard.set(event.value)
       } else {
         this.originalHoseGuard = undefined;
-        this.palmsService.selectedJoystickHolder.set(undefined)
+        this.palmsService.selectedHoseGuard.set(undefined)
       }
     }
 
