@@ -329,4 +329,17 @@ export class PalmsTrailerConfigService {
       })
     );
   }
+
+  getStanchionExtension(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/stanchionextension`).pipe(
+      map((stanchionExtension: ConfigurationItem | null) => {
+        if (stanchionExtension) {
+          stanchionExtension.namePrice = stanchionExtension.name + " " + stanchionExtension.price + "€";
+          return stanchionExtension;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
 }

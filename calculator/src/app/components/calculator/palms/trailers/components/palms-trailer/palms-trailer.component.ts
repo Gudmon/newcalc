@@ -1,3 +1,4 @@
+import { provideAnimations } from '@angular/platform-browser/animations';
 import { PalmsCraneOverview } from './../../../cranes/models/palms-crane-overview';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PalmsService } from '../../../shared/services/palms.service';
@@ -68,8 +69,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   bunkAdapterNumberSelected: boolean = false;
   bunkExtensionChecked: boolean = false;
   bunkExtensionNumberSelected: boolean = false;
+  stanchionExtensionChecked: boolean = false;
+  stanchionExtensionNumberSelected: boolean = false;
   
-
   @ViewChild('oilCoolerCheckBox') oilCoolerCheckBox!: Checkbox;
   @ViewChild('woodSorterCheckBox') woodSorterCheckBox!: Checkbox;
   @ViewChild('woodSorterDropdown') woodSorterDropdown!: Dropdown;
@@ -77,7 +79,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   @ViewChild('bunkAdapterDropdown') bunkAdapterDropdown!: Dropdown;
   @ViewChild('bunkExtensionCheckBox') bunkExtensionCheckBox!: Checkbox;
   @ViewChild('bunkExtensionDropdown') bunkExtensionDropdown!: Dropdown;
- 
+  @ViewChild('stanchionExtensionCheckBox') stanchionExtensionCheckBox!: Checkbox;
+  @ViewChild('stanchionExtensionDropdown') stanchionExtensionDropdown!: Dropdown;
+  
   showBrakesDialog: boolean = false;
   showPropulsionsDialog: boolean = false;
   showDrawbarsDialog: boolean = false;
@@ -120,6 +124,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   frameExtension: ConfigurationItem | undefined = undefined;
   trailerShipping: ConfigurationItem | undefined = undefined;
   MOT: ConfigurationItem | undefined = undefined;
+  stanchionExtension: ConfigurationItem | undefined = undefined;
 
   selectedConfigurationItems: ConfigurationItem[] = [];
 
@@ -143,6 +148,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalBunkAdapterPrice = 0;
   originalBunkExtensionPrice = 0;
   originalFrameExtensionPrice = 0;
+  originalStanchionExtensionPrice = 0;
 
   initialWoodSorterPrice = 0;
   initialWoodSorterNumber = 0;
@@ -155,6 +161,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   initialBunkExtensionPrice = 0;
   initialBunkExtensionNumber = 0;
   previousBunkExtensionNumber = 0;
+
+  initialStanchionExtensionPrice = 0;
+  initialStanchionExtensionNumber = 0;
+  previousStanchionExtensionNumber = 0;
 
   initialTrailerPrice = 0;
 
@@ -183,6 +193,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalFrameExtension: ConfigurationItem | undefined = undefined;
   originalShipping: ConfigurationItem | undefined = undefined;
   originalMOT: ConfigurationItem | undefined = undefined;
+  originalStanchionExtension: ConfigurationItem | undefined = undefined;
+  stanchionExtensionArrayElements: any[] | undefined = [];
 
   trailerFormGroup: FormGroup = new FormGroup({
     selectedTrailer: new FormControl<string>(''),
@@ -208,6 +220,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     selectedFrameExtension: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedShipping: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedMOT: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedStanchionExtension: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
   });
 
   private initializeFormGroup(): void {
@@ -237,6 +250,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       selectedFrameExtension: null,
       selectedShipping: this.trailerShipping,
       selectedMOT: this.MOT,
+      selectedStanchionExtension: null,
     });
   }   
   private destroy$ = new Subject<void>();
@@ -330,18 +344,19 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       const frameExtension$ = this.palmsTrailerConfigService.getFrameExtension(id);
       const trailerShipping$ = this.palmsTrailerConfigService.getShipping(id);
       const MOT$ = this.palmsTrailerConfigService.getMOT(id);
+      const stanchionExtension$ = this.palmsTrailerConfigService.getStanchionExtension(id);
       
       const request = forkJoin([stanchions$, brakes$, propulsions$, 
         drawbars$, platforms$, oilPumps$, oilTanks$, trailerOilCooler$, 
         bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, 
         underrunProtection$, supportLegs$, lights$, tyres$, 
-        bunkAdapter$, bunkExtension$, frameExtension$, trailerShipping$, MOT$]);
+        bunkAdapter$, bunkExtension$, frameExtension$, trailerShipping$, MOT$, stanchionExtension$]);
      
       request.subscribe(([stanchions, brakes, propulsions,
          drawbars, platforms, oilPumps, oilTanks, trailerOilCooler,
           bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, 
           underrunProtection, supportLegs, lights, tyres,
-          bunkAdapter, bunkExtension, frameExtension, trailerShipping, MOT]) => {
+          bunkAdapter, bunkExtension, frameExtension, trailerShipping, MOT, stanchionExtension]) => {
         if (stanchions.length > 0){
           
           this.stanchions = stanchions;
@@ -442,6 +457,11 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
           this.palmsService.selectedMOT.set(MOT);
           this.palmsService._trailerPrice.update((trailerPrice => trailerPrice + Number(MOT.price)));
         }
+
+        if (stanchionExtension){
+          this.stanchionExtension = stanchionExtension;
+          this.initialStanchionExtensionPrice = Number(stanchionExtension.price);
+        }
         
         this.trailerSelected = true;
         this.initializeFormGroup();
@@ -478,10 +498,12 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     this.woodSorterArrayElements = [];
     this.bunkAdapterArrayElements = [];
     this.bunkExtensionArrayElements = [];
+    this.stanchionExtensionArrayElements = [];
     if(this.originalStanchion) this.initialTrailerPrice = Number(this.originalStanchion!.price);
     this.originalWoodSorter = undefined;
     this.originalBunkAdapter = undefined;
     this.originalBunkExtension = undefined;
+    this.originalStanchionExtension = undefined;
 
     setTimeout(() => {
       if(this.woodSorterCheckBox){
@@ -510,28 +532,44 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
           this.bunkExtensionArrayElements?.push({number: i});  
         }
       }
+
+      if(this.stanchionExtensionCheckBox){
+        this.stanchionExtensionCheckBox.writeValue(false);
+        this.stanchionExtensionChecked = false;
+
+        for (let i = 1; i <= maxNumber; i++) {
+          this.stanchionExtensionArrayElements?.push({number: i});  
+        }
+      }
       
     },50);
     
     if(this.initialWoodSorterNumber > 0){
-      this.palmsService._trailerPrice.update(value => value - (Number(this.initialWoodSorterNumber * 65)))
+      this.palmsService._trailerPrice.update(value => value - (Number(this.initialWoodSorterNumber * this.initialWoodSorterPrice)))
       this.initialWoodSorterNumber = 0;
       this.previousWoodSorterNumber = 0;
       this.palmsService.selectedWoodSorter.set(undefined);
     }
 
     if(this.initialBunkAdapterNumber > 0){
-      this.palmsService._trailerPrice.update(value => value - (Number(this.initialBunkAdapterNumber * 150)))
+      this.palmsService._trailerPrice.update(value => value - (Number(this.initialBunkAdapterNumber * this.initialBunkAdapterPrice)))
       this.initialBunkAdapterNumber = 0;
       this.previousBunkAdapterNumber = 0;
       this.palmsService.selectedBunkAdapter.set(undefined);
     }
 
     if(this.initialBunkExtensionNumber > 0){
-      this.palmsService._trailerPrice.update(value => value - (Number(this.initialBunkExtensionNumber * 625)))
+      this.palmsService._trailerPrice.update(value => value - (Number(this.initialBunkExtensionNumber * this.initialBunkExtensionPrice)))
       this.initialBunkExtensionNumber = 0;
       this.previousBunkExtensionNumber = 0;
       this.palmsService.selectedBunkExtension.set(undefined);
+    }
+
+    if(this.initialStanchionExtensionNumber > 0){
+      this.palmsService._trailerPrice.update(value => value - (Number(this.initialStanchionExtensionNumber * this.initialStanchionExtensionPrice)))
+      this.initialStanchionExtensionNumber = 0;
+      this.previousStanchionExtensionNumber = 0;
+      this.palmsService.selectedStanchionExtension.set(undefined);
     }
   }
 
@@ -999,6 +1037,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
   onBunkAdapterChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
+      console.log(this.initialBunkAdapterPrice);
+      
         this.originalBunkAdapterPrice = Number(event.checked[0].price);
         this.bunkAdapterChecked = true;
         this.originalBunkAdapter = event.checked[0];
@@ -1013,14 +1053,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
               if (this.originalBunkAdapter){
                 this.originalBunkAdapter.name = this.originalBunkAdapter?.name.replace(/\s\d+ db$/, '');
                 this.originalBunkAdapter.price = 0;
-                this.palmsService._trailerPrice.update(value => Number(value) + (Number(150)* Number(this.initialBunkAdapterNumber)));
+                this.palmsService._trailerPrice.update(value => Number(value) + (Number(this.initialBunkAdapterPrice) * Number(this.initialBunkAdapterNumber)));
               }
             }
           }
         }, 100);
     } else {
         setTimeout(() => {
-          this.palmsService._trailerPrice.update(value => value - (Number(150)* Number(this.initialBunkAdapterNumber)));
+          this.palmsService._trailerPrice.update(value => value - (Number(this.initialBunkAdapterPrice) * Number(this.initialBunkAdapterNumber)));
           this.bunkAdapterChecked = false;
           this.initialBunkAdapterNumber = 0;
           this.previousBunkAdapterNumber = 0;
@@ -1064,14 +1104,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
               if (this.originalBunkExtension){
                 this.originalBunkExtension.name = this.originalBunkExtension?.name.replace(/\s\d+ db$/, '');
                 this.originalBunkExtension.price = 0;
-                this.palmsService._trailerPrice.update(value => Number(value) + (Number(625)* Number(this.initialBunkExtensionNumber)));
+                this.palmsService._trailerPrice.update(value => Number(value) + (Number(this.initialBunkExtensionPrice) * Number(this.initialBunkExtensionNumber)));
               }
             }
           }
         }, 100);
     } else {
         setTimeout(() => {
-          this.palmsService._trailerPrice.update(value => value - (Number(625)* Number(this.initialBunkExtensionNumber)));
+          this.palmsService._trailerPrice.update(value => value - (Number(this.initialBunkExtensionPrice) * Number(this.initialBunkExtensionNumber)));
           this.bunkExtensionChecked = false;
           this.initialBunkExtensionNumber = 0;
           this.previousBunkExtensionNumber = 0;
@@ -1114,6 +1154,58 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.originalFrameExtension = undefined;
       this.palmsService.selectedFrameExtension.set(undefined);
     }
+  }
+
+  onStanchionExtensionChange(event: CheckboxChangeEvent){
+    if (event.checked.length > 0) {
+        this.originalStanchionExtensionPrice = Number(event.checked[0].price);
+        this.stanchionExtensionChecked = true;
+        this.originalStanchionExtension = event.checked[0];
+
+        this.palmsService.selectedStanchionExtension.set(event.checked[0]);
+        setTimeout(() => {
+          if(this.stanchionExtensionArrayElements?.length === 0){
+            const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
+
+            this.stanchionExtensionArrayElements = [];
+            for (let i = 1; i <= maxNumber; i++) {
+              this.stanchionExtensionArrayElements.push({number: i});
+              if (this.originalStanchionExtension){
+                this.originalStanchionExtension.name = this.originalStanchionExtension?.name.replace(/\s\d+ db$/, '');
+                this.originalStanchionExtension.price = 0;
+                this.palmsService._trailerPrice.update(value => Number(value) + (Number(this.initialStanchionExtensionPrice) * Number(this.initialStanchionExtensionNumber)));
+              }
+            }
+          }
+        }, 100);
+    } else {
+        setTimeout(() => {
+          this.palmsService._trailerPrice.update(value => value - (Number(this.initialStanchionExtensionPrice) * Number(this.initialStanchionExtensionNumber)));
+          this.stanchionExtensionChecked = false;
+          this.initialStanchionExtensionNumber = 0;
+          this.previousStanchionExtensionNumber = 0;
+          this.originalStanchionExtension = undefined;
+          this.stanchionExtensionArrayElements = []
+          this.palmsService.selectedStanchionExtension.set(undefined);
+          }, 50);
+    }
+  }
+
+  onStanchionExtensionNumberChange(event: DropdownChangeEvent){
+    this.stanchionExtensionNumberSelected = true;
+    const number = Number(event.value.number);
+    this.initialStanchionExtensionNumber = number;
+    const previousTotalPrice = Number(this.previousStanchionExtensionNumber) * Number(this.initialStanchionExtensionPrice);
+
+    if (this.originalStanchionExtension) {
+        this.originalStanchionExtension.name = this.originalStanchionExtension.name.replace(/\s\d+ db$/, '') + " " + this.initialStanchionExtensionNumber + " db";
+        this.originalStanchionExtension.price = this.initialStanchionExtensionPrice * this.initialStanchionExtensionNumber;
+
+        this.palmsService._trailerPrice.update(value => value - previousTotalPrice + (Number(this.initialStanchionExtensionPrice) * Number(this.initialStanchionExtensionNumber)));
+    } else {
+      this.palmsService._trailerPrice.update(value => value + previousTotalPrice + (Number(this.initialStanchionExtensionPrice) * Number(this.initialStanchionExtensionNumber)));
+    }
+    this.previousStanchionExtensionNumber = number;
   }
 
   navigateToCrane(craneId: number){

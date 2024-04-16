@@ -109,6 +109,14 @@ export class PdfComponent implements OnInit{
       object.Tyre = this.palmsService.selectedTyre();
       object.TrailerShipping = this.palmsService.selectedTrailerShipping();
       object.MOT = this.palmsService.selectedMOT();
+      const stanchionExtension = this.palmsService.selectedStanchionExtension();
+      const newStanchionExtension: ConfigurationItem | undefined = stanchionExtension
+        ? {
+            ...stanchionExtension,
+            price: stanchionExtension.price.toString(),
+          }
+        : undefined;
+      object.StanchionExtension = newStanchionExtension;
     }else {
       object.Grapples = [];
     }
@@ -231,6 +239,7 @@ interface PdfTrailerModel {
   Tyre?: ConfigurationItem | undefined,
   TrailerShipping?: ConfigurationItem | undefined,
   MOT?: ConfigurationItem | undefined,
+  StanchionExtension?: ConfigurationItem | undefined,
 }
 
 interface PdfCraneModel {
