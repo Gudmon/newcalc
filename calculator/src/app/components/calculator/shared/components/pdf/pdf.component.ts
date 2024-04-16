@@ -86,6 +86,13 @@ export class PdfComponent implements OnInit{
             price: bunkAdapter.price.toString(),
           }
         : undefined;  
+      const bunkExtension = this.palmsService.selectedBunkExtension();
+      const newBunkExtension: ConfigurationItem | undefined = bunkExtension
+        ? {
+            ...bunkExtension,
+            price: bunkExtension.price.toString(),
+          }
+        : undefined;   
       object.TrailerName = this.palmsService._selectedTrailer.value?.name;
       object.Stanchion = this.palmsService.selectedStanchion();
       object.Brake = this.palmsService.selectedBrake();
@@ -102,7 +109,7 @@ export class PdfComponent implements OnInit{
       object.ChainsawHolder = this.palmsService.selectedChainsawHolder();
       object.UnderrunProtection = this.palmsService.selectedUnderrunProtection();
       object.BunkAdapter = newBunkAdapter;
-      object.BunkExtension = this.palmsService.selectedBunkExtension();
+      object.BunkExtension = newBunkExtension;
       object.FrameExtension = this.palmsService.selectedFrameExtension();
       object.TrailerLight = this.palmsService.selectedTrailerLight();
       object.SupportLeg = this.palmsService.selectedSupportLeg();
