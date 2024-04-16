@@ -164,6 +164,8 @@ export class PdfComponent implements OnInit{
       object.Grapples = [];
     }
 
+    object.totalPrice = this.palmsService._totalPrice().toString();
+
     this.loadingService.enableLoader();
     this.pdfService
       .sendPdf(object)
@@ -277,5 +279,5 @@ interface PdfCraneModel {
 }
 
 export interface PdfModel extends PdfTrailerModel, PdfCraneModel{
-
+  totalPrice?: string | undefined
 }
