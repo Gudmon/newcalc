@@ -6,7 +6,7 @@
     </ng-template>
     <p class="mt-12 mb-10 text-3xl font-semibold">Csörlő előkészítés a főgémen</p>
     <p class="mt-6 mb-4 text-lg">Gyárilag beépített csörlő rögzítési pontok. Lehetővé teszi a csörlő jövőbeli felszerelését a daru fő gémjére hegesztés, fúrás vagy újrafestés nélkül.</p>
-    <img class="mb-20" src="../../../../../../../../assets/PALMS crane-winch-1.jpg" alt="Winch">  
+    <img loading="lazy" class="mb-20" src="../../../../../../../../assets/PALMS crane-winch-1.jpg" alt="Winch">  
     @for (winch of winches; track $index) {
         @if (winch.id !== 1) {
             <div class="mb-10">
@@ -17,7 +17,7 @@
         }
           
     }  
-    <img src="../../../../../../../../assets/PALMS crane-winch-2.jpg" alt="Winch"> 
+    <img loading="lazy" src="../../../../../../../../assets/PALMS crane-winch-2.jpg" alt="Winch"> 
     <ng-template pTemplate="footer">
       <button class="bg-primary-color p-1 mt-2" (click)="closeWinchesDialog()"><i class="fa-solid fa-check mr-1"></i>Értem</button>  
     </ng-template>

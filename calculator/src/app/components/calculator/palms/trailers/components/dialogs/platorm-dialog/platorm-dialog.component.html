@@ -11,7 +11,7 @@
             </p>
             @for (images of platform.imgUrls; track $index) {
                 <div class="my-14">
-                    <img [src]="images" alt=`drawbarImage${$index}`>
+                    <img loading="lazy" [src]="images" alt=`drawbarImage${$index}`>
                 </div>       
             }
         }        
@@ -21,7 +21,7 @@
                 <p class="my-12 text-3xl font-bold">
                     {{platform.name}}
                 </p>
-                <img [src]="platform.imgUrl" alt="DrawbarImage">
+                <img loading="lazy" [src]="platform.imgUrl" alt="DrawbarImage">
             </div>
         }
     }

@@ -4,7 +4,7 @@
   @for (crane of cranes; track crane.id){
       <p-card class="mt-2 lg:mt-10 shadow-xl" [header]="crane.name">
           <ng-template pTemplate="header">
-              <img alt="Card" [src]="crane.imgUrl"/>
+              <img loading="lazy" alt="Card" [src]="crane.imgUrl"/>
           </ng-template>
           <p class="pb-4 text-lg font-extrabold lg:text-2xl">{{crane.price | formatPrice}}</p>
           <p class="block text-sm lg:text-lg">Maximális kinyúlás / markoló nyitva: {{crane.reachMax}} / {{crane.reachWithGrabOpen}} m</p>
@@ -47,7 +47,7 @@
                       <span class="font-bold white-space-nowrap"></span>
                   </div>
               </ng-template>
-              <img src="../../../../assets/controlblocks.png" alt="controlBlockImage">
+              <img loading="lazy" src="../../../../assets/controlblocks.png" alt="controlBlockImage">
               <p class="m-0">
                   Szöveg a vezérlésekről.
               </p>

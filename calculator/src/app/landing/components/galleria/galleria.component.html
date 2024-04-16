@@ -3,7 +3,7 @@
         <div *ngFor="let image of images; let index = index" class="" key="index">
             <div class="product-item">
                 <div class="product-item-content">
-                    <img class="product-image" [src]="image.thumbnailImageSrc" [alt]="image.alt" style="cursor: pointer;" (click)="imageClick(index)" />
+                    <img loading="lazy" class="product-image" [src]="image.thumbnailImageSrc" [alt]="image.alt" style="cursor: pointer;" (click)="imageClick(index)" />
                 </div>
             </div>
         </div>
@@ -21,7 +21,7 @@
         [showThumbnails]="false"
     >
         <ng-template pTemplate="item" let-item>
-            <img [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+            <img loading="lazy" [src]="item.itemImageSrc" style="width: 100%; display: block;" />
         </ng-template>
     </p-galleria>
 </div>

@@ -12,7 +12,7 @@
                 </p>
                 @if (brake.code !== "BA-EU" && brake.code !== "BH-EU") {
 
-                    <img [src]="brake.imgUrl" alt="brakeImage">
+                    <img loading="lazy" [src]="brake.imgUrl" alt="brakeImage">
                 }
             </div>
         }       

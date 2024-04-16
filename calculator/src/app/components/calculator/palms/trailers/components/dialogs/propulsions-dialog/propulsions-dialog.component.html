@@ -11,7 +11,7 @@
             </p>
             <p class="mt-6 mb-10 text-lg">{{propulsion.description}}</p>  
             @for (imgUrl of propulsion.imgUrls; track $index) {
-                <img class="my-8" [src]="imgUrl" alt="Propulsion Image">
+                <img loading="lazy" class="my-8" [src]="imgUrl" alt="Propulsion Image">
             }
         </div>
     }  
