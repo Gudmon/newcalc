@@ -38,13 +38,49 @@ export class AppComponent implements OnInit {
             "notice_banner_reject_button_hide": false,
             "preferences_center_close_button_hide": false,
             "page_refresh_confirmation_buttons": false,
-            "website_name": "www.palmsmagyarorszag.hu"
+            "website_name": "www.palmsmagyarorszag.hu",
+            "callbacks": {
+                "notice_banner_loaded": () => {
+                },
+                "i_agree_button_clicked": () => {
+                },
+                "i_decline_button_clicked": () => {
+                },
+                "change_my_preferences_button_clicked": () => {
+                },
+                "scripts_all_loaded": () => {
+                },
+                "scripts_specific_loaded": (level: any) => {
+                    // Levels
+                    switch(level) {
+                        case 'strictly-necessary':
+                            break;
+                        case 'functionality':
+                            this.loadClarityScript('lxxyj7muce');
+                            break;
+                        case 'tracking':
+                            break;
+                        case 'targeting':
+                            break;
+                    }
+                }
+            },
+            "callbacks_force": true
           });
         } else {
           console.error('Cookie Consent script not loaded.');
         }
     }
-
+    
+    loadClarityScript(tagId: string): void {
+        (function(c: any, l: any, a: string, r: string, i: string, t: any, y: any){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          t.charset = 'UTF-8';
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+        })(window, document, "clarity", "script", tagId, document.createElement('script'), undefined);
+      }
+      
     private loadScript(url: string, callback?: (ev: Event) => any): void {
     const script = document.createElement('script');
     script.src = url;
