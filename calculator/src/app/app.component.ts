@@ -9,8 +9,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoadingService } from './services/loading.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
-import {NgcCookieConsentModule, NgcCookieConsentConfig, NgcCookieConsentService, NgcInitializationErrorEvent, NgcStatusChangeEvent, NgcInitializingEvent, NgcNoCookieLawEvent} from 'ngx-cookieconsent';
-import { Subscription } from 'rxjs';
+
 declare var cookieconsent: any;
 @Component({
     selector: 'app-root',
