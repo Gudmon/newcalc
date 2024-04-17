@@ -59,13 +59,7 @@ export class AppComponent implements OnInit {
     }
 
     ngOnInit() {
-         // Load Cookie Consent script
         this.loadScript('https://www.termsfeed.com/public/cookie-consent/4.1.0/cookie-consent.js', this.initialize);
-
-        // Load Clarity script
-        this.loadScript('https://www.clarity.ms/tag/lxxyj7muce');
-
-        this.initialize();
 
         this.items = [
             {
