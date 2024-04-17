@@ -34,7 +34,7 @@ export class AppComponent implements OnInit {
             "consent_type": "express",
             "palette": "dark",
             "language": "hu",
-            "page_load_consent_levels": ["strictly-necessary"],
+            "page_load_consent_levels": ["strictly-necessary", "functionality", "tracking", "targeting"],
             "notice_banner_reject_button_hide": false,
             "preferences_center_close_button_hide": false,
             "page_refresh_confirmation_buttons": false,
