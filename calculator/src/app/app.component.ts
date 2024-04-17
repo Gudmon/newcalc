@@ -22,6 +22,9 @@ export class AppComponent implements OnInit {
   items: MenuItem[] | undefined;
   readonly loading$ = this.loadingService.status$;
 
+  private clarityScriptLoaded: boolean = false;
+  private clarityScriptTag: HTMLScriptElement | null = null;
+
   constructor(
     private readonly loadingService: LoadingService,
     private readonly router: Router){}
@@ -51,6 +54,7 @@ export class AppComponent implements OnInit {
                 "scripts_all_loaded": () => {
                 },
                 "scripts_specific_loaded": (level: any) => {
+                    this.removeClarityScript("lxxyj7muce");
                     // Levels
                     switch(level) {
                         case 'strictly-necessary':
@@ -79,6 +83,13 @@ export class AppComponent implements OnInit {
           t.charset = 'UTF-8';
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
         })(window, document, "clarity", "script", tagId, document.createElement('script'), undefined);
+    }
+
+    removeClarityScript(tagId: string): void {
+        const clarityScriptElement = document.getElementById(tagId);
+        if (clarityScriptElement && clarityScriptElement.parentNode) {
+          clarityScriptElement.parentNode.removeChild(clarityScriptElement);
+        }
       }
       
     private loadScript(url: string, callback?: (ev: Event) => any): void {
