@@ -9,13 +9,15 @@
     </div>
     <div class="w-full md:w-7/12 lg:w-7/12 px-4 mr-auto ml-auto">
       <google-map
+        mapId="ad244940e0ece10e" 
         height="500px"
         width="100%"
         [zoom]="zoom"
         [center]="center"
         [options]="options">
-          <map-marker [position]="center">
-          </map-marker>
+          <map-advanced-marker 
+            [position]="center">
+          </map-advanced-marker>
         </google-map>
     </div>
   </div>
