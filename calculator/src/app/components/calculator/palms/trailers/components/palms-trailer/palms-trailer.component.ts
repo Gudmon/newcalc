@@ -1037,8 +1037,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
 
   onBunkAdapterChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
-      console.log(this.initialBunkAdapterPrice);
-      
         this.originalBunkAdapterPrice = Number(event.checked[0].price);
         this.bunkAdapterChecked = true;
         this.originalBunkAdapter = event.checked[0];

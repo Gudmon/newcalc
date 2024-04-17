@@ -152,10 +152,7 @@ export class PalmsService {
 
     return this.httpClient.get<PalmsCrane>(`${this.url}/Palms/cranes/${id}`).pipe(
       map((crane: PalmsCrane) => {
-        
         crane.videoIds = this.getVideosByKey(crane.name)
-        console.log(crane.name, crane.videoIds);
-        
         //this._selectedCrane.next(crane);
         crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`]
         for (const trailer of crane.trailer){

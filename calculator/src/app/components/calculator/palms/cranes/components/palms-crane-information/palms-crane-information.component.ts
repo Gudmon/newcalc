@@ -36,8 +36,6 @@ export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
   constructor(private changeDetectorRef: ChangeDetectorRef){}
 
   ngOnInit(): void {
-    console.log(this.crane);
-    
     this.setResponsiveOptions();
     this.setImages(); 
     this.videoWidth = window.innerWidth;
