@@ -11,6 +11,7 @@ import { GoogleMapsModule } from '@angular/google-maps'
 export class MapsComponent implements OnInit {
   zoom = 15;
   center!: google.maps.LatLngLiteral | google.maps.LatLng;
+  markerPositions: { position: google.maps.LatLngLiteral, title: string }[] = [];
   options: google.maps.MapOptions = {
     mapTypeId: 'hybrid',
     zoomControl: true,
@@ -21,17 +22,13 @@ export class MapsComponent implements OnInit {
   };
 
   ngOnInit() {
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   this.center = {
-    //     lat: position.coords.latitude,
-    //     lng: position.coords.longitude,
-    //   };
-    // });
-
     this.center = {
       lat: 47.31945245397667,
       lng: 19.17434739471034
-    } 
+    }
+
+    this.markerPositions.push({ position: { lat: 47.31945245397667, lng: 19.17434739471034 }, title: 'Clear-globe Kft.' });
+    //this.markerPositions.push({ position: { lat: 47.31949245397668, lng: 19.17439739471035 }, title: 'asd' });
   }
  
   zoomIn() {

@@ -15,9 +15,9 @@
         [zoom]="zoom"
         [center]="center"
         [options]="options">
-          <map-advanced-marker 
-            [position]="center">
-          </map-advanced-marker>
+        @for (marker of markerPositions; track $index) {
+          <map-advanced-marker [position]="marker.position" [title]="marker.title"></map-advanced-marker>
+        }
         </google-map>
     </div>
   </div>
