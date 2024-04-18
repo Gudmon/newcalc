@@ -12,6 +12,7 @@ import { environment } from '../../environments/environment';
 import { CatalogComponent } from "./components/catalog/catalog.component";
 import { FeaturesComponent } from "./components/features/features.component";
 import { GalleriaComponent } from "./components/galleria/galleria.component";
+import { CustomerMapFeatureComponent } from "./components/customer-map-feature/customer-map-feature.component";
 
 @Component({
     selector: 'app-landing',
@@ -19,7 +20,7 @@ import { GalleriaComponent } from "./components/galleria/galleria.component";
     templateUrl: './landing.component.html',
     styleUrl: './landing.component.css',
     providers: [HttpClient],
-    imports: [NavigationComponent, GoogleMapsModule, CarouselComponent, HttpClientModule, ActivitiesComponent, CalculatorComponent, HighlightsComponent, FooterComponent, MapsComponent, CatalogComponent, FeaturesComponent, GalleriaComponent]
+    imports: [NavigationComponent, GoogleMapsModule, CarouselComponent, HttpClientModule, ActivitiesComponent, CalculatorComponent, HighlightsComponent, FooterComponent, MapsComponent, CatalogComponent, FeaturesComponent, GalleriaComponent, CustomerMapFeatureComponent]
 })
 export class LandingComponent implements OnInit{
     constructor(private readonly httpService: HttpClient){}

@@ -17,7 +17,7 @@ constructor(){
 }
 
   items: MenuItem[] | undefined;
-
+    //TODO
     ngOnInit() {
         this.items = [
             {
@@ -28,6 +28,10 @@ constructor(){
                 label: 'Kalkulátor',
                 routerLink: '/calculator/palms'
             },
+            // {
+            //     label: 'Ügyféltérkép',
+            //     routerLink: '/customer-map'
+            // },
         ];
     }
 }

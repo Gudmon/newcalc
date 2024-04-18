@@ -1,0 +1,16 @@
+<div class="">
+    <app-navigation></app-navigation>
+ 
+        <google-map
+            class="block mt-24 p-0 h-[calc(10% - 1000px)]"
+            mapId="ad244940e0ece10e" 
+            [zoom]="zoom"
+            width="100%"
+            [height]="height"
+            [center]="center"
+            [options]="options">
+            @for (marker of markerPositions; track $index) {
+                <map-advanced-marker [position]="marker.position" [title]="marker.title"></map-advanced-marker>
+            }
+        </google-map>
+</div>
