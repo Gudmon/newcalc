@@ -30,6 +30,12 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     this.displayBasic = false;
   }
 
+  ngOnInit(): void {
+    this.setResponsiveOptions();
+    this.setImages();  
+    this.resize();
+  }
+
   ngAfterViewInit(): void {
     this.resize();
     //window.addEventListener("resize", this.resize.bind(this));
@@ -46,24 +52,8 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private updateContainerStyle(): void {
-    if (window.innerWidth <= 640) {
-      this.galleryContainerStyle = { 'max-width': '100%' };
-    } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
-      this.galleryContainerStyle = { 'max-width': '75%' };
-    } else {
-      this.galleryContainerStyle = { 'max-width': '50%' };
-    }
-  }
-
   smallScreen(){
     return window.innerWidth < 900;
-  }
-
-  ngOnInit(): void {
-    this.setResponsiveOptions();
-    this.setImages();  
-    this.resize();
   }
 
   getCranes(){
@@ -72,6 +62,16 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
 
   craneSelectedEmit(craneId: number){
     this.craneSelected.emit(craneId)
+  }
+
+  private updateContainerStyle(): void {
+    if (window.innerWidth <= 640) {
+      this.galleryContainerStyle = { 'max-width': '100%' };
+    } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
+      this.galleryContainerStyle = { 'max-width': '75%' };
+    } else {
+      this.galleryContainerStyle = { 'max-width': '50%' };
+    }
   }
 
   private setImages(){

@@ -23,39 +23,35 @@ export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
   @Output() trailerSelected = new EventEmitter<number>();
   @ViewChild("youTubePlayer") youTubePlayer!: ElementRef<HTMLDivElement>;
   
+  constructor(private changeDetectorRef: ChangeDetectorRef){}
+
   @HostListener('document:keyup.escape', ['$event'])
   onKeyup() {
     this.displayBasic = false;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
-    this.updateContainerStyle();
-  }
-
-  constructor(private changeDetectorRef: ChangeDetectorRef){}
-
   ngOnInit(): void {
     this.setResponsiveOptions();
-    this.setImages(); 
-    this.videoWidth = window.innerWidth;
-    this.videoHeight = window.innerHeight; 
+    this.setImages();
+    this.resize();
   }
 
   ngAfterViewInit(): void {
     this.resize();
-    window.addEventListener("resize", this.resize.bind(this));
+    //window.addEventListener("resize", this.resize.bind(this));
   }
 
   resize(): void {
-    this.videoWidth = Math.min(
-      this.youTubePlayer.nativeElement.clientWidth,
-      1200
-    );
-    this.videoHeight = this.videoWidth * 0.6;
-    this.changeDetectorRef.detectChanges();
+    if(this.youTubePlayer){
+      this.videoWidth = Math.min(
+        this.youTubePlayer.nativeElement.clientWidth,
+        1200
+      );
+      this.videoHeight = this.videoWidth * 0.6;
+      this.changeDetectorRef.detectChanges();
+    }
   }
-
+  
   smallScreen(){
     return window.innerWidth < 900;
   }
