@@ -41,17 +41,17 @@
     
             </div>
             <div class="basis-2/3 flex flex-col align-middle justify-center">
-                <img loading="lazy" (click)="displayBasic = true" src="{{trailer.imgUrls[0]}}" alt="Trailer Image 1" class="hover:cursor-pointer">    
+                <img loading="eager" (click)="displayBasic = true" src="{{trailer.imgUrls[0]}}" alt="Trailer Image 1" class="hover:cursor-pointer">    
                 <div class="flex bg-white">
                     <div id="video-holder" class="grid grid-cols-4 gap-2 mt-6">
                         @for (imageUrl of trailer.imgUrls; track $index) {
-                            <p-image [src]="imageUrl" alt='Trailer Image' />
+                            <p-image [src]="imageUrl" loading="eager" alt='Trailer Image' />
                         }
                     </div>
                     <p-galleria [value]="images" [(visible)]="displayBasic" [responsiveOptions]="responsiveOptions" [containerStyle]="galleryContainerStyle" [numVisible]="2"
                         [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false">
                         <ng-template pTemplate="item" let-item>
-                            <img loading="lazy" [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
+                            <img loading="eager" [src]="item.itemImageSrc" style="width: 100%; display: block;"/>
                         </ng-template>          
                     </p-galleria>
                 </div>

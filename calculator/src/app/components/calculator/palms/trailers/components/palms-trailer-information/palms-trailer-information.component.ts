@@ -36,12 +36,14 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
   }
 
   resize(): void {
-    this.videoWidth = Math.min(
-      this.youTubePlayer.nativeElement.clientWidth,
-      1200
-    );
-    this.videoHeight = this.videoWidth * 0.6;
-    this.changeDetectorRef.detectChanges();
+    if(this.youTubePlayer){
+      this.videoWidth = Math.min(
+        this.youTubePlayer.nativeElement.clientWidth,
+        1200
+      );
+      this.videoHeight = this.videoWidth * 0.6;
+      this.changeDetectorRef.detectChanges();
+    }
   }
 
   private updateContainerStyle(): void {
@@ -61,8 +63,7 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.setResponsiveOptions();
     this.setImages();  
-    this.videoWidth = window.innerWidth;
-    this.videoHeight = window.innerHeight;
+    this.resize();
   }
 
   getCranes(){
