@@ -5,6 +5,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 * {
     font-family: 'Exo';
     font-weight: 500;
@@ -13,9 +14,7 @@
 :root {
     --primary-color: #8ac73c;
     --krpan-color: #e30d13;
-    --palms-color: #a32116;
-
-    
+    --palms-color: #a32116;   
 }
 
 .p-galleria .p-icon-wrapper {
@@ -26,3 +25,4 @@
 .p-checkbox .p-disabled {
     background-color: rgb(255, 0, 0) !important;
 }
+

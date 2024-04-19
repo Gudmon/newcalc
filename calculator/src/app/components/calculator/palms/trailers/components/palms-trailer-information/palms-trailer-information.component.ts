@@ -30,14 +30,9 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     this.displayBasic = false;
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
-    this.updateContainerStyle();
-  }
-
   ngAfterViewInit(): void {
     this.resize();
-    window.addEventListener("resize", this.resize.bind(this));
+    //window.addEventListener("resize", this.resize.bind(this));
   }
 
   resize(): void {

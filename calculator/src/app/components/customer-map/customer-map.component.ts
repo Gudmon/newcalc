@@ -1,3 +1,4 @@
+import { MenuItem } from 'primeng/api/menuitem';
 import { Component, OnInit } from '@angular/core';
 import { GoogleMapsModule } from '@angular/google-maps'
 import { NavigationComponent } from "../navigation/navigation.component";
