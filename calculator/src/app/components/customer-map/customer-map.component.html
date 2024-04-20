@@ -1,13 +1,16 @@
 <app-navigation></app-navigation>
 <google-map
     class="block mt-24 p-0 h-[calc(10% - 1000px)]"
-    mapId="ad244940e0ece10e" 
-    [zoom]="zoom"
-    width="100%"
+    mapId="ad244940e0ece10e"
     [height]="height"
+    width="100%"
     [center]="center"
-    [options]="options">
-    @for (marker of markerPositions; track $index) {
-        <map-advanced-marker [position]="marker.position" [title]="marker.title"></map-advanced-marker>
-    }
+    [zoom]="zoom">
+        @for (markerPosition of markerPositions; track markerPosition.position; let idx = $index) {
+        <map-marker
+            #marker="mapMarker"
+            [position]="markerPosition.position"
+            (mapClick)="openInfoWindow(marker, idx)" />
+        <map-info-window>{{ markerPosition.title }}</map-info-window>
+        }
 </google-map>
