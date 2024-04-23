@@ -31,6 +31,10 @@ constructor(){
                 label: 'Ügyféltérkép',
                 routerLink: '/customer-map'
             },
+            {
+                label: 'Olvasmányok',
+                routerLink: '/useful-reading'
+            },
         ];
     }
 }

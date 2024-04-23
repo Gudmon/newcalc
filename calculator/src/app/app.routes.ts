@@ -5,6 +5,11 @@ import { PalmsOverviewComponent } from './components/calculator/palms/shared/com
 import { PalmsCranePageComponent } from './components/calculator/palms/cranes/components/palms-crane-page/palms-crane-page.component';
 import { PalmsTrailerPageComponent } from './components/calculator/palms/trailers/components/palms-trailer-page/palms-trailer-page.component';
 import { CustomerMapComponent } from './components/customer-map/customer-map.component';
+import { UsefulReadingComponent } from './components/useful-reading/useful-reading/useful-reading.component';
+import { ChooseTrailerComponent } from './components/useful-reading/choose-trailer/choose-trailer.component';
+import { ChooseCraneComponent } from './components/useful-reading/choose-crane/choose-crane.component';
+import { ChooseSupportLegComponent } from './components/useful-reading/choose-support-leg/choose-support-leg.component';
+import { ChooseGrappleComponent } from './components/useful-reading/choose-grapple/choose-grapple.component';
 
 export const routes: Routes = [
     {path: '', component: LandingComponent},
@@ -12,6 +17,11 @@ export const routes: Routes = [
     {path: 'calculator/palms/trailers/:id', component: PalmsTrailerPageComponent},
     {path: 'calculator/palms/cranes/:id', component: PalmsCranePageComponent},
     {path: 'customer-map', component: CustomerMapComponent},
+    {path: 'useful-reading', component: UsefulReadingComponent},
+    {path: 'useful-reading/choose-trailer', component: ChooseTrailerComponent},
+    {path: 'useful-reading/choose-crane', component: ChooseCraneComponent},
+    {path: 'useful-reading/choose-support-leg', component: ChooseSupportLegComponent},
+    {path: 'useful-reading/choose-grapple', component: ChooseGrappleComponent},
     {path: 'not-found', component: NotFoundComponent },
     {path: '**', redirectTo: '/not-found' } 
 ];
