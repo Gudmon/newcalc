@@ -1146,8 +1146,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     }
 
     selectTrailer(trailer: PalmsTrailerOverview){
-      this.palmsService.deleteTrailer();
-      this.delete();
       this.palmsService._selectedTrailer.next(trailer);
     }
   
