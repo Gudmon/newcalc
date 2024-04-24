@@ -298,6 +298,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     }
     else {
       this.palmsService._selectedAccordion.set(0);
+      this.palmsService.deleteCrane();
     }
 
     this.palmsService.deleteTrailer$.subscribe(() => {

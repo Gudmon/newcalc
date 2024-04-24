@@ -251,6 +251,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit(): void {
+      
       if (this.id) {
         this.fromTrailer = true;
       } else {
@@ -285,6 +286,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         });
       } else {
         this.palmsService._selectedAccordion.set(0);
+        this.palmsService.deleteTrailer();
       }
 
       this.palmsService.deleteCrane$.subscribe(() => {  

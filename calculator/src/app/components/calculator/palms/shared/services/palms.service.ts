@@ -217,6 +217,7 @@ export class PalmsService {
     this.selectedTyre.set(undefined);
     this.selectedBolsterLock.set(undefined);
     this.selectedBBox.set(undefined);
+    this.selectedWoodControl.set(undefined);
     this.selectedHandBrake.set(undefined);
     this.selectedChainsawHolder.set(undefined);
     this.selectedUnderrunProtection.set(undefined);
@@ -224,6 +225,7 @@ export class PalmsService {
     this.selectedBunkExtension.set(undefined);
     this.selectedFrameExtension.set(undefined);
     this.selectedTrailerShipping.set(undefined);
+    this.selectedMOT.set(undefined);
     this.selectedStanchionExtension.set(undefined);
   }
 
