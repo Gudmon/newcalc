@@ -13,6 +13,10 @@ import { Router } from '@angular/router';
 export class UsefulReadingComponent {
     constructor(private readonly router: Router){}
 
+    navigateToImportant(){
+        this.router.navigate(['/']);
+    }
+
     navigateToChooseTrailer(){
         this.router.navigate(['useful-reading/choose-trailer']);
     }
