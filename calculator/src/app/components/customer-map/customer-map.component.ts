@@ -10,7 +10,7 @@ import { NavigationComponent } from "../navigation/navigation.component";
     imports: [GoogleMap, MapInfoWindow, MapMarker, NavigationComponent, MapAdvancedMarker]
 })
 export class CustomerMapComponent implements OnInit {
-  zoom = 8;
+  zoom = 7;
   center!: google.maps.LatLngLiteral | google.maps.LatLng;
   height: number = 0;
   markerPositions: { position: google.maps.LatLngLiteral, title: string, address: string, icon: any }[] = [];
