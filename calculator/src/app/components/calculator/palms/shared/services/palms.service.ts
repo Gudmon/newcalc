@@ -177,16 +177,16 @@ export class PalmsService {
     this.videos.set("PALMS 6S", ["5-tqIrDOU0I", "OUXj3T4seD0"]);
     this.videos.set("PALMS 8SX", ["VEvGOG-aFyM"]);
     this.videos.set("PALMS 8D", ["cdz1OF0USqI"]);
-    //this.videos.set("PALMS 8DWD", ["cdz1OF0USqI"]);
+    this.videos.set("PALMS 8DWD", ["cdz1OF0USqI"]);
     this.videos.set("PALMS 9SC", ["4ZeFp4Yofak"]);
     this.videos.set("PALMS 10D", ["0u8VqxRevL4"]);
-   // this.videos.set("PALMS 10DWD", ["0u8VqxRevL4"]);
+    this.videos.set("PALMS 10DWD", ["0u8VqxRevL4"]);
     this.videos.set("PALMS 12U", ["akmzrXf3EnU"]);
-    //this.videos.set("PALMS 12UWD", ["akmzrXf3EnU"]);
-    //this.videos.set("PALMS 12UAWD", ["akmzrXf3EnU"]);
+    this.videos.set("PALMS 12UWD", ["akmzrXf3EnU"]);
+    this.videos.set("PALMS 12UAWD", ["akmzrXf3EnU"]);
     this.videos.set("PALMS 15U", ["cH3t306elVs"]);
-    //this.videos.set("PALMS 15UWD", ["cH3t306elVs"]);
-    //this.videos.set("PALMS 15UAWD", ["cH3t306elVs"]);
+    this.videos.set("PALMS 15UWD", ["cH3t306elVs"]);
+    this.videos.set("PALMS 15UAWD", ["cH3t306elVs"]);
 
     // cranes
     this.videos.set("PALMS 2.42", ["fEDDjo_K3E8"]);
