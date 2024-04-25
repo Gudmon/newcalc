@@ -14,7 +14,7 @@ export class UsefulReadingComponent {
     constructor(private readonly router: Router){}
 
     navigateToImportant(){
-        this.router.navigate(['/']);
+        this.router.navigate(['useful-reading/important']);
     }
 
     navigateToChooseTrailer(){
