@@ -12,15 +12,16 @@
             [position]="markerPosition.position"
            
             (mapClick)="openInfoWindow(marker, idx)" />
-        <map-info-window>{{ markerPosition.title }}</map-info-window>
+        <map-info-window>{{ markerPosition.address }}: {{markerPosition.title}}</map-info-window>
         }
 
-        <!-- @for (markerPosition2 of markerPositions2; track markerPosition2.position; let idx = $index) {
-            <map-marker
-                #marker="mapMarker"
-                [position]="markerPosition2.position"
-                [options]="markerOptions2"
-                (mapClick)="openInfoWindow(marker, idx)" />
-            <map-info-window>{{ markerPosition2.title }}</map-info-window>
-            } -->
+        
 </google-map>
+<!-- @for (markerPosition2 of markerPositions2; track markerPosition2.position; let idx = $index) {
+    <map-marker
+        #marker="mapMarker"
+        [position]="markerPosition2.position"
+        [options]="markerOptions2"
+        (mapClick)="openInfoWindow(marker, idx)" />
+    <map-info-window>{{ markerPosition2.title }}</map-info-window>
+    } -->
