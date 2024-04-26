@@ -55,10 +55,10 @@ export class AppComponent implements OnInit {
                 "scripts_all_loaded": () => {
                 },
                 "user_consent_saved": (consent: Consent) => {
-                    this.removeClarityScript("lxxyj7muce");
-                    if(consent.tracking) {
-                        this.loadClarityScript("lxxyj7muce");
-                    } 
+                    // this.removeClarityScript("lxxyj7muce");
+                    // if(consent.tracking) {
+                    //     this.loadClarityScript("lxxyj7muce");
+                    // } 
                 },
                 "scripts_specific_loaded": (level: any) => {
                     switch(level) {
@@ -67,13 +67,14 @@ export class AppComponent implements OnInit {
                         case 'functionality':
                             break;
                         case 'tracking':
+                            this.loadClarityScript("lxxyj7muce");
                             break;
                         case 'targeting':
                             break;
                     }
                 }
             },
-            "callbacks_force": false
+            "callbacks_force": true
           });
         } else {
           console.error('Cookie Consent script not loaded.');
