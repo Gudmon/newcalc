@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
             "consent_type": "express",
             "palette": "dark",
             "language": "hu",
-            "page_load_consent_levels": ["strictly-necessary", "functionality", "tracking", "targeting"],
+            "page_load_consent_levels": ["strictly-necessary"],
             "notice_banner_reject_button_hide": false,
             "preferences_center_close_button_hide": false,
             "page_refresh_confirmation_buttons": false,
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
             "callbacks": {
                 "notice_banner_loaded": () => {
                 },
-                "i_agree_button_clicked": () => {
+                "i_agree_button_clicked": (consent: any) => {     
                     this.loadClarityScript("lxxyj7muce")
                 },
                 "i_decline_button_clicked": () => {
@@ -54,14 +54,17 @@ export class AppComponent implements OnInit {
                 },
                 "scripts_all_loaded": () => {
                 },
-                "scripts_specific_loaded": (level: any) => {
+                "user_consent_saved": (consent: Consent) => {
                     this.removeClarityScript("lxxyj7muce");
-                    // Levels
+                    if(consent.tracking) {
+                        this.loadClarityScript("lxxyj7muce");
+                    } 
+                },
+                "scripts_specific_loaded": (level: any) => {
                     switch(level) {
                         case 'strictly-necessary':
                             break;
                         case 'functionality':
-                            this.loadClarityScript('lxxyj7muce');
                             break;
                         case 'tracking':
                             break;
@@ -70,7 +73,7 @@ export class AppComponent implements OnInit {
                     }
                 }
             },
-            "callbacks_force": true
+            "callbacks_force": false
           });
         } else {
           console.error('Cookie Consent script not loaded.');
@@ -135,4 +138,12 @@ export class AppComponent implements OnInit {
         }); 
 
     }
+}
+
+
+interface Consent{
+    "functionality": boolean,
+    "strictly-necessary": boolean,
+    "targeting": boolean,
+    "tracking": boolean
 }
