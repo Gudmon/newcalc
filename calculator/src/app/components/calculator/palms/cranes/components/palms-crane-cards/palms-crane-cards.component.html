@@ -3,7 +3,7 @@
         @for (crane of cranes; track crane.id){
             <p-card class="mt-2 lg:mt-10 shadow-xl ">
                 <ng-template pTemplate="header">
-                    <img alt="Card" [src]="crane.imgUrl"/>
+                    <img loading="eager" alt="Card" [src]="crane.imgUrl"/>
                 </ng-template>
                 <div class="flex gap-2">
                     <p class="pb-4 text-base font-extrabold lg:text-xl text-[--palms-color]">{{crane.name}}</p>

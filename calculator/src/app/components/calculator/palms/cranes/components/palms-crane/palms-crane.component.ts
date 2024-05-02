@@ -670,21 +670,37 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
           this.palmsService.selectedRotator.set(event.value)
           if (event.value.id === parseInt("2")){
             this.updateGrapplesToEnabled();
-
+  
+          } else if(this.checkGrappleId(this.originalGrapple)){
+            this.setGrappleToDefault();
+            this.palmsService.selectedGrapple.set(undefined);
+            this.setGrapplesToDefault();
+            this.palmsService.selectedGrapples = [];
           } else {
             this.updateGrapplesAvailability();
           }
       } else {
         this.originalRotator = undefined;
         this.palmsService.selectedRotator.set(undefined)
-          this.updateGrapplesAvailability();
 
-          if(this.originalGrapple?.id === 2) {
-            this.setGrappleToDefault();
-          }
+        this.updateGrapplesAvailability();
 
+        if(this.checkGrappleId(this.originalGrapple)) {
+          this.setGrappleToDefault();
+          this.palmsService.selectedGrapple.set(undefined);
+          
+        } else if (this.checkGrappleIds(this.originalGrapples)){
           this.setGrapplesToDefault();
+        }
       }
+    }
+
+    checkGrappleId(grapple: ConfigurationItem | undefined){
+      return grapple?.id === 2
+    }
+
+    checkGrappleIds(grapples: (ConfigurationItem | undefined)[]){
+      return grapples.find((grapple) => grapple?.id === 2)
     }
     
     updateGrapplesAvailability() {
@@ -721,6 +737,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
           this.originalGrapples[index] = undefined;
           this.originalGrapplePrices[index] = 0;
+          this.palmsService.selectedGrapples[index] = undefined;
         }
       });
     }
