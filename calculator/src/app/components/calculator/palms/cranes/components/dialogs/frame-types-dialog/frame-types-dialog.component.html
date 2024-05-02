@@ -5,7 +5,7 @@
         </div>
     </ng-template>
     @for (frameType of frameTypes; track $index) {
-        @if (getFrameTypeId(frameType) !== 1 && getFrameTypeId(frameType) !== 6 && getFrameTypeId(frameType) !== 9 ) {
+        @if (getFrameTypeId(frameType) !== 1 && getFrameTypeId(frameType) !== 6 && getFrameTypeId(frameType) !== 9 && getFrameTypeId(frameType) !== 11) {
             <div class="mb-16">
                 <p class="mt-6 mb-10 text-3xl font-semibold">
                     {{frameType.name}}
@@ -19,7 +19,7 @@
                     }
                 }               
             </div>
-        } @else if (getFrameTypeId(frameType) === 6 || getFrameTypeId(frameType) === 9) {
+        } @else if (getFrameTypeId(frameType) === 6 || getFrameTypeId(frameType) === 9 || getFrameTypeId(frameType) === 11) {
             <div class="mb-16">
                 <p class="mt-6 mb-10 text-3xl font-semibold">
                     {{frameType.name}}

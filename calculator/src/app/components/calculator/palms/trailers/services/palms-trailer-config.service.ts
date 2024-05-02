@@ -342,4 +342,17 @@ export class PalmsTrailerConfigService {
       })
     );
   }
+
+  getHydroPack(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/hydropack`).pipe(
+      map((hydropack: ConfigurationItem | null) => {
+        if (hydropack) {
+          hydropack.namePrice = hydropack.name + " " + hydropack.price + "€";
+          return hydropack;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
 }

@@ -101,6 +101,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   showBunkAdapterDialog: boolean = false;
   showBunkExtensionDialog: boolean = false;
   showFrameExtensionDialog: boolean = false;
+  showHydroPackDialog: boolean = false;
 
   stanchions: ConfigurationItem[] = [];
   brakes: ConfigurationItem[] = [];
@@ -125,6 +126,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   trailerShipping: ConfigurationItem | undefined = undefined;
   MOT: ConfigurationItem | undefined = undefined;
   stanchionExtension: ConfigurationItem | undefined = undefined;
+  hydroPack: ConfigurationItem | undefined = undefined;
 
   selectedConfigurationItems: ConfigurationItem[] = [];
 
@@ -149,6 +151,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalBunkExtensionPrice = 0;
   originalFrameExtensionPrice = 0;
   originalStanchionExtensionPrice = 0;
+  originalHydroPackPrice = 0;
 
   initialWoodSorterPrice = 0;
   initialWoodSorterNumber = 0;
@@ -195,6 +198,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalMOT: ConfigurationItem | undefined = undefined;
   originalStanchionExtension: ConfigurationItem | undefined = undefined;
   stanchionExtensionArrayElements: any[] | undefined = [];
+  originalHydroPack: ConfigurationItem | undefined = undefined;
 
   trailerFormGroup: FormGroup = new FormGroup({
     selectedTrailer: new FormControl<string>(''),
@@ -221,6 +225,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     selectedShipping: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedMOT: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedStanchionExtension: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedHydroPack: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
   });
 
   private initializeFormGroup(): void {
@@ -251,6 +256,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       selectedShipping: this.trailerShipping,
       selectedMOT: this.MOT,
       selectedStanchionExtension: null,
+      selectedHydroPack: null,
     });
   }   
   private destroy$ = new Subject<void>();
@@ -299,6 +305,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     else {
       this.palmsService._selectedAccordion.set(0);
       this.palmsService.deleteCrane();
+      this.palmsService.deleteTrailer();
     }
 
     this.palmsService.deleteTrailer$.subscribe(() => {
@@ -346,18 +353,21 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       const trailerShipping$ = this.palmsTrailerConfigService.getShipping(id);
       const MOT$ = this.palmsTrailerConfigService.getMOT(id);
       const stanchionExtension$ = this.palmsTrailerConfigService.getStanchionExtension(id);
+      const hydroPack$ = this.palmsTrailerConfigService.getHydroPack(id);
       
       const request = forkJoin([stanchions$, brakes$, propulsions$, 
         drawbars$, platforms$, oilPumps$, oilTanks$, trailerOilCooler$, 
         bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, 
         underrunProtection$, supportLegs$, lights$, tyres$, 
-        bunkAdapter$, bunkExtension$, frameExtension$, trailerShipping$, MOT$, stanchionExtension$]);
+        bunkAdapter$, bunkExtension$, frameExtension$, trailerShipping$, MOT$, 
+        stanchionExtension$, hydroPack$]);
      
       request.subscribe(([stanchions, brakes, propulsions,
          drawbars, platforms, oilPumps, oilTanks, trailerOilCooler,
           bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, 
           underrunProtection, supportLegs, lights, tyres,
-          bunkAdapter, bunkExtension, frameExtension, trailerShipping, MOT, stanchionExtension]) => {
+          bunkAdapter, bunkExtension, frameExtension, trailerShipping, MOT, 
+          stanchionExtension, hydroPack]) => {
         if (stanchions.length > 0){
           
           this.stanchions = stanchions;
@@ -462,6 +472,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         if (stanchionExtension){
           this.stanchionExtension = stanchionExtension;
           this.initialStanchionExtensionPrice = Number(stanchionExtension.price);
+        }
+
+        if (hydroPack){
+          this.hydroPack = hydroPack;
         }
         
         this.trailerSelected = true;
@@ -1205,6 +1219,23 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService._trailerPrice.update(value => value + previousTotalPrice + (Number(this.initialStanchionExtensionPrice) * Number(this.initialStanchionExtensionNumber)));
     }
     this.previousStanchionExtensionNumber = number;
+  }
+
+  onHydroPackChange(event: CheckboxChangeEvent) {
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = Number(current) + Number(event.checked[0].price);
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalHydroPackPrice = Number(event.checked[0].price);
+      this.originalHydroPack = event.checked[0];
+      this.palmsService.selectedHydroPack.set(event.checked[0]);
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = Number(current) - this.originalHydroPackPrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalHydroPack = undefined;
+      this.palmsService.selectedHydroPack.set(undefined);
+    }
   }
 
   navigateToCrane(craneId: number){

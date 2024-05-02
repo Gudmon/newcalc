@@ -1,16 +1,14 @@
-import { FrameType } from './../../../palms/cranes/models/frame-type';
 import { Component, OnInit } from '@angular/core';
 import { PalmsService } from '../../../palms/shared/services/palms.service';
 import { PdfService } from '../../../../../services/pdf.service';
 import { ConfigurationItem } from '../../../../../models/configuration-item';
-import { concatMap, switchMap } from 'rxjs';
+import { concatMap } from 'rxjs';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { EmailService } from '../../../../../services/email.service';
 import { LoadingService } from '../../../../../services/loading.service';
 import { MessageService } from 'primeng/api'
 import { ToastModule } from 'primeng/toast';
-import { PalmsCraneOverview } from '../../../palms/cranes/models/palms-crane-overview';
 
 @Component({
   selector: 'app-pdf',
@@ -124,6 +122,7 @@ export class PdfComponent implements OnInit{
           }
         : undefined;
       object.StanchionExtension = newStanchionExtension;
+      object.HydroPack = this.palmsService.selectedHydroPack();
     }else {
       object.Grapples = [];
     }
@@ -249,6 +248,7 @@ interface PdfTrailerModel {
   TrailerShipping?: ConfigurationItem | undefined,
   MOT?: ConfigurationItem | undefined,
   StanchionExtension?: ConfigurationItem | undefined,
+  HydroPack?: ConfigurationItem | undefined,
 }
 
 interface PdfCraneModel {

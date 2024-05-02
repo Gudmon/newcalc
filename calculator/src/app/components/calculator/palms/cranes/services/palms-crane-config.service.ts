@@ -37,7 +37,7 @@ export class PalmsCraneConfigService {
           frameType.disabledOption = false;
           frameType.namePrice = frameType.name + " " + frameType.price + "€"
 
-          if (frameType.id === 6 || frameType.id === 9){       
+          if (frameType.id === 6 || frameType.id === 9 || frameType.id === 11){       
             frameType.imgUrl = `../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`
           } 
           else if (frameType.id === 8){

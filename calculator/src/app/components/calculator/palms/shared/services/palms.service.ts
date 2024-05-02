@@ -95,6 +95,7 @@ export class PalmsService {
   public selectedTrailerShipping = signal<ConfigurationItem | undefined>(undefined);
   public selectedMOT = signal<ConfigurationItem | undefined>(undefined);
   public selectedStanchionExtension = signal<ConfigurationItem | undefined>(undefined);
+  public selectedHydroPack = signal<ConfigurationItem | undefined>(undefined);
 
   constructor(private httpClient: HttpClient) { }
   
@@ -227,6 +228,7 @@ export class PalmsService {
     this.selectedTrailerShipping.set(undefined);
     this.selectedMOT.set(undefined);
     this.selectedStanchionExtension.set(undefined);
+    this.selectedHydroPack.set(undefined);
   }
 
   deleteCrane(){

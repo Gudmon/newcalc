@@ -19,7 +19,7 @@
                 <app-trailer-data-item text="Teljes hossz" [property]="trailer.totalLength" unit="mm"></app-trailer-data-item>
                 <app-trailer-data-item text="Szélesség standard kerekekkel" [property]="trailer.widthWithStandardWheels" unit="mm"></app-trailer-data-item>
                 <app-trailer-data-item text="Standard kerékméret" [property]="trailer.standardWheelSize" unit="mm"></app-trailer-data-item>
-                @if (trailer.frame !== "unibody") {
+                @if (trailer.frame !== "unibody" && trailer.name !== "PALMS 2D"){
                     <app-trailer-data-item text="Alváz mérete" [property]="trailer.frame" unit="mm"></app-trailer-data-item>
                 } @else {
                     <app-trailer-data-item text="Alváz mérete" [property]="trailer.frame"></app-trailer-data-item>
