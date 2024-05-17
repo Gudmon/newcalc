@@ -1,4 +1,4 @@
-<div class="card mt-44">
+<section class="card mt-44">
     <div *ngIf="images" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-max mx-auto">
         <div *ngFor="let image of images; let index = index" class="" key="index">
             <div class="product-item">
@@ -24,4 +24,4 @@
             <img loading="lazy" [src]="item.itemImageSrc" style="width: 100%; display: block;" />
         </ng-template>
     </p-galleria>
-</div>
+</section>

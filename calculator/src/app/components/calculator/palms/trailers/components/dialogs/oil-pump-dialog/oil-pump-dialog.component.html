@@ -5,14 +5,14 @@
         </div>
     </ng-template>
     <p class="my-12 text-3xl font-bold">Olajszivattyú</p>
-    <img loading="lazy" src="../../../../assets/PALMS trailer-oilpump-1.png" alt="oilPumpImage">
+    <img loading="lazy" src="../../../../assets/PALMS trailer-oilpump-1.png" alt="OilPumpImage">
     @for (oilPump of oilPumps; track $index) {   
         <div>
             <p class="my-12 text-3xl font-bold">
                 {{oilPump.name}}
             </p>
             @if (oilPump.imgUrl) {
-                <img loading="lazy" [src]="oilPump.imgUrl" alt="oilPumpImage">
+                <img loading="lazy" [src]="oilPump.imgUrl" alt="OilPumpImage">
             }
         </div>
     }  

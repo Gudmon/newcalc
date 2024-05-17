@@ -17,7 +17,7 @@
 
 <form [formGroup]="craneFormGroup">
     <ng-container *ngIf="(palmsService.craneSelected$ | async)" class="bg-slate-200">
-        <div #configElement class="flex align-middle justify-center my-10">
+        <section #configElement class="flex align-middle justify-center my-10">
             <div class="w-11/12">
 
                 <div *ngIf="craneSelected && controlBlocks.length > 0" class="justify-content-center my-4 py-4">
@@ -252,7 +252,7 @@
 
                 <hr *ngIf="crane && !fromTrailer" class="mb-2 mt-4 h-0.5 border-t-0 bg-black opacity-100 dark:opacity-50" />
             </div>
-        </div>
+        </section>
         <app-palms-trailer-cards *ngIf="crane && crane.trailer && (palmsService.craneSelected$ | async) && !fromTrailer" [trailers]="crane.trailer" (buttonClickEmitter)="selectTrailer($event)"></app-palms-trailer-cards>
     </ng-container>
 </form>

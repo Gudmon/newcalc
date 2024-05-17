@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-catalog',
   standalone: true,
-  imports: [],
+  imports: [ButtonModule],
   templateUrl: './catalog.component.html',
   styleUrl: './catalog.component.css'
 })

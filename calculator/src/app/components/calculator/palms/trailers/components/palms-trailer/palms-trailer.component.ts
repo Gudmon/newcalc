@@ -1,4 +1,3 @@
-import { provideAnimations } from '@angular/platform-browser/animations';
 import { PalmsCraneOverview } from './../../../cranes/models/palms-crane-overview';
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PalmsService } from '../../../shared/services/palms.service';
@@ -14,7 +13,7 @@ import { ImageModule } from 'primeng/image';
 import { ConfigurationItem } from '../../../../../../models/configuration-item';
 import { PalmsTrailerConfigService } from '../../services/palms-trailer-config.service';
 import { FormatPricePipe } from "../../../../../pipes/format-price.pipe";
-import { Subject, forkJoin, takeUntil, map } from 'rxjs';
+import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { BrakesDialogComponent } from "../dialogs/brakes-dialog/brakes-dialog.component";
 import { DrawbarDialogComponent } from "../dialogs/drawbar-dialog/drawbar-dialog.component";
 import { PlatormDialogComponent } from '../dialogs/platorm-dialog/platorm-dialog.component';

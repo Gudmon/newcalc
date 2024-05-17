@@ -1,8 +1,8 @@
-<div #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
+<section #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
     @for (trailer of trailers; track trailer.id){
         <p-card class="mt-2 lg:mt-10 shadow-xl " >
             <ng-template pTemplate="header">
-                <img loading="eager" alt="Card" [src]="trailer.imgUrl"/>
+                <img loading="eager" alt="Pótkocsi" [src]="trailer.imgUrl"/>
             </ng-template>
             <div class="flex gap-2">
                 <p class="pb-4 text-base font-extrabold lg:text-xl text-[--palms-color]">{{trailer.name}}</p>
@@ -27,4 +27,4 @@
     @empty {
         <p>Nem található pótkocsi</p>
     }
-  </div>
+  </section>

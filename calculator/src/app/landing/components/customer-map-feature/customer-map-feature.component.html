@@ -1,4 +1,4 @@
-<div class="image-holder flex flex-wrap items-center my-20 md:my-30 lg:my-40 xl:my-60">
+<section class="image-holder flex flex-wrap items-center my-20 md:my-30 lg:my-40 xl:my-60">
     <div class="w-full md:w-6/12 px-4 mr-auto ml-auto">
         <h3 class="text-3xl mb-2 font-semibold leading-normal">
         <div class="flex gap-2">
@@ -23,11 +23,12 @@
         class="relative flex flex-col min-w-0 break-words w-full mb-6"
         >
         <img
+            (click)="navigateToPalmsCustomerMap()"
             loading="lazy"
-            alt="..."
+            alt="Ügyféltérkép"
             src="../../assets/customer_map.png"
-            class="w-full align-middle rounded-t-lg"
+            class="w-full align-middle rounded-t-lg hover:cursor-pointer"
         />
         </div>
     </div>
-</div>
+</section>

@@ -1,7 +1,7 @@
 <app-navigation></app-navigation>
 <app-palms-trailer></app-palms-trailer>
 <app-palms-crane *ngIf="(palmsService.selectedCrane$ | async)" [id]="(palmsService.selectedCrane$ | async)?.id"></app-palms-crane>
-<div class="mx-10 ">       
+<section class="mx-10 ">       
     <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
         <p-accordion *ngIf="(palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async)" [activeIndex]="this.palmsService._selectedAccordion()">
             <p-accordionTab>
@@ -80,5 +80,5 @@
         </p-accordion>    
     </div>  
     <app-pdf *ngIf="(palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async) || (palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)"></app-pdf> 
-</div> 
+</section> 
 <app-footer></app-footer>
