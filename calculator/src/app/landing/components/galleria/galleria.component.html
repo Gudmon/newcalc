@@ -1,6 +1,6 @@
 <section class="card mt-44">
     <div *ngIf="images" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-max mx-auto">
-        <div *ngFor="let image of images; let index = index" class="" key="index">
+        <div *ngFor="let image of images; let index = index" class="transition duration-300 ease-in-out hover:scale-105" key="index">
             <div class="product-item">
                 <div class="product-item-content">
                     <img loading="lazy" class="product-image" [src]="image.thumbnailImageSrc" [alt]="image.alt" style="cursor: pointer;" (click)="imageClick(index)" />
