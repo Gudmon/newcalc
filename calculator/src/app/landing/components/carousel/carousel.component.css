@@ -16,3 +16,9 @@ button {
     padding: 1rem;
     border-radius: 50%;
 }
+
+#next {
+    color: white !important;
+    background-color: var(--primary-color) !important;
+    border-radius: 0%;
+}

@@ -1,5 +1,6 @@
 import { GalleriaModule } from 'primeng/galleria';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-carousel',
@@ -9,6 +10,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrl: './carousel.component.css'
 })
 export class CarouselComponent implements OnInit {
+  constructor(private readonly router: Router){}
+
   responsiveOptions: any[] | undefined;
   images: any[] | undefined;
   position: string = 'bottom';
@@ -22,13 +25,19 @@ export class CarouselComponent implements OnInit {
     this.setPositionOptions();
   }
 
+
+
+  navigateToCompetition(){
+      this.router.navigate(['competition']);
+  }
+
   setImages(): void {
 
     this.images = [
       {
         itemImageSrc: '../../../../assets/atk.png',
         thumbnailImageSrc: '../../../../assets/atk.png',
-        alt: 'Description for Image 2',
+        alt: 'atk',
         title: 'Title 2'
       },
       { 
