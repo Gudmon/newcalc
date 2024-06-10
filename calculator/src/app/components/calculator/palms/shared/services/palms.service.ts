@@ -85,6 +85,7 @@ export class PalmsService {
   public selectedTyre = signal<ConfigurationItem | undefined>(undefined);
   public selectedBolsterLock = signal<ConfigurationItem | undefined>(undefined);
   public selectedBBox = signal<ConfigurationItem | undefined>(undefined);
+  public selectedHayBaleFrame = signal<ConfigurationItem | undefined>(undefined);
   public selectedWoodSorter = signal<ConfigurationItem | undefined>(undefined);
   public selectedHandBrake = signal<ConfigurationItem | undefined>(undefined);
   public selectedChainsawHolder = signal<ConfigurationItem | undefined>(undefined);
@@ -218,6 +219,7 @@ export class PalmsService {
     this.selectedTyre.set(undefined);
     this.selectedBolsterLock.set(undefined);
     this.selectedBBox.set(undefined);
+    this.selectedHayBaleFrame.set(undefined);
     this.selectedWoodControl.set(undefined);
     this.selectedHandBrake.set(undefined);
     this.selectedChainsawHolder.set(undefined);

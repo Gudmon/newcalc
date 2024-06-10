@@ -102,6 +102,7 @@ export class PdfComponent implements OnInit{
       object.TrailerOilCooler = this.palmsService.selectedTrailerOilCooler();
       object.BolsterLock = this.palmsService.selectedBolsterLock();
       object.BBox = this.palmsService.selectedBBox();
+      object.HayBaleFrame = this.palmsService.selectedHayBaleFrame();
       object.WoodSorter = newWoodSorter;
       object.HandBrake = this.palmsService.selectedHandBrake();
       object.ChainsawHolder = this.palmsService.selectedChainsawHolder();
@@ -235,6 +236,7 @@ interface PdfTrailerModel {
   TrailerOilCooler?: ConfigurationItem | undefined,
   BolsterLock?: ConfigurationItem | undefined,
   BBox?: ConfigurationItem | undefined,
+  HayBaleFrame?: ConfigurationItem | undefined,
   WoodSorter?: ConfigurationItem | undefined,
   HandBrake?: ConfigurationItem | undefined,
   ChainsawHolder?: ConfigurationItem | undefined,

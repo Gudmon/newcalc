@@ -1,0 +1,31 @@
+<p-dialog class="dialog" header="Header" [(visible)]="hayBaleFrameDialogVisible" [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" (onHide)="closeHayBaleFrameDialog()">
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <span class="font-bold white-space-nowrap"></span>
+        </div>
+    </ng-template>
+    <div class="mt-12 mb-32">
+        <p class="mb-12 text-3xl font-bold">{{hayBaleFrame.name}}</p>
+        <p class="mt-6 mb-10 text-lg">A szénabála keret ideális választás az erdészeti pótkocsijával végezhető feladatok bővítésére. Könnyen és gyorsan felszerelhető és leszerelhető a pótkocsi vázáról. Alkalmas PALMS D- és U-sorozatú modellekhez.</p>
+        <!-- 1:D 2:U -->
+        @if (hayBaleFrame.id === 1) {
+            <img loading="lazy" src="../../../../assets/PALMS trailer-haybaleframe-d.png" alt="HayBaleFrameDImage">
+        }
+        @else {
+            <img loading="lazy" src="../../../../assets/PALMS trailer-haybaleframe-u.png" alt="HayBaleFrameUImage">
+        }
+        
+    </div>
+    <div class="mt-32">
+        <img loading="lazy" src="../../../../assets/PALMS trailer-haybaleframe-1.jpg" alt="HayBaleFrameImage1">
+    </div>  
+    <div class="mt-32">
+        <img loading="lazy" src="../../../../assets/PALMS trailer-haybaleframe-2.jpg" alt="HayBaleFrameImage2">
+    </div>
+    <div class="mt-32">
+        <img loading="lazy" src="../../../../assets/PALMS trailer-haybaleframe-3.jpg" alt="HayBaleFrameImage3">
+    </div> 
+    <ng-template pTemplate="footer">
+      <button class="bg-primary-color p-1 mt-2" (click)="closeHayBaleFrameDialog()"><i class="fa-solid fa-check mr-1"></i>Értem</button>  
+    </ng-template>
+</p-dialog>

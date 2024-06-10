@@ -11,6 +11,7 @@ import { ChooseCraneComponent } from './components/useful-reading/choose-crane/c
 import { ChooseSupportLegComponent } from './components/useful-reading/choose-support-leg/choose-support-leg.component';
 import { ChooseGrappleComponent } from './components/useful-reading/choose-grapple/choose-grapple.component';
 import { ImportantComponent } from './components/useful-reading/important/important.component';
+import { CompetitionComponent } from './components/competition/competition.component';
 
 export const routes: Routes = [
     {path: '', component: LandingComponent},
@@ -24,6 +25,7 @@ export const routes: Routes = [
     {path: 'useful-reading/choose-support-leg', component: ChooseSupportLegComponent},
     {path: 'useful-reading/choose-grapple', component: ChooseGrappleComponent},
     {path: 'useful-reading/important', component: ImportantComponent},
+    {path: 'competition', component: CompetitionComponent},
     {path: 'not-found', component: NotFoundComponent },
     {path: '**', redirectTo: '/not-found' } 
 ];

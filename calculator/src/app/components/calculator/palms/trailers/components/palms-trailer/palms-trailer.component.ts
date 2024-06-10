@@ -47,13 +47,14 @@ import { PropulsionsDialogComponent } from "../dialogs/propulsions-dialog/propul
 import { BunkAdapterDialogComponent } from "../dialogs/bunk-adapter-dialog/bunk-adapter-dialog.component";
 import { BunkExtensionDialogComponent } from "../dialogs/bunk-extension-dialog/bunk-extension-dialog.component";
 import { FrameExtensionDialogComponent } from "../dialogs/frame-extension-dialog/frame-extension-dialog.component";
+import { HayBaleFrameDialogComponent } from "../dialogs/hay-bale-frame-dialog/hay-bale-frame-dialog.component";
 
 @Component({
     selector: 'app-palms-trailer',
     standalone: true,
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
-    imports: [NavigationComponent, CardModule, FooterComponent, RadioButtonModule, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent, PropulsionsDialogComponent, BunkAdapterDialogComponent, BunkExtensionDialogComponent, FrameExtensionDialogComponent]
+    imports: [NavigationComponent, CardModule, FooterComponent, RadioButtonModule, PalmsCraneCardsComponent, TrailerDataItemComponent, AccordionModule, DividerModule, DropdownModule, InputSwitchModule, GalleriaModule, FormsModule, ReactiveFormsModule, ButtonModule, ImageModule, ListboxModule, FormatPricePipe, BrakesDialogComponent, DrawbarDialogComponent, PlatormDialogComponent, OilPumpDialogComponent, OilTankDialogComponent, CheckboxModule, OilTankCoolerDialogComponent, BolsterLockDialogComponent, BboxDialogComponent, WoodsorterDialogComponent, ChainsawHolderDialogComponent, UnderrunProtectionDialogComponent, SupportLegDialogComponent, TrailerLightDialogComponent, TyresDialogComponent, PalmsTrailerCalculatorHintsComponent, AccessoryItemComponent, PalmsTrailerInformationComponent, PalmsTrailerCardsComponent, PalmsCraneComponent, PropulsionsDialogComponent, BunkAdapterDialogComponent, BunkExtensionDialogComponent, FrameExtensionDialogComponent, HayBaleFrameDialogComponent]
 })
 export class PalmsTrailerComponent implements OnInit, OnDestroy{
   @Input() trailer!: PalmsTrailer
@@ -90,6 +91,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   showTrailerOilCoolerDialog: boolean = false;
   showBolsterLockDialog: boolean = false;
   showBboxDialog: boolean = false;
+  showHayBaleFrameDialog: boolean = false;
   showWoodSorterDialog: boolean = false;
   showHandBrakeDialog: boolean = false;
   showChainsawHolderDialog: boolean = false;
@@ -112,6 +114,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   trailerOilCooler: ConfigurationItem | undefined = undefined;
   bolsterLock: ConfigurationItem | undefined = undefined;
   bbox: ConfigurationItem | undefined = undefined;
+  hayBaleFrame: ConfigurationItem | undefined = undefined;
   woodSorter: ConfigurationItem | undefined = undefined;
   handBrake: ConfigurationItem | undefined = undefined;
   chainsawHolder: ConfigurationItem | undefined = undefined;
@@ -139,6 +142,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalTrailerOilCoolerPrice = 0;
   originalBolsterLockPrice = 0;
   originalBboxPrice = 0;
+  originalHayBaleFramePrice = 0;
   originalWoodSorterPrice = 0;
   originalHandBrakePrice = 0;
   originalChainsawHolderPrice = 0;
@@ -180,6 +184,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   originalTrailerOilCooler: ConfigurationItem | undefined = undefined;
   originalBolsterLock: ConfigurationItem | undefined = undefined;
   originalBbox: ConfigurationItem | undefined = undefined;
+  originalHayBaleFrame: ConfigurationItem | undefined = undefined;
   originalWoodSorter: ConfigurationItem | undefined = undefined;
   woodSorterArrayElements: any[] | undefined = [];
   originalHandBrake: ConfigurationItem | undefined = undefined;
@@ -211,6 +216,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     selectedTrailerOilCooler: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedBolsterLock: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedBbox: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+    selectedHayBaleFrame: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedWoodSorter: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedHandBrake: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
     selectedChainsawHolder: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
@@ -241,6 +247,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       selectedTrailerOilCooler: null,
       selectedBolsterLock: null,
       selectedBbox: null,
+      selectedHayBaleFrame: null,
       selectedWoodSorter: null,
       selectedHandBrake: null,
       selectedChainsawHolder: null,
@@ -339,6 +346,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       const trailerOilCooler$ = this.palmsTrailerConfigService.getTrailerOilCooler(id);
       const bolsterLock$ = this.palmsTrailerConfigService.getBolsterLock(id);
       const bbox$ = this.palmsTrailerConfigService.getBBox(id);
+      const hayBaleFrame$ = this.palmsTrailerConfigService.getHayBaleFrame(id);
       const woodSorter$ = this.palmsTrailerConfigService.getWoodSorter(id);
       const handBrake$ = this.palmsTrailerConfigService.getHandBrake(id);
       const chainsawHolder$ = this.palmsTrailerConfigService.getChainsawHolder(id);
@@ -356,14 +364,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       
       const request = forkJoin([stanchions$, brakes$, propulsions$, 
         drawbars$, platforms$, oilPumps$, oilTanks$, trailerOilCooler$, 
-        bolsterLock$, bbox$, woodSorter$, handBrake$, chainsawHolder$, 
+        bolsterLock$, bbox$, hayBaleFrame$, woodSorter$, handBrake$, chainsawHolder$, 
         underrunProtection$, supportLegs$, lights$, tyres$, 
         bunkAdapter$, bunkExtension$, frameExtension$, trailerShipping$, MOT$, 
         stanchionExtension$, hydroPack$]);
      
       request.subscribe(([stanchions, brakes, propulsions,
          drawbars, platforms, oilPumps, oilTanks, trailerOilCooler,
-          bolsterLock, bbox, woodSorter, handBrake, chainsawHolder, 
+          bolsterLock, bbox, hayBaleFrame,woodSorter, handBrake, chainsawHolder, 
           underrunProtection, supportLegs, lights, tyres,
           bunkAdapter, bunkExtension, frameExtension, trailerShipping, MOT, 
           stanchionExtension, hydroPack]) => {
@@ -411,6 +419,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   
         if (bbox){
           this.bbox = bbox;
+        }
+
+        if (hayBaleFrame){
+          this.hayBaleFrame = hayBaleFrame;
         }
   
         if (woodSorter){
@@ -946,6 +958,23 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     }
   }
 
+  onHayBaleFrameChange(event: CheckboxChangeEvent){
+    if (event.checked.length > 0) {
+      const current = this.palmsService._trailerPrice(); 
+      const newPrice = Number(current) + Number(event.checked[0].price);   
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalHayBaleFramePrice = Number(event.checked[0].price);
+      this.originalHayBaleFrame = event.checked[0];
+      this.palmsService.selectedHayBaleFrame.set(event.checked[0]);
+    } else {
+      const current = this.palmsService._trailerPrice();
+      const newPrice = Number(current) - this.originalHayBaleFramePrice;
+      this.palmsService._trailerPrice.set(newPrice);
+      this.originalHayBaleFrame = undefined;
+      this.palmsService.selectedHayBaleFrame.set(undefined);
+    }
+  }
+
   onWoodSorterChange(event: CheckboxChangeEvent){
     if (event.checked.length > 0) {
         this.originalWoodSorterPrice = Number(event.checked[0].price);
@@ -1270,6 +1299,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
           break;
         case 'bbox':
           this.showBboxDialog = show;
+          break;
+        case 'hayBaleFrame':
+          this.showHayBaleFrameDialog = show;
           break; 
         case 'woodSorter':
           this.showWoodSorterDialog = show;

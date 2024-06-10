@@ -164,6 +164,19 @@ export class PalmsTrailerConfigService {
     );
   }
 
+  getHayBaleFrame(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/haybaleframe`).pipe(
+      map((hayBaleFrame: ConfigurationItem | null) => {
+        if (hayBaleFrame) {
+          hayBaleFrame.namePrice = hayBaleFrame.name + " " + hayBaleFrame.price + "€";
+          return hayBaleFrame;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
   getWoodSorter(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/woodsorter`).pipe(
       map((woodSorter: ConfigurationItem | null) => {
