@@ -6,8 +6,8 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class DocumentService {
-  private url = 'http://localhost:5140';
-  // private url = 'https://calculator-app-api.azurewebsites.net';
+  //private url = 'http://localhost:5140';
+  private url = 'https://calculator-app-api.azurewebsites.net';
 
   constructor(private httpClient: HttpClient,) {}
 
