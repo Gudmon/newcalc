@@ -176,6 +176,7 @@ export class PalmsService {
 
   setVideos(){
     // trailers
+    this.videos.set("PALMS 2D", ["n6LnRTycDZM"]);
     this.videos.set("PALMS 6S", ["5-tqIrDOU0I", "OUXj3T4seD0"]);
     this.videos.set("PALMS 8SX", ["VEvGOG-aFyM"]);
     this.videos.set("PALMS 8D", ["cdz1OF0USqI"]);
