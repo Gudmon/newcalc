@@ -78,12 +78,16 @@
                                 formControlName="countryCode">
                                     <ng-template pTemplate="selectedItem">
                                         <div class="flex align-items-center gap-2" *ngIf="selectedCountry">
-                                            <div>{{ selectedCountry.code }}</div>
+                                            <div>
+                                                <p class="text-xs sm:text-sm md:text-base">{{ selectedCountry.code }}</p>
+                                            </div>
                                         </div>
                                     </ng-template>
                                     <ng-template let-country pTemplate="item">
                                         <div class="flex align-items-center gap-2">
-                                            <div>{{ country.name + ' ' + country.code }}</div>
+                                            <div>
+                                                <p class="text-xs sm:text-sm md:text-base">{{ country.name + ' ' + country.code }}</p>
+                                            </div>
                                         </div>
                                     </ng-template>
                                 </p-dropdown>
