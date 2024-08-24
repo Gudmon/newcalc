@@ -9,12 +9,13 @@ import { EmailService } from '../../../../../services/email.service';
 import { LoadingService } from '../../../../../services/loading.service';
 import { MessageService } from 'primeng/api'
 import { ToastModule } from 'primeng/toast';
+import { DropdownModule } from 'primeng/dropdown';
 
 @Component({
   selector: 'app-pdf',
   standalone: true,
   providers: [MessageService],
-  imports: [FormsModule, ReactiveFormsModule, CommonModule, ToastModule],
+  imports: [FormsModule, ReactiveFormsModule, CommonModule, ToastModule, DropdownModule],
   templateUrl: './pdf.component.html',
   styleUrl: './pdf.component.css'
 })
@@ -22,6 +23,9 @@ export class PdfComponent implements OnInit{
   submitted: boolean = false;
   blurred: boolean = false;
   pdfSaved: boolean = false;
+
+  countries!: Country[];
+  selectedCountry!: Country;
 
   constructor(private readonly palmsService: PalmsService,
     private readonly pdfService: PdfService,
@@ -34,11 +38,14 @@ export class PdfComponent implements OnInit{
 
   ngOnInit(): void {
     this.initializeFormGroup();
+    this.initializeCountries();
   }
 
   formGroup: FormGroup = new FormGroup({
     name: new FormControl<string>(''),
     email: new FormControl<string>(''),
+    countryCode: new FormControl<string | null>(''),
+    phoneNumber: new FormControl<string>(''),
     message: new FormControl<string>('')
   });
 
@@ -46,9 +53,32 @@ export class PdfComponent implements OnInit{
     this.formGroup = this.fb.group({
       name: ['', Validators.required],
       email: ['', Validators.required],
+      countryCode: [null, Validators.required],
+      phoneNumber: ['', Validators.required],
       message: ['', Validators.required]
     });
   }   
+
+  private initializeCountries(){
+    this.countries = [
+      { name: 'Magyarország', code: '+36'},
+      { name: 'Brazil', code: 'BR' },
+      { name: 'China', code: 'CN' },
+      { name: 'Egypt', code: 'EG' },
+      { name: 'France', code: 'FR' },
+      { name: 'Germany', code: 'DE' },
+      { name: 'India', code: 'IN' },
+      { name: 'Japan', code: 'JP' },
+      { name: 'Spain', code: 'ES' },
+      { name: 'United States', code: 'US' }
+    ];
+  }
+
+  handleCountryChange(event: any) {
+    console.log(event);
+    this.selectedCountry = event.value;
+    this.formGroup.get('countryCode')?.setValue(event.value);
+  }
 
   onEmailBlur() {
     this.blurred = true;
@@ -64,6 +94,10 @@ export class PdfComponent implements OnInit{
     if(this.formGroup.valid){
       this.sendEmail();
     }
+  }
+
+  getOptionLabel(): string | undefined{
+    return "kiskutya"
   }
 
   sendPdfAndDownload() {
@@ -199,10 +233,15 @@ export class PdfComponent implements OnInit{
 
   sendEmail(){
     const subject = `Sikeres kalkuláció - ${this.pdfService.pdfId()}`;
-    
     const blobName = this.pdfService.pdfId().toString();
     this.loadingService.enableLoader();
-    this.emailService.sendEmail(this.formGroup.controls['email'].value , subject, this.formGroup.controls['message'].value, this.formGroup.controls['name'].value, blobName).subscribe((resp) => {
+    this.emailService.sendEmail(this.formGroup.controls['email'].value,
+       subject, 
+       this.formGroup.controls['message'].value, 
+       this.formGroup.controls['name'].value, 
+       this.formGroup.controls['countryCode'].value.code, 
+       this.formGroup.controls['phoneNumber'].value.toString(), 
+       blobName).subscribe((resp) => {
       this.messageService.add({ key: 'tc', severity: 'success', summary: 'Siker!', detail: 'Sikeres e-mail küldés!' });
     }).add(() => {
       this.submitted = false;
@@ -282,4 +321,9 @@ interface PdfCraneModel {
 
 export interface PdfModel extends PdfTrailerModel, PdfCraneModel{
   totalPrice?: string | undefined
+}
+
+interface Country {
+  name: string,
+  code: string,
 }

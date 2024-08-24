@@ -6,7 +6,7 @@
         <div class="flex align-middle justify-center mb-32">
             <div class="w-11/12">
             <div class="">
-                <div class="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-2xl rounded-lg bg-gray-300">
+                <div class="flex flex-col min-w-0 break-words w-full mb-6 shadow-2xl rounded-lg bg-gray-300">
     
                     <div class="flex-auto p-5 lg:p-10">
                         <h4 class="text-2xl font-semibold">Kérdése akadt vagy további információra van szüksége?</h4>
@@ -15,7 +15,7 @@
                         </p>
                         
                         <!-- NAME -->
-                        <div class="relative w-full mb-3 mt-8">
+                        <div class="w-full mb-3 mt-8">
                         <div class="flex gap-4">
                             <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="name">Név<span class="text-red-500">*</span></label>
                             @if (submitted && f['name'].errors) {  
@@ -35,33 +35,81 @@
                         </div>
     
                         <!-- EMAIL -->
-                        <div class="relative w-full mb-3">
-                        <div class="flex gap-4">
-                            <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="email">Email<span class="text-red-500">*</span></label>
-                            @if (submitted && f['email'].errors) {  
-                            @if (f['email'].errors['required']) {
-                                <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem adja meg az e-mail címét!</p>
-                            }           
-                            @if (blurred && f['email'].errors['pattern']) {
-                                <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem valós e-mail címet adjon meg!</p>
-                            }                        
-                            }
-                            
+                        <div class="w-full mb-3">
+                            <div class="flex gap-4">
+                                <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="email">Email<span class="text-red-500">*</span></label>
+                                @if (submitted && f['email'].errors) {  
+                                @if (f['email'].errors['required']) {
+                                    <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem adja meg az e-mail címét!</p>
+                                }           
+                                @if (blurred && f['email'].errors['pattern']) {
+                                    <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem valós e-mail címet adjon meg!</p>
+                                }                        
+                                }
+                                
+                            </div>
+                            <input
+                                type="email"
+                                name="email"
+                                formControlName="email"
+                                (blur)="onEmailBlur()"
+                                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
+                                class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                                placeholder="Kérem adja meg az e-mail címét..."
+                                style="transition: all 0.15s ease 0s;"
+                            />
                         </div>
-                        <input
-                            type="email"
-                            name="email"
-                            formControlName="email"
-                            (blur)="onEmailBlur()"
-                            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
-                            class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
-                            placeholder="Kérem adja meg az e-mail címét..."
-                            style="transition: all 0.15s ease 0s;"
-                        />
-                        </div>
-    
+
+                        <!-- PHONE -->
+                         <div class="flex-none md:flex gap-6">
+                            <div class="mb-3">
+                                <div class="flex gap-4">
+                                    <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="email">Országhívószám<span class="text-red-500">*</span></label>
+                                    @if (submitted && f['countryCode'].errors) {  
+                                        @if (f['countryCode'].errors['required']) {
+                                            <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem adja meg az országhívószámot</p>
+                                        }                         
+                                    }
+                                </div>
+                                <p-dropdown [options]="countries" (onChange)="handleCountryChange($event)" 
+                                optionLabel="name"
+                                [filter]="true" filterBy="name" [showClear]="true" 
+                                placeholder="..."
+                                formControlName="countryCode">
+                                    <ng-template pTemplate="selectedItem">
+                                        <div class="flex align-items-center gap-2" *ngIf="selectedCountry">
+                                            <div>{{ selectedCountry.code }}</div>
+                                        </div>
+                                    </ng-template>
+                                    <ng-template let-country pTemplate="item">
+                                        <div class="flex align-items-center gap-2">
+                                            <div>{{ country.name + ' ' + country.code }}</div>
+                                        </div>
+                                    </ng-template>
+                                </p-dropdown>
+                            </div>
+                            <div class="mb-3">
+                                <div class="flex gap-4">
+                                    <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="email">Telefonszám<span class="text-red-500">*</span></label>
+                                    @if (submitted && f['phoneNumber'].errors) {  
+                                        @if (f['phoneNumber'].errors['required']) {
+                                            <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem adja meg a telefonszámát!</p>
+                                        }                      
+                                    }
+                                </div>
+                                <input
+                                    type="number"
+                                    name="phoneNumber"
+                                    formControlName="phoneNumber"
+                                    class="border-0 px-3 py-3 placeholder-gray-400 text-gray-700 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full"
+                                    placeholder="Pl.: 301234567"
+                                    style="transition: all 0.15s ease 0s;"
+                                />
+                            </div>
+                         </div>
+                        
                         <!-- MESSAGE -->
-                        <div class="relative w-full mb-3">
+                        <div class="w-full mb-3">
                         <div class="flex gap-4">
                             <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="message">Üzenet<span class="text-red-500">*</span></label>
                             @if (submitted && f['message'].errors) {  
@@ -82,7 +130,7 @@
     
                         <div class="text-center mt-6">
                         <button
-                        (click)="onSubmit()"
+                            (click)="onSubmit()"
                             [disabled]="!pdfSaved"
                             [ngClass]="{'disabled': !pdfSaved}"
                             class="px-6 py-2 bg-[--primary-color] text-sm font-bold hover:opacity-80 uppercase rounded shadow outline-none focus:outline-none"
@@ -106,4 +154,5 @@
         </div>
     </div>
 </form>
+
 <p-toast position="top-center" key="tc"></p-toast>

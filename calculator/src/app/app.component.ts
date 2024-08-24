@@ -141,7 +141,6 @@ export class AppComponent implements OnInit {
     }
 }
 
-
 interface Consent{
     "functionality": boolean,
     "strictly-necessary": boolean,
