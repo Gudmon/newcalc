@@ -5,8 +5,8 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class EmailService {
-  private url = 'http://localhost:5140';
-  //private url = 'https://calculator-app-api.azurewebsites.net';
+  //private url = 'http://localhost:5140';
+  private url = 'https://calculator-app-api.azurewebsites.net';
   constructor(private httpClient: HttpClient){}
 
   sendEmail(fromEmail: string, subject:string, body: string, name: string, countryCode: string, phoneNumber:string, blobName: string){
