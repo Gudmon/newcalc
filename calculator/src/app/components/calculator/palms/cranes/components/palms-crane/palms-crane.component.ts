@@ -45,13 +45,14 @@ import { PalmsTrailerOverview } from '../../../trailers/models/palms-trailer-ove
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { PalmsCraneCalculatorHintsComponent } from "../palms-crane-calculator-hints/palms-crane-calculator-hints.component";
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { HighPerformanceOilFilterDialogComponent } from "../dialogs/high-performance-oil-filter-dialog/high-performance-oil-filter-dialog.component";
 
 @Component({
     selector: 'app-palms-crane',
     standalone: true,
     templateUrl: './palms-crane.component.html',
     styleUrl: './palms-crane.component.css',
-    imports: [FormsModule, InputSwitchModule, ReactiveFormsModule, AccordionModule, RadioButtonModule, CheckboxModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent, RotatorsDialogComponent, GrapplesDialogComponent, WinchesDialogComponent, ProtectionSleevesDialogComponent, ElectricalFloatingDialogComponent, ValveBlockDialogComponent, DampingsDialogComponent, CraneLightDialogComponent, OperatorSeatDialogComponent, CraneOilcoolerDialogComponent, RotatorBrakesDialogComponent, JoystickHolderDialogComponent, HoseGuardsDialogComponent, TurningCounterPlateDialogComponent, SupportCounterPlateDialogComponent, BoomguardDialogComponent, CoverDialogComponent, WoodcontrolDialogComponent, LinkageDialogComponent, PalmsTrailerComponent, PalmsTrailerCardsComponent, PalmsCraneCalculatorHintsComponent]
+    imports: [FormsModule, InputSwitchModule, ReactiveFormsModule, AccordionModule, RadioButtonModule, CheckboxModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent, RotatorsDialogComponent, GrapplesDialogComponent, WinchesDialogComponent, ProtectionSleevesDialogComponent, ElectricalFloatingDialogComponent, ValveBlockDialogComponent, DampingsDialogComponent, CraneLightDialogComponent, OperatorSeatDialogComponent, CraneOilcoolerDialogComponent, RotatorBrakesDialogComponent, JoystickHolderDialogComponent, HoseGuardsDialogComponent, TurningCounterPlateDialogComponent, SupportCounterPlateDialogComponent, BoomguardDialogComponent, CoverDialogComponent, WoodcontrolDialogComponent, LinkageDialogComponent, PalmsTrailerComponent, PalmsTrailerCardsComponent, PalmsCraneCalculatorHintsComponent, HighPerformanceOilFilterDialogComponent]
 })
 export class PalmsCraneComponent implements OnInit, OnDestroy {
     crane!: PalmsCrane
