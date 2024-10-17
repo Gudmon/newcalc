@@ -417,6 +417,7 @@ export class PdfComponent implements OnInit{
       object.Damping = this.palmsService.selectedDamping();
       object.CraneLight = this.palmsService.selectedCraneLight();
       object.OperatorSeat = this.palmsService.selectedOperatorSeat();
+      object.HighPerformanceOilFilter = this.palmsService.selectedHighPerformanceOilFilter();
       object.CraneOilCooler = this.palmsService.selectedCraneOilCooler();
       object.RotatorBrake = this.palmsService.selectedRotatorBrake();
       object.JoystickHolder = this.palmsService.selectedJoystickHolder();
@@ -539,6 +540,7 @@ interface PdfCraneModel {
   ValveBlock?: ConfigurationItem | undefined,
   Damping?: ConfigurationItem | undefined,
   CraneLight?: ConfigurationItem | undefined,
+  HighPerformanceOilFilter?: ConfigurationItem | undefined,
   OperatorSeat?: ConfigurationItem | undefined,
   CraneOilCooler?: ConfigurationItem | undefined,
   RotatorBrake?: ConfigurationItem | undefined,

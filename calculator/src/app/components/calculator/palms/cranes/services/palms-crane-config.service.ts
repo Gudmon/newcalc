@@ -181,6 +181,19 @@ export class PalmsCraneConfigService {
     );
   }
 
+  getHighPerformanceOilFilter(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/highperformanceoilfilter`).pipe(
+      map((highPerformanceOilFilter: ConfigurationItem | null) => {
+        if (highPerformanceOilFilter) {
+          highPerformanceOilFilter.namePrice = highPerformanceOilFilter.name + " " + highPerformanceOilFilter.price + "€";
+          return highPerformanceOilFilter;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
   getOilCooler(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/oilcooler`).pipe(
       map((oilcooler: ConfigurationItem | null) => {
