@@ -504,7 +504,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         }
 
         // operator seat
-        if (event.value.id === 6) {
+        if (event.value.id === 5) {
           this.craneFormGroup.get('selectedOperatorSeat')?.enable();
         } else {
           this.setOperatorSeatDefault();
