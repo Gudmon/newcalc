@@ -497,7 +497,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         }
 
         // valve block
-        if (7 < event.value.id && event.value.id < 14) {
+        if (7 < event.value.id && event.value.id < 15) {
           this.craneFormGroup.get('selectedValveBlock')?.enable();
         } else {
           this.setValveBlockDefault();
