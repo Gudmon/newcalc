@@ -23,6 +23,9 @@ export interface PalmsCrane {
     slewingTorque: string;
     workingPressure: string;
     rotatorMaximumLoad: string;
+    rotatorCapacity: string,
+    rotatorType: string,
+    rotatorConnection: string;
     craneWeight: string;
     pillarSlewingAngle: string;
     recommendedOilFlow: string;

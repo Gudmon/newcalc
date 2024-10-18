@@ -105,6 +105,12 @@
                 <app-trailer-data-item text="Forgatási erő" [property]="crane.slewingTorque" unit="kNm"></app-trailer-data-item>
                 <app-trailer-data-item text="Üzemi nyomás" [property]="crane.workingPressure" unit="bar"></app-trailer-data-item>
                 <app-trailer-data-item text="Rotátor maximum terhelhetősége" [property]="crane.rotatorMaximumLoad" unit="kN"></app-trailer-data-item>
+                <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">
+                    <p class="sm:w-1/2">Rotátor</p>
+                    <p class="sm:w-1/2">{{crane.rotatorCapacity}} kN {{crane.rotatorType}}</p>
+                </div>
+                <hr class="h-0.5 border-t-0 bg-[rgb(0,0,0,.1)] opacity-100 dark:opacity-50" />
+                <app-trailer-data-item text="Rotátor csatlakozás" [property]="crane.rotatorConnection"></app-trailer-data-item>
                 <app-trailer-data-item text="Daru súlya támasztó lábak nélkül" [property]="crane.craneWeight" unit="kg"></app-trailer-data-item>
                 <app-trailer-data-item text="Fordulási szög" [property]="crane.pillarSlewingAngle" unit="°"></app-trailer-data-item>
                 <div class="flex flex-col sm:flex-row sm:justify-between gap-4 py-1">

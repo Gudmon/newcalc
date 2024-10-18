@@ -339,13 +339,13 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         const linkage$ = this.palmsCraneConfigService.getLinkage(id);
         const craneShipping$ = this.palmsCraneConfigService.getShipping(id);
         
-        const request = forkJoin([controlBlocks$, frameTypes$, rotators$, grapples$, winches$, 
+        const request = forkJoin([controlBlocks$, frameTypes$, grapples$, winches$, 
           protectionSleeves$, electricalFloating$, valveBlock$, dampings$, light$,
           operatorSeat$, highPerformanceOilFilter$, oilCooler$, rotatorBrakes$, joystickHolder$, hoseguards$,
           turningDeviceCounterPlate$, supportLegCounterPlate$, boomGuard$, cover$, 
           woodControl$, linkage$, craneShipping$]);
        
-        request.subscribe(([controlBlocks, frameTypes, rotators, grapples, winches, 
+        request.subscribe(([controlBlocks, frameTypes, grapples, winches, 
           protectionSleeves, electricalFloating, valveBlock, dampings, light,
           operatorSeat, highPerformanceOilFilter, oilCooler, rotatorBrakes, joystickHolder, hoseGuards,
           turningDeviceCounterPlate, supportLegCounterPlate, boomGuard, cover, 
@@ -358,9 +358,9 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                 this.frameTypes = frameTypes;
             }
 
-            if(rotators){
-                this.rotators = rotators;
-            }
+            // if(rotators){
+            //     this.rotators = rotators;
+            // }
 
             if(grapples){
                 this.grapples = grapples.map((grapple) => ({
