@@ -46,7 +46,10 @@ export class PalmsTrailerConfigService {
         for (const propulsion of propulsions){
           if (propulsion.code === "RWD") propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-1.jpg`, `../../../../assets/PALMS trailer-propulsion-1-1.jpg`]
           else if (propulsion.code === "RWD+") propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-2.jpg`, `../../../../assets/PALMS trailer-propulsion-2-1.jpg`, `../../../../assets/PALMS trailer-propulsion-2-2.jpg`]
+          else if (propulsion.code.includes("WDF")) propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-3.jpg`]
+          else if (propulsion.code.includes("WDR")) propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-4.jpg`]
           else if (propulsion.code === "45WDB" || propulsion.code === "45WDB.1" ) propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-5.jpg`]
+        
           else propulsion.imgUrls = [`../../../../assets/PALMS trailer-propulsion-${propulsion.id}.jpg`]
           propulsion.namePrice = propulsion.name + " " + propulsion.price + "€"
         }

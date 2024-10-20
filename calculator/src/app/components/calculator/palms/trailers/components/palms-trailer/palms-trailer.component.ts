@@ -635,21 +635,18 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     if (event.value){
       this.originalPropulsion = event.value;
       this.palmsService.selectedPropulsion.set(event.value)
-
+      
       //ROBSON
-      if (event.value.id === 1 || event.value.id === 2 ||
-        event.value.id === 5 || event.value.id === 6){
-        
+      if (event.value.id === 1 || event.value.id === 2 || event.value.id === 5 || event.value.id === 6) {
         updatedTyres = this.updateTyresForRobsonPropulsion();
-      } else {
-        updatedTyres = this.updateTyresToEnabled();
       }
-
-      //BB 250
-      if (event.value.id === 3 || event.value.id === 4){
-        
+      //BB250
+      else if (event.value.code === "25WDF" || event.value.code === "25WDR"
+        || event.value.code === "25WDFe" || event.value.code === "25WDRe"
+      ) {
         updatedTyres = this.updateTyresForBB250Propulsion();
-      } else {
+      }
+      else {
         updatedTyres = this.updateTyresToEnabled();
       }
       
@@ -666,7 +663,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     return this.tyres.map((tyre) => ({
       ...tyre,
       disabledOption: tyre.code !== "WH3.6" 
-      && tyre.code !== "WH5.6" 
+      && tyre.code !== "WH5.6"
       && tyre.code !== "WH8.8"
       && tyre.code !== "WH6.8"
       && tyre.code !== "WH7.8"
@@ -676,7 +673,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   updateTyresForBB250Propulsion(): ConfigurationItem[] {
     return this.tyres.map((tyre) => ({
       ...tyre,
-      disabledOption: tyre.code === "WH4.8" || tyre.code === "WH3.8" 
+      disabledOption: tyre.code === "WH3.8" 
     }));
   }
 
@@ -877,10 +874,16 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.originalTyre = event.value;
       this.palmsService.selectedTyre.set(event.value)
 
-      if (event.value.code !== "WH3.6" && event.value.code !== "WH5.6" &&
-      event.value.code !== "WH8.8" && event.value.code !== "WH6.8" && event.value.code !== "WH7.8") {  
-        updatedPropulsions = this.updatePropulsionsForTyre();
+      console.log(event.value.code);
+      
+      if (event.value.code !== "WH3.6" && event.value.code !== "WH5.6" 
+        && event.value.code !== "WH8.8" && event.value.code !== "WH6.8" && event.value.code !== "WH7.8") {  
+        console.log('update propulsions for tyres');
+        
+        updatedPropulsions = this.updatePropulsionsForRobsonTyres();
       } else {
+        console.log('else runs');
+        
         updatedPropulsions = this.updatePropulsionsToEnabled();
       }
     } else {
@@ -892,7 +895,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     this.propulsions = updatedPropulsions;
   }
 
-  updatePropulsionsForTyre(): ConfigurationItem[] {
+  updatePropulsionsForRobsonTyres(): ConfigurationItem[] {
+    console.log('real upd');
+    
     return this.propulsions.map((propulsion) => ({
       ...propulsion,
       disabledOption: propulsion.id === 1 || propulsion.id === 2 
