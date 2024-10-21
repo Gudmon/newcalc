@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, QueryList, ViewChild, ViewChildren, signal } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NavigationComponent } from "../../../../../navigation/navigation.component";
 import { FooterComponent } from "../../../../../footer/footer.component";
 import { PalmsCraneInformationComponent } from "../palms-crane-information/palms-crane-information.component";
@@ -11,7 +11,7 @@ import { ConfigurationItem } from '../../../../../../models/configuration-item';
 import { PalmsCraneConfigService } from '../../services/palms-crane-config.service';
 import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { ListboxChangeEvent, ListboxModule } from 'primeng/listbox';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
 import { AccessoryItemComponent } from "../../../shared/components/accessory-item/accessory-item.component";
 import { FormatPricePipe } from "../../../../../pipes/format-price.pipe";
@@ -98,6 +98,9 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     showWoodControlDialog: boolean = false;
     showLinkageDialog: boolean = false;
 
+    controlBlockLessThanA7: boolean = false;
+    controlBlockMoreThanA7: boolean = false;
+
     controlBlocks: ConfigurationItem[] = [];
     frameTypes: FrameType[] = [];
     rotators: ConfigurationItem[] = [];
@@ -109,7 +112,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     dampings: ConfigurationItem[] = [];
     light: ConfigurationItem | undefined = undefined;
     operatorSeat: ConfigurationItem | undefined = undefined;
-    highPerformanceOilFilter: ConfigurationItem | undefined = undefined;
+    highPerformanceOilFilters: ConfigurationItem[] = [];
     oilCooler: ConfigurationItem | undefined = undefined;
     rotatorBrakes: ConfigurationItem[] = [];
     joystickHolder: ConfigurationItem | undefined = undefined;
@@ -253,12 +256,10 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         readonly palmsCraneConfigService: PalmsCraneConfigService,
         readonly loadingService: LoadingService,
         private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder,
-        private router: Router) { 
+        private fb: FormBuilder) { 
     }
 
     ngOnInit(): void {
-      
       if (this.id) {
         this.fromTrailer = true;
       } else {
@@ -326,7 +327,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         const dampings$ = this.palmsCraneConfigService.getDampings(id);
         const light$ = this.palmsCraneConfigService.getLight(id);
         const operatorSeat$ = this.palmsCraneConfigService.getOperatorSeat(id);
-        const highPerformanceOilFilter$ = this.palmsCraneConfigService.getHighPerformanceOilFilter(id);
+        const highPerformanceOilFilters$ = this.palmsCraneConfigService.getHighPerformanceOilFilters(id);
         const oilCooler$ = this.palmsCraneConfigService.getOilCooler(id);
         const rotatorBrakes$ = this.palmsCraneConfigService.getRotatorBrakes(id);
         const joystickHolder$ = this.palmsCraneConfigService.getJoystickHolder(id);
@@ -341,13 +342,13 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         
         const request = forkJoin([controlBlocks$, frameTypes$, grapples$, winches$, 
           protectionSleeves$, electricalFloating$, valveBlock$, dampings$, light$,
-          operatorSeat$, highPerformanceOilFilter$, oilCooler$, rotatorBrakes$, joystickHolder$, hoseguards$,
+          operatorSeat$, highPerformanceOilFilters$, oilCooler$, rotatorBrakes$, joystickHolder$, hoseguards$,
           turningDeviceCounterPlate$, supportLegCounterPlate$, boomGuard$, cover$, 
           woodControl$, linkage$, craneShipping$]);
        
         request.subscribe(([controlBlocks, frameTypes, grapples, winches, 
           protectionSleeves, electricalFloating, valveBlock, dampings, light,
-          operatorSeat, highPerformanceOilFilter, oilCooler, rotatorBrakes, joystickHolder, hoseGuards,
+          operatorSeat, highPerformanceOilFilters, oilCooler, rotatorBrakes, joystickHolder, hoseGuards,
           turningDeviceCounterPlate, supportLegCounterPlate, boomGuard, cover, 
           woodControl, linkage, craneShipping]) => {
             if(controlBlocks){
@@ -400,8 +401,8 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
               this.operatorSeat = operatorSeat;
             }
 
-            if (highPerformanceOilFilter){
-              this.highPerformanceOilFilter = highPerformanceOilFilter;
+            if (highPerformanceOilFilters){
+              this.highPerformanceOilFilters = highPerformanceOilFilters;
             }
 
             if (oilCooler){
@@ -525,7 +526,42 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
           this.setCoverDefault();
         }
 
+        // high perfomrmance oil filter
+        if(event.value.id >= 4){
+          if(this.originalHighPerformanceOilFilter && this.originalHighPerformanceOilFilter.id === 2){
+            console.log('yea');
+            this.palmsService._cranePrice.update(value => value - Number(this.highPerformanceOilFilters[1]?.price))
+            this.originalHighPerformanceOilFilter = undefined;
+          }
+          
+          this.controlBlockMoreThanA7 = true;
+          this.controlBlockLessThanA7 = false;
+          setTimeout(() => {
+            this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(this.highPerformanceOilFilters[0]);
+            this.palmsService.selectedHighPerformanceOilFilter.set(this.highPerformanceOilFilters[0]);
+            this.palmsService._cranePrice.update(value => value + Number(this.highPerformanceOilFilters[0]?.price))
+          }, 50);
+        } else{
+          this.controlBlockLessThanA7 = true;
+          this.controlBlockMoreThanA7 = false;
+        
+          if(this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.value && this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.value.id === 1){
+            this.palmsService._cranePrice.update(value => value - Number(this.highPerformanceOilFilters[0]?.price))
+            this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
+            this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
+          }
+
+          if(this.originalControlBlock && this.originalControlBlock.id >= 4){
+            this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
+            this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
+          }
+
+        }
       } else {
+        if(this.originalControlBlock && this.originalControlBlock.id >= 4){
+          this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
+          this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
+        }
         this.originalControlBlock = undefined;
         this.palmsService.selectedControlBlock.set(undefined)
     
@@ -540,7 +576,10 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.setJoystickHolderDefault();
         this.palmsService.selectedJoystickHolder.set(undefined)
         this.setCoverDefault();
-        this.palmsService.selectedCover.set(undefined)
+        this.palmsService.selectedCover.set(undefined);
+
+        this.controlBlockMoreThanA7 = false;
+        this.controlBlockLessThanA7 = false;
     
         // winches
         if (this.originalWinch && (this.originalWinch.id === 2 || this.originalWinch.id === 3)) {

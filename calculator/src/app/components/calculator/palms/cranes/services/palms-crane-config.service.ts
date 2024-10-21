@@ -181,15 +181,15 @@ export class PalmsCraneConfigService {
     );
   }
 
-  getHighPerformanceOilFilter(id: number): Observable<ConfigurationItem | null> {
-    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/highperformanceoilfilter`).pipe(
-      map((highPerformanceOilFilter: ConfigurationItem | null) => {
-        if (highPerformanceOilFilter) {
-          highPerformanceOilFilter.namePrice = highPerformanceOilFilter.name + " " + highPerformanceOilFilter.price + "€";
-          return highPerformanceOilFilter;
-        } else {
-          return null;
+  getHighPerformanceOilFilters(id: number): Observable<ConfigurationItem[]> {
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/highperformanceoilfilter`).pipe(
+      map((highPerformanceOilFilters: ConfigurationItem[]) => {
+        for (const highPerformanceOilFilter of highPerformanceOilFilters){
+          highPerformanceOilFilter.disabledOption = false;
+          highPerformanceOilFilter.namePrice = highPerformanceOilFilter.name + " " + highPerformanceOilFilter.price + "€"
+          highPerformanceOilFilter.imgUrl = `../../../../../../assets/PALMS crane-grapple-highperformanceoilfilter-1.png`;
         }
+        return highPerformanceOilFilters;
       })
     );
   }
