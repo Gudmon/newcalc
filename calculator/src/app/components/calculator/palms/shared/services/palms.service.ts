@@ -180,7 +180,7 @@ export class PalmsService {
     this.videos.set("PALMS 2D", ["n6LnRTycDZM", "25Y2HRXtohQ"]);
     this.videos.set("PALMS 6S", ["5-tqIrDOU0I", "OUXj3T4seD0"]);
     this.videos.set("PALMS 8SX", ["VEvGOG-aFyM"]);
-    this.videos.set("PALMS 8D", ["cdz1OF0USqI"]);
+    this.videos.set("PALMS 8D", ["cdz1OF0USqI", "PEdgbkWowyQ"]);
     this.videos.set("PALMS 8DWD", ["cdz1OF0USqI"]);
     this.videos.set("PALMS 9SC", ["4ZeFp4Yofak"]);
     this.videos.set("PALMS 10D", ["0u8VqxRevL4"]);
