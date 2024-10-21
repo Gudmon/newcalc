@@ -364,10 +364,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             // }
 
             if(grapples){
-                this.grapples = grapples.map((grapple) => ({
-                  ...grapple,
-                  disabledOption: grapple.id === 2 
-                }));
+                this.grapples = grapples;
             }
 
             if(winches){
