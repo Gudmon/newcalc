@@ -32,7 +32,7 @@ export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.setResponsiveOptions();
-    this.setImages();
+    this.setImages(this.crane);
     this.resize();
   }
 
@@ -74,21 +74,45 @@ export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
     }
   }
 
-  private setImages(){
-    this.images = [
-      {
-        itemImageSrc: this.crane.imgUrls[0],
-        thumbnailImageSrc:  this.crane.imgUrls[0],
-        alt: 'Description for Crane image 1',
-        title: 'Crane image 1'
-      },
-      {
-        itemImageSrc: this.crane.imgUrls[1],
-        thumbnailImageSrc:  this.crane.imgUrls[1],
-        alt: 'Description for Crane image 2',
-        title: 'Crane image 2'
-      },
-    ]  
+  private setImages(crane: PalmsCrane){
+    if(crane.name === "PALMS 5.87Z"){
+      this.images = [
+        {
+          itemImageSrc: this.crane.imgUrls[0],
+          thumbnailImageSrc:  this.crane.imgUrls[0],
+          alt: 'Description for Crane image 1',
+          title: 'Crane image 1'
+        },
+        {
+          itemImageSrc: this.crane.imgUrls[1],
+          thumbnailImageSrc:  this.crane.imgUrls[1],
+          alt: 'Description for Crane image 2',
+          title: 'Crane image 2'
+        },
+        {
+          itemImageSrc: this.crane.imgUrls[2],
+          thumbnailImageSrc:  this.crane.imgUrls[2],
+          alt: 'Description for Crane image 3',
+          title: 'Crane image 3'
+        },
+      ]  
+    } else {
+      this.images = [
+        {
+          itemImageSrc: this.crane.imgUrls[0],
+          thumbnailImageSrc:  this.crane.imgUrls[0],
+          alt: 'Description for Crane image 1',
+          title: 'Crane image 1'
+        },
+        {
+          itemImageSrc: this.crane.imgUrls[1],
+          thumbnailImageSrc:  this.crane.imgUrls[1],
+          alt: 'Description for Crane image 2',
+          title: 'Crane image 2'
+        }
+      ]  
+    }
+    
   }
 
   private setResponsiveOptions(){

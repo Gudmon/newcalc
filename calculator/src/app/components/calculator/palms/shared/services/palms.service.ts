@@ -158,10 +158,12 @@ export class PalmsService {
         crane.videoIds = this.getVideosByKey(crane.name)
         //this._selectedCrane.next(crane);
         crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`]
+        if(crane.name === "PALMS 5.87Z") crane.imgUrls = [...crane.imgUrls, `../../../../../assets/${crane.name}-3.jpg`]
+
         for (const trailer of crane.trailer){
-          if(trailer.id === 12 || trailer.id === 13) trailer.imgUrl = `../../../../../assets/PALMS 10U-1.svg`;
-          else if(trailer.id === 14 || trailer.id === 15 || trailer.id === 16) trailer.imgUrl = `../../../../../assets/PALMS 12U-1.svg`;
-          else if(trailer.id === 17 || trailer.id === 18 || trailer.id === 19) trailer.imgUrl = `../../../../../assets/PALMS 15U-1.svg`;
+          if(trailer.id === 8) trailer.imgUrl = `../../../../../assets/PALMS 10U-1.svg`;
+          else if(trailer.id === 9 || trailer.id === 10) trailer.imgUrl = `../../../../../assets/PALMS 12U-1.svg`;
+          else if(trailer.id === 11 || trailer.id === 12) trailer.imgUrl = `../../../../../assets/PALMS 15U-1.svg`;
           else {
             trailer.imgUrl = `../../../../../assets/${trailer.name}-1.svg`;
           }
@@ -202,8 +204,8 @@ export class PalmsService {
     this.videos.set("PALMS 5.72", ["-f0tPn8V78g"]);
     this.videos.set("PALMS 5.85", ["-f0tPn8V78g"]);
     this.videos.set("PALMS 5.87Z", ["pLvH1NAPEzI"]);
-    this.videos.set("PALMS 7.75", ["z55HswaDwSA"]);
-    this.videos.set("PALMS 7.86", ["z55HswaDwSA"]);
+    this.videos.set("PALMS 7.78", ["z55HswaDwSA"]);
+    this.videos.set("PALMS 7.87", ["z55HswaDwSA"]);
     this.videos.set("PALMS 7.94", ["z55HswaDwSA"]);
     this.videos.set("PALMS X100", ["x9GnpJnvNVU"]);
   }
