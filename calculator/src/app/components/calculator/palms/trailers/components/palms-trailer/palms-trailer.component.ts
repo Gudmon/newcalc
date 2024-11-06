@@ -620,20 +620,14 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
       this.palmsService.selectedBrake.set(event.value)
 
       if(event.value.code === "B4" || event.value.code === "BA-EU"){
-        console.log('hi');
-        
         this.b4OrBAEUBrakeSelected = true;
         if (this.b4OrBAEUBrakeSelected && this.bb250PropulsionSelected) {
-          console.log('haaa');
-          
           updatedTyres = this.updateTyresForBB250PropulsionAndB4Brake();
           
         } else{
           updatedTyres = this.tyres;
         }
       } else{
-        console.log('1');
-        
         this.b4OrBAEUBrakeSelected = false;
         updatedTyres = this.tyres;
 
@@ -642,8 +636,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
         }
       }
     } else {
-      console.log("2");
-      
       this.originalBrake = undefined;
       this.palmsService.selectedBrake.set(undefined)
       updatedTyres = this.tyres;
@@ -939,16 +931,12 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     if (event.value){
       this.originalTyre = event.value;
       this.palmsService.selectedTyre.set(event.value)
-
-      console.log(event.value.code);
       
       if (event.value.code !== "WH3.6" && event.value.code !== "WH5.6" 
         && event.value.code !== "WH8.8" && event.value.code !== "WH6.8" && event.value.code !== "WH7.8") {  
-        console.log('update propulsions for tyres');
         
         updatedPropulsions = this.updatePropulsionsForRobsonTyres();
       } else {
-        console.log('else runs');
         
         updatedPropulsions = this.updatePropulsionsToEnabled();
       }
@@ -962,8 +950,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   }
 
   updatePropulsionsForRobsonTyres(): ConfigurationItem[] {
-    console.log('real upd');
-    
     return this.propulsions.map((propulsion) => ({
       ...propulsion,
       disabledOption: propulsion.id === 1 || propulsion.id === 2 
