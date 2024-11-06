@@ -71,6 +71,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
   bunkExtensionNumberSelected: boolean = false;
   stanchionExtensionChecked: boolean = false;
   stanchionExtensionNumberSelected: boolean = false;
+
+  b4TrailerIdsForEPropulsions = [1, 2, 3, 4];
+  b4OrBAEUTrailerIdsForEPropulsions = [5, 6, 7, 8, 9, 10, 11, 12];
   
   @ViewChild('oilCoolerCheckBox') oilCoolerCheckBox!: Checkbox;
   @ViewChild('woodSorterCheckBox') woodSorterCheckBox!: Checkbox;
@@ -607,46 +610,66 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy{
     this.originalBrakePrice = event.value ? event.value.price : 0;
     const nextValue = this.originalBrakePrice;
     const current = this.palmsService._trailerPrice();
-  
+
     if (previousValue !== nextValue) {
-      const newPrice = current - previousValue + Number(nextValue);
-      this.palmsService._trailerPrice.set(newPrice);
+        const newPrice = current - previousValue + Number(nextValue);
+        this.palmsService._trailerPrice.set(newPrice);
     }
 
     let updatedTyres: ConfigurationItem[] = [];
+    let updatedPropulsions: ConfigurationItem[] = [];
 
-    if (event.value){
-      this.originalBrake = event.value;
-      this.palmsService.selectedBrake.set(event.value)
+    if (event.value) {
+        this.originalBrake = event.value;
+        this.palmsService.selectedBrake.set(event.value);
 
-      if(event.value.code === "B4" || event.value.code === "BA-EU"){
-        this.b4OrBAEUBrakeSelected = true;
-        if (this.b4OrBAEUBrakeSelected && this.bb250PropulsionSelected) {
-          updatedTyres = this.updateTyresForBB250PropulsionAndB4Brake();
-          
-        } else{
-          updatedTyres = this.tyres;
+        const { code } = event.value;
+        const { id: trailerId } = this.trailer;
+        const shouldDisableEPropulsions = 
+            (code === "B4" && this.b4TrailerIdsForEPropulsions.includes(trailerId)) ||
+            ((code === "B4" || code === "BA-EU") && this.b4OrBAEUTrailerIdsForEPropulsions.includes(trailerId));
+
+        if (shouldDisableEPropulsions) {
+            updatedPropulsions = this.disableEPropulsions();
+        } else {
+            updatedPropulsions = this.enablePropulsions();
         }
-      } else{
-        this.b4OrBAEUBrakeSelected = false;
-        updatedTyres = this.tyres;
 
-        if(this.bb250PropulsionSelected){
-          updatedTyres = this.updateTyresForBB250Propulsion();
+        if (code === "B4" || code === "BA-EU") {
+            this.b4OrBAEUBrakeSelected = true;
+            updatedTyres = this.bb250PropulsionSelected
+                ? this.updateTyresForBB250PropulsionAndB4Brake()
+                : this.tyres;
+        } else {
+            this.b4OrBAEUBrakeSelected = false;
+            updatedTyres = this.bb250PropulsionSelected
+                ? this.updateTyresForBB250Propulsion()
+                : this.tyres;
         }
-      }
     } else {
-      this.originalBrake = undefined;
-      this.palmsService.selectedBrake.set(undefined)
-      updatedTyres = this.tyres;
-      this.b4OrBAEUBrakeSelected = false;
-
-      if(this.bb250PropulsionSelected){
-        updatedTyres = this.updateTyresForBB250Propulsion();
-      }
+        this.originalBrake = undefined;
+        this.palmsService.selectedBrake.set(undefined);
+        this.b4OrBAEUBrakeSelected = false;
+        
+        updatedTyres = this.bb250PropulsionSelected ? this.updateTyresForBB250Propulsion() : this.tyres;
+        updatedPropulsions = this.enablePropulsions();
     }
-
     this.tyres = updatedTyres;
+    this.propulsions = updatedPropulsions;
+}
+
+  disableEPropulsions(): ConfigurationItem[]{
+    return this.propulsions.map((propulsion) => ({
+      ...propulsion,
+      disabledOption: propulsion.code.includes("e")
+    }));
+  }
+
+  enablePropulsions(): ConfigurationItem[]{
+    return this.propulsions.map((propulsion) => ({
+      ...propulsion,
+      disabledOption: false
+    }));
   }
 
   updateTyresForB4BrakeAndBB250Propulsion(): ConfigurationItem[] {
