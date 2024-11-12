@@ -1,12 +1,12 @@
 <div class="">
-    <p-galleria class="image-holder" [value]="images" [numVisible]="5" [autoPlay]="false" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-height': '100dvh' }">
+    <p-galleria class="image-holder" [value]="images" [numVisible]="5" [autoPlay]="true" [circular]="true" [showItemNavigators]="true" [showThumbnails]="false" [responsiveOptions]="responsiveOptions" [containerStyle]="{ 'max-height': '100dvh' }">
         <ng-template class="relative" pTemplate="item" let-item>
             <img loading="eager" class="image" [src]="item.itemImageSrc" style="width: 100%; max-height: 100dvh;"/>
-            @if (item.alt === "atk") {
+            <!-- @if (item.alt === "atk") {
                 <div class="absolute bottom-10">
                     <button (click)="navigateToCompetition()" id="next" class="!py-1 !px-1.5 text-sm md:!py-2 md:!px-4 md:text-base lg:!py-5 lg:!px-6 lg:text-xl xl:!py-8 xl:!px-12 xl:text-xl hover:shadow-lg dark:hover:shadow-black/60 transform transition duration-500 hover:scale-110">Tovább</button>
                 </div>
-            }
+            } -->
         </ng-template>
     </p-galleria>
 </div>

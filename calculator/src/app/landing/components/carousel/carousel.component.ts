@@ -34,12 +34,6 @@ export class CarouselComponent implements OnInit {
   setImages(): void {
 
     this.images = [
-      {
-        itemImageSrc: '../../../../assets/atk.png',
-        thumbnailImageSrc: '../../../../assets/atk.png',
-        alt: 'atk',
-        title: 'Title 2'
-      },
       { 
         itemImageSrc: '../../../../assets/palms_default.png',
         thumbnailImageSrc: '../../../../assets/palms_default.png',
