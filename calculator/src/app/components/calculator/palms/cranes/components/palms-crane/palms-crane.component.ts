@@ -526,7 +526,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         // high perfomrmance oil filter
         if(event.value.id >= 4){
           if(this.originalHighPerformanceOilFilter && this.originalHighPerformanceOilFilter.id === 2){
-            console.log('yea');
             this.palmsService._cranePrice.update(value => value - Number(this.highPerformanceOilFilters[1]?.price))
             this.originalHighPerformanceOilFilter = undefined;
           }

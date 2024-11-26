@@ -71,10 +71,12 @@
                                         }                         
                                     }
                                 </div>
-                                <p-dropdown [options]="countries" (onChange)="handleCountryChange($event)" 
+                                <p-dropdown [options]="countries" [virtualScroll]="true"
+                                [virtualScrollItemSize]="38" (onChange)="handleCountryChange($event)" 
                                 optionLabel="name"
                                 [filter]="true" filterBy="name" [showClear]="true" 
                                 placeholder="..."
+                                [style]="{ minWidth: '10rem', maxWidth: '25rem' }"
                                 formControlName="countryCode">
                                     <ng-template pTemplate="selectedItem">
                                         <div class="flex align-items-center gap-2" *ngIf="selectedCountry">
@@ -95,11 +97,13 @@
                             <div class="mb-3">
                                 <div class="flex gap-4">
                                     <label class="block uppercase text-gray-700 text-xs lg:text-lg font-bold mb-2" for="email">Telefonszám<span class="text-red-500">*</span></label>
-                                    @if (submitted && f['phoneNumber'].errors) {  
-                                        @if (f['phoneNumber'].errors['required']) {
-                                            <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem adja meg a telefonszámát!</p>
-                                        }                      
-                                    }
+                                    <div [style]="{ minWidth: '10rem', maxWidth: '20rem' }">
+                                        @if (submitted && f['phoneNumber'].errors) {  
+                                            @if (f['phoneNumber'].errors['required']) {
+                                                <p class="block text-red-500 text-xs lg:text-lg mb-2">Kérem adja meg a telefonszámát!</p>
+                                            }                      
+                                        }
+                                    </div>
                                 </div>
                                 <input
                                     type="number"

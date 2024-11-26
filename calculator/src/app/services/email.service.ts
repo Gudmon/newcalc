@@ -21,4 +21,23 @@ export class EmailService {
     }
     return this.httpClient.post<any>(`${this.url}/Email`, email).pipe()
   }
+
+  sendCompetitionEmail(fromEmail: string, subject:string, name: string, countryCode: string, phoneNumber:string, 
+    businessForm: string, category: string, kata: string, businessYear: string, manPower: string, revenue: string
+  ){
+    const email = {
+      FromEmail: fromEmail,
+      Subject: subject,
+      Name: name,
+      CountryCode: countryCode,
+      PhoneNumber: phoneNumber,
+      BusinessForm: businessForm,
+      Category: category,
+      Kata: kata,
+      BusinessYear: businessYear,
+      ManPower: manPower,
+      Revenue: revenue,
+    }
+    return this.httpClient.post<any>(`${this.url}/Email/competition`, email).pipe()
+  }
 }

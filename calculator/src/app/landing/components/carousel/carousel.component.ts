@@ -35,6 +35,12 @@ export class CarouselComponent implements OnInit {
 
     this.images = [
       { 
+        itemImageSrc: '../../../../assets/palms_default3.png',
+        thumbnailImageSrc: '../../../../assets/palms_default3.png',
+        alt: 'ginop',
+        title: 'Title 3'
+      },
+      { 
         itemImageSrc: '../../../../assets/palms_default.png',
         thumbnailImageSrc: '../../../../assets/palms_default.png',
         alt: 'Description for Image 1',
@@ -43,12 +49,6 @@ export class CarouselComponent implements OnInit {
       { 
         itemImageSrc: '../../../../assets/palms_default12.png',
         thumbnailImageSrc: '../../../../assets/palms_default12.png',
-        alt: 'Description for Image 3',
-        title: 'Title 3'
-      },
-      { 
-        itemImageSrc: '../../../../assets/palms_default3.png',
-        thumbnailImageSrc: '../../../../assets/palms_default3.png',
         alt: 'Description for Image 3',
         title: 'Title 3'
       },

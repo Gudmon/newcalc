@@ -22,3 +22,53 @@ button {
     background-color: var(--primary-color) !important;
     border-radius: 0%;
 }
+
+.galleria-container {
+    position: relative;
+}
+
+.custom {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    border-radius: 8px;
+    width: 80%;
+    max-width: 600px;
+}
+
+.centered-img {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+}
+
+@media (max-width: 940px) {
+    .centered-img {
+        max-width: 325px;
+    }
+}
+
+@media (max-width: 768px) {
+    .centered-img {
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 610px) {
+    .centered-img {
+        max-width: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    .centered-img {
+        max-width: 200px;
+    }
+}

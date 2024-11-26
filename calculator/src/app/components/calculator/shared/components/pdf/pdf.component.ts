@@ -32,7 +32,7 @@ export class PdfComponent implements OnInit{
     private readonly emailService: EmailService,
     private readonly loadingService: LoadingService,
     private readonly messageService: MessageService,
-    private readonly fb: FormBuilder,) {
+    private readonly fb: FormBuilder) {
     
   }
 
@@ -309,7 +309,6 @@ export class PdfComponent implements OnInit{
   }
 
   handleCountryChange(event: any) {
-    console.log(event);
     this.selectedCountry = event.value;
     this.formGroup.get('countryCode')?.setValue(event.value);
   }
