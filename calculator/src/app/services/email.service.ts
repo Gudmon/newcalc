@@ -23,7 +23,7 @@ export class EmailService {
   }
 
   sendCompetitionEmail(fromEmail: string, subject:string, name: string, countryCode: string, phoneNumber:string, 
-    businessForm: string, category: string, kata: string, businessYear: string, manPower: string, revenue: string
+    businessForm: string, category: string, kata: string, businessYear: string, manPower: string, revenue: string, message: string | null
   ){
     const email = {
       FromEmail: fromEmail,
@@ -37,6 +37,7 @@ export class EmailService {
       BusinessYear: businessYear,
       ManPower: manPower,
       Revenue: revenue,
+      Message: message,
     }
     return this.httpClient.post<any>(`${this.url}/Email/competition`, email).pipe()
   }

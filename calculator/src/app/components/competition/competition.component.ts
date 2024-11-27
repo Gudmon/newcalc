@@ -64,6 +64,7 @@ export class CompetitionComponent implements OnInit {
         businessYear: new FormControl<string>('', [Validators.required, businessYearValidator]),
         manPower: new FormControl<string>('', [Validators.required, manPowerValidator]),
         revenue: new FormControl<string>('', [Validators.required, revenueValidator]),
+        message: new FormControl<string | null>(null, []),
       });
 
       handleCountryChange(event: any) {
@@ -125,6 +126,7 @@ export class CompetitionComponent implements OnInit {
             businessYear: ['', [Validators.required, businessYearValidator]],
             manPower: ['', [Validators.required, manPowerValidator]],
             revenue: ['', [Validators.required, revenueValidator]],
+            message: [null, []],
         });
     } 
 
@@ -133,6 +135,7 @@ export class CompetitionComponent implements OnInit {
         
         this.loadingService.enableLoader();
         const subject = 'Ginop plusz 1.2.4-24';
+        
         this.emailService.sendCompetitionEmail(
             this.formGroup.controls['email'].value,
             subject,
@@ -145,6 +148,7 @@ export class CompetitionComponent implements OnInit {
             this.formGroup.controls['businessYear'].value.name,
             this.formGroup.controls['manPower'].value.name,
             this.formGroup.controls['revenue'].value + "%",
+            this.formGroup.controls['message'].value ?? null
         ).subscribe((resp) => {
             this.messageService.add({ key: 'comp', severity: 'success', summary: 'Siker!', detail: 'Sikeres e-mail küldés!' });
         }).add(() => this.loadingService.disableLoader());
