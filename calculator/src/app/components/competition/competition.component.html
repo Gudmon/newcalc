@@ -238,7 +238,9 @@
 
                     <div class="mb-10">
                         <h1 class="mb-2">A cég árbevételének hány százaléka származik mezőgazdasági tevékenységből?</h1>
-                        <input class="w-full h-10" type="text" pInputText formControlName="revenue" />
+                        <input 
+                            pKeyFilter="int"
+                            class="w-full h-10" type="text" pInputText formControlName="revenue" pKeyFilter="int"/>
                         <div *ngIf="formGroup.get('revenue')?.errors?.['revenueError']">
                             <p class="text-red-500">Pályázatnak megfelelő válasz: 'Maximum 50%'</p>
                         </div>
@@ -246,7 +248,14 @@
 
                     <div class="mb-10">
                         <h1 class="mb-2">Megjegyzés</h1>
-                        <input class="w-full h-10" type="text" pInputText formControlName="message" />
+                        <textarea 
+                        class="w-full"
+                            [autoResize]="true"
+                            rows="5" 
+                            cols="30" 
+                            pInputTextarea 
+                            formControlName="message">
+                        </textarea>
                     </div>
 
                     <div class="text-center">

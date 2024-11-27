@@ -13,6 +13,8 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup, FormsModule, Reac
 import { FloatLabelModule } from "primeng/floatlabel"
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { EmailService } from '../../services/email.service';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { KeyFilterModule } from 'primeng/keyfilter';
 
 @Component({
     selector: 'app-competition',
@@ -20,7 +22,7 @@ import { EmailService } from '../../services/email.service';
     templateUrl: './competition.component.html',
     providers: [MessageService],
     styleUrl: './competition.component.css',
-    imports: [FormsModule, ReactiveFormsModule, RadioButtonModule, NavigationComponent, FloatLabelModule, FooterComponent, CommonModule, FileUploadModule, ToastModule, ButtonModule, DropdownModule]
+    imports: [FormsModule, ReactiveFormsModule, KeyFilterModule, InputTextareaModule, RadioButtonModule, NavigationComponent, FloatLabelModule, FooterComponent, CommonModule, FileUploadModule, ToastModule, ButtonModule, DropdownModule]
 })
 export class CompetitionComponent implements OnInit {
     constructor(private readonly loadingService: LoadingService,
