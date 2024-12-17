@@ -1,0 +1,30 @@
+<div class="card">
+    @if(vehicles && vehicles.length > 0){
+        <p-table [value]="vehicleProperties"
+            [scrollable]="true" 
+            scrollHeight="70vh" 
+            styleClass="p-datatable-striped" >
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Összehasonlítás</th>
+                    <th *ngFor="let vehicle of vehicles" class="font-bold">{{ vehicle.name }}</th>
+                </tr>
+            </ng-template>
+        
+            <ng-template pTemplate="body" let-property>
+                <tr>
+                    <td class="font-semibold">{{ property.label }}</td>
+                    <td *ngFor="let vehicle of vehicles">
+                        {{ vehicle[property.key] || '-' }}
+                    </td>
+                </tr>
+            </ng-template>
+        
+            </p-table>
+    }@else {
+        <div class="py-60 text-center">
+            <p>Nincs hozzáadott elem az összehasonlításhoz</p>
+        </div>
+    }
+</div>

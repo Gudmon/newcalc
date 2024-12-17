@@ -1,5 +1,8 @@
 <section #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
     @for (trailer of trailers; track trailer.id){
+        <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
+            <app-comparison-accordion></app-comparison-accordion>
+        </div>
         <p-card class="mt-2 lg:mt-10 shadow-xl transition duration-300 ease-in-out hover:scale-105">
             <ng-template pTemplate="header">
                 <img loading="eager" alt="Pótkocsi" [src]="trailer.imgUrl"/>
@@ -15,12 +18,18 @@
             <p class="block text-xs lg:text-base">Maximális daruméret bruttó emelési ereje: <span class="font-bold">{{trailer.maxCraneSize}}</span> kNm</p>
             <p class="block text-xs lg:text-base">Vonórúd kormány munkahengerek száma: <span class="font-bold">{{trailer.drawbarControlCylinders}}</span> db</p>
             <ng-template pTemplate="footer">
-                <div class="">
+                <div class="grid gap-4">
                     <button [disabled]="(palmsService.trailerSelected$ | async)" [ngClass]="{'disabled': palmsService.trailerSelected$ | async}" (click)="buttonClickEmit(trailer)"
                     class="rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer hover:opacity-80 px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12 relative">
-                    Kiválaszt
+                        Kiválaszt
                     </button>
-                </div>                                 
+                    @if(!(palmsService.craneSelected$ | async)){
+                        <button (click)="addToComparison(trailer)"
+                        class="rounded bg-[#CECECE] text-black font-bold uppercase hover:cursor-pointer hover:opacity-80 px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12 relative">
+                            Összehasonlít
+                        </button>  
+                    }
+                </div>                  
             </ng-template>
         </p-card>
     } 

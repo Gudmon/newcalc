@@ -2,6 +2,7 @@ import { PalmsCrane } from "../../cranes/models/palms-crane";
 import { PalmsCraneOverview } from "../../cranes/models/palms-crane-overview";
 
 export interface PalmsTrailer {
+    [key: string]: any;
     id: number;
     name: string;
     description: string;

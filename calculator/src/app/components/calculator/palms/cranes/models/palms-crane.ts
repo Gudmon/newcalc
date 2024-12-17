@@ -1,8 +1,8 @@
 import { PalmsTrailer } from "../../trailers/models/palms-trailer";
 import { PalmsTrailerOverview } from "../../trailers/models/palms-trailer-overview";
 
-
 export interface PalmsCrane {
+    [key: string]: any;
     id: number;
     name: string;
     description: string;

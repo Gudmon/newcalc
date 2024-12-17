@@ -9,14 +9,11 @@ import { MenuItem } from 'primeng/api/menuitem';
     templateUrl: './navigation.component.html',
     styleUrl: './navigation.component.css',
     encapsulation: ViewEncapsulation.None,
-    imports: [RouterOutlet, MenubarModule, NavigationComponent]
+    imports: [MenubarModule]
 })
 export class NavigationComponent implements OnInit {
-constructor(){
+    items: MenuItem[] | undefined;
 
-}
-
-  items: MenuItem[] | undefined;
     ngOnInit() {
         this.items = [
             {
