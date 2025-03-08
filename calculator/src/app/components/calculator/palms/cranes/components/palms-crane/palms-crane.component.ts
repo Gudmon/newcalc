@@ -277,7 +277,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
           this.palmsService._selectedTrailer.next(undefined);
           this.palmsService._selectedCrane.next(response);
         }
-        
+
         this.crane = response as PalmsCrane;
         
       }).add(() => {
@@ -288,7 +288,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.palmsService.selectedCrane$
         .pipe(takeUntil(this.destroy$))
         .subscribe((crane) => {
-          
           this.id = crane?.id;
           this.loadCraneConfigurations(this.id!);
           this.palmsService._selectedAccordion.set(1);
@@ -453,7 +452,12 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
             this.initializeFormGroup();
             this.craneSelected = true;
-            this.palmsService._cranePrice.update(cranePrice => cranePrice + Number(this.crane.price));
+            
+            this.palmsService.selectedCrane$.subscribe((crane) => {
+              if(!crane) return;
+              this.palmsService._cranePrice.update(cranePrice => cranePrice + Number(crane?.price));
+            })
+
         }).add(() => {
           this.loadingService.disableLoader();
           this.palmsService._craneSelected.next(true);
