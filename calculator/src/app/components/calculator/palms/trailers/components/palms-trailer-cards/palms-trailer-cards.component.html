@@ -1,40 +1,74 @@
 <section #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
-    @for (trailer of trailers; track trailer.id){
+    @for (trailer of trailers; track trailer.id) {
         <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
             <app-comparison-accordion></app-comparison-accordion>
         </div>
-        <p-card class="mt-2 lg:mt-10 shadow-xl transition duration-300 ease-in-out hover:scale-105">
+        <p-card
+            class="mt-2 lg:mt-10 shadow-xl transition duration-300 ease-in-out hover:scale-105"
+            [ngClass]="{ 'opacity-70 grayscale': trailer.id === 16 }"
+        >
             <ng-template pTemplate="header">
-                <img loading="eager" alt="Pótkocsi" [src]="trailer.imgUrl"/>
+                <div class="relative">
+                    <img loading="eager" alt="Pótkocsi" [src]="trailer.imgUrl" class="w-full object-cover" />
+
+                    @if (trailer.id === 16) {
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <span
+                                class="bg-red-600 text-white text-lg lg:text-xl font-extrabold px-4 py-1 rotate-[-15deg] shadow-lg uppercase select-none pointer-events-none"
+                            >
+                                Hamarosan!
+                            </span>
+                        </div>
+                    }
+                </div>
             </ng-template>
             <div class="flex gap-2">
-                <p class="pb-4 text-base font-extrabold lg:text-xl text-[--palms-color]">{{trailer.name}}</p>
-                <p-tag *ngIf="trailer.name.includes('WD')" class="" [style]="{ 'background': 'var(--palms-color)'}" value="Hajtással"></p-tag>
-                <p-tag *ngIf="trailer.id === 16" class="" [style]="{ 'background': 'var(--primary-color)'}" value="HAMAROSAN!"></p-tag>
+                <p class="pb-4 text-base font-extrabold lg:text-xl text-[--palms-color]">
+                    {{ trailer.name }}
+                </p>
+                <p-tag *ngIf="trailer.name.includes('WD')" [style]="{ background: 'var(--palms-color)' }" value="Hajtással"></p-tag>
             </div>
-            <p class="block text-xs lg:text-base">Össztömeg: <span class="font-bold">{{trailer.grossWeight}}</span> kg</p>
-            <p class="block text-xs lg:text-base">Alváz mérete: <span class="font-bold">{{trailer.frame}}</span></p>
-            <p class="block text-xs lg:text-base">Rakfelület: <span class="font-bold">{{trailer.loadingAreaCross}}</span> m2</p>
-            <p class="block text-xs lg:text-base">Maximális daruméret bruttó emelési ereje: <span class="font-bold">{{trailer.maxCraneSize}}</span> kNm</p>
-            <p class="block text-xs lg:text-base">Vonórúd kormány munkahengerek száma: <span class="font-bold">{{trailer.drawbarControlCylinders}}</span> db</p>
+            <p class="block text-xs lg:text-base">
+                Össztömeg: <span class="font-bold">{{ trailer.grossWeight }}</span> kg
+            </p>
+            <p class="block text-xs lg:text-base">
+                Alváz mérete: <span class="font-bold">{{ trailer.frame }}</span>
+            </p>
+            <p class="block text-xs lg:text-base">
+                Rakfelület: <span class="font-bold">{{ trailer.loadingAreaCross }}</span> m2
+            </p>
+            <p class="block text-xs lg:text-base">
+                Maximális daruméret bruttó emelési ereje:
+                <span class="font-bold">{{ trailer.maxCraneSize }}</span> kNm
+            </p>
+            <p class="block text-xs lg:text-base">
+                Vonórúd kormány munkahengerek száma:
+                <span class="font-bold">{{ trailer.drawbarControlCylinders }}</span> db
+            </p>
             <ng-template pTemplate="footer">
                 <div class="grid gap-4">
-                    <button [disabled]="(palmsService.trailerSelected$ | async) || trailer.id === 16" [ngClass]="{'disabled': (palmsService.trailerSelected$ | async) || trailer.id === 16}"
+                    <button
+                        [disabled]="(palmsService.trailerSelected$ | async) || trailer.id === 16"
+                        [ngClass]="{
+                            'opacity-60 cursor-not-allowed': (palmsService.trailerSelected$ | async) || trailer.id === 16
+                        }"
                         (click)="buttonClickEmit(trailer)"
-                    class="rounded bg-[#8ac73c] text-black font-bold uppercase hover:cursor-pointer hover:opacity-80 px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12 relative">
+                        class="rounded bg-[#8ac73c] text-black font-bold uppercase px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12"
+                    >
                         Kiválaszt
                     </button>
-                    @if(!(palmsService.craneSelected$ | async)){
-                        <button (click)="addToComparison(trailer)"
-                        class="rounded bg-[#CECECE] text-black font-bold uppercase hover:cursor-pointer hover:opacity-80 px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12 relative">
+                    @if (!(palmsService.craneSelected$ | async)) {
+                        <button
+                            (click)="addToComparison(trailer)"
+                            class="rounded bg-[#CECECE] text-black font-bold uppercase hover:opacity-80 px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12"
+                        >
                             Összehasonlít
-                        </button>  
+                        </button>
                     }
-                </div>                  
+                </div>
             </ng-template>
         </p-card>
-    } 
-    @empty {
+    } @empty {
         <p>Nem található pótkocsi</p>
     }
-  </section>
+</section>
