@@ -187,6 +187,7 @@ export class PalmsService {
     this.videos.set("PALMS 9SC", ["4ZeFp4Yofak"]);
     this.videos.set("PALMS 10D", ["0u8VqxRevL4"]);
     this.videos.set("PALMS 10DWD", ["0u8VqxRevL4"]);
+    this.videos.set("PALMS 11UX", ["Wl0s4WdzNDM"]);
     this.videos.set("PALMS 12U", ["akmzrXf3EnU"]);
     this.videos.set("PALMS 12UWD", ["akmzrXf3EnU"]);
     this.videos.set("PALMS 12UAWD", ["akmzrXf3EnU"]);
