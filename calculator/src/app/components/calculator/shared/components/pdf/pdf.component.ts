@@ -465,23 +465,46 @@ export class PdfComponent implements OnInit{
     
   }
 
-  sendEmail(){
-    const subject = `Sikeres kalkuláció - ${this.pdfService.pdfId()}`;
-    const blobName = this.pdfService.pdfId().toString();
-    this.loadingService.enableLoader();
-    this.emailService.sendEmail(this.formGroup.controls['email'].value,
-       subject, 
-       this.formGroup.controls['message'].value, 
-       this.formGroup.controls['name'].value, 
-       this.formGroup.controls['countryCode'].value.code, 
-       this.formGroup.controls['phoneNumber'].value.toString(), 
-       blobName).subscribe((resp) => {
-      this.messageService.add({ key: 'tc', severity: 'success', summary: 'Siker!', detail: 'Sikeres e-mail küldés!' });
-    }).add(() => {
-      this.submitted = false;
-      this.loadingService.disableLoader()
-    });
-  }
+  sendEmail() {
+  const subject = `Sikeres kalkuláció - ${this.pdfService.pdfId()}`;
+  const blobName = this.pdfService.pdfId().toString();
+
+  this.loadingService.enableLoader();
+
+  this.emailService.sendEmail(
+    this.formGroup.controls['email'].value,
+    subject,
+    this.formGroup.controls['message'].value,
+    this.formGroup.controls['name'].value,
+    this.formGroup.controls['countryCode'].value.code,
+    this.formGroup.controls['phoneNumber'].value.toString(),
+    blobName
+  ).subscribe({
+    next: () => {
+      this.messageService.add({
+        key: 'tc',
+        severity: 'success',
+        summary: 'Siker!',
+        detail: 'Sikeres e-mail küldés!'
+      });
+    },
+    error: (err) => {
+      const header = err?.error?.header ?? 'Hiba';
+      const message = err?.error?.message ?? 'Az e-mail küldése nem sikerült.';
+
+      this.messageService.add({
+        key: 'tc',
+        severity: 'error',
+        summary: header,
+        detail: message
+      });
+    }
+  }).add(() => {
+    this.submitted = false;
+    this.loadingService.disableLoader();
+  });
+}
+
 
   getPdf(){
     this.loadingService.enableLoader();
