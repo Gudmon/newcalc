@@ -369,6 +369,7 @@ export class PdfComponent implements OnInit{
       object.TrailerOilCooler = this.palmsService.selectedTrailerOilCooler();
       object.BolsterLock = this.palmsService.selectedBolsterLock();
       object.BBox = this.palmsService.selectedBBox();
+      object.DBox = this.palmsService.selectedDBox();
       object.HayBaleFrame = this.palmsService.selectedHayBaleFrame();
       object.WoodSorter = newWoodSorter;
       object.HandBrake = this.palmsService.selectedHandBrake();
@@ -378,6 +379,7 @@ export class PdfComponent implements OnInit{
       object.BunkExtension = newBunkExtension;
       object.FrameExtension = this.palmsService.selectedFrameExtension();
       object.TrailerLight = this.palmsService.selectedTrailerLight();
+      object.SupplyFormat = this.palmsService.selectedSupplyFormat();
       object.SupportLeg = this.palmsService.selectedSupportLeg();
       object.Tyre = this.palmsService.selectedTyre();
       object.TrailerShipping = this.palmsService.selectedTrailerShipping();
@@ -532,6 +534,7 @@ interface PdfTrailerModel {
   TrailerOilCooler?: ConfigurationItem | undefined,
   BolsterLock?: ConfigurationItem | undefined,
   BBox?: ConfigurationItem | undefined,
+  DBox?: ConfigurationItem | undefined,
   HayBaleFrame?: ConfigurationItem | undefined,
   WoodSorter?: ConfigurationItem | undefined,
   HandBrake?: ConfigurationItem | undefined,
@@ -547,6 +550,7 @@ interface PdfTrailerModel {
   MOT?: ConfigurationItem | undefined,
   StanchionExtension?: ConfigurationItem | undefined,
   HydroPack?: ConfigurationItem | undefined,
+  SupplyFormat?: ConfigurationItem | undefined,
 }
 
 interface PdfCraneModel {

@@ -179,6 +179,19 @@ export class PalmsTrailerConfigService {
         );
     }
 
+    getDBox(id: number): Observable<ConfigurationItem | null> {
+        return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/dbox`).pipe(
+            map((dbox: ConfigurationItem | null) => {
+                if (dbox) {
+                    dbox.namePrice = dbox.name + ' ' + dbox.price + '€';
+                    return dbox;
+                } else {
+                    return null;
+                }
+            })
+        );
+    }
+
     getHayBaleFrame(id: number): Observable<ConfigurationItem | null> {
         return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/haybaleframe`).pipe(
             map((hayBaleFrame: ConfigurationItem | null) => {
@@ -386,6 +399,17 @@ export class PalmsTrailerConfigService {
                     }
                 }
                 return hydropacks;
+            })
+        );
+    }
+
+    getSupplyFormats(id: number): Observable<ConfigurationItem[]> {
+        return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/supplyformats`).pipe(
+            map((supplyFormats: ConfigurationItem[]) => {
+                for (const supplyFormat of supplyFormats) {
+                    supplyFormat.namePrice = supplyFormat.name + ' ' + supplyFormat.price + '€';
+                }
+                return supplyFormats;
             })
         );
     }

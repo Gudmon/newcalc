@@ -1,24 +1,38 @@
 <app-navigation></app-navigation>
 <app-palms-trailer></app-palms-trailer>
-<app-palms-crane *ngIf="(palmsService.selectedCrane$ | async)" [id]="(palmsService.selectedCrane$ | async)?.id"></app-palms-crane>
-<section class="mx-10 ">       
+<app-palms-crane *ngIf="palmsService.selectedCrane$ | async" [id]="(palmsService.selectedCrane$ | async)?.id"></app-palms-crane>
+<section class="mx-10">
     <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
-        <p-accordion *ngIf="(palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async)" [activeIndex]="this.palmsService._selectedAccordion()">
+        <p-accordion
+            *ngIf="(palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async)"
+            [activeIndex]="this.palmsService._selectedAccordion()"
+        >
             <p-accordionTab>
                 <ng-template pTemplate="header" class="flex justify-around">
                     <div class="flex gap-2 w-full">
-                        <p class="mr-auto text-sm lg:text-base"><span class="">{{(palmsService.selectedTrailer$ | async)?.name}} Pótkocsi: </span><span class="font-extrabold text-lg">{{palmsService._trailerPrice() | formatPrice}}</span></p>
-                        @if((palmsService.trailerSelected$ | async) && (palmsService.craneSelected$ | async)){
-                            <p class="mr-auto text-sm lg:text-base"><span class="">Összesen: </span><span class="font-extrabold text-lg">{{palmsService._totalPrice() | formatPrice}}</span></p>
+                        <p class="mr-auto text-sm lg:text-base">
+                            <span class="">{{ (palmsService.selectedTrailer$ | async)?.name }} Pótkocsi: </span
+                            ><span class="font-extrabold text-lg">{{ palmsService._trailerPrice() | formatPrice }}</span>
+                        </p>
+                        @if ((palmsService.trailerSelected$ | async) && (palmsService.craneSelected$ | async)) {
+                            <p class="mr-auto text-sm lg:text-base">
+                                <span class="">Összesen: </span
+                                ><span class="font-extrabold text-lg">{{ palmsService._totalPrice() | formatPrice }}</span>
+                            </p>
                         }
-                        <button (click)="deleteTrailer(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
+                        <button
+                            (click)="deleteTrailer(); $event.stopPropagation()"
+                            class="ml-auto px-2 bg-red-500 active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none"
+                        >
+                            Törlés
+                        </button>
                     </div>
                 </ng-template>
                 <div class="max-h-96 overflow-auto">
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedStanchion()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedBrake()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedPropulsion()"></app-accessory-item>
-                    <app-accessory-item [accessoryItem]="this.palmsService.selectedDrawbar()"></app-accessory-item>                  
+                    <app-accessory-item [accessoryItem]="this.palmsService.selectedDrawbar()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedPlatform()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedHydroPack()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedOilPump()"></app-accessory-item>
@@ -26,9 +40,11 @@
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedTrailerOilCooler()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedSupportLeg()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedTrailerLight()"></app-accessory-item>
+                    <app-accessory-item [accessoryItem]="this.palmsService.selectedSupplyFormat()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedTyre()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedBolsterLock()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedBBox()"></app-accessory-item>
+                    <app-accessory-item [accessoryItem]="this.palmsService.selectedDBox()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedHayBaleFrame()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedWoodSorter()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedHandBrake()"></app-accessory-item>
@@ -40,14 +56,22 @@
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedStanchionExtension()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedTrailerShipping()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedMOT()"></app-accessory-item>
-                </div>             
+                </div>
             </p-accordionTab>
 
             <p-accordionTab *ngIf="(palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)">
                 <ng-template pTemplate="header" class="flex justify-around">
                     <div class="flex gap-2 w-full">
-                        <p class="mr-auto text-sm lg:text-base"><span class="">{{(palmsService.selectedCrane$ | async)?.name}} Daru: </span><span class="font-extrabold text-lg">{{palmsService._cranePrice() | formatPrice}}</span></p>
-                        <button (click)="deleteCrane(); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase  rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
+                        <p class="mr-auto text-sm lg:text-base">
+                            <span class="">{{ (palmsService.selectedCrane$ | async)?.name }} Daru: </span
+                            ><span class="font-extrabold text-lg">{{ palmsService._cranePrice() | formatPrice }}</span>
+                        </p>
+                        <button
+                            (click)="deleteCrane(); $event.stopPropagation()"
+                            class="ml-auto px-2 bg-red-500 active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none"
+                        >
+                            Törlés
+                        </button>
                     </div>
                 </ng-template>
                 <div class="max-h-96 overflow-auto">
@@ -57,7 +81,7 @@
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedGrapple()"></app-accessory-item>
                     @for (grapple of this.palmsService.selectedGrapples; track $index) {
                         <app-accessory-item [accessoryItem]="grapple"></app-accessory-item>
-                    }                   
+                    }
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedWinch()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedProtectionSleeves()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedElectricalFloating()"></app-accessory-item>
@@ -75,12 +99,17 @@
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedBoomGuard()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedCover()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedWoodControl()"></app-accessory-item>
-                    <app-accessory-item [accessoryItem]="this.palmsService.selectedLinkage()"></app-accessory-item>                       
-                    <app-accessory-item [accessoryItem]="this.palmsService.selectedCraneShipping()"></app-accessory-item>                       
-                </div>             
-            </p-accordionTab>       
-        </p-accordion>    
-    </div>  
-    <app-pdf *ngIf="(palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async) || (palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)"></app-pdf> 
-</section> 
+                    <app-accessory-item [accessoryItem]="this.palmsService.selectedLinkage()"></app-accessory-item>
+                    <app-accessory-item [accessoryItem]="this.palmsService.selectedCraneShipping()"></app-accessory-item>
+                </div>
+            </p-accordionTab>
+        </p-accordion>
+    </div>
+    <app-pdf
+        *ngIf="
+            ((palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async)) ||
+            ((palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async))
+        "
+    ></app-pdf>
+</section>
 <app-footer></app-footer>

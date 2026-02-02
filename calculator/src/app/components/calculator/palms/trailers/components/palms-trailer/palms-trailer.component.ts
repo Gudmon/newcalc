@@ -137,6 +137,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     showTrailerOilCoolerDialog: boolean = false;
     showBolsterLockDialog: boolean = false;
     showBboxDialog: boolean = false;
+    showDboxDialog: boolean = false;
     showHayBaleFrameDialog: boolean = false;
     showWoodSorterDialog: boolean = false;
     showHandBrakeDialog: boolean = false;
@@ -163,6 +164,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     trailerOilCooler: ConfigurationItem | undefined = undefined;
     bolsterLock: ConfigurationItem | undefined = undefined;
     bbox: ConfigurationItem | undefined = undefined;
+    dbox: ConfigurationItem | undefined = undefined;
     hayBaleFrame: ConfigurationItem | undefined = undefined;
     woodSorter: ConfigurationItem | undefined = undefined;
     handBrake: ConfigurationItem | undefined = undefined;
@@ -178,6 +180,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     MOT: ConfigurationItem | undefined = undefined;
     stanchionExtension: ConfigurationItem | undefined = undefined;
     hydropacks: ConfigurationItem[] = [];
+    supplyFormats: ConfigurationItem[] = [];
 
     selectedConfigurationItems: ConfigurationItem[] = [];
 
@@ -191,6 +194,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     originalTrailerOilCoolerPrice = 0;
     originalBolsterLockPrice = 0;
     originalBboxPrice = 0;
+    originalDboxPrice = 0;
     originalHayBaleFramePrice = 0;
     originalWoodSorterPrice = 0;
     originalHandBrakePrice = 0;
@@ -204,6 +208,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     originalFrameExtensionPrice = 0;
     originalStanchionExtensionPrice = 0;
     originalHydroPackPrice = 0;
+    originalSupplyFormatPrice = 0;
 
     initialWoodSorterPrice = 0;
     initialWoodSorterNumber = 0;
@@ -233,6 +238,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     originalTrailerOilCooler: ConfigurationItem | undefined = undefined;
     originalBolsterLock: ConfigurationItem | undefined = undefined;
     originalBbox: ConfigurationItem | undefined = undefined;
+    originalDbox: ConfigurationItem | undefined = undefined;
     originalHayBaleFrame: ConfigurationItem | undefined = undefined;
     originalWoodSorter: ConfigurationItem | undefined = undefined;
     woodSorterArrayElements: any[] | undefined = [];
@@ -252,6 +258,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     originalStanchionExtension: ConfigurationItem | undefined = undefined;
     stanchionExtensionArrayElements: any[] | undefined = [];
     originalHydroPack: ConfigurationItem | undefined = undefined;
+    originalSupplyFormat: ConfigurationItem | undefined = undefined;
 
     trailerFormGroup: FormGroup = new FormGroup({
         selectedTrailer: new FormControl<string>(''),
@@ -265,6 +272,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         selectedTrailerOilCooler: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedBolsterLock: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedBbox: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedDbox: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedHayBaleFrame: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedWoodSorter: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedHandBrake: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
@@ -279,7 +287,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         selectedShipping: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedMOT: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedStanchionExtension: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
-        selectedHydroPack: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' })
+        selectedHydroPack: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedSupplyFormat: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' })
     });
 
     private initializeFormGroup(): void {
@@ -295,6 +304,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             selectedTrailerOilCooler: null,
             selectedBolsterLock: null,
             selectedBbox: null,
+            selectedDbox: null,
             selectedHayBaleFrame: null,
             selectedWoodSorter: null,
             selectedHandBrake: null,
@@ -310,7 +320,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             selectedShipping: this.trailerShipping,
             selectedMOT: this.MOT,
             selectedStanchionExtension: null,
-            selectedHydroPack: null
+            selectedHydroPack: null,
+            selectedSupplyFormat: null
         });
     }
     private destroy$ = new Subject<void>();
@@ -395,6 +406,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             const trailerOilCooler$ = this.palmsTrailerConfigService.getTrailerOilCooler(id);
             const bolsterLock$ = this.palmsTrailerConfigService.getBolsterLock(id);
             const bbox$ = this.palmsTrailerConfigService.getBBox(id);
+            const dbox$ = this.palmsTrailerConfigService.getDBox(id);
             const hayBaleFrame$ = this.palmsTrailerConfigService.getHayBaleFrame(id);
             const woodSorter$ = this.palmsTrailerConfigService.getWoodSorter(id);
             const handBrake$ = this.palmsTrailerConfigService.getHandBrake(id);
@@ -410,6 +422,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             const MOT$ = this.palmsTrailerConfigService.getMOT(id);
             const stanchionExtension$ = this.palmsTrailerConfigService.getStanchionExtension(id);
             const hydropacks$ = this.palmsTrailerConfigService.getHydroPacks(id);
+            const supplyFormats$ = this.palmsTrailerConfigService.getSupplyFormats(id);
 
             const request = forkJoin([
                 stanchions$,
@@ -422,6 +435,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                 trailerOilCooler$,
                 bolsterLock$,
                 bbox$,
+                dbox$,
                 hayBaleFrame$,
                 woodSorter$,
                 handBrake$,
@@ -436,7 +450,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                 trailerShipping$,
                 MOT$,
                 stanchionExtension$,
-                hydropacks$
+                hydropacks$,
+                supplyFormats$
             ]);
 
             request
@@ -452,6 +467,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                         trailerOilCooler,
                         bolsterLock,
                         bbox,
+                        dbox,
                         hayBaleFrame,
                         woodSorter,
                         handBrake,
@@ -466,7 +482,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                         trailerShipping,
                         MOT,
                         stanchionExtension,
-                        hydropacks
+                        hydropacks,
+                        supplyFormats
                     ]) => {
                         if (stanchions.length > 0) {
                             this.stanchions = stanchions;
@@ -510,6 +527,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
 
                         if (bbox) {
                             this.bbox = bbox;
+                        }
+
+                        if (dbox) {
+                            this.dbox = dbox;
                         }
 
                         if (hayBaleFrame) {
@@ -578,6 +599,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
 
                         if (hydropacks) {
                             this.hydropacks = hydropacks;
+                        }
+
+                        if (supplyFormats) {
+                            this.supplyFormats = supplyFormats;
                         }
 
                         this.trailerSelected = true;
@@ -1112,6 +1137,23 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         }
     }
 
+    onDBoxChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._trailerPrice();
+            const newPrice = Number(current) + Number(event.checked[0].price);
+            this.palmsService._trailerPrice.set(newPrice);
+            this.originalDboxPrice = Number(event.checked[0].price);
+            this.originalDbox = event.checked[0];
+            this.palmsService.selectedDBox.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._trailerPrice();
+            const newPrice = Number(current) - this.originalDboxPrice;
+            this.palmsService._trailerPrice.set(newPrice);
+            this.originalDbox = undefined;
+            this.palmsService.selectedDBox.set(undefined);
+        }
+    }
+
     onHayBaleFrameChange(event: CheckboxChangeEvent) {
         if (event.checked.length > 0) {
             const current = this.palmsService._trailerPrice();
@@ -1461,6 +1503,26 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         }
     }
 
+    handleSupplyFormatChange(event: ListboxChangeEvent) {
+        const previousValue = this.originalSupplyFormatPrice;
+        this.originalSupplyFormatPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalSupplyFormatPrice;
+        const current = this.palmsService._trailerPrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._trailerPrice.set(newPrice);
+        }
+
+        if (event.value) {
+            this.originalSupplyFormat = event.value;
+            this.palmsService.selectedSupplyFormat.set(event.value);
+        } else {
+            this.originalSupplyFormat = undefined;
+            this.palmsService.selectedSupplyFormat.set(undefined);
+        }
+    }
+
     navigateToCrane(craneId: number) {
         const url = `/calculator/palms/cranes/${craneId}`;
         window.open(url, '_blank');
@@ -1494,6 +1556,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                 break;
             case 'bbox':
                 this.showBboxDialog = show;
+                break;
+            case 'dbox':
+                this.showDboxDialog = show;
                 break;
             case 'hayBaleFrame':
                 this.showHayBaleFrameDialog = show;
