@@ -1,14 +1,14 @@
 .image-holder img {
     object-fit: cover;
-    object-position: 50% 55%; 
+    object-position: 50% 55%;
 }
 
 .p-element.p-icon-wrapper.ng-star-inserted {
     color: var(--primary-color) !important;
-    background-color: rgba(0,0,0,.9)red !important;
+    background-color: rgba(0, 0, 0, 0.9) red !important;
     padding: 1rem;
     border-radius: 50%;
-} 
+}
 
 button {
     color: var(--primary-color) !important;
@@ -34,10 +34,10 @@ button {
     transform: translate(-50%, -50%);
     text-align: center;
     color: white;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.9);
     padding: 20px;
     border-radius: 8px;
-    width: 80%;
+    width: 70%;
     max-width: 600px;
 }
 
