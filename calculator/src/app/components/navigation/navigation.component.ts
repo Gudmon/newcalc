@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewEncapsulation  } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api/menuitem';
@@ -31,12 +31,12 @@ export class NavigationComponent implements OnInit {
             {
                 label: 'Olvasmányok',
                 routerLink: '/useful-reading'
-            },
-            {
-                label: 'Pályázat',
-                routerLink: '/competition',
-                icon: 'pi pi-exclamation-circle'
-            },
+            }
+            // {
+            //     label: 'Pályázat',
+            //     routerLink: '/competition',
+            //     icon: 'pi pi-exclamation-circle'
+            // },
         ];
     }
 }

@@ -100,6 +100,7 @@ export class PalmsService {
   public selectedStanchionExtension = signal<ConfigurationItem | undefined>(undefined);
   public selectedHydroPack = signal<ConfigurationItem | undefined>(undefined);
   public selectedSupplyFormat = signal<ConfigurationItem | undefined>(undefined);
+  public selectedToolbox = signal<ConfigurationItem | undefined>(undefined);
 
   constructor(private httpClient: HttpClient) { }
   
@@ -241,6 +242,7 @@ export class PalmsService {
     this.selectedStanchionExtension.set(undefined);
     this.selectedHydroPack.set(undefined);
     this.selectedSupplyFormat.set(undefined);
+    this.selectedToolbox.set(undefined);
   }
 
   deleteCrane(){

@@ -413,4 +413,17 @@ export class PalmsTrailerConfigService {
             })
         );
     }
+
+    getToolbox(id: number): Observable<ConfigurationItem | null> {
+        return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/toolbox`).pipe(
+            map((toolbox: ConfigurationItem | null) => {
+                if (toolbox) {
+                    toolbox.namePrice = toolbox.name + ' ' + toolbox.price + '€';
+                    return toolbox;
+                } else {
+                    return null;
+                }
+            })
+        );
+    }
 }
