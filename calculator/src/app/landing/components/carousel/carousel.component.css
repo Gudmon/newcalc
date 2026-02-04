@@ -29,15 +29,18 @@ button {
 
 .custom {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+    top: 5%;
+    right: 5%;
+    left: auto;
+    transform: none;
+
     text-align: center;
     color: white;
-    background: rgba(0, 0, 0, 0.9);
+    background: rgba(0, 0, 0, 0.65);
     padding: 20px;
     border-radius: 8px;
-    width: 70%;
+
+    width: 40%;
     max-width: 600px;
 }
 
@@ -70,5 +73,28 @@ button {
 @media (max-width: 480px) {
     .centered-img {
         max-width: 200px;
+    }
+}
+
+.cta-btn {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+    padding: 14px 32px;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.cta-btn:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+    .cta-btn {
+        padding: 8px 18px;
+        font-size: 0.85rem;
     }
 }

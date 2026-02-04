@@ -3,23 +3,10 @@
         <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
             <app-comparison-accordion></app-comparison-accordion>
         </div>
-        <p-card
-            class="mt-2 lg:mt-10 shadow-xl transition duration-300 ease-in-out hover:scale-105"
-            [ngClass]="{ 'opacity-70 grayscale': trailer.id === 16 }"
-        >
+        <p-card class="mt-2 lg:mt-10 shadow-xl transition duration-300 ease-in-out hover:scale-105">
             <ng-template pTemplate="header">
                 <div class="relative">
                     <img loading="eager" alt="Pótkocsi" [src]="trailer.imgUrl" class="w-full object-cover" />
-
-                    @if (trailer.id === 16) {
-                        <div class="absolute inset-0 flex items-center justify-center">
-                            <span
-                                class="bg-red-600 text-white text-lg lg:text-xl font-extrabold px-4 py-1 rotate-[-15deg] shadow-lg uppercase select-none pointer-events-none"
-                            >
-                                Hamarosan!
-                            </span>
-                        </div>
-                    }
                 </div>
             </ng-template>
             <div class="flex gap-2">
@@ -48,10 +35,6 @@
             <ng-template pTemplate="footer">
                 <div class="grid gap-4">
                     <button
-                        [disabled]="(palmsService.trailerSelected$ | async) || trailer.id === 16"
-                        [ngClass]="{
-                            'opacity-60 cursor-not-allowed': (palmsService.trailerSelected$ | async) || trailer.id === 16
-                        }"
                         (click)="buttonClickEmit(trailer)"
                         class="rounded bg-[#8ac73c] text-black font-bold uppercase px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12"
                     >
