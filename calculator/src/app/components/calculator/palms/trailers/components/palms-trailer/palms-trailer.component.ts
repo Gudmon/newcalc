@@ -50,7 +50,7 @@ import { FrameExtensionDialogComponent } from '../dialogs/frame-extension-dialog
 import { HayBaleFrameDialogComponent } from '../dialogs/hay-bale-frame-dialog/hay-bale-frame-dialog.component';
 import { ToolboxDialogComponent } from '../dialogs/toolbox-dialog/toolbox-dialog.component';
 import { HydropackDialogComponent } from '../dialogs/hydropack-dialog/hydropack-dialog.component';
-import { DboxDialogComponent } from "../dialogs/dbox-dialog/dbox-dialog.component";
+import { DboxDialogComponent } from '../dialogs/dbox-dialog/dbox-dialog.component';
 
 @Component({
     selector: 'app-palms-trailer',
@@ -58,52 +58,52 @@ import { DboxDialogComponent } from "../dialogs/dbox-dialog/dbox-dialog.componen
     templateUrl: './palms-trailer.component.html',
     styleUrl: './palms-trailer.component.css',
     imports: [
-    NavigationComponent,
-    CardModule,
-    FooterComponent,
-    RadioButtonModule,
-    PalmsCraneCardsComponent,
-    TrailerDataItemComponent,
-    AccordionModule,
-    DividerModule,
-    DropdownModule,
-    InputSwitchModule,
-    GalleriaModule,
-    FormsModule,
-    ReactiveFormsModule,
-    ButtonModule,
-    ImageModule,
-    ListboxModule,
-    FormatPricePipe,
-    BrakesDialogComponent,
-    DrawbarDialogComponent,
-    PlatormDialogComponent,
-    OilPumpDialogComponent,
-    OilTankDialogComponent,
-    CheckboxModule,
-    OilTankCoolerDialogComponent,
-    BolsterLockDialogComponent,
-    BboxDialogComponent,
-    WoodsorterDialogComponent,
-    ChainsawHolderDialogComponent,
-    UnderrunProtectionDialogComponent,
-    SupportLegDialogComponent,
-    TrailerLightDialogComponent,
-    TyresDialogComponent,
-    PalmsTrailerCalculatorHintsComponent,
-    AccessoryItemComponent,
-    PalmsTrailerInformationComponent,
-    PalmsTrailerCardsComponent,
-    PalmsCraneComponent,
-    PropulsionsDialogComponent,
-    BunkAdapterDialogComponent,
-    BunkExtensionDialogComponent,
-    FrameExtensionDialogComponent,
-    HayBaleFrameDialogComponent,
-    ToolboxDialogComponent,
-    HydropackDialogComponent,
-    DboxDialogComponent
-]
+        NavigationComponent,
+        CardModule,
+        FooterComponent,
+        RadioButtonModule,
+        PalmsCraneCardsComponent,
+        TrailerDataItemComponent,
+        AccordionModule,
+        DividerModule,
+        DropdownModule,
+        InputSwitchModule,
+        GalleriaModule,
+        FormsModule,
+        ReactiveFormsModule,
+        ButtonModule,
+        ImageModule,
+        ListboxModule,
+        FormatPricePipe,
+        BrakesDialogComponent,
+        DrawbarDialogComponent,
+        PlatormDialogComponent,
+        OilPumpDialogComponent,
+        OilTankDialogComponent,
+        CheckboxModule,
+        OilTankCoolerDialogComponent,
+        BolsterLockDialogComponent,
+        BboxDialogComponent,
+        WoodsorterDialogComponent,
+        ChainsawHolderDialogComponent,
+        UnderrunProtectionDialogComponent,
+        SupportLegDialogComponent,
+        TrailerLightDialogComponent,
+        TyresDialogComponent,
+        PalmsTrailerCalculatorHintsComponent,
+        AccessoryItemComponent,
+        PalmsTrailerInformationComponent,
+        PalmsTrailerCardsComponent,
+        PalmsCraneComponent,
+        PropulsionsDialogComponent,
+        BunkAdapterDialogComponent,
+        BunkExtensionDialogComponent,
+        FrameExtensionDialogComponent,
+        HayBaleFrameDialogComponent,
+        ToolboxDialogComponent,
+        HydropackDialogComponent,
+        DboxDialogComponent
+    ]
 })
 export class PalmsTrailerComponent implements OnInit, OnDestroy {
     @Input() trailer!: PalmsTrailer;
@@ -1634,9 +1634,6 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                 break;
             case 'frameExtension':
                 this.showFrameExtensionDialog = show;
-                break;
-            case 'toolbox':
-                this.showToolboxDialog = show;
                 break;
             default:
                 break;
