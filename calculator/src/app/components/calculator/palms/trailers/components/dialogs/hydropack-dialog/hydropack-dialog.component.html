@@ -1,0 +1,38 @@
+<p-dialog
+    class="dialog"
+    header="Header"
+    [(visible)]="hydropacksDialogVisible"
+    [modal]="true"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="closeHydropacksDialog()"
+>
+    <ng-template pTemplate="header">
+        <div class="inline-flex align-items-center justify-content-center gap-2">
+            <span class="font-bold white-space-nowrap"></span>
+        </div>
+    </ng-template>
+    <div class="mt-6 mb-12">
+        <p class="mt-6 text-lg">
+            A PALMS 2D+1.42 hidraulika csomagja kifejezetten a pótkocsi és a daru hidraulikus rendszerének működtetésére lett kialakítva.
+            Többféle konfigurációban érhető el, a pótkocsi és a daru felszereltségétől, illetve műszaki igényeitől függően.
+        </p>
+    </div>
+    @for (hydropack of hydropacks; track $index) {
+        <div class="my-12">
+            <p class="my-12 text-3xl font-bold">
+                {{ hydropack.name }}
+            </p>
+            @if (hydropack.imgUrls) {
+                @for (image of hydropack.imgUrls; track $index) {
+                    <img class="py-12" [src]="image" alt="LightImage" />
+                }
+            }
+        </div>
+    }
+    <ng-template pTemplate="footer">
+        <button class="bg-primary-color p-1 mt-2" (click)="closeHydropacksDialog()"><i class="fa-solid fa-check mr-1"></i>Értem</button>
+    </ng-template>
+</p-dialog>

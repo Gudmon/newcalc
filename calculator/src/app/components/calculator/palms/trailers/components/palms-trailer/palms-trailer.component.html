@@ -117,6 +117,12 @@
                 <div *ngIf="trailerSelected && hydropacks.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Hydropack</span>
+                        <button (click)="toggleDialog('hydropacks', true)"><i class="fa-solid fa-circle-info"></i></button>
+                        <app-hydropack-dialog
+                            [hydropacks]="hydropacks"
+                            [hydropacksDialogVisible]="showHydropacksDialog"
+                            (dialogVisible)="toggleDialog('hydropacks', false)"
+                        ></app-hydropack-dialog>
                     </div>
                     <p-listbox
                         optionDisabled="disabledOption"
@@ -228,11 +234,11 @@
                 <div *ngIf="trailerSelected && dbox" class="justify-content-center my-4 py-4">
                     <div class="mb-4">
                         <button (click)="toggleDialog('dbox', true)"><i class="fa-solid fa-circle-info"></i></button>
-                        <!-- <app-bbox-dialog
-                            [bBox]="bbox"
-                            [bBoxDialogVisible]="showBboxDialog"
-                            (dialogVisible)="toggleDialog('bbox', false)"
-                        ></app-bbox-dialog> -->
+                        <app-dbox-dialog
+                            [dBox]="dbox"
+                            [dBoxDialogVisible]="showDboxDialog"
+                            (dialogVisible)="toggleDialog('dbox', false)"
+                        ></app-dbox-dialog>
                     </div>
                     <div class="flex gap-2">
                         <p-checkbox
@@ -284,7 +290,7 @@
                             formControlName="selectedToolbox"
                             inputId="ToolboxSelected"
                         ></p-checkbox>
-                        <label class="hover:cursor-pointer" for="FrameExtensionSelected">{{ toolbox.namePrice }}</label>
+                        <label class="hover:cursor-pointer" for="ToolboxSelected">{{ toolbox.namePrice }}</label>
                     </div>
                 </div>
 
@@ -445,17 +451,23 @@
                             (dialogVisible)="toggleDialog('frameExtension', false)"
                         ></app-frame-extension-dialog>
                     </div>
-                    <div class="flex gap-2">
-                        <p-checkbox
-                            #frameExtensionCheckBox
-                            (onChange)="onFrameExtensionChange($event)"
-                            [value]="frameExtension"
-                            formControlName="selectedFrameExtension"
-                            inputId="FrameExtensionSelected"
-                        ></p-checkbox>
-                        <label class="hover:cursor-pointer" for="FrameExtensionSelected">{{ frameExtension.namePrice }}</label>
-                    </div>
+                    @if (frameExtension.id === 1) {
+                        <div class="flex gap-2">
+                            <p-checkbox
+                                #frameExtensionCheckBox
+                                (onChange)="onFrameExtensionChange($event)"
+                                [value]="frameExtension"
+                                formControlName="selectedFrameExtension"
+                                inputId="FrameExtensionSelected"
+                            ></p-checkbox>
+                            <label class="hover:cursor-pointer" for="FrameExtensionSelected">{{ frameExtension.namePrice }}</label>
+                        </div>
+                    } @else {
+                        <p>{{ frameExtension.name }} - Kérjük ezt az igényét külön jelezze számunkra!</p>
+                    }
                 </div>
+
+                <ng-template></ng-template>
 
                 <div *ngIf="trailerSelected && underrunProtection" class="justify-content-center my-4 py-4">
                     <div class="mb-4">

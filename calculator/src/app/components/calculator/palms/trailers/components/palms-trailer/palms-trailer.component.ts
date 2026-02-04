@@ -48,7 +48,9 @@ import { BunkAdapterDialogComponent } from '../dialogs/bunk-adapter-dialog/bunk-
 import { BunkExtensionDialogComponent } from '../dialogs/bunk-extension-dialog/bunk-extension-dialog.component';
 import { FrameExtensionDialogComponent } from '../dialogs/frame-extension-dialog/frame-extension-dialog.component';
 import { HayBaleFrameDialogComponent } from '../dialogs/hay-bale-frame-dialog/hay-bale-frame-dialog.component';
-import { ToolboxDialogComponent } from "../dialogs/toolbox-dialog/toolbox-dialog.component";
+import { ToolboxDialogComponent } from '../dialogs/toolbox-dialog/toolbox-dialog.component';
+import { HydropackDialogComponent } from '../dialogs/hydropack-dialog/hydropack-dialog.component';
+import { DboxDialogComponent } from "../dialogs/dbox-dialog/dbox-dialog.component";
 
 @Component({
     selector: 'app-palms-trailer',
@@ -98,7 +100,9 @@ import { ToolboxDialogComponent } from "../dialogs/toolbox-dialog/toolbox-dialog
     BunkExtensionDialogComponent,
     FrameExtensionDialogComponent,
     HayBaleFrameDialogComponent,
-    ToolboxDialogComponent
+    ToolboxDialogComponent,
+    HydropackDialogComponent,
+    DboxDialogComponent
 ]
 })
 export class PalmsTrailerComponent implements OnInit, OnDestroy {
@@ -152,7 +156,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     showBunkAdapterDialog: boolean = false;
     showBunkExtensionDialog: boolean = false;
     showFrameExtensionDialog: boolean = false;
-    showHydroPackDialog: boolean = false;
+    showHydropacksDialog: boolean = false;
 
     b4OrBAEUBrakeSelected: boolean = false;
     bb250PropulsionSelected: boolean = false;
@@ -1570,6 +1574,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                 break;
             case 'drawbars':
                 this.showDrawbarsDialog = show;
+                break;
+            case 'hydropacks':
+                this.showHydropacksDialog = show;
                 break;
             case 'platforms':
                 this.showPlatformsDialog = show;

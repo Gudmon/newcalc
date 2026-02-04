@@ -1,0 +1,23 @@
+<p-dialog
+    class="dialog"
+    header="Header"
+    [(visible)]="dBoxDialogVisible"
+    [modal]="true"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="closeDboxDialog()"
+>
+    <ng-template pTemplate="header">
+        <div class="">
+            <p class="text-3xl font-bold">{{ dBox.name }}</p>
+        </div>
+    </ng-template>
+    <div class="mt-12 mb-32">
+        <img loading="lazy" src="../../../../assets/PALMS trailer-dbox-1.svg" alt="DBoxImage1" />
+    </div>
+    <ng-template pTemplate="footer">
+        <button class="bg-primary-color p-1 mt-2" (click)="closeDboxDialog()"><i class="fa-solid fa-check mr-1"></i>Értem</button>
+    </ng-template>
+</p-dialog>

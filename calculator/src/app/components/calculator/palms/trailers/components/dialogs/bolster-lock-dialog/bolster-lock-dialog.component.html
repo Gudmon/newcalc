@@ -1,14 +1,29 @@
-<p-dialog class="dialog" header="Header" [(visible)]="bolsterLocksDialogVisible" [modal]="true" [style]="{ width: '50rem' }" [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }" [draggable]="false" [resizable]="false" (onHide)="closeBolsterLocksDialog()">
+<p-dialog
+    class="dialog"
+    header="Header"
+    [(visible)]="bolsterLocksDialogVisible"
+    [modal]="true"
+    [style]="{ width: '50rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }"
+    [draggable]="false"
+    [resizable]="false"
+    (onHide)="closeBolsterLocksDialog()"
+>
     <ng-template pTemplate="header">
-        <div class="inline-flex align-items-center justify-content-center gap-2">
-            <span class="font-bold white-space-nowrap"></span>
+        <div class="">
+            <p class="text-3xl font-bold">Rakonca rögzítő az első pár rakoncához</p>
         </div>
     </ng-template>
-    <div class="mt-12">
-        <p class="mb-12 text-3xl font-bold">Rakonca rögzítő az első pár rakoncához</p>
-        <img loading="lazy" src="../../../../assets/PALMS trailer-bolster-lock-1.jpg" alt="BolsterLockImage">
-    </div>  
+    <div class="mt-32">
+        <img loading="lazy" src="../../../../assets/PALMS trailer-bolster-lock-1.jpg" alt="BolsterLockImage1" />
+    </div>
+    <div class="mt-32">
+        <img loading="lazy" src="../../../../assets/PALMS trailer-bolster-lock-2.jpg" alt="BolsterLockImage2" />
+    </div>
+    <div class="mt-32">
+        <img loading="lazy" src="../../../../assets/PALMS trailer-bolster-lock-3.jpg" alt="BolsterLockImage3" />
+    </div>
     <ng-template pTemplate="footer">
-      <button class="bg-primary-color p-1 mt-2" (click)="closeBolsterLocksDialog()"><i class="fa-solid fa-check mr-1"></i>Értem</button>  
+        <button class="bg-primary-color p-1 mt-2" (click)="closeBolsterLocksDialog()"><i class="fa-solid fa-check mr-1"></i>Értem</button>
     </ng-template>
 </p-dialog>

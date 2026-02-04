@@ -392,10 +392,16 @@ export class PalmsTrailerConfigService {
         return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/hydropacks`).pipe(
             map((hydropacks: ConfigurationItem[]) => {
                 for (const hydropack of hydropacks) {
-                    if (hydropack.price.toString() === '0') {
-                        hydropack.namePrice = hydropack.name;
-                    } else {
-                        hydropack.namePrice = hydropack.name + ' ' + hydropack.price + '€';
+                    hydropack.namePrice = hydropack.name + ' ' + hydropack.price + '€';
+
+                    if (hydropack.code === 'HyP1')
+                        hydropack.imgUrls = [
+                            `../../../../assets/PALMS trailer-hydropack-1.jpg`,
+                            `../../../../assets/PALMS trailer-hydropack-2.jpg`
+                        ];
+                    else if (hydropack.code === 'HyP4') hydropack.imgUrls = [`../../../../assets/PALMS trailer-hydropack-3.jpg`];
+                    else {
+                        hydropack.imgUrls = [`../../../../assets/PALMS trailer-hydropack-4.png`];
                     }
                 }
                 return hydropacks;
