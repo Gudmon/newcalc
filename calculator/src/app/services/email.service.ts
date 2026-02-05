@@ -2,43 +2,56 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class EmailService {
-  //private url = 'http://localhost:5140';
-  private url = 'https://calculator-app-api.azurewebsites.net';
-  constructor(private httpClient: HttpClient){}
+    //private url = 'http://localhost:5140';
+    private url = 'https://calculator-app-api.azurewebsites.net';
+    constructor(private httpClient: HttpClient) {}
 
-  sendEmail(fromEmail: string, subject:string, body: string, name: string, countryCode: string, phoneNumber:string, blobName: string){
-    const email = {
-      FromEmail: fromEmail,
-      Subject: subject,
-      Body: body,
-      Name: name,
-      CountryCode: countryCode,
-      PhoneNumber: phoneNumber,
-      BlobName: blobName
-    }
-    return this.httpClient.post<any>(`${this.url}/Email`, email).pipe()
-  }
+    sendEmail(fromEmail: string, subject: string, body: string, name: string, countryCode: string, phoneNumber: string, blobName: string) {
+        const email = {
+            FromEmail: fromEmail,
+            Subject: subject,
+            Body: body,
+            Name: name,
+            CountryCode: countryCode,
+            PhoneNumber: phoneNumber,
+            BlobName: blobName
+        };
+        console.log('EMAIL', email);
 
-  sendCompetitionEmail(fromEmail: string, subject:string, name: string, countryCode: string, phoneNumber:string, 
-    businessForm: string, category: string, kata: string, businessYear: string, manPower: string, revenue: string, message: string | null
-  ){
-    const email = {
-      FromEmail: fromEmail,
-      Subject: subject,
-      Name: name,
-      CountryCode: countryCode,
-      PhoneNumber: phoneNumber,
-      BusinessForm: businessForm,
-      Category: category,
-      Kata: kata,
-      BusinessYear: businessYear,
-      ManPower: manPower,
-      Revenue: revenue,
-      Message: message,
+        return this.httpClient.post<any>(`${this.url}/Email`, email).pipe();
     }
-    return this.httpClient.post<any>(`${this.url}/Email/competition`, email).pipe()
-  }
+
+    sendCompetitionEmail(
+        fromEmail: string,
+        subject: string,
+        name: string,
+        countryCode: string,
+        phoneNumber: string,
+        businessForm: string,
+        category: string,
+        kata: string,
+        businessYear: string,
+        manPower: string,
+        revenue: string,
+        message: string | null
+    ) {
+        const email = {
+            FromEmail: fromEmail,
+            Subject: subject,
+            Name: name,
+            CountryCode: countryCode,
+            PhoneNumber: phoneNumber,
+            BusinessForm: businessForm,
+            Category: category,
+            Kata: kata,
+            BusinessYear: businessYear,
+            ManPower: manPower,
+            Revenue: revenue,
+            Message: message
+        };
+        return this.httpClient.post<any>(`${this.url}/Email/competition`, email).pipe();
+    }
 }
