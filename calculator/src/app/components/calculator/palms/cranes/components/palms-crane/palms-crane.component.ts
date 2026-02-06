@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
-import { NavigationComponent } from "../../../../../navigation/navigation.component";
-import { FooterComponent } from "../../../../../footer/footer.component";
-import { PalmsCraneInformationComponent } from "../palms-crane-information/palms-crane-information.component";
+import { NavigationComponent } from '../../../../../navigation/navigation.component';
+import { FooterComponent } from '../../../../../footer/footer.component';
+import { PalmsCraneInformationComponent } from '../palms-crane-information/palms-crane-information.component';
 import { PalmsService } from '../../../shared/services/palms.service';
 import { LoadingService } from '../../../../../../services/loading.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,52 +13,91 @@ import { Subject, forkJoin, takeUntil } from 'rxjs';
 import { ListboxChangeEvent, ListboxModule } from 'primeng/listbox';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AccordionModule } from 'primeng/accordion';
-import { AccessoryItemComponent } from "../../../shared/components/accessory-item/accessory-item.component";
-import { FormatPricePipe } from "../../../../../pipes/format-price.pipe";
+import { AccessoryItemComponent } from '../../../shared/components/accessory-item/accessory-item.component';
+import { FormatPricePipe } from '../../../../../pipes/format-price.pipe';
 import { FrameType } from '../../models/frame-type';
 import { FrameTypesDialogComponent } from '../dialogs/frame-types-dialog/frame-types-dialog.component';
-import { ControlBlocksDialogComponent } from "../dialogs/control-blocks-dialog/control-blocks-dialog.component";
+import { ControlBlocksDialogComponent } from '../dialogs/control-blocks-dialog/control-blocks-dialog.component';
 import { Dropdown } from 'primeng/dropdown';
-import { RotatorsDialogComponent } from "../dialogs/rotators-dialog/rotators-dialog.component";
-import { GrapplesDialogComponent } from "../dialogs/grapples-dialog/grapples-dialog.component";
-import { WinchesDialogComponent } from "../dialogs/winches-dialog/winches-dialog.component";
+import { RotatorsDialogComponent } from '../dialogs/rotators-dialog/rotators-dialog.component';
+import { GrapplesDialogComponent } from '../dialogs/grapples-dialog/grapples-dialog.component';
+import { WinchesDialogComponent } from '../dialogs/winches-dialog/winches-dialog.component';
 import { Checkbox, CheckboxChangeEvent, CheckboxModule } from 'primeng/checkbox';
-import { ProtectionSleevesDialogComponent } from "../dialogs/protection-sleeves-dialog/protection-sleeves-dialog.component";
-import { ElectricalFloatingDialogComponent } from "../dialogs/electrical-floating-dialog/electrical-floating-dialog.component";
-import { ValveBlockDialogComponent } from "../dialogs/valve-block-dialog/valve-block-dialog.component";
-import { DampingsDialogComponent } from "../dialogs/dampings-dialog/dampings-dialog.component";
-import { CraneLightDialogComponent } from "../dialogs/crane-light-dialog/crane-light-dialog.component";
-import { OperatorSeatDialogComponent } from "../dialogs/operator-seat-dialog/operator-seat-dialog.component";
-import { CraneOilcoolerDialogComponent } from "../dialogs/crane-oilcooler-dialog/crane-oilcooler-dialog.component";
-import { RotatorBrakesDialogComponent } from "../dialogs/rotator-brakes-dialog/rotator-brakes-dialog.component";
-import { JoystickHolderDialogComponent } from "../dialogs/joystick-holder-dialog/joystick-holder-dialog.component";
-import { HoseGuardsDialogComponent } from "../dialogs/hose-guards-dialog/hose-guards-dialog.component";
-import { TurningCounterPlateDialogComponent } from "../dialogs/turning-counter-plate-dialog/turning-counter-plate-dialog.component";
-import { SupportCounterPlateDialogComponent } from "../dialogs/support-counter-plate-dialog/support-counter-plate-dialog.component";
-import { BoomguardDialogComponent } from "../dialogs/boomguard-dialog/boomguard-dialog.component";
-import { CoverDialogComponent } from "../dialogs/cover-dialog/cover-dialog.component";
-import { WoodcontrolDialogComponent } from "../dialogs/woodcontrol-dialog/woodcontrol-dialog.component";
-import { LinkageDialogComponent } from "../dialogs/linkage-dialog/linkage-dialog.component";
-import { PalmsTrailerComponent } from "../../../trailers/components/palms-trailer/palms-trailer.component";
-import { PalmsTrailerCardsComponent } from "../../../trailers/components/palms-trailer-cards/palms-trailer-cards.component";
+import { ProtectionSleevesDialogComponent } from '../dialogs/protection-sleeves-dialog/protection-sleeves-dialog.component';
+import { ElectricalFloatingDialogComponent } from '../dialogs/electrical-floating-dialog/electrical-floating-dialog.component';
+import { ValveBlockDialogComponent } from '../dialogs/valve-block-dialog/valve-block-dialog.component';
+import { DampingsDialogComponent } from '../dialogs/dampings-dialog/dampings-dialog.component';
+import { CraneLightDialogComponent } from '../dialogs/crane-light-dialog/crane-light-dialog.component';
+import { OperatorSeatDialogComponent } from '../dialogs/operator-seat-dialog/operator-seat-dialog.component';
+import { CraneOilcoolerDialogComponent } from '../dialogs/crane-oilcooler-dialog/crane-oilcooler-dialog.component';
+import { RotatorBrakesDialogComponent } from '../dialogs/rotator-brakes-dialog/rotator-brakes-dialog.component';
+import { JoystickHolderDialogComponent } from '../dialogs/joystick-holder-dialog/joystick-holder-dialog.component';
+import { HoseGuardsDialogComponent } from '../dialogs/hose-guards-dialog/hose-guards-dialog.component';
+import { TurningCounterPlateDialogComponent } from '../dialogs/turning-counter-plate-dialog/turning-counter-plate-dialog.component';
+import { SupportCounterPlateDialogComponent } from '../dialogs/support-counter-plate-dialog/support-counter-plate-dialog.component';
+import { BoomguardDialogComponent } from '../dialogs/boomguard-dialog/boomguard-dialog.component';
+import { CoverDialogComponent } from '../dialogs/cover-dialog/cover-dialog.component';
+import { WoodcontrolDialogComponent } from '../dialogs/woodcontrol-dialog/woodcontrol-dialog.component';
+import { LinkageDialogComponent } from '../dialogs/linkage-dialog/linkage-dialog.component';
+import { PalmsTrailerComponent } from '../../../trailers/components/palms-trailer/palms-trailer.component';
+import { PalmsTrailerCardsComponent } from '../../../trailers/components/palms-trailer-cards/palms-trailer-cards.component';
 import { PalmsTrailerOverview } from '../../../trailers/models/palms-trailer-overview';
 import { RadioButtonModule } from 'primeng/radiobutton';
-import { PalmsCraneCalculatorHintsComponent } from "../palms-crane-calculator-hints/palms-crane-calculator-hints.component";
+import { PalmsCraneCalculatorHintsComponent } from '../palms-crane-calculator-hints/palms-crane-calculator-hints.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { HighPerformanceOilFilterDialogComponent } from "../dialogs/high-performance-oil-filter-dialog/high-performance-oil-filter-dialog.component";
+import { HighPerformanceOilFilterDialogComponent } from '../dialogs/high-performance-oil-filter-dialog/high-performance-oil-filter-dialog.component';
 
 @Component({
     selector: 'app-palms-crane',
     standalone: true,
     templateUrl: './palms-crane.component.html',
     styleUrl: './palms-crane.component.css',
-    imports: [FormsModule, InputSwitchModule, ReactiveFormsModule, AccordionModule, RadioButtonModule, CheckboxModule, NavigationComponent, FooterComponent, PalmsCraneInformationComponent, CommonModule, ListboxModule, AccessoryItemComponent, FormatPricePipe, FrameTypesDialogComponent, ControlBlocksDialogComponent, RotatorsDialogComponent, GrapplesDialogComponent, WinchesDialogComponent, ProtectionSleevesDialogComponent, ElectricalFloatingDialogComponent, ValveBlockDialogComponent, DampingsDialogComponent, CraneLightDialogComponent, OperatorSeatDialogComponent, CraneOilcoolerDialogComponent, RotatorBrakesDialogComponent, JoystickHolderDialogComponent, HoseGuardsDialogComponent, TurningCounterPlateDialogComponent, SupportCounterPlateDialogComponent, BoomguardDialogComponent, CoverDialogComponent, WoodcontrolDialogComponent, LinkageDialogComponent, PalmsTrailerComponent, PalmsTrailerCardsComponent, PalmsCraneCalculatorHintsComponent, HighPerformanceOilFilterDialogComponent]
+    imports: [
+        FormsModule,
+        InputSwitchModule,
+        ReactiveFormsModule,
+        AccordionModule,
+        RadioButtonModule,
+        CheckboxModule,
+        NavigationComponent,
+        FooterComponent,
+        PalmsCraneInformationComponent,
+        CommonModule,
+        ListboxModule,
+        AccessoryItemComponent,
+        FormatPricePipe,
+        FrameTypesDialogComponent,
+        ControlBlocksDialogComponent,
+        RotatorsDialogComponent,
+        GrapplesDialogComponent,
+        WinchesDialogComponent,
+        ProtectionSleevesDialogComponent,
+        ElectricalFloatingDialogComponent,
+        ValveBlockDialogComponent,
+        DampingsDialogComponent,
+        CraneLightDialogComponent,
+        OperatorSeatDialogComponent,
+        CraneOilcoolerDialogComponent,
+        RotatorBrakesDialogComponent,
+        JoystickHolderDialogComponent,
+        HoseGuardsDialogComponent,
+        TurningCounterPlateDialogComponent,
+        SupportCounterPlateDialogComponent,
+        BoomguardDialogComponent,
+        CoverDialogComponent,
+        WoodcontrolDialogComponent,
+        LinkageDialogComponent,
+        PalmsTrailerComponent,
+        PalmsTrailerCardsComponent,
+        PalmsCraneCalculatorHintsComponent,
+        HighPerformanceOilFilterDialogComponent
+    ]
 })
 export class PalmsCraneComponent implements OnInit, OnDestroy {
-    crane!: PalmsCrane
+    crane!: PalmsCrane;
 
     @Input() id?: number;
-    availableCoverCodes: string[] = ["A2", "A7", "A12", "A14"];
+    availableCoverCodes: string[] = ['A2', 'A7', 'A12', 'A14'];
     craneSelected: boolean = false;
     frameTypeSelected: boolean = false;
     hintsChecked: boolean = true;
@@ -150,7 +189,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalCoverPrice = 0;
     originalWoodControlPrice = 0;
     originalLinkagePrice = 0;
-     
+
     originalCrane: ConfigurationItem | undefined = undefined;
     originalControlBlock: ConfigurationItem | undefined = undefined;
     originalFrameType: ConfigurationItem | undefined = undefined;
@@ -177,49 +216,36 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalLinkage: ConfigurationItem | undefined = undefined;
     originalShipping: ConfigurationItem | undefined = undefined;
 
-      get selectedGrapples(): FormArray {
+    get selectedGrapples(): FormArray {
         return this.craneFormGroup.get('selectedGrapples') as FormArray;
-      }
-    
-      addGrapple() {
-        this.selectedGrapples.push(this.fb.control(null));
-        this.originalGrapplePrices.push(0);
-      }
-      
-      removeGrapple(index: number) {
-        this.palmsService._cranePrice.update(cranePrice => cranePrice - this.originalGrapplePrices[index])
-        this.palmsService.selectedGrapples.splice(index, 1)
-        this.selectedGrapples.removeAt(index);
-        this.originalGrapplePrices.splice(index, 1); 
-      }
+    }
 
-      
     craneFormGroup: FormGroup = new FormGroup({
-        selectedCrane: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedControlBlock: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedFrameType: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+        selectedCrane: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedControlBlock: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedFrameType: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedGrapples: this.fb.array([]),
-        selectedRotator: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedGrapple: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedWinch: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedProtectionSleeves: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedElectricalFloating: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedValveBlock: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedDamping: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedLight: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedOperatorSeat: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedHighPerformanceOilFilter: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedOilCooler: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedRotatorBrake: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedJoystickHolder: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedHoseGuard: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedTurningDeviceCounterPlate: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedSupportLegCounterPlate: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedBoomGuard: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedCover: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedWoodControl: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedLinkage: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
-        selectedShipping: new FormControl<ConfigurationItem>({id: 0, name: '', code: '', price: 0, namePrice: ''}),
+        selectedRotator: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedGrapple: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedWinch: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedProtectionSleeves: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedElectricalFloating: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedValveBlock: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedDamping: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedLight: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedOperatorSeat: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedHighPerformanceOilFilter: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedOilCooler: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedRotatorBrake: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedJoystickHolder: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedHoseGuard: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedTurningDeviceCounterPlate: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedSupportLegCounterPlate: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedBoomGuard: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedCover: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedWoodControl: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedLinkage: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedShipping: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' })
     });
 
     private initializeFormGroup(): void {
@@ -232,88 +258,91 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             selectedGrapple: [],
             selectedWinch: [],
             selectedProtectionSleeves: null,
-            selectedElectricalFloating: [{ value: null, disabled: true}],
-            selectedValveBlock: [{value: null, disabled: true}],
+            selectedElectricalFloating: [{ value: null, disabled: true }],
+            selectedValveBlock: [{ value: null, disabled: true }],
             selectedDamping: [],
             selectedLight: [],
-            selectedOperatorSeat: [{value: null, disabled: true}],
+            selectedOperatorSeat: [{ value: null, disabled: true }],
             selectedHighPerformanceOilFilter: null,
             selectedOilCooler: [],
             selectedRotatorBrake: [],
-            selectedJoystickHolder: [{value: null, disabled: true}],
+            selectedJoystickHolder: [{ value: null, disabled: true }],
             selectedHoseGuard: [],
             selectedTurningDeviceCounterPlate: null,
             selectedSupportLegCounterPlate: null,
             selectedBoomGuard: null,
-            selectedCover: [{value: null, disabled: true}],
+            selectedCover: [{ value: null, disabled: true }],
             selectedWoodControl: null,
-            selectedLinkage: [{value: null, disabled: true}],
+            selectedLinkage: [{ value: null, disabled: true }],
             selectedShipping: this.craneShipping
         });
-    }  
+    }
     private destroy$ = new Subject<void>();
-    constructor(readonly palmsService: PalmsService,
+    constructor(
+        readonly palmsService: PalmsService,
         readonly palmsCraneConfigService: PalmsCraneConfigService,
         readonly loadingService: LoadingService,
         private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder) { 
-    }
+        private fb: FormBuilder
+    ) {}
 
     ngOnInit(): void {
-      if (this.id) {
-        this.fromTrailer = true;
-      } else {
-        this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'))!;
-      }
-
-      this.loadingService.enableLoader();
-      this.palmsService.getCrane(this.id).pipe().subscribe((response) => {
-        if(!this.fromTrailer){
-          this.palmsService._deleteCrane.next(true);
-          this.palmsService._deleteTrailer.next(true);
-          this.palmsService._craneSelected.next(false);
-          this.palmsService._trailerSelected.next(false);
-          this.palmsService._selectedCrane.next(undefined);
-          this.palmsService._selectedTrailer.next(undefined);
-          this.palmsService._selectedCrane.next(response);
+        this.addGrapple();
+        if (this.id) {
+            this.fromTrailer = true;
+        } else {
+            this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'))!;
         }
 
-        this.crane = response as PalmsCrane;
-        
-      }).add(() => {
-        this.loadingService.disableLoader()
-      })
-      
-      if(this.fromTrailer){
-        this.palmsService.selectedCrane$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((crane) => {
-          this.id = crane?.id;
-          this.loadCraneConfigurations(this.id!);
-          this.palmsService._selectedAccordion.set(1);
-        });
-      } else {
-        this.palmsService.deleteCrane();
-        this.palmsService._selectedAccordion.set(0);
-        this.palmsService.deleteTrailer();
-      }
+        this.loadingService.enableLoader();
+        this.palmsService
+            .getCrane(this.id)
+            .pipe()
+            .subscribe((response) => {
+                if (!this.fromTrailer) {
+                    this.palmsService._deleteCrane.next(true);
+                    this.palmsService._deleteTrailer.next(true);
+                    this.palmsService._craneSelected.next(false);
+                    this.palmsService._trailerSelected.next(false);
+                    this.palmsService._selectedCrane.next(undefined);
+                    this.palmsService._selectedTrailer.next(undefined);
+                    this.palmsService._selectedCrane.next(response);
+                }
 
-      this.palmsService.deleteCrane$.subscribe(() => {  
-        this.delete();
-      })
+                this.crane = response as PalmsCrane;
+            })
+            .add(() => {
+                this.loadingService.disableLoader();
+            });
+
+        if (this.fromTrailer) {
+            this.palmsService.selectedCrane$.pipe(takeUntil(this.destroy$)).subscribe((crane) => {
+                this.id = crane?.id;
+                this.loadCraneConfigurations(this.id!);
+                this.palmsService._selectedAccordion.set(1);
+            });
+        } else {
+            this.palmsService.deleteCrane();
+            this.palmsService._selectedAccordion.set(0);
+            this.palmsService.deleteTrailer();
+        }
+
+        this.palmsService.deleteCrane$.subscribe(() => {
+            this.delete();
+        });
     }
 
     ngOnDestroy() {
-      this.destroy$.next();
-      this.destroy$.complete();
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 
-    navigateToTrailer(trailerId: number){
-      const url = `/calculator/palms/trailers/${trailerId}`;
-      window.open(url, '_blank');
-      }
+    navigateToTrailer(trailerId: number) {
+        const url = `/calculator/palms/trailers/${trailerId}`;
+        window.open(url, '_blank');
+    }
 
-    loadCraneConfigurations(id: number){ 
+    loadCraneConfigurations(id: number) {
         this.loadingService.enableLoader();
         const controlBlocks$ = this.palmsCraneConfigService.getControlBlocks(id);
         const frameTypes$ = this.palmsCraneConfigService.getFrameTypes(id);
@@ -338,422 +367,471 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         const woodControl$ = this.palmsCraneConfigService.getWoodControl(id);
         const linkage$ = this.palmsCraneConfigService.getLinkage(id);
         const craneShipping$ = this.palmsCraneConfigService.getShipping(id);
-        
-        const request = forkJoin([controlBlocks$, frameTypes$, grapples$, winches$, 
-          protectionSleeves$, electricalFloating$, valveBlock$, dampings$, light$,
-          operatorSeat$, highPerformanceOilFilters$, oilCooler$, rotatorBrakes$, joystickHolder$, hoseguards$,
-          turningDeviceCounterPlate$, supportLegCounterPlate$, boomGuard$, cover$, 
-          woodControl$, linkage$, craneShipping$]);
-       
-        request.subscribe(([controlBlocks, frameTypes, grapples, winches, 
-          protectionSleeves, electricalFloating, valveBlock, dampings, light,
-          operatorSeat, highPerformanceOilFilters, oilCooler, rotatorBrakes, joystickHolder, hoseGuards,
-          turningDeviceCounterPlate, supportLegCounterPlate, boomGuard, cover, 
-          woodControl, linkage, craneShipping]) => {
-            if(controlBlocks){
-              this.controlBlocks = controlBlocks;
-            }
 
-            if(frameTypes){
-                this.frameTypes = frameTypes;
-            }
+        const request = forkJoin([
+            controlBlocks$,
+            frameTypes$,
+            grapples$,
+            winches$,
+            protectionSleeves$,
+            electricalFloating$,
+            valveBlock$,
+            dampings$,
+            light$,
+            operatorSeat$,
+            highPerformanceOilFilters$,
+            oilCooler$,
+            rotatorBrakes$,
+            joystickHolder$,
+            hoseguards$,
+            turningDeviceCounterPlate$,
+            supportLegCounterPlate$,
+            boomGuard$,
+            cover$,
+            woodControl$,
+            linkage$,
+            craneShipping$
+        ]);
 
-            // if(rotators){
-            //     this.rotators = rotators;
-            // }
+        request
+            .subscribe(
+                ([
+                    controlBlocks,
+                    frameTypes,
+                    grapples,
+                    winches,
+                    protectionSleeves,
+                    electricalFloating,
+                    valveBlock,
+                    dampings,
+                    light,
+                    operatorSeat,
+                    highPerformanceOilFilters,
+                    oilCooler,
+                    rotatorBrakes,
+                    joystickHolder,
+                    hoseGuards,
+                    turningDeviceCounterPlate,
+                    supportLegCounterPlate,
+                    boomGuard,
+                    cover,
+                    woodControl,
+                    linkage,
+                    craneShipping
+                ]) => {
+                    if (controlBlocks) {
+                        this.controlBlocks = controlBlocks;
+                    }
 
-            if(grapples){
-                this.grapples = grapples;
-            }
+                    if (frameTypes) {
+                        this.frameTypes = frameTypes;
+                    }
 
-            if(winches){
-              this.winches = winches.map((winch) => ({
-                ...winch,
-                disabledOption:  winch.id === 2 || winch.id === 3
-              }));
-            }
+                    // if(rotators){
+                    //     this.rotators = rotators;
+                    // }
 
-            if (protectionSleeves){
-              this.protectionSleeves = protectionSleeves;
-            }
+                    if (grapples) {
+                        this.grapples = grapples;
+                    }
 
-            if (electricalFloating){
-                this.electricalFloating = electricalFloating;
-            }
+                    if (winches) {
+                        this.winches = winches.map((winch) => ({
+                            ...winch,
+                            disabledOption: winch.id === 2 || winch.id === 3
+                        }));
+                    }
 
-            if (valveBlock){
-              this.valveBlock = valveBlock;
-            }
+                    if (protectionSleeves) {
+                        this.protectionSleeves = protectionSleeves;
+                    }
 
-            if(dampings){
-              this.dampings = dampings;
-            }
+                    if (electricalFloating) {
+                        this.electricalFloating = electricalFloating;
+                    }
 
-            if (light){
-              this.light = light;
-            }
+                    if (valveBlock) {
+                        this.valveBlock = valveBlock;
+                    }
 
-            if (operatorSeat){
-              this.operatorSeat = operatorSeat;
-            }
+                    if (dampings) {
+                        this.dampings = dampings;
+                    }
 
-            if (highPerformanceOilFilters){
-              this.highPerformanceOilFilters = highPerformanceOilFilters;
-            }
+                    if (light) {
+                        this.light = light;
+                    }
 
-            if (oilCooler){
-              this.oilCooler = oilCooler;
-            }
+                    if (operatorSeat) {
+                        this.operatorSeat = operatorSeat;
+                    }
 
-            if(rotatorBrakes){
-              this.rotatorBrakes = rotatorBrakes;
-            }
+                    if (highPerformanceOilFilters) {
+                        this.highPerformanceOilFilters = highPerformanceOilFilters;
+                    }
 
-            if (joystickHolder){
-              this.joystickHolder = joystickHolder;
-            }
+                    if (oilCooler) {
+                        this.oilCooler = oilCooler;
+                    }
 
-            if(hoseGuards){
-              this.hoseGuards = hoseGuards.map((hoseGuard) => ({
-                ...hoseGuard,
-                disabledOption:  true
-              }));
-            }
+                    if (rotatorBrakes) {
+                        this.rotatorBrakes = rotatorBrakes;
+                    }
 
-            if (turningDeviceCounterPlate){
-              this.turningDeviceCounterPlate = turningDeviceCounterPlate;
-            }
+                    if (joystickHolder) {
+                        this.joystickHolder = joystickHolder;
+                    }
 
-            if (supportLegCounterPlate){
-              this.supportLegCounterPlate = supportLegCounterPlate;
-            }
+                    if (hoseGuards) {
+                        this.hoseGuards = hoseGuards.map((hoseGuard) => ({
+                            ...hoseGuard,
+                            disabledOption: true
+                        }));
+                    }
 
-            if (boomGuard){
-              this.boomGuard = boomGuard;
-            }
+                    if (turningDeviceCounterPlate) {
+                        this.turningDeviceCounterPlate = turningDeviceCounterPlate;
+                    }
 
-            if (cover){
-              this.cover = cover;
-            }
+                    if (supportLegCounterPlate) {
+                        this.supportLegCounterPlate = supportLegCounterPlate;
+                    }
 
-            if (woodControl){
-              this.woodControl = woodControl;
-            }
+                    if (boomGuard) {
+                        this.boomGuard = boomGuard;
+                    }
 
-            if (linkage){
-              this.linkage = linkage;
-            }
+                    if (cover) {
+                        this.cover = cover;
+                    }
 
-            if (craneShipping){
-              this.craneShipping = craneShipping;
-              this.palmsService.selectedCraneShipping.set(craneShipping);
-              this.palmsService._cranePrice.set(Number(craneShipping.price));
-            }
+                    if (woodControl) {
+                        this.woodControl = woodControl;
+                    }
 
-            this.initializeFormGroup();
-            this.craneSelected = true;
-            
-            this.palmsService.selectedCrane$.subscribe((crane) => {
-              if(!crane) return;
-              this.palmsService._cranePrice.update(cranePrice => cranePrice + Number(crane?.price));
-            })
+                    if (linkage) {
+                        this.linkage = linkage;
+                    }
 
-        }).add(() => {
-          this.loadingService.disableLoader();
-          this.palmsService._craneSelected.next(true);
-        })
-    } 
+                    if (craneShipping) {
+                        this.craneShipping = craneShipping;
+                        this.palmsService.selectedCraneShipping.set(craneShipping);
+                        this.palmsService._cranePrice.set(Number(craneShipping.price));
+                    }
+
+                    this.initializeFormGroup();
+                    this.craneSelected = true;
+
+                    this.palmsService.selectedCrane$.subscribe((crane) => {
+                        if (!crane) return;
+                        this.palmsService._cranePrice.update((cranePrice) => cranePrice + Number(crane?.price));
+                    });
+                }
+            )
+            .add(() => {
+                this.loadingService.disableLoader();
+                this.palmsService._craneSelected.next(true);
+            });
+    }
 
     handleControlBlockChange(event: ListboxChangeEvent) {
-      const previousValue = this.originalControlBlockPrice;
-      this.originalControlBlockPrice = event.value ? event.value.price : 0;
-      const nextValue = this.originalControlBlockPrice;
-      const current = this.palmsService._cranePrice();
-    
-      if (previousValue !== nextValue) {
-        const newPrice = current - previousValue + Number(nextValue);
-        this.palmsService._cranePrice.set(newPrice);
-      }
-    
-      let updatedFrameTypes: FrameType[] = [];
-      let updatedWinches: ConfigurationItem[] = [];
-    
-      if (event.value) {
-        this.originalControlBlock = event.value;
-        this.palmsService.selectedControlBlock.set(event.value)
-    
-        // frame types
-        if (event.value.id < 8) {
-          updatedFrameTypes = this.updateFrameTypesForControlBlock();
+        const previousValue = this.originalControlBlockPrice;
+        this.originalControlBlockPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalControlBlockPrice;
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
+        }
+
+        let updatedFrameTypes: FrameType[] = [];
+        let updatedWinches: ConfigurationItem[] = [];
+
+        if (event.value) {
+            this.originalControlBlock = event.value;
+            this.palmsService.selectedControlBlock.set(event.value);
+
+            // frame types
+            if (event.value.id < 8) {
+                updatedFrameTypes = this.updateFrameTypesForControlBlock();
+            } else {
+                updatedFrameTypes = this.updateFrameTypesToEnabled();
+            }
+
+            // winches and electrical floating
+            if (5 < event.value.id && event.value.id < 14) {
+                updatedWinches = this.updateWinchesToEnabled();
+                this.craneFormGroup.get('selectedElectricalFloating')?.enable();
+            } else {
+                updatedWinches = this.updateWinchesForControlBlock();
+                this.setElectricalFloatingDefault();
+            }
+
+            // valve block
+            if (7 < event.value.id && event.value.id < 15) {
+                this.craneFormGroup.get('selectedValveBlock')?.enable();
+            } else {
+                this.setValveBlockDefault();
+            }
+
+            // operator seat
+            if (event.value.id === 5) {
+                this.craneFormGroup.get('selectedOperatorSeat')?.enable();
+            } else {
+                this.setOperatorSeatDefault();
+            }
+
+            // joystick holder
+            if (5 < event.value.id && event.value.id < 15) {
+                this.craneFormGroup.get('selectedJoystickHolder')?.enable();
+            } else {
+                this.setJoystickHolderDefault();
+            }
+
+            // cover
+            if (this.availableCoverCodes.includes(event.value.code)) {
+                this.craneFormGroup.get('selectedCover')?.enable();
+            } else {
+                this.setCoverDefault();
+            }
+
+            // high performance oil filter
+            if (event.value.id >= 4 && event.value.id < 15) {
+                if (this.originalHighPerformanceOilFilter && this.originalHighPerformanceOilFilter.id === 2) {
+                    this.palmsService._cranePrice.update((value) => value - Number(this.highPerformanceOilFilters[1]?.price));
+                    this.originalHighPerformanceOilFilter = undefined;
+                }
+
+                this.controlBlockMoreThanA7 = true;
+                this.controlBlockLessThanA7 = false;
+                setTimeout(() => {
+                    this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(this.highPerformanceOilFilters[0]);
+                    this.palmsService.selectedHighPerformanceOilFilter.set(this.highPerformanceOilFilters[0]);
+                    this.palmsService._cranePrice.update((value) => value + Number(this.highPerformanceOilFilters[0]?.price));
+                }, 50);
+            } else {
+                this.controlBlockLessThanA7 = true;
+                this.controlBlockMoreThanA7 = false;
+
+                if (
+                    this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.value &&
+                    this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.value.id === 1
+                ) {
+                    this.palmsService._cranePrice.update((value) => value - Number(this.highPerformanceOilFilters[0]?.price));
+                    this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
+                    this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
+                }
+
+                if (this.originalControlBlock && this.originalControlBlock.id >= 4) {
+                    this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
+                    this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
+                }
+            }
         } else {
-          updatedFrameTypes = this.updateFrameTypesToEnabled();
-        }
-    
-        // winches and electrical floating
-        if (5 < event.value.id && event.value.id < 14) {
-          updatedWinches = this.updateWinchesToEnabled();
-          this.craneFormGroup.get('selectedElectricalFloating')?.enable();
-        } else {
-          updatedWinches = this.updateWinchesForControlBlock();
-          this.setElectricalFloatingDefault();
+            if (this.originalControlBlock && this.originalControlBlock.id >= 4) {
+                this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
+                this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
+            }
+            this.originalControlBlock = undefined;
+            this.palmsService.selectedControlBlock.set(undefined);
+
+            updatedFrameTypes = this.updateFrameTypesToEnabled();
+            updatedWinches = this.updateWinchesForControlBlock();
+            this.setElectricalFloatingDefault();
+            this.palmsService.selectedElectricalFloating.set(undefined);
+            this.setValveBlockDefault();
+            this.palmsService.selectedValveBlock.set(undefined);
+            this.setOperatorSeatDefault();
+            this.palmsService.selectedOperatorSeat.set(undefined);
+            this.setJoystickHolderDefault();
+            this.palmsService.selectedJoystickHolder.set(undefined);
+            this.setCoverDefault();
+            this.palmsService.selectedCover.set(undefined);
+
+            this.controlBlockMoreThanA7 = false;
+            this.controlBlockLessThanA7 = false;
+
+            // winches
+            if (this.originalWinch && (this.originalWinch.id === 2 || this.originalWinch.id === 3)) {
+                this.setWinchToDefault();
+                this.palmsService.selectedWinch.set(undefined);
+            }
         }
 
-        // valve block
-        if (7 < event.value.id && event.value.id < 15) {
-          this.craneFormGroup.get('selectedValveBlock')?.enable();
-        } else {
-          this.setValveBlockDefault();
-        }
+        this.frameTypes = updatedFrameTypes;
+        this.winches = updatedWinches;
+    }
 
-        // operator seat
-        if (event.value.id === 5) {
-          this.craneFormGroup.get('selectedOperatorSeat')?.enable();
-        } else {
-          this.setOperatorSeatDefault();
-        }
-
-        // joystick holder
-        if (5 < event.value.id && event.value.id < 15) {
-          
-          this.craneFormGroup.get('selectedJoystickHolder')?.enable();
-        } else {
-          this.setJoystickHolderDefault();
-        }
-
-        // cover
-        if (this.availableCoverCodes.includes(event.value.code)) {
-          this.craneFormGroup.get('selectedCover')?.enable();
-        } else {
-          this.setCoverDefault();
-        }
-
-        // high performance oil filter
-        if(event.value.id >= 4 && event.value.id < 15){
-          if(this.originalHighPerformanceOilFilter && this.originalHighPerformanceOilFilter.id === 2){
-            this.palmsService._cranePrice.update(value => value - Number(this.highPerformanceOilFilters[1]?.price))
-            this.originalHighPerformanceOilFilter = undefined;
-          }
-          
-          this.controlBlockMoreThanA7 = true;
-          this.controlBlockLessThanA7 = false;
-          setTimeout(() => {
-            this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(this.highPerformanceOilFilters[0]);
-            this.palmsService.selectedHighPerformanceOilFilter.set(this.highPerformanceOilFilters[0]);
-            this.palmsService._cranePrice.update(value => value + Number(this.highPerformanceOilFilters[0]?.price))
-          }, 50);
-        } else{
-          this.controlBlockLessThanA7 = true;
-          this.controlBlockMoreThanA7 = false;
-        
-          if(this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.value && this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.value.id === 1){
-            this.palmsService._cranePrice.update(value => value - Number(this.highPerformanceOilFilters[0]?.price))
-            this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
-            this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
-          }
-
-          if(this.originalControlBlock && this.originalControlBlock.id >= 4){
-            this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
-            this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
-          }
-
-        }
-      } else {
-        if(this.originalControlBlock && this.originalControlBlock.id >= 4){
-          this.craneFormGroup.get('selectedHighPerformanceOilFilter')?.setValue(undefined);
-          this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
-        }
-        this.originalControlBlock = undefined;
-        this.palmsService.selectedControlBlock.set(undefined)
-    
-        updatedFrameTypes = this.updateFrameTypesToEnabled();
-        updatedWinches = this.updateWinchesForControlBlock();
-        this.setElectricalFloatingDefault();
-        this.palmsService.selectedElectricalFloating.set(undefined)
-        this.setValveBlockDefault();
-        this.palmsService.selectedValveBlock.set(undefined)
-        this.setOperatorSeatDefault();
-        this.palmsService.selectedOperatorSeat.set(undefined)
-        this.setJoystickHolderDefault();
-        this.palmsService.selectedJoystickHolder.set(undefined)
-        this.setCoverDefault();
-        this.palmsService.selectedCover.set(undefined);
-
-        this.controlBlockMoreThanA7 = false;
-        this.controlBlockLessThanA7 = false;
-    
-        // winches
-        if (this.originalWinch && (this.originalWinch.id === 2 || this.originalWinch.id === 3)) {
-          this.setWinchToDefault();
-          this.palmsService.selectedWinch.set(undefined)
-        }
-      }
-    
-      this.frameTypes = updatedFrameTypes;
-      this.winches = updatedWinches;
-    }  
-    
     updateFrameTypesForControlBlock(): FrameType[] {
-      return this.frameTypes.map((frameType) => ({
-        ...frameType,
-        disabledOption: frameType.code === "B011" || frameType.code === "B11"
-      }));
+        return this.frameTypes.map((frameType) => ({
+            ...frameType,
+            disabledOption: frameType.code === 'B011' || frameType.code === 'B11'
+        }));
     }
 
     updateFrameTypesToEnabled(): FrameType[] {
-      return this.frameTypes.map((frameType) => ({
-        ...frameType,
-        disabledOption: false
-      }));
+        return this.frameTypes.map((frameType) => ({
+            ...frameType,
+            disabledOption: false
+        }));
     }
 
     updateWinchesForControlBlock(): ConfigurationItem[] {
-      return this.winches.map((winch) => ({
-        ...winch,
-        disabledOption: winch.code === "W1" || winch.code === "W2"
-      }));
+        return this.winches.map((winch) => ({
+            ...winch,
+            disabledOption: winch.code === 'W1' || winch.code === 'W2'
+        }));
     }
 
     updateWinchesToEnabled(): ConfigurationItem[] {
-      return this.winches.map((winch) => ({
-        ...winch,
-        disabledOption: false
-      }));
+        return this.winches.map((winch) => ({
+            ...winch,
+            disabledOption: false
+        }));
     }
-    
+
     handleFrameTypeChange(event: ListboxChangeEvent) {
-      const previousValue = this.originalFrameTypePrice;
-      this.originalFrameTypePrice = event.value ? event.value.price : 0;
-      const nextValue = this.originalFrameTypePrice;
-      const current = this.palmsService._cranePrice();
-    
-      if (previousValue !== nextValue) {
-        const newPrice = current - previousValue + Number(nextValue);
-        this.palmsService._cranePrice.set(newPrice);
-      }
-    
-      let updatedControlBlocks: ConfigurationItem[] = [];
-      let updatedHoseGuards: ConfigurationItem[] = [];
-      let updatedHoseGuardIds: number[] = [];
-    
-      if (event.value) {
-        this.originalFrameType = event.value;
-        this.palmsService.selectedFrameType.set(event.value)
-    
-        if (event.value.code === "B011" || event.value.code === "B11") {
-          updatedControlBlocks = this.updateControlBlocksForFrameType();
-        } else {
-          updatedControlBlocks = this.updateControlBlocksToEnabled();
-        }
-    
-        if (event.value.code === "B3" || event.value.code === "B6.1") {
-          updatedHoseGuardIds = [1];
-          updatedHoseGuards = this.updateHoseGuardsForFrameType(updatedHoseGuardIds);
-          this.setHoseGuardToDefault();
-        } else if (event.value.code === "B09" || event.value.code === "B9") {
-          updatedHoseGuardIds = [2];
-          updatedHoseGuards = this.updateHoseGuardsForFrameType(updatedHoseGuardIds);
-          this.setHoseGuardToDefault();
-        } else {
-          updatedHoseGuards = this.updateHoseGuardsToDisabled();
-          this.setHoseGuardToDefault();
+        const previousValue = this.originalFrameTypePrice;
+        this.originalFrameTypePrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalFrameTypePrice;
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
         }
 
-        if (event.value.code === "B9" || event.value.code === "B10") {
-          this.craneFormGroup.get('selectedLinkage')?.enable();
+        let updatedControlBlocks: ConfigurationItem[] = [];
+        let updatedHoseGuards: ConfigurationItem[] = [];
+        let updatedHoseGuardIds: number[] = [];
+
+        if (event.value) {
+            this.originalFrameType = event.value;
+            this.palmsService.selectedFrameType.set(event.value);
+
+            if (event.value.code === 'B011' || event.value.code === 'B11') {
+                updatedControlBlocks = this.updateControlBlocksForFrameType();
+            } else {
+                updatedControlBlocks = this.updateControlBlocksToEnabled();
+            }
+
+            if (event.value.code === 'B3' || event.value.code === 'B6.1') {
+                updatedHoseGuardIds = [1];
+                updatedHoseGuards = this.updateHoseGuardsForFrameType(updatedHoseGuardIds);
+                this.setHoseGuardToDefault();
+            } else if (event.value.code === 'B09' || event.value.code === 'B9') {
+                updatedHoseGuardIds = [2];
+                updatedHoseGuards = this.updateHoseGuardsForFrameType(updatedHoseGuardIds);
+                this.setHoseGuardToDefault();
+            } else {
+                updatedHoseGuards = this.updateHoseGuardsToDisabled();
+                this.setHoseGuardToDefault();
+            }
+
+            if (event.value.code === 'B9' || event.value.code === 'B10') {
+                this.craneFormGroup.get('selectedLinkage')?.enable();
+            } else {
+                this.setLinkageDefault();
+            }
         } else {
-          this.setLinkageDefault()
+            this.originalFrameType = undefined;
+            this.palmsService.selectedFrameType.set(undefined);
+            updatedControlBlocks = this.updateControlBlocksToEnabled();
+            updatedHoseGuards = this.updateHoseGuardsToDisabled();
+            this.setHoseGuardToDefault();
+            this.setLinkageDefault();
         }
 
-      } else {
-        this.originalFrameType = undefined;
-        this.palmsService.selectedFrameType.set(undefined);
-        updatedControlBlocks = this.updateControlBlocksToEnabled();
-        updatedHoseGuards = this.updateHoseGuardsToDisabled();
-        this.setHoseGuardToDefault();
-        this.setLinkageDefault();
-      }
-    
-      this.controlBlocks = updatedControlBlocks;
-      this.hoseGuards = updatedHoseGuards;
+        this.controlBlocks = updatedControlBlocks;
+        this.hoseGuards = updatedHoseGuards;
     }
-    
+
     updateControlBlocksForFrameType(): ConfigurationItem[] {
-      return this.controlBlocks.map((controlBlock) => ({
-        ...controlBlock,
-        disabledOption: controlBlock.id < 8
-      }));
+        return this.controlBlocks.map((controlBlock) => ({
+            ...controlBlock,
+            disabledOption: controlBlock.id < 8
+        }));
     }
 
-    updateControlBlocksToEnabled(): ConfigurationItem[]{
-      return this.controlBlocks.map((controlBlock) => ({
-        ...controlBlock,
-        disabledOption: false
-      }));
+    updateControlBlocksToEnabled(): ConfigurationItem[] {
+        return this.controlBlocks.map((controlBlock) => ({
+            ...controlBlock,
+            disabledOption: false
+        }));
     }
 
     updateHoseGuardsForFrameType(ids: number[]): ConfigurationItem[] {
-      return this.hoseGuards.map((hoseGuard) => ({
-        ...hoseGuard,
-        disabledOption: !ids.includes(hoseGuard.id)
-      }));
+        return this.hoseGuards.map((hoseGuard) => ({
+            ...hoseGuard,
+            disabledOption: !ids.includes(hoseGuard.id)
+        }));
     }
 
-    updateHoseGuardsToDisabled(): ConfigurationItem[]{
-      return this.hoseGuards.map((hoseGuard) => ({
-        ...hoseGuard,
-        disabledOption: true
-      }));
+    updateHoseGuardsToDisabled(): ConfigurationItem[] {
+        return this.hoseGuards.map((hoseGuard) => ({
+            ...hoseGuard,
+            disabledOption: true
+        }));
     }
-   
-    handleRotatorChange(event: ListboxChangeEvent) {
-      const previousValue = this.originalRotatorPrice;
-      this.originalRotatorPrice = event.value ? event.value.price : 0;
-      const nextValue = this.originalRotatorPrice;
-      const current = this.palmsService._cranePrice();
-  
-      if (previousValue !== nextValue) {
-          const newPrice = current - previousValue + Number(nextValue);
-          this.palmsService._cranePrice.set(newPrice);
-      }
-  
-      if (event.value) {
-          this.originalRotator = event.value;
-          this.palmsService.selectedRotator.set(event.value)
-          if (event.value.id === parseInt("2")){
-            this.updateGrapplesToEnabled();
-  
-          } else if(this.checkGrappleId(this.originalGrapple)){
-            this.setGrappleToDefault();
-            this.palmsService.selectedGrapple.set(undefined);
-            this.setGrapplesToDefault();
-            this.palmsService.selectedGrapples = [];
-          } else {
-            this.updateGrapplesAvailability();
-          }
-      } else {
-        this.originalRotator = undefined;
-        this.palmsService.selectedRotator.set(undefined)
 
-        this.updateGrapplesAvailability();
-
-        if(this.checkGrappleId(this.originalGrapple)) {
-          this.setGrappleToDefault();
-          this.palmsService.selectedGrapple.set(undefined);
-          
-        } else if (this.checkGrappleIds(this.originalGrapples)){
-          this.setGrapplesToDefault();
+    setHoseGuardToDefault() {
+        if (this.originalHoseGuard && this.originalHoseGuard.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalHoseGuard?.price));
+            this.hoseGuardListBox.writeValue(undefined);
+            this.originalHoseGuard = undefined;
+            this.palmsService.selectedHoseGuard.set(undefined);
+            this.originalHoseGuardPrice = 0;
         }
-      }
     }
 
-    checkGrappleId(grapple: ConfigurationItem | undefined){
-      return grapple?.id === 2
+    handleRotatorChange(event: ListboxChangeEvent) {
+        const previousValue = this.originalRotatorPrice;
+        this.originalRotatorPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalRotatorPrice;
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
+        }
+
+        if (event.value) {
+            this.originalRotator = event.value;
+            this.palmsService.selectedRotator.set(event.value);
+            if (event.value.id === parseInt('2')) {
+                this.updateGrapplesToEnabled();
+            } else if (this.checkGrappleId(this.originalGrapple)) {
+                this.setGrappleToDefault();
+                this.palmsService.selectedGrapple.set(undefined);
+                this.setGrapplesToDefault();
+                this.palmsService.selectedGrapples = [];
+            } else {
+                this.updateGrapplesAvailability();
+            }
+        } else {
+            this.originalRotator = undefined;
+            this.palmsService.selectedRotator.set(undefined);
+
+            this.updateGrapplesAvailability();
+
+            if (this.checkGrappleId(this.originalGrapple)) {
+                this.setGrappleToDefault();
+                this.palmsService.selectedGrapple.set(undefined);
+            } else if (this.checkGrappleIds(this.originalGrapples)) {
+                this.setGrapplesToDefault();
+            }
+        }
     }
 
-    checkGrappleIds(grapples: (ConfigurationItem | undefined)[]){
-      return grapples.find((grapple) => grapple?.id === 2)
+    checkGrappleId(grapple: ConfigurationItem | undefined) {
+        return grapple?.id === 2;
     }
-    
+
+    checkGrappleIds(grapples: (ConfigurationItem | undefined)[]) {
+        return grapples.find((grapple) => grapple?.id === 2);
+    }
+
     updateGrapplesAvailability() {
         this.grapples = this.grapples.map((grapple) => ({
             ...grapple,
@@ -762,490 +840,495 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     }
 
     updateGrapplesToEnabled() {
-      this.grapples = this.grapples.map((grapple) => ({
-        ...grapple,
-        disabledOption: false
-      }));
+        this.grapples = this.grapples.map((grapple) => ({
+            ...grapple,
+            disabledOption: false
+        }));
     }
 
-    setGrappleToDefault(){
-      if(this.originalGrapple && this.originalGrapple.price){
-        this.palmsService._cranePrice.update(value => value - Number(this.originalGrapple?.price))
-        this.grappleListBox.writeValue(undefined);
-        this.originalGrapple = undefined;
-        this.originalGrapplePrice = 0;
-      }
-    }
-
-    setGrapplesToDefault(){
-      this.grappleListBoxes.forEach((grappleListBox, index) => {
-        if(grappleListBox.value && grappleListBox.value.id === 2){
-          this.palmsService._cranePrice.update(value => value - Number(this.originalGrapples[index]?.price))
-
-          let grappleListBoxArray: any = [];
-          if(this.grappleListBoxes) grappleListBoxArray = this.grappleListBoxes.toArray();
-          if (grappleListBoxArray[index]) grappleListBoxArray[index].writeValue(undefined);
-
-          this.originalGrapples[index] = undefined;
-          this.originalGrapplePrices[index] = 0;
-          this.palmsService.selectedGrapples[index] = undefined;
+    setGrappleToDefault() {
+        if (this.originalGrapple && this.originalGrapple.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalGrapple?.price));
+            this.grappleListBox.writeValue(undefined);
+            this.originalGrapple = undefined;
+            this.originalGrapplePrice = 0;
         }
-      });
     }
 
-    setHoseGuardToDefault(){
-      if(this.originalHoseGuard && this.originalHoseGuard.price){
-        this.palmsService._cranePrice.update(value => value - Number(this.originalHoseGuard?.price))
-        this.hoseGuardListBox.writeValue(undefined);
-        this.originalHoseGuard = undefined;
-        this.palmsService.selectedHoseGuard.set(undefined);
-        this.originalHoseGuardPrice = 0;
-      }
+    setGrapplesToDefault() {
+        this.grappleListBoxes.forEach((grappleListBox, index) => {
+            if (grappleListBox.value && grappleListBox.value.id === 2) {
+                this.palmsService._cranePrice.update((value) => value - Number(this.originalGrapples[index]?.price));
+
+                let grappleListBoxArray: any = [];
+                if (this.grappleListBoxes) grappleListBoxArray = this.grappleListBoxes.toArray();
+                if (grappleListBoxArray[index]) grappleListBoxArray[index].writeValue(undefined);
+
+                this.originalGrapples[index] = undefined;
+                this.originalGrapplePrices[index] = 0;
+                this.palmsService.selectedGrapples = this.originalGrapples.filter((g): g is ConfigurationItem => !!g);
+            }
+        });
+    }
+
+    addGrapple() {
+        this.selectedGrapples.push(this.fb.control(null));
+        this.originalGrapples.push(undefined);
+        this.originalGrapplePrices.push(0);
+    }
+
+    removeGrapple(index: number) {
+        this.selectedGrapples.removeAt(index);
+
+        this.originalGrapples.splice(index, 1);
+        this.originalGrapplePrices.splice(index, 1);
+
+        this.palmsService.selectedGrapples = this.originalGrapples.filter((g): g is ConfigurationItem => !!g);
     }
 
     handleMultipleGrappleChange(event: ListboxChangeEvent, index: number) {
-      const previousValue = this.originalGrapplePrices[index];
-      this.originalGrapplePrices[index] = event.value ? event.value.price : 0;
-      const nextValue = this.originalGrapplePrices[index];
-      const current = this.palmsService._cranePrice();
-      
-      if (previousValue !== nextValue) {
-        const newPrice = current - previousValue + Number(nextValue);
-        this.palmsService._cranePrice.set(newPrice);
-      }
-    
-      if (event.value){
-        this.originalGrapples[index] = event.value
-        this.palmsService.selectedGrapples[index] = event.value
-      } else {
-        this.originalGrapples[index] = undefined;
-        this.palmsService.selectedGrapples[index] = undefined
-      }
+        const previousValue = this.originalGrapplePrices[index];
+        this.originalGrapplePrices[index] = event.value ? event.value.price : 0;
+        const nextValue = this.originalGrapplePrices[index];
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
+        }
+
+        if (event.value) {
+            this.originalGrapples[index] = { ...event.value };
+        } else {
+            this.originalGrapples[index] = undefined;
+        }
+
+        this.palmsService.selectedGrapples = this.originalGrapples.filter((g): g is ConfigurationItem => !!g);
     }
 
     handleGrappleChange(event: ListboxChangeEvent) {
-      const previousValue = this.originalGrapplePrice
-      this.originalGrapplePrice = event.value ? event.value.price : 0;
-      const nextValue = this.originalGrapplePrice
-      const current = this.palmsService._cranePrice();
-      
-      if (previousValue !== nextValue) {
-        const newPrice = current - previousValue + Number(nextValue);
-        this.palmsService._cranePrice.set(newPrice);
-      }
-    
-      if (event.value){
-        this.originalGrapple = event.value;
-        this.palmsService.selectedGrapple.set(event.value)
-      } else {
-        this.originalGrapple = undefined;
-        this.palmsService.selectedGrapple.set(undefined)
-      }
+        const previousValue = this.originalGrapplePrice;
+        this.originalGrapplePrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalGrapplePrice;
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
+        }
+
+        if (event.value) {
+            this.originalGrapple = event.value;
+            this.palmsService.selectedGrapple.set(event.value);
+        } else {
+            this.originalGrapple = undefined;
+            this.palmsService.selectedGrapple.set(undefined);
+        }
     }
 
     handleWinchChange(event: ListboxChangeEvent) {
-      const previousValue = this.originalWinchPrice
-      this.originalWinchPrice = event.value ? event.value.price : 0;
-      const nextValue = this.originalWinchPrice
-      const current = this.palmsService._cranePrice();
-      
-      if (previousValue !== nextValue) {
-        const newPrice = current - previousValue + Number(nextValue);
-        this.palmsService._cranePrice.set(newPrice);
-      }
-    
-      if (event.value){
-        this.originalWinch = event.value;
-        this.palmsService.selectedWinch.set(event.value)
-      } else {
-        this.originalWinch = undefined;
-        this.palmsService.selectedWinch.set(undefined)
-      }
+        const previousValue = this.originalWinchPrice;
+        this.originalWinchPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalWinchPrice;
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
+        }
+
+        if (event.value) {
+            this.originalWinch = event.value;
+            this.palmsService.selectedWinch.set(event.value);
+        } else {
+            this.originalWinch = undefined;
+            this.palmsService.selectedWinch.set(undefined);
+        }
     }
 
-    setWinchToDefault(){
-      if(this.originalWinch && this.originalWinch.price){
-        this.palmsService._cranePrice.update(value => value - Number(this.originalWinch?.price))
-        this.winchListBox.writeValue(undefined);
-        this.originalWinch = undefined;
-        this.originalWinchPrice = 0;
-      }
+    setWinchToDefault() {
+        if (this.originalWinch && this.originalWinch.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalWinch?.price));
+            this.winchListBox.writeValue(undefined);
+            this.originalWinch = undefined;
+            this.originalWinchPrice = 0;
+        }
     }
 
-    onProtectionSleevesChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalProtectionSleevesPrice = Number(event.checked[0].price);
-        this.originalProtectionSleeves = event.checked[0];
-        this.palmsService.selectedProtectionSleeves.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalProtectionSleevesPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalProtectionSleeves = undefined;
-        this.palmsService.selectedProtectionSleeves.set(undefined)
-      }
+    onProtectionSleevesChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalProtectionSleevesPrice = Number(event.checked[0].price);
+            this.originalProtectionSleeves = event.checked[0];
+            this.palmsService.selectedProtectionSleeves.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalProtectionSleevesPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalProtectionSleeves = undefined;
+            this.palmsService.selectedProtectionSleeves.set(undefined);
+        }
     }
 
-    onElectricalFloatingChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalElectricalFloatingPrice = Number(event.checked[0].price);
-        this.originalElectricalFloating = event.checked[0];
-        this.palmsService.selectedElectricalFloating.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalElectricalFloatingPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalElectricalFloating = undefined;
-        this.palmsService.selectedElectricalFloating.set(undefined)
-      }
+    onElectricalFloatingChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalElectricalFloatingPrice = Number(event.checked[0].price);
+            this.originalElectricalFloating = event.checked[0];
+            this.palmsService.selectedElectricalFloating.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalElectricalFloatingPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalElectricalFloating = undefined;
+            this.palmsService.selectedElectricalFloating.set(undefined);
+        }
     }
 
-    setElectricalFloatingDefault(){
-      if(this.originalElectricalFloating && this.originalElectricalFloating.price){
-        this.palmsService._cranePrice.update(value => value - Number(this.originalElectricalFloating?.price))
-        this.electricalFloatingCheckBox.writeValue(undefined);
-        this.originalElectricalFloating = undefined;
-        this.palmsService.selectedElectricalFloating.set(undefined);
-        this.originalElectricalFloatingPrice = 0;
-      }
-      this.craneFormGroup.get('selectedElectricalFloating')?.disable();
+    setElectricalFloatingDefault() {
+        if (this.originalElectricalFloating && this.originalElectricalFloating.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalElectricalFloating?.price));
+            this.electricalFloatingCheckBox.writeValue(undefined);
+            this.originalElectricalFloating = undefined;
+            this.palmsService.selectedElectricalFloating.set(undefined);
+            this.originalElectricalFloatingPrice = 0;
+        }
+        this.craneFormGroup.get('selectedElectricalFloating')?.disable();
     }
 
-    onValveBlockChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalValveBlockPrice = Number(event.checked[0].price);
-        this.originalValveBlock = event.checked[0];
-        this.palmsService.selectedValveBlock.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalValveBlockPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalValveBlock = undefined;
-        this.palmsService.selectedValveBlock.set(undefined)
-      }
+    onValveBlockChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalValveBlockPrice = Number(event.checked[0].price);
+            this.originalValveBlock = event.checked[0];
+            this.palmsService.selectedValveBlock.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalValveBlockPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalValveBlock = undefined;
+            this.palmsService.selectedValveBlock.set(undefined);
+        }
     }
 
-    setValveBlockDefault(){
-      if(this.originalValveBlock && this.originalValveBlock.price){ 
-        this.palmsService._cranePrice.update(value => value - Number(this.originalValveBlock?.price))
-        this.valveBlockCheckBox.writeValue(undefined);
-        this.originalValveBlock = undefined;
-        this.originalValveBlockPrice = 0;
-      }
-      this.craneFormGroup.get('selectedValveBlock')?.disable();
+    setValveBlockDefault() {
+        if (this.originalValveBlock && this.originalValveBlock.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalValveBlock?.price));
+            this.valveBlockCheckBox.writeValue(undefined);
+            this.originalValveBlock = undefined;
+            this.originalValveBlockPrice = 0;
+        }
+        this.craneFormGroup.get('selectedValveBlock')?.disable();
     }
 
     handleDampingChange(event: ListboxChangeEvent) {
-      const previousValue = this.originalDampingPrice
-      this.originalDampingPrice = event.value ? event.value.price : 0;
-      const nextValue = this.originalDampingPrice
-      const current = this.palmsService._cranePrice();
-      
-      if (previousValue !== nextValue) {
-        const newPrice = current - previousValue + Number(nextValue);
-        this.palmsService._cranePrice.set(newPrice);
-      }
-    
-      if (event.value){
-        this.originalDamping = event.value;
-        this.palmsService.selectedDamping.set(event.value);
-      } else {
-        this.originalDamping = undefined;
-        this.palmsService.selectedDamping.set(undefined);
-      }
+        const previousValue = this.originalDampingPrice;
+        this.originalDampingPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalDampingPrice;
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
+        }
+
+        if (event.value) {
+            this.originalDamping = event.value;
+            this.palmsService.selectedDamping.set(event.value);
+        } else {
+            this.originalDamping = undefined;
+            this.palmsService.selectedDamping.set(undefined);
+        }
     }
 
-    onLightChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalLightPrice = Number(event.checked[0].price);
-        this.originalLight = event.checked[0];
-        this.palmsService.selectedCraneLight.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalLightPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalLight = undefined;
-        this.palmsService.selectedCraneLight.set(undefined)
-      }
+    onLightChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalLightPrice = Number(event.checked[0].price);
+            this.originalLight = event.checked[0];
+            this.palmsService.selectedCraneLight.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalLightPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalLight = undefined;
+            this.palmsService.selectedCraneLight.set(undefined);
+        }
     }
 
-    onOperatorSeatChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalOperatorSeatPrice = Number(event.checked[0].price);
-        this.originalOperatorSeat = event.checked[0];
-        this.palmsService.selectedOperatorSeat.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalOperatorSeatPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalOperatorSeat = undefined;
-        this.palmsService.selectedOperatorSeat.set(undefined)
-      }
+    onOperatorSeatChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalOperatorSeatPrice = Number(event.checked[0].price);
+            this.originalOperatorSeat = event.checked[0];
+            this.palmsService.selectedOperatorSeat.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalOperatorSeatPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalOperatorSeat = undefined;
+            this.palmsService.selectedOperatorSeat.set(undefined);
+        }
     }
 
-    setOperatorSeatDefault(){
-      if(this.originalOperatorSeat && this.originalOperatorSeat.price){
-        this.palmsService._cranePrice.update(value => value - Number(this.originalOperatorSeat?.price))
-        this.operatorSeatCheckBox.writeValue(undefined);
-        this.originalOperatorSeat = undefined;
-        this.originalOperatorSeatPrice = 0;
-      }
-      this.craneFormGroup.get('selectedOperatorSeat')?.disable();
+    setOperatorSeatDefault() {
+        if (this.originalOperatorSeat && this.originalOperatorSeat.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalOperatorSeat?.price));
+            this.operatorSeatCheckBox.writeValue(undefined);
+            this.originalOperatorSeat = undefined;
+            this.originalOperatorSeatPrice = 0;
+        }
+        this.craneFormGroup.get('selectedOperatorSeat')?.disable();
     }
 
-    onHighPerformanceOilFilterChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalHighPerformanceOilFilterPrice = Number(event.checked[0].price);
-        this.originalHighPerformanceOilFilter = event.checked[0];
-        this.palmsService.selectedHighPerformanceOilFilter.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalHighPerformanceOilFilterPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalHighPerformanceOilFilter = undefined;
-        this.palmsService.selectedHighPerformanceOilFilter.set(undefined)
-      }
+    onHighPerformanceOilFilterChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalHighPerformanceOilFilterPrice = Number(event.checked[0].price);
+            this.originalHighPerformanceOilFilter = event.checked[0];
+            this.palmsService.selectedHighPerformanceOilFilter.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalHighPerformanceOilFilterPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalHighPerformanceOilFilter = undefined;
+            this.palmsService.selectedHighPerformanceOilFilter.set(undefined);
+        }
     }
 
-    onOilCoolerChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalOilCoolerPrice = Number(event.checked[0].price);
-        this.originalOilCooler = event.checked[0];
-        this.palmsService.selectedCraneOilCooler.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalOilCoolerPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalOilCooler = undefined;
-        this.palmsService.selectedCraneOilCooler.set(undefined)
-      }
+    onOilCoolerChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalOilCoolerPrice = Number(event.checked[0].price);
+            this.originalOilCooler = event.checked[0];
+            this.palmsService.selectedCraneOilCooler.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalOilCoolerPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalOilCooler = undefined;
+            this.palmsService.selectedCraneOilCooler.set(undefined);
+        }
     }
 
     handleRotatorBrakeChange(event: ListboxChangeEvent) {
-      const previousValue = this.originalRotatorBrakePrice
-      this.originalRotatorBrakePrice = event.value ? event.value.price : 0;
-      const nextValue = this.originalRotatorBrakePrice
-      const current = this.palmsService._cranePrice();
-      
-      if (previousValue !== nextValue) {
-        const newPrice = current - previousValue + Number(nextValue);
-        this.palmsService._cranePrice.set(newPrice);
-      }
-    
-      if (event.value){
-        this.originalRotatorBrake = event.value;
-        this.palmsService.selectedRotatorBrake.set(event.value)
-      } else {
-        this.originalRotatorBrake = undefined;
-        this.palmsService.selectedRotatorBrake.set(undefined);
-      }
+        const previousValue = this.originalRotatorBrakePrice;
+        this.originalRotatorBrakePrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalRotatorBrakePrice;
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
+        }
+
+        if (event.value) {
+            this.originalRotatorBrake = event.value;
+            this.palmsService.selectedRotatorBrake.set(event.value);
+        } else {
+            this.originalRotatorBrake = undefined;
+            this.palmsService.selectedRotatorBrake.set(undefined);
+        }
     }
 
-    onJoystickHolderChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalJoystickHolderPrice = Number(event.checked[0].price);
-        this.originalJoystickHolder = event.checked[0];
-        this.palmsService.selectedJoystickHolder.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalJoystickHolderPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalJoystickHolder = undefined;
-        this.palmsService.selectedJoystickHolder.set(undefined)
-      }
+    onJoystickHolderChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalJoystickHolderPrice = Number(event.checked[0].price);
+            this.originalJoystickHolder = event.checked[0];
+            this.palmsService.selectedJoystickHolder.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalJoystickHolderPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalJoystickHolder = undefined;
+            this.palmsService.selectedJoystickHolder.set(undefined);
+        }
     }
 
-    setJoystickHolderDefault(){
-      if(this.originalJoystickHolder && this.originalJoystickHolder.price){ 
-        this.palmsService._cranePrice.update(value => value - Number(this.originalJoystickHolder?.price))
-        this.joystickHolderCheckBox.writeValue(undefined);
-        this.originalJoystickHolder = undefined;
-        this.originalJoystickHolderPrice = 0;
-      }
-      this.craneFormGroup.get('selectedJoystickHolder')?.disable();
+    setJoystickHolderDefault() {
+        if (this.originalJoystickHolder && this.originalJoystickHolder.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalJoystickHolder?.price));
+            this.joystickHolderCheckBox.writeValue(undefined);
+            this.originalJoystickHolder = undefined;
+            this.originalJoystickHolderPrice = 0;
+        }
+        this.craneFormGroup.get('selectedJoystickHolder')?.disable();
     }
 
     handleHoseGuardChange(event: ListboxChangeEvent) {
-      const previousValue = this.originalHoseGuardPrice
-      this.originalHoseGuardPrice = event.value ? event.value.price : 0;
-      const nextValue = this.originalHoseGuardPrice
-      const current = this.palmsService._cranePrice();
-      
-      if (previousValue !== nextValue) {
-        const newPrice = current - previousValue + Number(nextValue);
-        this.palmsService._cranePrice.set(newPrice);
-      }
-    
-      if (event.value){
-        this.originalHoseGuard = event.value;
-        this.palmsService.selectedHoseGuard.set(event.value)
-      } else {
-        this.originalHoseGuard = undefined;
-        this.palmsService.selectedHoseGuard.set(undefined)
-      }
+        const previousValue = this.originalHoseGuardPrice;
+        this.originalHoseGuardPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalHoseGuardPrice;
+        const current = this.palmsService._cranePrice();
+
+        if (previousValue !== nextValue) {
+            const newPrice = current - previousValue + Number(nextValue);
+            this.palmsService._cranePrice.set(newPrice);
+        }
+
+        if (event.value) {
+            this.originalHoseGuard = event.value;
+            this.palmsService.selectedHoseGuard.set(event.value);
+        } else {
+            this.originalHoseGuard = undefined;
+            this.palmsService.selectedHoseGuard.set(undefined);
+        }
     }
 
-    onTurningDeviceCounterPlateChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalTurningDeviceCounterPlatePrice = Number(event.checked[0].price);
-        this.originalTurningDeviceCounterPlate = event.checked[0];
-        this.palmsService.selectedTurningDeviceCounterPlate.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalTurningDeviceCounterPlatePrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalTurningDeviceCounterPlate = undefined;
-        this.palmsService.selectedTurningDeviceCounterPlate.set(undefined)
-      }
+    onTurningDeviceCounterPlateChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalTurningDeviceCounterPlatePrice = Number(event.checked[0].price);
+            this.originalTurningDeviceCounterPlate = event.checked[0];
+            this.palmsService.selectedTurningDeviceCounterPlate.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalTurningDeviceCounterPlatePrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalTurningDeviceCounterPlate = undefined;
+            this.palmsService.selectedTurningDeviceCounterPlate.set(undefined);
+        }
     }
 
-    onSupportLegCounterPlateChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalSupportLegCounterPlatePrice = Number(event.checked[0].price);
-        this.originalSupportLegCounterPlate = event.checked[0];
-        this.palmsService.selectedSupportLegCounterPlate.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalSupportLegCounterPlatePrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalSupportLegCounterPlate = undefined;
-        this.palmsService.selectedSupportLegCounterPlate.set(undefined)
-      }
+    onSupportLegCounterPlateChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalSupportLegCounterPlatePrice = Number(event.checked[0].price);
+            this.originalSupportLegCounterPlate = event.checked[0];
+            this.palmsService.selectedSupportLegCounterPlate.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalSupportLegCounterPlatePrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalSupportLegCounterPlate = undefined;
+            this.palmsService.selectedSupportLegCounterPlate.set(undefined);
+        }
     }
 
-    onBoomGuardChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalBoomguardPrice = Number(event.checked[0].price);
-        this.originalBoomguard = event.checked[0];
-        this.palmsService.selectedBoomGuard.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalBoomguardPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalBoomguard = undefined;
-        this.palmsService.selectedBoomGuard.set(undefined)
-      }
+    onBoomGuardChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalBoomguardPrice = Number(event.checked[0].price);
+            this.originalBoomguard = event.checked[0];
+            this.palmsService.selectedBoomGuard.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalBoomguardPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalBoomguard = undefined;
+            this.palmsService.selectedBoomGuard.set(undefined);
+        }
     }
 
-    onCoverChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalCoverPrice = Number(event.checked[0].price);
-        this.originalCover = event.checked[0];
-        this.palmsService.selectedCover.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalCoverPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalCover = undefined;
-        this.palmsService.selectedCover.set(undefined)
-      }
+    onCoverChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalCoverPrice = Number(event.checked[0].price);
+            this.originalCover = event.checked[0];
+            this.palmsService.selectedCover.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalCoverPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalCover = undefined;
+            this.palmsService.selectedCover.set(undefined);
+        }
     }
 
-    setCoverDefault(){
-      if(this.originalCover && this.originalCover.price){ 
-        this.palmsService._cranePrice.update(value => value - Number(this.originalCover?.price))
-        this.coverCheckBox.writeValue(undefined);
-        this.originalCover = undefined;
-        this.originalCoverPrice = 0;
-      }
-      this.craneFormGroup.get('selectedCover')?.disable();
+    setCoverDefault() {
+        if (this.originalCover && this.originalCover.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalCover?.price));
+            this.coverCheckBox.writeValue(undefined);
+            this.originalCover = undefined;
+            this.originalCoverPrice = 0;
+        }
+        this.craneFormGroup.get('selectedCover')?.disable();
     }
 
-    onWoodControlChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalWoodControlPrice = Number(event.checked[0].price);
-        this.originalWoodControl = event.checked[0];
-        this.palmsService.selectedWoodControl.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalWoodControlPrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalWoodControl = undefined;
-        this.palmsService.selectedWoodControl.set(undefined)
-      }
+    onWoodControlChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalWoodControlPrice = Number(event.checked[0].price);
+            this.originalWoodControl = event.checked[0];
+            this.palmsService.selectedWoodControl.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalWoodControlPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalWoodControl = undefined;
+            this.palmsService.selectedWoodControl.set(undefined);
+        }
     }
 
-    onLinkageChange(event: CheckboxChangeEvent){
-      if (event.checked.length > 0) {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current + Number(event.checked[0].price);
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalLinkagePrice = Number(event.checked[0].price);
-        this.originalLinkage = event.checked[0];
-        this.palmsService.selectedLinkage.set(event.checked[0])
-      } else {
-        const current = this.palmsService._cranePrice();
-        const newPrice = current - this.originalLinkagePrice;
-        this.palmsService._cranePrice.set(newPrice);
-        this.originalLinkage = undefined;
-        this.palmsService.selectedLinkage.set(undefined)
-      }
+    onLinkageChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalLinkagePrice = Number(event.checked[0].price);
+            this.originalLinkage = event.checked[0];
+            this.palmsService.selectedLinkage.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalLinkagePrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalLinkage = undefined;
+            this.palmsService.selectedLinkage.set(undefined);
+        }
     }
 
-    setLinkageDefault(){
-      if(this.originalLinkage && this.originalLinkage.price){ 
-        this.palmsService._cranePrice.update(value => value - Number(this.originalLinkage?.price))
-        this.linkageCheckBox.writeValue(undefined);
-        this.originalLinkage = undefined;
-        this.palmsService.selectedLinkage.set(undefined);
-        this.originalLinkagePrice = 0;
-      }
-      this.craneFormGroup.get('selectedLinkage')?.disable();
+    setLinkageDefault() {
+        if (this.originalLinkage && this.originalLinkage.price) {
+            this.palmsService._cranePrice.update((value) => value - Number(this.originalLinkage?.price));
+            this.linkageCheckBox.writeValue(undefined);
+            this.originalLinkage = undefined;
+            this.palmsService.selectedLinkage.set(undefined);
+            this.originalLinkagePrice = 0;
+        }
+        this.craneFormGroup.get('selectedLinkage')?.disable();
     }
 
-    selectTrailer(trailer: PalmsTrailerOverview){
-      this.palmsService._selectedTrailer.next(trailer);
+    selectTrailer(trailer: PalmsTrailerOverview) {
+        this.palmsService._selectedTrailer.next(trailer);
     }
-  
-    delete() {  
+
+    delete() {
         this.craneFormGroup.reset();
         this.originalControlBlock = undefined;
         this.originalControlBlockPrice = 0;
         this.originalFrameType = undefined;
         this.originalFrameTypePrice = 0;
         this.originalRotator = undefined;
-        this.originalRotatorPrice = 0
-        this.originalGrapple = undefined
-        this.originalGrapplePrice = 0
+        this.originalRotatorPrice = 0;
+        this.originalGrapple = undefined;
+        this.originalGrapplePrice = 0;
         this.originalGrapples = [];
         this.originalGrapplePrices = [];
         this.originalWinch = undefined;
@@ -1269,7 +1352,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.originalRotatorBrake = undefined;
         this.originalRotatorBrakePrice = 0;
         this.originalJoystickHolder = undefined;
-        this.originalJoystickHolderPrice  = 0;
+        this.originalJoystickHolderPrice = 0;
         this.originalHoseGuard = undefined;
         this.originalHoseGuardPrice = 0;
         this.originalTurningDeviceCounterPlate = undefined;
@@ -1284,16 +1367,16 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.originalWoodControlPrice = 0;
         this.originalLinkage = undefined;
         this.originalLinkagePrice = 0;
-      }
+    }
 
-      toggleDialog(dialogType: string, show: boolean) {
+    toggleDialog(dialogType: string, show: boolean) {
         switch (dialogType) {
             case 'controlBlocks':
                 this.showControlBlocksDialog = show;
                 break;
             case 'frameTypes':
                 this.showFrameTypesDialog = show;
-                break;   
+                break;
             case 'rotators':
                 this.showRotatorsDialog = show;
                 break;
@@ -1311,51 +1394,51 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                 break;
             case 'valveBlock':
                 this.showValveBlockDialog = show;
-                break;    
+                break;
             case 'dampings':
                 this.showDampingsDialog = show;
-                break;    
+                break;
             case 'light':
                 this.showLightDialog = show;
-                break;   
+                break;
             case 'operatorSeat':
                 this.showOperatorSeatDialog = show;
-                break;   
+                break;
             case 'highPerformanceOilFilter':
                 this.showHighPerformanceDialog = show;
-                break;   
+                break;
             case 'oilCooler':
                 this.showOilCoolerDialog = show;
-                break;    
+                break;
             case 'rotatorBrakes':
                 this.showRotatorBrakesDialog = show;
-                break;    
+                break;
             case 'joystickHolder':
                 this.showJoystickHolderDialog = show;
-                break;    
+                break;
             case 'hoseGuards':
                 this.showHoseGuardsDialog = show;
-                break;    
+                break;
             case 'turningDeviceCounterPlate':
                 this.showTurningDeviceCounterPlateDialog = show;
-                break;    
+                break;
             case 'supportLegCounterPlate':
                 this.showSupportLegCounterPlateDialog = show;
-                break;    
+                break;
             case 'boomGuard':
                 this.showBoomGuardDialog = show;
-                break;    
+                break;
             case 'cover':
                 this.showCoverDialog = show;
-                break;    
+                break;
             case 'woodControl':
                 this.showWoodControlDialog = show;
-                break;    
+                break;
             case 'linkage':
                 this.showLinkageDialog = show;
-                break;    
+                break;
             default:
-              break;
-          }
-      }
+                break;
+        }
+    }
 }

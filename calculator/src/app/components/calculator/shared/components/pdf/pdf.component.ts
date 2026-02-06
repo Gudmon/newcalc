@@ -334,8 +334,16 @@ export class PdfComponent implements OnInit {
     }
 
     sendPdfAndDownload() {
-        const object: PdfModel = {};
+        const object: PdfModel = {
+            totalPrice: '',
+            trailerName: undefined,
+            craneName: undefined,
+            singleOptions: [],
+            multipleOptions: []
+        };
         if (this.palmsService._trailerSelected.value === true) {
+            object.trailerName = this.palmsService._selectedTrailer.value?.name;
+
             const woodSorter = this.palmsService.selectedWoodSorter();
             const newWoodSorter: ConfigurationItem | undefined = woodSorter
                 ? {
@@ -358,33 +366,6 @@ export class PdfComponent implements OnInit {
                       price: bunkExtension.price.toString()
                   }
                 : undefined;
-            object.TrailerName = this.palmsService._selectedTrailer.value?.name;
-            object.Stanchion = this.palmsService.selectedStanchion();
-            object.Brake = this.palmsService.selectedBrake();
-            object.Propulsion = this.palmsService.selectedPropulsion();
-            object.Drawbar = this.palmsService.selectedDrawbar();
-            object.Platform = this.palmsService.selectedPlatform();
-            object.OilPump = this.palmsService.selectedOilPump();
-            object.OilTank = this.palmsService.selectedOilTank();
-            object.TrailerOilCooler = this.palmsService.selectedTrailerOilCooler();
-            object.BolsterLock = this.palmsService.selectedBolsterLock();
-            object.BBox = this.palmsService.selectedBBox();
-            object.DBox = this.palmsService.selectedDBox();
-            object.Toolbox = this.palmsService.selectedToolbox();
-            object.HayBaleFrame = this.palmsService.selectedHayBaleFrame();
-            object.WoodSorter = newWoodSorter;
-            object.HandBrake = this.palmsService.selectedHandBrake();
-            object.ChainsawHolder = this.palmsService.selectedChainsawHolder();
-            object.UnderrunProtection = this.palmsService.selectedUnderrunProtection();
-            object.BunkAdapter = newBunkAdapter;
-            object.BunkExtension = newBunkExtension;
-            object.FrameExtension = this.palmsService.selectedFrameExtension();
-            object.TrailerLight = this.palmsService.selectedTrailerLight();
-            object.SupplyFormat = this.palmsService.selectedSupplyFormat();
-            object.SupportLeg = this.palmsService.selectedSupportLeg();
-            object.Tyre = this.palmsService.selectedTyre();
-            object.TrailerShipping = this.palmsService.selectedTrailerShipping();
-            object.MOT = this.palmsService.selectedMOT();
             const stanchionExtension = this.palmsService.selectedStanchionExtension();
             const newStanchionExtension: ConfigurationItem | undefined = stanchionExtension
                 ? {
@@ -392,47 +373,69 @@ export class PdfComponent implements OnInit {
                       price: stanchionExtension.price.toString()
                   }
                 : undefined;
-            object.StanchionExtension = newStanchionExtension;
-            object.HydroPack = this.palmsService.selectedHydroPack();
+
+            this.addSingleOption(object, OptionGroup.Stanchion, this.palmsService.selectedStanchion());
+            this.addSingleOption(object, OptionGroup.Brake, this.palmsService.selectedBrake());
+            this.addSingleOption(object, OptionGroup.Propulsion, this.palmsService.selectedPropulsion());
+            this.addSingleOption(object, OptionGroup.Drawbar, this.palmsService.selectedDrawbar());
+            this.addSingleOption(object, OptionGroup.Platform, this.palmsService.selectedPlatform());
+            this.addSingleOption(object, OptionGroup.OilPump, this.palmsService.selectedOilPump());
+            this.addSingleOption(object, OptionGroup.OilTank, this.palmsService.selectedOilTank());
+            this.addSingleOption(object, OptionGroup.TrailerOilCooler, this.palmsService.selectedTrailerOilCooler());
+            this.addSingleOption(object, OptionGroup.BolsterLock, this.palmsService.selectedBolsterLock());
+            this.addSingleOption(object, OptionGroup.BBox, this.palmsService.selectedBBox());
+            this.addSingleOption(object, OptionGroup.DBox, this.palmsService.selectedDBox());
+            this.addSingleOption(object, OptionGroup.Toolbox, this.palmsService.selectedToolbox());
+            this.addSingleOption(object, OptionGroup.HayBaleFrame, this.palmsService.selectedHayBaleFrame());
+            this.addSingleOption(object, OptionGroup.HandBrake, this.palmsService.selectedHandBrake());
+            this.addSingleOption(object, OptionGroup.ChainsawHolder, this.palmsService.selectedChainsawHolder());
+            this.addSingleOption(object, OptionGroup.UnderrunProtection, this.palmsService.selectedUnderrunProtection());
+            this.addSingleOption(object, OptionGroup.FrameExtension, this.palmsService.selectedFrameExtension());
+            this.addSingleOption(object, OptionGroup.TrailerLight, this.palmsService.selectedTrailerLight());
+            this.addSingleOption(object, OptionGroup.SupportLeg, this.palmsService.selectedSupportLeg());
+            this.addSingleOption(object, OptionGroup.Tyre, this.palmsService.selectedTyre());
+            this.addSingleOption(object, OptionGroup.TrailerShipping, this.palmsService.selectedTrailerShipping());
+            this.addSingleOption(object, OptionGroup.MOT, this.palmsService.selectedMOT());
+            this.addSingleOption(object, OptionGroup.HydroPack, this.palmsService.selectedHydroPack());
+            this.addSingleOption(object, OptionGroup.StanchionExtension, newStanchionExtension);
+            this.addSingleOption(object, OptionGroup.WoodSorter, newWoodSorter);
+            this.addSingleOption(object, OptionGroup.BunkAdapter, newBunkAdapter);
+            this.addSingleOption(object, OptionGroup.BunkExtension, newBunkExtension);
         } else {
-            object.Grapples = [];
+            this.addMultipleOption(object, OptionGroup.Grapple, []);
         }
 
         if (this.palmsService._craneSelected.value === true) {
-            const crane: ConfigurationItem = {
-                id: this.palmsService._selectedCrane.value!.id,
-                name: this.palmsService._selectedCrane.value!.name,
-                price: this.palmsService._selectedCrane.value!.price,
-                code: '',
-                namePrice: this.palmsService._selectedCrane.value!.name + ' ' + this.palmsService._selectedCrane.value!.price + '€'
-            };
-            object.Crane = crane;
-            object.ControlBlock = this.palmsService.selectedControlBlock();
-            object.FrameType = this.palmsService.selectedFrameType();
-            object.Rotator = this.palmsService.selectedRotator();
-            object.Grapple = this.palmsService.selectedGrapple();
-            object.Grapples = this.palmsService.selectedGrapples;
-            object.Winch = this.palmsService.selectedWinch();
-            object.ProtectionSleeves = this.palmsService.selectedProtectionSleeves();
-            object.ElectricalFloating = this.palmsService.selectedElectricalFloating();
-            object.ValveBlock = this.palmsService.selectedValveBlock();
-            object.Damping = this.palmsService.selectedDamping();
-            object.CraneLight = this.palmsService.selectedCraneLight();
-            object.OperatorSeat = this.palmsService.selectedOperatorSeat();
-            object.HighPerformanceOilFilter = this.palmsService.selectedHighPerformanceOilFilter();
-            object.CraneOilCooler = this.palmsService.selectedCraneOilCooler();
-            object.RotatorBrake = this.palmsService.selectedRotatorBrake();
-            object.JoystickHolder = this.palmsService.selectedJoystickHolder();
-            object.HoseGuard = this.palmsService.selectedHoseGuard();
-            object.TurningDeviceCounterPlate = this.palmsService.selectedTurningDeviceCounterPlate();
-            object.SupportLegCounterPlate = this.palmsService.selectedSupportLegCounterPlate();
-            object.BoomGuard = this.palmsService.selectedBoomGuard();
-            object.Cover = this.palmsService.selectedCover();
-            object.WoodControl = this.palmsService.selectedWoodControl();
-            object.Linkage = this.palmsService.selectedLinkage();
-            object.CraneShipping = this.palmsService.selectedCraneShipping();
+            object.craneName = this.palmsService._selectedCrane.value?.name;
+
+            this.addSingleOption(object, OptionGroup.ControlBlock, this.palmsService.selectedControlBlock());
+            this.addSingleOption(object, OptionGroup.FrameType, this.palmsService.selectedFrameType());
+            this.addSingleOption(object, OptionGroup.Rotator, this.palmsService.selectedRotator());
+            this.addSingleOption(object, OptionGroup.Winch, this.palmsService.selectedWinch());
+            this.addSingleOption(object, OptionGroup.ProtectionSleeves, this.palmsService.selectedProtectionSleeves());
+            this.addSingleOption(object, OptionGroup.ElectricalFloating, this.palmsService.selectedElectricalFloating());
+            this.addSingleOption(object, OptionGroup.ValveBlock, this.palmsService.selectedValveBlock());
+            this.addSingleOption(object, OptionGroup.Damping, this.palmsService.selectedDamping());
+            this.addSingleOption(object, OptionGroup.CraneLight, this.palmsService.selectedCraneLight());
+            this.addSingleOption(object, OptionGroup.OperatorSeat, this.palmsService.selectedOperatorSeat());
+            this.addSingleOption(object, OptionGroup.HighPerformanceOilFilter, this.palmsService.selectedHighPerformanceOilFilter());
+            this.addSingleOption(object, OptionGroup.CraneOilCooler, this.palmsService.selectedCraneOilCooler());
+            this.addSingleOption(object, OptionGroup.RotatorBrake, this.palmsService.selectedRotatorBrake());
+            this.addSingleOption(object, OptionGroup.JoystickHolder, this.palmsService.selectedJoystickHolder());
+            this.addSingleOption(object, OptionGroup.HoseGuard, this.palmsService.selectedHoseGuard());
+            this.addSingleOption(object, OptionGroup.TurningDeviceCounterPlate, this.palmsService.selectedTurningDeviceCounterPlate());
+            this.addSingleOption(object, OptionGroup.SupportLegCounterPlate, this.palmsService.selectedSupportLegCounterPlate());
+            this.addSingleOption(object, OptionGroup.BoomGuard, this.palmsService.selectedBoomGuard());
+            this.addSingleOption(object, OptionGroup.Cover, this.palmsService.selectedCover());
+            this.addSingleOption(object, OptionGroup.WoodControl, this.palmsService.selectedWoodControl());
+            this.addSingleOption(object, OptionGroup.Linkage, this.palmsService.selectedLinkage());
+            this.addSingleOption(object, OptionGroup.CraneShipping, this.palmsService.selectedCraneShipping());
+            const single = this.palmsService.selectedGrapple();
+            const multi = this.palmsService.selectedGrapples;
+            const allGrapples: ConfigurationItem[] = [...(single ? [single] : []), ...multi.filter((g): g is ConfigurationItem => !!g)];
+            this.addMultipleOption(object, OptionGroup.Grapple, allGrapples);
         } else {
-            object.Grapples = [];
+            this.addMultipleOption(object, OptionGroup.Grapple, []);
         }
 
         object.totalPrice = this.palmsService._totalPrice().toString();
@@ -454,16 +457,6 @@ export class PdfComponent implements OnInit {
                 this.pdfSaved = true;
             })
             .add(() => this.loadingService.disableLoader());
-    }
-
-    sendPdf() {
-        const object: PdfModel = {
-            Stanchion: this.palmsService.selectedStanchion(),
-            Brake: this.palmsService.selectedBrake()
-        };
-        this.pdfService.sendPdf(object).subscribe((resp) => {
-            this.pdfService.pdfId.set(resp.id);
-        });
     }
 
     sendEmail() {
@@ -521,6 +514,24 @@ export class PdfComponent implements OnInit {
                 link.click();
             })
             .add(() => this.loadingService.disableLoader());
+    }
+
+    private addSingleOption(model: PdfModel, group: OptionGroup, item?: ConfigurationItem) {
+        if (!item) return;
+
+        model.singleOptions.push({
+            group,
+            option: item
+        });
+    }
+
+    private addMultipleOption(model: PdfModel, group: OptionGroup, items?: ConfigurationItem[]) {
+        if (!items || items.length === 0) return;
+
+        model.multipleOptions.push({
+            group,
+            options: items
+        });
     }
 }
 
@@ -585,10 +596,87 @@ interface PdfCraneModel {
 }
 
 export interface PdfModel extends PdfTrailerModel, PdfCraneModel {
-    totalPrice?: string | undefined;
+    totalPrice: string;
+    trailerName?: string;
+    craneName?: string;
+    singleOptions: SinglePdfOption[];
+    multipleOptions: MultiplePdfOption[];
 }
 
 interface Country {
     name: string;
     code: string;
+}
+
+interface SinglePdfOption {
+    group: OptionGroup;
+    option: PdfItem;
+}
+
+interface MultiplePdfOption {
+    group: OptionGroup;
+    options: PdfItem[];
+}
+
+interface PdfOption {
+    group: OptionGroup;
+}
+
+type PdfItem = Pick<ConfigurationItem, 'id' | 'name' | 'code' | 'price' | 'namePrice'>;
+
+export enum OptionGroup {
+    //TRAILER
+    Stanchion,
+    Brake,
+    Propulsion,
+    Drawbar,
+    Platform,
+    HydroPack,
+    OilPump,
+    OilTank,
+    TrailerOilCooler,
+    BolsterLock,
+    BBox,
+    DBox,
+    Toolbox,
+    HayBaleFrame,
+    WoodSorter,
+    HandBrake,
+    ChainsawHolder,
+    UnderrunProtection,
+    BunkAdapter,
+    BunkExtension,
+    FrameExtension,
+    StanchionExtension,
+    SupportLeg,
+    TrailerLight,
+    Tyre,
+    TrailerShipping,
+    MOT,
+
+    //CRANE
+    Crane,
+    ControlBlock,
+    FrameType,
+    Grapple,
+    Rotator,
+    Winch,
+    ProtectionSleeves,
+    ElectricalFloating,
+    ValveBlock,
+    Damping,
+    CraneLight,
+    OperatorSeat,
+    HighPerformanceOilFilter,
+    CraneOilCooler,
+    RotatorBrake,
+    JoystickHolder,
+    HoseGuard,
+    TurningDeviceCounterPlate,
+    SupportLegCounterPlate,
+    BoomGuard,
+    Cover,
+    WoodControl,
+    Linkage,
+    CraneShipping
 }
