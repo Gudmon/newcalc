@@ -401,7 +401,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     }
 
     getCranes() {
-        const craneNames = this.trailer.crane.map((crane) => crane.name);
+        const craneNames = this.trailer.cranes.map((crane) => crane.name);
         return craneNames;
     }
 

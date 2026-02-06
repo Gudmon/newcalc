@@ -1,5 +1,5 @@
-import { PalmsTrailer } from "../../trailers/models/palms-trailer";
-import { PalmsTrailerOverview } from "../../trailers/models/palms-trailer-overview";
+import { PalmsTrailer } from '../../trailers/models/palms-trailer';
+import { PalmsTrailerOverview } from '../../trailers/models/palms-trailer-overview';
 
 export interface PalmsCrane {
     [key: string]: any;
@@ -23,13 +23,13 @@ export interface PalmsCrane {
     slewingTorque: string;
     workingPressure: string;
     rotatorMaximumLoad: string;
-    rotatorCapacity: string,
-    rotatorType: string,
+    rotatorCapacity: string;
+    rotatorType: string;
     rotatorConnection: string;
     craneWeight: string;
     pillarSlewingAngle: string;
     recommendedOilFlow: string;
-    trailer: PalmsTrailerOverview[];
+    trailers: PalmsTrailerOverview[];
     selectedTrailer?: PalmsTrailer;
     imgUrls: string[];
     imgUrl: string;

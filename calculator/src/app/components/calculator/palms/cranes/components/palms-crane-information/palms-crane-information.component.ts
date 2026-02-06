@@ -1,5 +1,16 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { TrailerDataItemComponent } from "../../../shared/components/machine-data-item/machine-data-item.component";
+import {
+    AfterViewInit,
+    ChangeDetectorRef,
+    Component,
+    ElementRef,
+    EventEmitter,
+    HostListener,
+    Input,
+    OnInit,
+    Output,
+    ViewChild
+} from '@angular/core';
+import { TrailerDataItemComponent } from '../../../shared/components/machine-data-item/machine-data-item.component';
 import { PalmsCrane } from '../../models/palms-crane';
 import { ImageModule } from 'primeng/image';
 import { GalleriaModule } from 'primeng/galleria';
@@ -13,126 +24,122 @@ import { YouTubePlayerModule } from '@angular/youtube-player';
     imports: [TrailerDataItemComponent, ImageModule, GalleriaModule, YouTubePlayerModule]
 })
 export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
-  displayBasic: boolean = false;
-  images: any[] | undefined = []
-  responsiveOptions: any[] = []
-  videoHeight: number | undefined;
-  videoWidth: number | undefined;
-  galleryContainerStyle: any = { 'max-width': '50%' };
-  @Input({required: true}) crane!: PalmsCrane
-  @Output() trailerSelected = new EventEmitter<number>();
-  @ViewChild("youTubePlayer") youTubePlayer!: ElementRef<HTMLDivElement>;
-  
-  constructor(private changeDetectorRef: ChangeDetectorRef){}
+    displayBasic: boolean = false;
+    images: any[] | undefined = [];
+    responsiveOptions: any[] = [];
+    videoHeight: number | undefined;
+    videoWidth: number | undefined;
+    galleryContainerStyle: any = { 'max-width': '50%' };
+    @Input({ required: true }) crane!: PalmsCrane;
+    @Output() trailerSelected = new EventEmitter<number>();
+    @ViewChild('youTubePlayer') youTubePlayer!: ElementRef<HTMLDivElement>;
 
-  @HostListener('document:keyup.escape', ['$event'])
-  onKeyup() {
-    this.displayBasic = false;
-  }
+    constructor(private changeDetectorRef: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
-    this.setResponsiveOptions();
-    this.setImages(this.crane);
-    this.resize();
-  }
-
-  ngAfterViewInit(): void {
-    this.resize();
-    //window.addEventListener("resize", this.resize.bind(this));
-  }
-
-  resize(): void {
-    if(this.youTubePlayer){
-      this.videoWidth = Math.min(
-        this.youTubePlayer.nativeElement.clientWidth,
-        1200
-      );
-      this.videoHeight = this.videoWidth * 0.6;
-      this.changeDetectorRef.detectChanges();
+    @HostListener('document:keyup.escape', ['$event'])
+    onKeyup() {
+        this.displayBasic = false;
     }
-  }
-  
-  smallScreen(){
-    return window.innerWidth < 900;
-  }
 
-  getTrailers(): { id: number, name: string }[] {
-    return this.crane.trailer.map(trailer => ({ id: trailer.id, name: trailer.name }));
-  }
-
-  trailerSelectedEmit(trailerId: number){
-    this.trailerSelected.emit(trailerId)
-  }
-
-  private updateContainerStyle(): void {
-    if (window.innerWidth <= 640) {
-      this.galleryContainerStyle = { 'max-width': '100%' };
-    } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
-      this.galleryContainerStyle = { 'max-width': '75%' };
-    } else {
-      this.galleryContainerStyle = { 'max-width': '50%' };
+    ngOnInit(): void {
+        this.setResponsiveOptions();
+        this.setImages(this.crane);
+        this.resize();
     }
-  }
 
-  private setImages(crane: PalmsCrane){
-    if(crane.name === "PALMS 5.87Z"){
-      this.images = [
-        {
-          itemImageSrc: this.crane.imgUrls[0],
-          thumbnailImageSrc:  this.crane.imgUrls[0],
-          alt: 'Description for Crane image 1',
-          title: 'Crane image 1'
-        },
-        {
-          itemImageSrc: this.crane.imgUrls[1],
-          thumbnailImageSrc:  this.crane.imgUrls[1],
-          alt: 'Description for Crane image 2',
-          title: 'Crane image 2'
-        },
-        {
-          itemImageSrc: this.crane.imgUrls[2],
-          thumbnailImageSrc:  this.crane.imgUrls[2],
-          alt: 'Description for Crane image 3',
-          title: 'Crane image 3'
-        },
-      ]  
-    } else {
-      this.images = [
-        {
-          itemImageSrc: this.crane.imgUrls[0],
-          thumbnailImageSrc:  this.crane.imgUrls[0],
-          alt: 'Description for Crane image 1',
-          title: 'Crane image 1'
-        },
-        {
-          itemImageSrc: this.crane.imgUrls[1],
-          thumbnailImageSrc:  this.crane.imgUrls[1],
-          alt: 'Description for Crane image 2',
-          title: 'Crane image 2'
+    ngAfterViewInit(): void {
+        this.resize();
+        //window.addEventListener("resize", this.resize.bind(this));
+    }
+
+    resize(): void {
+        if (this.youTubePlayer) {
+            this.videoWidth = Math.min(this.youTubePlayer.nativeElement.clientWidth, 1200);
+            this.videoHeight = this.videoWidth * 0.6;
+            this.changeDetectorRef.detectChanges();
         }
-      ]  
     }
-    
-  }
 
-  private setResponsiveOptions(){
-    this.responsiveOptions = [
-      {
-          breakpoint: '1500px',
-          numVisible: 5
-      },
-      {
-          breakpoint: '1024px',
-          numVisible: 3
-      },
-      {
-          breakpoint: '768px',
-          numVisible: 2
-      },
-      {
-          breakpoint: '560px',
-          numVisible: 1
-      }
-    ];
-  }
+    smallScreen() {
+        return window.innerWidth < 900;
+    }
+
+    getTrailers(): { id: number; name: string }[] {
+        return this.crane.trailers.map((trailer) => ({ id: trailer.id, name: trailer.name }));
+    }
+
+    trailerSelectedEmit(trailerId: number) {
+        this.trailerSelected.emit(trailerId);
+    }
+
+    private updateContainerStyle(): void {
+        if (window.innerWidth <= 640) {
+            this.galleryContainerStyle = { 'max-width': '100%' };
+        } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
+            this.galleryContainerStyle = { 'max-width': '75%' };
+        } else {
+            this.galleryContainerStyle = { 'max-width': '50%' };
+        }
+    }
+
+    private setImages(crane: PalmsCrane) {
+        if (crane.name === 'PALMS 5.87Z') {
+            this.images = [
+                {
+                    itemImageSrc: this.crane.imgUrls[0],
+                    thumbnailImageSrc: this.crane.imgUrls[0],
+                    alt: 'Description for Crane image 1',
+                    title: 'Crane image 1'
+                },
+                {
+                    itemImageSrc: this.crane.imgUrls[1],
+                    thumbnailImageSrc: this.crane.imgUrls[1],
+                    alt: 'Description for Crane image 2',
+                    title: 'Crane image 2'
+                },
+                {
+                    itemImageSrc: this.crane.imgUrls[2],
+                    thumbnailImageSrc: this.crane.imgUrls[2],
+                    alt: 'Description for Crane image 3',
+                    title: 'Crane image 3'
+                }
+            ];
+        } else {
+            this.images = [
+                {
+                    itemImageSrc: this.crane.imgUrls[0],
+                    thumbnailImageSrc: this.crane.imgUrls[0],
+                    alt: 'Description for Crane image 1',
+                    title: 'Crane image 1'
+                },
+                {
+                    itemImageSrc: this.crane.imgUrls[1],
+                    thumbnailImageSrc: this.crane.imgUrls[1],
+                    alt: 'Description for Crane image 2',
+                    title: 'Crane image 2'
+                }
+            ];
+        }
+    }
+
+    private setResponsiveOptions() {
+        this.responsiveOptions = [
+            {
+                breakpoint: '1500px',
+                numVisible: 5
+            },
+            {
+                breakpoint: '1024px',
+                numVisible: 3
+            },
+            {
+                breakpoint: '768px',
+                numVisible: 2
+            },
+            {
+                breakpoint: '560px',
+                numVisible: 1
+            }
+        ];
+    }
 }

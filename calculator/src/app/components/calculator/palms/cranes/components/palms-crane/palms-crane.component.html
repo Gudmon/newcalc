@@ -548,8 +548,8 @@
             </div>
         </section>
         <app-palms-trailer-cards
-            *ngIf="crane && crane.trailer && (palmsService.craneSelected$ | async) && !fromTrailer"
-            [trailers]="crane.trailer"
+            *ngIf="crane && crane.trailers && (palmsService.craneSelected$ | async) && !fromTrailer"
+            [trailers]="crane.trailers"
             (buttonClickEmitter)="selectTrailer($event)"
         ></app-palms-trailer-cards>
     </ng-container>

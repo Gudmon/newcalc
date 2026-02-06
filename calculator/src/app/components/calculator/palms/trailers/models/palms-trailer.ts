@@ -1,5 +1,5 @@
-import { PalmsCrane } from "../../cranes/models/palms-crane";
-import { PalmsCraneOverview } from "../../cranes/models/palms-crane-overview";
+import { PalmsCrane } from '../../cranes/models/palms-crane';
+import { PalmsCraneOverview } from '../../cranes/models/palms-crane-overview';
 
 export interface PalmsTrailer {
     [key: string]: any;
@@ -19,7 +19,7 @@ export interface PalmsTrailer {
     standardWheelSize: string;
     maxCraneSize: string;
     drawbarControlCylinders: string;
-    crane: PalmsCraneOverview[];
+    cranes: PalmsCraneOverview[];
     selectedCrane?: PalmsCrane;
     imgUrls: string[];
     imgUrl: string;

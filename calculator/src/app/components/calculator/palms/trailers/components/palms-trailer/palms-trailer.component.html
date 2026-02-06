@@ -582,8 +582,8 @@
         </section>
 
         <app-palms-crane-cards
-            *ngIf="trailer && trailer.crane && trailerSelected && (palmsService.trailerSelected$ | async) && !fromCrane"
-            [cranes]="trailer.crane"
+            *ngIf="trailer && trailer.cranes && trailerSelected && (palmsService.trailerSelected$ | async) && !fromCrane"
+            [cranes]="trailer.cranes"
             (buttonClickEmitter)="selectCrane($event)"
         ></app-palms-crane-cards>
     </ng-container>

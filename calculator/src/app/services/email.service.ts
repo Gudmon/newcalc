@@ -19,7 +19,6 @@ export class EmailService {
             PhoneNumber: phoneNumber,
             BlobName: blobName
         };
-        console.log('EMAIL', email);
 
         return this.httpClient.post<any>(`${this.url}/Email`, email).pipe();
     }

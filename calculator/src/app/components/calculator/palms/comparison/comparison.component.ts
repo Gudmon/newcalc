@@ -68,20 +68,4 @@ export class ComparisonComponent implements OnInit {
       this.vehicles = vehicles;
     })
   }
-
-  // addTrailer(num: number){
-  //   this.palmsService.getTrailer(num).subscribe((trailer) => {
-  //     console.log(trailer);
-      
-  //     this.comparisonStoreService.addVehicle(trailer);
-  //   });
-  // }
-
-  // addCrane(num: number){
-  //   this.palmsService.getCrane(num).subscribe((crane) => {
-  //     console.log(crane);
-      
-  //     this.comparisonStoreService.addVehicle(crane);
-  //   });
-  // }
 }

@@ -134,7 +134,7 @@ export class PalmsService {
                 else {
                     trailer.imgUrls = [`../../../../../assets/${trailer.name}-1.svg`, `../../../../../assets/${trailer.name}-2.jpg`];
                 }
-                for (const crane of trailer.crane) {
+                for (const crane of trailer.cranes) {
                     crane.imgUrl = `../../../../../assets/${crane.name}-1.svg`;
                 }
                 //this._selectedTrailer.next(trailer);
@@ -165,7 +165,7 @@ export class PalmsService {
                 crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`];
                 if (crane.name === 'PALMS 5.87Z') crane.imgUrls = [...crane.imgUrls, `../../../../../assets/${crane.name}-3.jpg`];
 
-                for (const trailer of crane.trailer) {
+                for (const trailer of crane.trailers) {
                     if (trailer.id === 8) trailer.imgUrl = `../../../../../assets/PALMS 10U-1.svg`;
                     else if (trailer.id === 9 || trailer.id === 10) trailer.imgUrl = `../../../../../assets/PALMS 12U-1.svg`;
                     else if (trailer.id === 11 || trailer.id === 12) trailer.imgUrl = `../../../../../assets/PALMS 15U-1.svg`;
