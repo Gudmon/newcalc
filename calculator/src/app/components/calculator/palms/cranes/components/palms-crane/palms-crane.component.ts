@@ -287,7 +287,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     ) {}
 
     ngOnInit(): void {
-        this.addGrapple();
         if (this.id) {
             this.fromTrailer = true;
         } else {
