@@ -408,6 +408,14 @@ export class PdfComponent implements OnInit {
         if (this.palmsService._craneSelected.value === true) {
             object.craneName = this.palmsService._selectedCrane.value?.name;
 
+            const craneOption: PdfItem = {
+                id: Number(this.palmsService._selectedCrane.value?.id) ?? 0,
+                name: this.palmsService._selectedCrane.value?.name ?? '',
+                code: '',
+                price: this.palmsService._selectedCrane.value?.price.toString() ?? '0',
+                namePrice: `${this.palmsService._selectedCrane.value?.name ?? ''} - ${this.palmsService._selectedCrane.value?.price.toString() ?? '0'}`
+            };
+            this.addSingleOption(object, OptionGroup.Crane, craneOption);
             this.addSingleOption(object, OptionGroup.ControlBlock, this.palmsService.selectedControlBlock());
             this.addSingleOption(object, OptionGroup.FrameType, this.palmsService.selectedFrameType());
             this.addSingleOption(object, OptionGroup.Rotator, this.palmsService.selectedRotator());
