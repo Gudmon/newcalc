@@ -22,7 +22,8 @@ export class NavigationComponent implements OnInit {
             },
             {
                 label: 'Kalkulátor',
-                routerLink: '/calculator/palms'
+                routerLink: '/calculator/palms',
+                styleClass: 'cta-item'
             },
             {
                 label: 'Ügyféltérkép',
