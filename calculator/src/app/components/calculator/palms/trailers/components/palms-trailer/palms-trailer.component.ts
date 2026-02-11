@@ -51,6 +51,7 @@ import { HayBaleFrameDialogComponent } from '../dialogs/hay-bale-frame-dialog/ha
 import { ToolboxDialogComponent } from '../dialogs/toolbox-dialog/toolbox-dialog.component';
 import { HydropackDialogComponent } from '../dialogs/hydropack-dialog/hydropack-dialog.component';
 import { DboxDialogComponent } from '../dialogs/dbox-dialog/dbox-dialog.component';
+import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
 
 @Component({
     selector: 'app-palms-trailer',
@@ -365,7 +366,19 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                     this.palmsService._craneSelected.next(false);
                     this.palmsService._selectedTrailer.next(undefined);
                     this.palmsService._selectedCrane.next(undefined);
-                    this.palmsService._selectedTrailer.next(response);
+                    const trailer: PalmsTrailerOverview = {
+                        id: response.id,
+                        name: response.name,
+                        frame: response.frame,
+                        beamType: response.beamType,
+                        drawbarControlCylinders: response.drawbarControlCylinders,
+                        loadingAreaCross: response.loadingAreaCross,
+                        maxCraneSize: response.maxCraneSize,
+                        grossWeight: response.grossWeight,
+                        imageUrl: response.imageUrls?.at(0) ?? '',
+                        image: response.images[0]
+                    };
+                    this.palmsService._selectedTrailer.next(trailer);
                 }
 
                 this.trailer = response as PalmsTrailer;

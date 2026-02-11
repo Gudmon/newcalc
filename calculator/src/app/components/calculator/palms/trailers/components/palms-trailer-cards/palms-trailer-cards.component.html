@@ -6,7 +6,7 @@
         <p-card class="mt-2 lg:mt-10 shadow-xl transition duration-300 ease-in-out hover:scale-105">
             <ng-template pTemplate="header">
                 <div class="relative">
-                    <img loading="eager" alt="Pótkocsi" [src]="trailer.imgUrl" class="w-full object-cover" />
+                    <advanced-image class="flex hover:cursor-pointer" [cldImg]="trailer.image"></advanced-image>
                 </div>
             </ng-template>
             <div class="flex gap-2">

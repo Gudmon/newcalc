@@ -1,0 +1,53 @@
+#video-holder > youtube-player > iframe {
+    display: block;
+    width: 50%;
+}
+
+advanced-image {
+    display: flex !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+advanced-image img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    display: grid !important;
+}
+
+.p-galleria-mask {
+    background: rgba(0, 0, 0, 0.95) !important;
+}
+
+.p-galleria-content {
+    height: 100vh !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.gallery-item-wrapper {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100% !important;
+}
+
+.gallery-item-wrapper img {
+    max-width: 100% !important;
+    max-height: 100vh !important;
+    object-fit: contain !important;
+}
+
+.p-galleria-mask {
+    z-index: 9999 !important;
+}
+
+.p-galleria {
+    z-index: 10000 !important;
+}
+
+.p-galleria-close {
+    z-index: 10001 !important;
+}

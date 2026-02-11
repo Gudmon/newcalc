@@ -1,3 +1,4 @@
+import { CloudinaryImage } from '@cloudinary/url-gen/assets/CloudinaryImage';
 import { PalmsCrane } from '../../cranes/models/palms-crane';
 import { PalmsCraneOverview } from '../../cranes/models/palms-crane-overview';
 
@@ -21,7 +22,8 @@ export interface PalmsTrailer {
     drawbarControlCylinders: string;
     cranes: PalmsCraneOverview[];
     selectedCrane?: PalmsCrane;
-    imgUrls: string[];
-    imgUrl: string;
-    videoIds?: string[];
+
+    imageUrls?: string[];
+    images: CloudinaryImage[];
+    videoUrls?: string[];
 }

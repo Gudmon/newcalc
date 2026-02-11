@@ -1,4 +1,4 @@
-
+import { CloudinaryImage } from '@cloudinary/url-gen';
 
 export interface PalmsTrailerOverview {
     id: number;
@@ -9,5 +9,6 @@ export interface PalmsTrailerOverview {
     maxCraneSize: string;
     drawbarControlCylinders: string;
     beamType: string;
-    imgUrl: string  
+    imageUrl: string;
+    image: CloudinaryImage;
 }

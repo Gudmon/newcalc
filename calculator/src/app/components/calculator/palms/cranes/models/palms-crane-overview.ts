@@ -1,3 +1,5 @@
+import { CloudinaryImage } from '@cloudinary/url-gen';
+
 export interface PalmsCraneOverview {
     id: number;
     name: string;
@@ -7,6 +9,7 @@ export interface PalmsCraneOverview {
     telescopeLength: string;
     slewingCylinder: string;
     slewingTorque: string;
-    imgUrl: string;  
     price: string;
+    imageUrl: string;
+    image: CloudinaryImage;
 }

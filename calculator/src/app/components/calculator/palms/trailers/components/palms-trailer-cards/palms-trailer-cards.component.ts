@@ -8,11 +8,12 @@ import { ComparisonStoreService } from '../../services/comparison-store.service'
 import { LoadingService } from '../../../../../../services/loading.service';
 import { AccordionModule } from 'primeng/accordion';
 import { ComparisonAccordionComponent } from '../../../comparison-accordion/comparison-accordion.component';
+import { CloudinaryModule } from "@cloudinary/ng";
 
 @Component({
     selector: 'app-palms-trailer-cards',
     standalone: true,
-    imports: [CardModule, CommonModule, TagModule, AccordionModule, ComparisonAccordionComponent],
+    imports: [CardModule, CommonModule, TagModule, AccordionModule, ComparisonAccordionComponent, CloudinaryModule],
     templateUrl: './palms-trailer-cards.component.html',
     styleUrl: './palms-trailer-cards.component.css'
 })

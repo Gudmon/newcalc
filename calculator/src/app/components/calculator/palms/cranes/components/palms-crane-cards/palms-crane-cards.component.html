@@ -7,7 +7,9 @@
 
             <p-card class="mt-2 lg:mt-10 shadow-xl transition duration-300 ease-in-out hover:scale-105">
                 <ng-template pTemplate="header">
-                    <img loading="eager" alt="Daru" [src]="crane.imgUrl" />
+                    <div class="relative">
+                        <advanced-image class="flex hover:cursor-pointer" [cldImg]="crane.image"></advanced-image>
+                    </div>
                 </ng-template>
                 <div class="flex gap-2">
                     <p class="pb-4 text-base font-extrabold lg:text-xl text-[--palms-color]">

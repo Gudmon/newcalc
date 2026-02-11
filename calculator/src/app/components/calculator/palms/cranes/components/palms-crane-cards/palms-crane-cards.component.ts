@@ -7,11 +7,12 @@ import { TagModule } from 'primeng/tag';
 import { ComparisonStoreService } from '../../../trailers/services/comparison-store.service';
 import { LoadingService } from '../../../../../../services/loading.service';
 import { ComparisonAccordionComponent } from '../../../comparison-accordion/comparison-accordion.component';
+import { CloudinaryModule } from '@cloudinary/ng';
 
 @Component({
     selector: 'app-palms-crane-cards',
     standalone: true,
-    imports: [CardModule, CommonModule, TagModule, ComparisonAccordionComponent],
+    imports: [CardModule, CommonModule, TagModule, ComparisonAccordionComponent, CloudinaryModule],
     templateUrl: './palms-crane-cards.component.html',
     styleUrl: './palms-crane-cards.component.css'
 })
@@ -26,7 +27,6 @@ export class PalmsCraneCardsComponent {
     ) {}
 
     buttonClickEmit(crane: PalmsCraneOverview) {
-
         this.buttonClickEmitter.emit(crane);
     }
 

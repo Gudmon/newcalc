@@ -46,6 +46,7 @@ import { RadioButtonModule } from 'primeng/radiobutton';
 import { PalmsCraneCalculatorHintsComponent } from '../palms-crane-calculator-hints/palms-crane-calculator-hints.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { HighPerformanceOilFilterDialogComponent } from '../dialogs/high-performance-oil-filter-dialog/high-performance-oil-filter-dialog.component';
+import { PalmsCraneOverview } from '../../models/palms-crane-overview';
 
 @Component({
     selector: 'app-palms-crane',
@@ -305,7 +306,20 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                     this.palmsService._trailerSelected.next(false);
                     this.palmsService._selectedCrane.next(undefined);
                     this.palmsService._selectedTrailer.next(undefined);
-                    this.palmsService._selectedCrane.next(response);
+                    const crane: PalmsCraneOverview = {
+                        id: response.id,
+                        name: response.name,
+                        brutLiftingTorque190Bar: response.brutLiftingTorque190Bar,
+                        imageUrl: response.imgUrl,
+                        maxReach: response.maxReach,
+                        slewingCylinder: response.slewingCylinder,
+                        brutLiftingTorque215Bar: response.brutLiftingTorque215Bar,
+                        slewingTorque: response.slewingTorque,
+                        telescopeLength: response.telescopeLength,
+                        price: response.price,
+                        image: response.images[0]
+                    };
+                    this.palmsService._selectedCrane.next(crane);
                 }
 
                 this.crane = response as PalmsCrane;

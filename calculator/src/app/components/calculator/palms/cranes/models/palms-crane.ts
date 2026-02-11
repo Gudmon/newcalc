@@ -1,3 +1,4 @@
+import { CloudinaryImage } from '@cloudinary/url-gen';
 import { PalmsTrailer } from '../../trailers/models/palms-trailer';
 import { PalmsTrailerOverview } from '../../trailers/models/palms-trailer-overview';
 
@@ -34,4 +35,8 @@ export interface PalmsCrane {
     imgUrls: string[];
     imgUrl: string;
     videoIds?: string[];
+
+    imageUrls?: string[];
+    images: CloudinaryImage[];
+    videoUrls?: string[];
 }

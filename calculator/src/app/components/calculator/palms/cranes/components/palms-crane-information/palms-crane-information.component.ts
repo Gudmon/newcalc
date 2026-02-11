@@ -15,13 +15,17 @@ import { PalmsCrane } from '../../models/palms-crane';
 import { ImageModule } from 'primeng/image';
 import { GalleriaModule } from 'primeng/galleria';
 import { YouTubePlayerModule } from '@angular/youtube-player';
+import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen';
+import { CloudinaryModule } from '@cloudinary/ng';
+import { fill } from '@cloudinary/url-gen/actions/resize';
+import { format } from '@cloudinary/url-gen/actions/delivery';
 
 @Component({
     selector: 'app-palms-crane-information',
     standalone: true,
     templateUrl: './palms-crane-information.component.html',
     styleUrl: './palms-crane-information.component.css',
-    imports: [TrailerDataItemComponent, ImageModule, GalleriaModule, YouTubePlayerModule]
+    imports: [TrailerDataItemComponent, ImageModule, GalleriaModule, YouTubePlayerModule, CloudinaryModule]
 })
 export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
     displayBasic: boolean = false;
@@ -29,12 +33,21 @@ export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
     responsiveOptions: any[] = [];
     videoHeight: number | undefined;
     videoWidth: number | undefined;
-    galleryContainerStyle: any = { 'max-width': '50%' };
+    galleryContainerStyle: any = {};
+    activeIndex: number = 0;
+    originalImages: CloudinaryImage[] = [];
+    thumbnails: CloudinaryImage[] = [];
     @Input({ required: true }) crane!: PalmsCrane;
     @Output() trailerSelected = new EventEmitter<number>();
     @ViewChild('youTubePlayer') youTubePlayer!: ElementRef<HTMLDivElement>;
 
     constructor(private changeDetectorRef: ChangeDetectorRef) {}
+
+    cld = new Cloudinary({
+        cloud: {
+            cloudName: 'dhidgc7eu'
+        }
+    });
 
     @HostListener('document:keyup.escape', ['$event'])
     onKeyup() {
@@ -42,14 +55,21 @@ export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
+        this.thumbnails = (this.crane.imageUrls ?? []).map((imgUrl) => this.cld.image(imgUrl).resize(fill().width(400).height(200)));
+
         this.setResponsiveOptions();
-        this.setImages(this.crane);
+        this.setImages();
         this.resize();
     }
 
     ngAfterViewInit(): void {
         this.resize();
-        //window.addEventListener("resize", this.resize.bind(this));
+    }
+
+    imageSelected(image: CloudinaryImage, idx: number) {
+        console.log('selected', image);
+        this.activeIndex = idx;
+        this.displayBasic = true;
     }
 
     resize(): void {
@@ -72,54 +92,13 @@ export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
         this.trailerSelected.emit(trailerId);
     }
 
-    private updateContainerStyle(): void {
-        if (window.innerWidth <= 640) {
-            this.galleryContainerStyle = { 'max-width': '100%' };
-        } else if (640 < window.innerWidth && window.innerWidth <= 1024) {
-            this.galleryContainerStyle = { 'max-width': '75%' };
-        } else {
-            this.galleryContainerStyle = { 'max-width': '50%' };
-        }
-    }
-
-    private setImages(crane: PalmsCrane) {
-        if (crane.name === 'PALMS 5.87Z') {
-            this.images = [
-                {
-                    itemImageSrc: this.crane.imgUrls[0],
-                    thumbnailImageSrc: this.crane.imgUrls[0],
-                    alt: 'Description for Crane image 1',
-                    title: 'Crane image 1'
-                },
-                {
-                    itemImageSrc: this.crane.imgUrls[1],
-                    thumbnailImageSrc: this.crane.imgUrls[1],
-                    alt: 'Description for Crane image 2',
-                    title: 'Crane image 2'
-                },
-                {
-                    itemImageSrc: this.crane.imgUrls[2],
-                    thumbnailImageSrc: this.crane.imgUrls[2],
-                    alt: 'Description for Crane image 3',
-                    title: 'Crane image 3'
-                }
-            ];
-        } else {
-            this.images = [
-                {
-                    itemImageSrc: this.crane.imgUrls[0],
-                    thumbnailImageSrc: this.crane.imgUrls[0],
-                    alt: 'Description for Crane image 1',
-                    title: 'Crane image 1'
-                },
-                {
-                    itemImageSrc: this.crane.imgUrls[1],
-                    thumbnailImageSrc: this.crane.imgUrls[1],
-                    alt: 'Description for Crane image 2',
-                    title: 'Crane image 2'
-                }
-            ];
-        }
+    private setImages() {
+        this.images = this.crane.images.map((img) => ({
+            itemImageSrc: img.toURL(),
+            thumbnailImageSrc: img.toURL(),
+            alt: 'Crane image',
+            title: 'Crane image'
+        }));
     }
 
     private setResponsiveOptions() {

@@ -6,6 +6,11 @@ import { PalmsTrailer } from '../../trailers/models/palms-trailer';
 import { PalmsCraneOverview } from '../../cranes/models/palms-crane-overview';
 import { PalmsCrane } from '../../cranes/models/palms-crane';
 import { ConfigurationItem } from '../../../../../models/configuration-item';
+import { Cloudinary } from '@cloudinary/url-gen/instance/Cloudinary';
+import { CloudinaryImage } from '@cloudinary/url-gen/assets/CloudinaryImage';
+import { fill, thumbnail } from '@cloudinary/url-gen/actions/resize';
+import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
+import { format, quality } from '@cloudinary/url-gen/actions/delivery';
 @Injectable({
     providedIn: 'root'
 })
@@ -44,7 +49,11 @@ export class PalmsService {
 
     public _totalPrice = computed(() => this._trailerPrice() + this._cranePrice());
 
-    videos = new Map<string, string[]>();
+    cld = new Cloudinary({
+        cloud: {
+            cloudName: 'dhidgc7eu'
+        }
+    });
 
     // CRANES
     public selectedControlBlock = signal<ConfigurationItem | undefined>(undefined);
@@ -107,37 +116,24 @@ export class PalmsService {
     getTrailers(): Observable<PalmsTrailerOverview[]> {
         return this.httpClient.get<PalmsTrailerOverview[]>(`${this.url}/Palms/trailers`).pipe(
             map((trailerOvewViews: PalmsTrailerOverview[]) => {
-                for (const trailerOvewView of trailerOvewViews) {
-                    if (trailerOvewView.id === 8) trailerOvewView.imgUrl = `../../../../../assets/PALMS 10U-1.svg`;
-                    else if (trailerOvewView.id === 9 || trailerOvewView.id === 10)
-                        trailerOvewView.imgUrl = `../../../../../assets/PALMS 12U-1.svg`;
-                    else if (trailerOvewView.id === 11 || trailerOvewView.id === 12)
-                        trailerOvewView.imgUrl = `../../../../../assets/PALMS 15U-1.svg`;
-                    else trailerOvewView.imgUrl = `../../../../../assets/${trailerOvewView.name}-1.svg`;
-                }
+                trailerOvewViews.map((trailerOvewView) => {
+                    trailerOvewView.image = this.cld.image(trailerOvewView.imageUrl).resize(fill().width(300).height(200));
+                });
                 return trailerOvewViews;
             })
         );
     }
 
     getTrailer(id: number): Observable<PalmsTrailer> {
-        this.setVideos();
-
         return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
             map((trailer: PalmsTrailer) => {
-                trailer.videoIds = this.getVideosByKey(trailer.name);
-                if (trailer.id === 8) trailer.imgUrls = [`../../../../../assets/PALMS 10U-1.svg`, `../../../../../assets/PALMS 10U-2.jpg`];
-                else if (trailer.id === 9 || trailer.id === 10)
-                    trailer.imgUrls = [`../../../../../assets/PALMS 12U-1.svg`, `../../../../../assets/PALMS 12U-2.jpg`];
-                else if (trailer.id === 11 || trailer.id === 12)
-                    trailer.imgUrls = [`../../../../../assets/PALMS 15U-1.svg`, `../../../../../assets/PALMS 15U-2.jpg`];
-                else {
-                    trailer.imgUrls = [`../../../../../assets/${trailer.name}-1.svg`, `../../../../../assets/${trailer.name}-2.jpg`];
-                }
+                trailer.images = (trailer.imageUrls ?? []).map((imgUrl) =>
+                    this.cld.image(imgUrl).delivery(format('auto')).delivery(quality('auto'))
+                );
+
                 for (const crane of trailer.cranes) {
-                    crane.imgUrl = `../../../../../assets/${crane.name}-1.svg`;
+                    crane.imageUrl = `../../../../../assets/${crane.name}-1.svg`;
                 }
-                //this._selectedTrailer.next(trailer);
 
                 return trailer;
             })
@@ -147,73 +143,37 @@ export class PalmsService {
     getCranes(): Observable<PalmsCraneOverview[]> {
         return this.httpClient.get<PalmsCraneOverview[]>(`${this.url}/Palms/cranes`).pipe(
             map((craneOverViews: PalmsCraneOverview[]) => {
-                for (const craneOverView of craneOverViews) {
-                    craneOverView.imgUrl = `../../../../../assets/${craneOverView.name}-1.svg`;
-                }
+                craneOverViews.map((craneOverView) => {
+                    craneOverView.image = this.cld.image(craneOverView.imageUrl).resize(fill().width(300).height(200));
+                });
+                console.log('crane ov', craneOverViews);
+
                 return craneOverViews;
             })
         );
     }
 
     getCrane(id: number): Observable<PalmsCrane> {
-        this.setVideos();
-
         return this.httpClient.get<PalmsCrane>(`${this.url}/Palms/cranes/${id}`).pipe(
             map((crane: PalmsCrane) => {
-                crane.videoIds = this.getVideosByKey(crane.name);
-                //this._selectedCrane.next(crane);
-                crane.imgUrls = [`../../../../../assets/${crane.name}-1.svg`, `../../../../../assets/${crane.name}-2.jpg`];
-                if (crane.name === 'PALMS 5.87Z') crane.imgUrls = [...crane.imgUrls, `../../../../../assets/${crane.name}-3.jpg`];
+                crane.images = (crane.imageUrls ?? []).map((imgUrl) =>
+                    this.cld.image(imgUrl).delivery(format('auto')).delivery(quality('auto'))
+                );
 
                 for (const trailer of crane.trailers) {
-                    if (trailer.id === 8) trailer.imgUrl = `../../../../../assets/PALMS 10U-1.svg`;
-                    else if (trailer.id === 9 || trailer.id === 10) trailer.imgUrl = `../../../../../assets/PALMS 12U-1.svg`;
-                    else if (trailer.id === 11 || trailer.id === 12) trailer.imgUrl = `../../../../../assets/PALMS 15U-1.svg`;
+                    if (trailer.id === 8) trailer.imageUrl = `../../../../../assets/PALMS 10U-1.svg`;
+                    else if (trailer.id === 9 || trailer.id === 10) trailer.imageUrl = `../../../../../assets/PALMS 12U-1.svg`;
+                    else if (trailer.id === 11 || trailer.id === 12) trailer.imageUrl = `../../../../../assets/PALMS 15U-1.svg`;
                     else {
-                        trailer.imgUrl = `../../../../../assets/${trailer.name}-1.svg`;
+                        trailer.imageUrl = `../../../../../assets/${trailer.name}-1.svg`;
                     }
                 }
+
+                console.log('imgs', crane.images);
+
                 return crane;
             })
         );
-    }
-
-    getVideosByKey(key: string): string[] | undefined {
-        return this.videos.get(key);
-    }
-
-    setVideos() {
-        // trailers
-        this.videos.set('PALMS 2D', ['n6LnRTycDZM', '25Y2HRXtohQ']);
-        this.videos.set('PALMS 6S', ['5-tqIrDOU0I', 'OUXj3T4seD0']);
-        this.videos.set('PALMS 8SX', ['VEvGOG-aFyM']);
-        this.videos.set('PALMS 8D', ['cdz1OF0USqI', 'PEdgbkWowyQ']);
-        this.videos.set('PALMS 8DWD', ['cdz1OF0USqI']);
-        this.videos.set('PALMS 9SC', ['4ZeFp4Yofak']);
-        this.videos.set('PALMS 10D', ['0u8VqxRevL4']);
-        this.videos.set('PALMS 10DWD', ['0u8VqxRevL4']);
-        this.videos.set('PALMS 11UX', ['Wl0s4WdzNDM']);
-        this.videos.set('PALMS 12U', ['akmzrXf3EnU']);
-        this.videos.set('PALMS 12UWD', ['akmzrXf3EnU']);
-        this.videos.set('PALMS 12UAWD', ['akmzrXf3EnU']);
-        this.videos.set('PALMS 15U', ['cH3t306elVs']);
-        this.videos.set('PALMS 15UWD', ['cH3t306elVs']);
-        this.videos.set('PALMS 15UAWD', ['cH3t306elVs']);
-
-        // cranes
-        this.videos.set('PALMS 1.42', ['25Y2HRXtohQ']);
-        this.videos.set('PALMS 2.42', ['fEDDjo_K3E8']);
-        this.videos.set('PALMS 2.54', ['fEDDjo_K3E8', 'OUXj3T4seD0']);
-        this.videos.set('PALMS 3.63', ['z9VS2BuQwvM']);
-        this.videos.set('PALMS 3.67', ['z9VS2BuQwvM']);
-        this.videos.set('PALMS 4.71', ['NYLCfmf-Nfc']);
-        this.videos.set('PALMS 5.72', ['-f0tPn8V78g']);
-        this.videos.set('PALMS 5.85', ['-f0tPn8V78g']);
-        this.videos.set('PALMS 5.87Z', ['pLvH1NAPEzI']);
-        this.videos.set('PALMS 7.78', ['z55HswaDwSA']);
-        this.videos.set('PALMS 7.87', ['z55HswaDwSA']);
-        this.videos.set('PALMS 7.94', ['z55HswaDwSA']);
-        this.videos.set('PALMS X100', ['x9GnpJnvNVU']);
     }
 
     deleteTrailer() {
