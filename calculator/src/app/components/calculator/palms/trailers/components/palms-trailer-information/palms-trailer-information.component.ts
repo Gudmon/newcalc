@@ -59,7 +59,7 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.thumbnails = (this.trailer.imageUrls ?? []).map((imgUrl) => this.cld.image(imgUrl).resize(fill().width(400).height(200)));
+        this.thumbnails = (this.trailer.imageUrls ?? []).map((imgUrl) => this.cld.image(imgUrl).resize(fill().width(300).height(200)));
         this.setResponsiveOptions();
         this.setImages();
         this.resize();
