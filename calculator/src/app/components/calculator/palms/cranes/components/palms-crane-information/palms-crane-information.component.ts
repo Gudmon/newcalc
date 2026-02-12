@@ -67,7 +67,6 @@ export class PalmsCraneInformationComponent implements OnInit, AfterViewInit {
     }
 
     imageSelected(image: CloudinaryImage, idx: number) {
-        console.log('selected', image);
         this.activeIndex = idx;
         this.displayBasic = true;
     }

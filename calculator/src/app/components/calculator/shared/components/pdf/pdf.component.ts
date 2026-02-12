@@ -366,6 +366,13 @@ export class PdfComponent implements OnInit {
                       price: bunkExtension.price.toString()
                   }
                 : undefined;
+            const manualBunkExtension = this.palmsService.selectedManualBunkExtension();
+            const newManualBunkExtension: ConfigurationItem | undefined = manualBunkExtension
+                ? {
+                      ...manualBunkExtension,
+                      price: manualBunkExtension.price.toString()
+                  }
+                : undefined;
             const stanchionExtension = this.palmsService.selectedStanchionExtension();
             const newStanchionExtension: ConfigurationItem | undefined = stanchionExtension
                 ? {
@@ -391,16 +398,17 @@ export class PdfComponent implements OnInit {
             this.addSingleOption(object, OptionGroup.ChainsawHolder, this.palmsService.selectedChainsawHolder());
             this.addSingleOption(object, OptionGroup.UnderrunProtection, this.palmsService.selectedUnderrunProtection());
             this.addSingleOption(object, OptionGroup.FrameExtension, this.palmsService.selectedFrameExtension());
-            this.addSingleOption(object, OptionGroup.TrailerLight, this.palmsService.selectedTrailerLight());
-            this.addSingleOption(object, OptionGroup.SupportLeg, this.palmsService.selectedSupportLeg());
-            this.addSingleOption(object, OptionGroup.Tyre, this.palmsService.selectedTyre());
-            this.addSingleOption(object, OptionGroup.TrailerShipping, this.palmsService.selectedTrailerShipping());
-            this.addSingleOption(object, OptionGroup.MOT, this.palmsService.selectedMOT());
-            this.addSingleOption(object, OptionGroup.HydroPack, this.palmsService.selectedHydroPack());
             this.addSingleOption(object, OptionGroup.StanchionExtension, newStanchionExtension);
             this.addSingleOption(object, OptionGroup.WoodSorter, newWoodSorter);
             this.addSingleOption(object, OptionGroup.BunkAdapter, newBunkAdapter);
             this.addSingleOption(object, OptionGroup.BunkExtension, newBunkExtension);
+            this.addSingleOption(object, OptionGroup.ManualBunkExtension, newManualBunkExtension);
+            this.addSingleOption(object, OptionGroup.TrailerLight, this.palmsService.selectedTrailerLight());
+            this.addSingleOption(object, OptionGroup.SupportLeg, this.palmsService.selectedSupportLeg());
+            this.addSingleOption(object, OptionGroup.HydroPack, this.palmsService.selectedHydroPack());
+            this.addSingleOption(object, OptionGroup.Tyre, this.palmsService.selectedTyre());
+            this.addSingleOption(object, OptionGroup.TrailerShipping, this.palmsService.selectedTrailerShipping());
+            this.addSingleOption(object, OptionGroup.MOT, this.palmsService.selectedMOT());
         } else {
             this.addMultipleOption(object, OptionGroup.Grapple, []);
         }
@@ -437,11 +445,11 @@ export class PdfComponent implements OnInit {
             this.addSingleOption(object, OptionGroup.Cover, this.palmsService.selectedCover());
             this.addSingleOption(object, OptionGroup.WoodControl, this.palmsService.selectedWoodControl());
             this.addSingleOption(object, OptionGroup.Linkage, this.palmsService.selectedLinkage());
-            this.addSingleOption(object, OptionGroup.CraneShipping, this.palmsService.selectedCraneShipping());
             const single = this.palmsService.selectedGrapple();
             const multi = this.palmsService.selectedGrapples;
             const allGrapples: ConfigurationItem[] = [...(single ? [single] : []), ...multi.filter((g): g is ConfigurationItem => !!g)];
             this.addMultipleOption(object, OptionGroup.Grapple, allGrapples);
+            this.addSingleOption(object, OptionGroup.CraneShipping, this.palmsService.selectedCraneShipping());
         } else {
             this.addMultipleOption(object, OptionGroup.Grapple, []);
         }
@@ -563,6 +571,7 @@ interface PdfTrailerModel {
     UnderrunProtection?: ConfigurationItem | undefined;
     BunkAdapter?: ConfigurationItem | undefined;
     BunkExtension?: ConfigurationItem | undefined;
+    ManualBunkExtension?: ConfigurationItem | undefined;
     FrameExtension?: ConfigurationItem | undefined;
     TrailerLight?: ConfigurationItem | undefined;
     SupportLeg?: ConfigurationItem | undefined;
@@ -654,6 +663,7 @@ export enum OptionGroup {
     UnderrunProtection,
     BunkAdapter,
     BunkExtension,
+    ManualBunkExtension,
     FrameExtension,
     StanchionExtension,
     SupportLeg,

@@ -8,6 +8,8 @@ import { ComparisonStoreService } from '../../../trailers/services/comparison-st
 import { LoadingService } from '../../../../../../services/loading.service';
 import { ComparisonAccordionComponent } from '../../../comparison-accordion/comparison-accordion.component';
 import { CloudinaryModule } from '@cloudinary/ng';
+import { Cloudinary } from '@cloudinary/url-gen';
+import { fill } from '@cloudinary/url-gen/actions/resize';
 
 @Component({
     selector: 'app-palms-crane-cards',
@@ -17,7 +19,19 @@ import { CloudinaryModule } from '@cloudinary/ng';
     styleUrl: './palms-crane-cards.component.css'
 })
 export class PalmsCraneCardsComponent {
-    @Input({ required: true }) cranes!: PalmsCraneOverview[];
+    cld = new Cloudinary({
+        cloud: {
+            cloudName: 'dhidgc7eu'
+        }
+    });
+
+    _cranes: PalmsCraneOverview[] = [];
+    @Input({ required: true }) set cranes(cranes: PalmsCraneOverview[]) {
+        cranes.forEach((crane) => {
+            crane.image = this.cld.image(crane.imageUrl).resize(fill().width(300).height(200));
+        });
+        this._cranes = cranes;
+    }
     @Output() buttonClickEmitter = new EventEmitter<PalmsCraneOverview>();
 
     constructor(

@@ -1,5 +1,5 @@
 <section #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
-    @for (trailer of trailers; track trailer.id) {
+    @for (trailer of _trailers; track trailer.id) {
         <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
             <app-comparison-accordion></app-comparison-accordion>
         </div>

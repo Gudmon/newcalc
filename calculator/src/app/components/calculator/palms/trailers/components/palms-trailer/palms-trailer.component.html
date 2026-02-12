@@ -358,6 +358,51 @@
                     ></p-dropdown>
                 </div>
 
+                <div *ngIf="trailerSelected && manualBunkExtensionStd && trailer.id == 16" class="justify-content-center my-4 py-4">
+                    <div class="flex">
+                        <p-radioButton
+                            id="trailerManualBunkExtensionStd"
+                            [value]="manualBunkExtensionStd"
+                            formControlName="selectedManualBunkExtensionStd"
+                        ></p-radioButton>
+                        <label [for]="manualBunkExtensionStd.id" class="ml-2">{{ manualBunkExtensionStd.name }} 0€</label>
+                    </div>
+                </div>
+
+                <div *ngIf="trailerSelected && manualBunkExtension" class="justify-content-center my-4 py-4">
+                    <div class="mb-4">
+                        <!-- <button (click)="toggleDialog('manualBunkExtension', true)"><i class="fa-solid fa-circle-info"></i></button>
+                        <app-bunk-extension-dialog
+                            [bunkExtension]="bunkExtension"
+                            [bunkExtensionDialogVisible]="showBunkExtensionDialog"
+                            (dialogVisible)="toggleDialog('bunkExtension', false)"
+                        ></app-bunk-extension-dialog> -->
+                    </div>
+                    <div class="flex gap-2">
+                        <p-checkbox
+                            #manualBunkExtensionCheckBox
+                            (onChange)="onManualBunkExtensionChange($event)"
+                            [value]="manualBunkExtension"
+                            formControlName="selectedManualBunkExtension"
+                            inputId="ManualBunkExtensionSelected"
+                        ></p-checkbox>
+                        <label class="hover:cursor-pointer pt-2" for="ManualBunkExtensionSelected">{{
+                            manualBunkExtension.namePrice
+                        }}</label>
+                    </div>
+                </div>
+                <div *ngIf="trailerSelected && manualBunkExtension" class="justify-content-center">
+                    <p-dropdown
+                        *ngIf="manualBunkExtensionChecked"
+                        [disabled]="!manualBunkExtensionChecked"
+                        #manualBunkExtensionDropdown
+                        (onChange)="onManualBunkExtensionNumberChange($event)"
+                        [options]="manualBunkExtensionArrayElements"
+                        optionLabel="number"
+                        placeholder="Válasszon egy számot..."
+                    ></p-dropdown>
+                </div>
+
                 <div *ngIf="trailerSelected && woodSorter" class="justify-content-center my-4 py-4">
                     <div class="mb-4">
                         <button (click)="toggleDialog('woodSorter', true)"><i class="fa-solid fa-circle-info"></i></button>

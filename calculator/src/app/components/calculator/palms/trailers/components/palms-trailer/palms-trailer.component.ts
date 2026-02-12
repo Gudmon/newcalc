@@ -119,6 +119,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     bunkAdapterNumberSelected: boolean = false;
     bunkExtensionChecked: boolean = false;
     bunkExtensionNumberSelected: boolean = false;
+    manualBunkExtensionChecked: boolean = false;
+    manualBunkExtensionNumberSelected: boolean = false;
     stanchionExtensionChecked: boolean = false;
     stanchionExtensionNumberSelected: boolean = false;
 
@@ -130,6 +132,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     @ViewChild('woodSorterDropdown') woodSorterDropdown!: Dropdown;
     @ViewChild('bunkAdapterCheckBox') bunkAdapterCheckBox!: Checkbox;
     @ViewChild('bunkAdapterDropdown') bunkAdapterDropdown!: Dropdown;
+    @ViewChild('manualBunkExtensionCheckBox') manualBunkExtensionCheckBox!: Checkbox;
+    @ViewChild('manualBunkExtensionDropdown') manualBunkExtensionDropdown!: Dropdown;
     @ViewChild('bunkExtensionCheckBox') bunkExtensionCheckBox!: Checkbox;
     @ViewChild('bunkExtensionDropdown') bunkExtensionDropdown!: Dropdown;
     @ViewChild('stanchionExtensionCheckBox') stanchionExtensionCheckBox!: Checkbox;
@@ -183,6 +187,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     tyres: ConfigurationItem[] = [];
     bunkAdapter: ConfigurationItem | undefined = undefined;
     bunkExtension: ConfigurationItem | undefined = undefined;
+    manualBunkExtension: ConfigurationItem | undefined = undefined;
+    manualBunkExtensionStd: ConfigurationItem | undefined = undefined;
     frameExtension: ConfigurationItem | undefined = undefined;
     trailerShipping: ConfigurationItem | undefined = undefined;
     MOT: ConfigurationItem | undefined = undefined;
@@ -214,6 +220,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     originalTyrePrice = 0;
     originalBunkAdapterPrice = 0;
     originalBunkExtensionPrice = 0;
+    originalManualBunkExtensionPrice = 0;
     originalFrameExtensionPrice = 0;
     originalStanchionExtensionPrice = 0;
     originalHydroPackPrice = 0;
@@ -231,6 +238,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     initialBunkExtensionPrice = 0;
     initialBunkExtensionNumber = 0;
     previousBunkExtensionNumber = 0;
+
+    initialManualBunkExtensionPrice = 0;
+    initialManualBunkExtensionNumber = 0;
+    previousManualBunkExtensionNumber = 0;
 
     initialStanchionExtensionPrice = 0;
     initialStanchionExtensionNumber = 0;
@@ -262,6 +273,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     bunkAdapterArrayElements: any[] | undefined = [];
     originalBunkExtension: ConfigurationItem | undefined = undefined;
     bunkExtensionArrayElements: any[] | undefined = [];
+    originalManualBunkExtension: ConfigurationItem | undefined = undefined;
+    manualBunkExtensionArrayElements: any[] | undefined = [];
     originalFrameExtension: ConfigurationItem | undefined = undefined;
     originalShipping: ConfigurationItem | undefined = undefined;
     originalMOT: ConfigurationItem | undefined = undefined;
@@ -294,6 +307,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         selectedTyre: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedBunkAdapter: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedBunkExtension: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedManualBunkExtension: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedManualBunkExtensionStd: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedFrameExtension: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedShipping: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedMOT: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
@@ -328,6 +343,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             selectedCrane: null,
             selectedBunkAdapter: null,
             selectedBunkExtension: null,
+            selectedManualBunkExtension: null,
+            selectedManualBunkExtensionStd: this.manualBunkExtensionStd,
             selectedFrameExtension: null,
             selectedShipping: this.trailerShipping,
             selectedMOT: this.MOT,
@@ -442,6 +459,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             const tyres$ = this.palmsTrailerConfigService.getTyres(id);
             const bunkAdapter$ = this.palmsTrailerConfigService.getBunkAdapter(id);
             const bunkExtension$ = this.palmsTrailerConfigService.getBunkExtension(id);
+            const manualBunkExtension$ = this.palmsTrailerConfigService.getManualBunkExtension(id);
             const frameExtension$ = this.palmsTrailerConfigService.getFrameExtension(id);
             const trailerShipping$ = this.palmsTrailerConfigService.getShipping(id);
             const MOT$ = this.palmsTrailerConfigService.getMOT(id);
@@ -472,6 +490,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                 tyres$,
                 bunkAdapter$,
                 bunkExtension$,
+                manualBunkExtension$,
                 frameExtension$,
                 trailerShipping$,
                 MOT$,
@@ -505,6 +524,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                         tyres,
                         bunkAdapter,
                         bunkExtension,
+                        manualBunkExtension,
                         frameExtension,
                         trailerShipping,
                         MOT,
@@ -604,6 +624,19 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                             this.initialBunkExtensionPrice = Number(bunkExtension.price);
                         }
 
+                        if (manualBunkExtension) {
+                            this.manualBunkExtension = manualBunkExtension;
+                            this.initialManualBunkExtensionPrice = Number(manualBunkExtension.price);
+
+                            if (this.trailer.id === 16) {
+                                const copiedExtension = { ...manualBunkExtension };
+                                copiedExtension.price = 0;
+                                this.manualBunkExtensionStd = copiedExtension;
+
+                                this.palmsService.selectedManualBunkExtensionStd.set(copiedExtension);
+                            }
+                        }
+
                         if (frameExtension) {
                             this.frameExtension = frameExtension;
                         }
@@ -667,15 +700,17 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             this.palmsService.selectedStanchion.set(undefined);
         }
 
-        const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
+        let maxNumber = Number(this.originalStanchion?.code![1]) * 2;
         this.woodSorterArrayElements = [];
         this.bunkAdapterArrayElements = [];
         this.bunkExtensionArrayElements = [];
+        this.manualBunkExtensionArrayElements = [];
         this.stanchionExtensionArrayElements = [];
         if (this.originalStanchion) this.initialTrailerPrice = Number(this.originalStanchion!.price);
         this.originalWoodSorter = undefined;
         this.originalBunkAdapter = undefined;
         this.originalBunkExtension = undefined;
+        this.originalManualBunkExtension = undefined;
         this.originalStanchionExtension = undefined;
 
         setTimeout(() => {
@@ -703,6 +738,21 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
 
                 for (let i = 1; i <= maxNumber; i++) {
                     this.bunkExtensionArrayElements?.push({ number: i });
+                }
+            }
+
+            if (this.manualBunkExtensionCheckBox) {
+                this.manualBunkExtensionCheckBox.writeValue(false);
+                this.manualBunkExtensionChecked = false;
+
+                if (this.trailer.id === 16) {
+                    for (let i = 1; i <= Number(this.originalStanchion?.code![1]) * 2 - 1; i++) {
+                        this.manualBunkExtensionArrayElements?.push({ number: i });
+                    }
+                } else {
+                    for (let i = 1; i <= maxNumber; i++) {
+                        this.manualBunkExtensionArrayElements?.push({ number: i });
+                    }
                 }
             }
 
@@ -737,6 +787,15 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             this.initialBunkExtensionNumber = 0;
             this.previousBunkExtensionNumber = 0;
             this.palmsService.selectedBunkExtension.set(undefined);
+        }
+
+        if (this.initialManualBunkExtensionNumber > 0) {
+            this.palmsService._trailerPrice.update(
+                (value) => value - Number(this.initialManualBunkExtensionNumber * this.initialManualBunkExtensionPrice)
+            );
+            this.initialManualBunkExtensionNumber = 0;
+            this.previousManualBunkExtensionNumber = 0;
+            this.palmsService.selectedManualBunkExtension.set(undefined);
         }
 
         if (this.initialStanchionExtensionNumber > 0) {
@@ -1211,19 +1270,17 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
 
             this.palmsService.selectedWoodSorter.set(event.checked[0]);
             setTimeout(() => {
-                if (this.woodSorterArrayElements?.length === 0) {
-                    const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
+                const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
 
-                    this.woodSorterArrayElements = [];
-                    for (let i = 1; i <= maxNumber; i++) {
-                        this.woodSorterArrayElements.push({ number: i });
-                        if (this.originalWoodSorter) {
-                            this.originalWoodSorter.name = this.originalWoodSorter?.name.replace(/\s\d+ db$/, '');
-                            this.originalWoodSorter.price = 0;
-                            this.palmsService._trailerPrice.update(
-                                (value) => Number(value) + Number(65) * Number(this.initialWoodSorterNumber)
-                            );
-                        }
+                this.woodSorterArrayElements = [];
+                for (let i = 1; i <= maxNumber; i++) {
+                    this.woodSorterArrayElements.push({ number: i });
+                    if (this.originalWoodSorter) {
+                        this.originalWoodSorter.name = this.originalWoodSorter?.name.replace(/\s\d+ db$/, '');
+                        this.originalWoodSorter.price = 0;
+                        this.palmsService._trailerPrice.update(
+                            (value) => Number(value) + Number(65) * Number(this.initialWoodSorterNumber)
+                        );
                     }
                 }
             }, 100);
@@ -1320,19 +1377,17 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             this.originalBunkAdapter = event.checked[0];
             this.palmsService.selectedBunkAdapter.set(event.checked[0]);
             setTimeout(() => {
-                if (this.bunkAdapterArrayElements?.length === 0) {
-                    const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
+                const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
 
-                    this.bunkAdapterArrayElements = [];
-                    for (let i = 1; i <= maxNumber; i++) {
-                        this.bunkAdapterArrayElements.push({ number: i });
-                        if (this.originalBunkAdapter) {
-                            this.originalBunkAdapter.name = this.originalBunkAdapter?.name.replace(/\s\d+ db$/, '');
-                            this.originalBunkAdapter.price = 0;
-                            this.palmsService._trailerPrice.update(
-                                (value) => Number(value) + Number(this.initialBunkAdapterPrice) * Number(this.initialBunkAdapterNumber)
-                            );
-                        }
+                this.bunkAdapterArrayElements = [];
+                for (let i = 1; i <= maxNumber; i++) {
+                    this.bunkAdapterArrayElements.push({ number: i });
+                    if (this.originalBunkAdapter) {
+                        this.originalBunkAdapter.name = this.originalBunkAdapter?.name.replace(/\s\d+ db$/, '');
+                        this.originalBunkAdapter.price = 0;
+                        this.palmsService._trailerPrice.update(
+                            (value) => Number(value) + Number(this.initialBunkAdapterPrice) * Number(this.initialBunkAdapterNumber)
+                        );
                     }
                 }
             }, 100);
@@ -1380,19 +1435,17 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             this.originalBunkExtension = event.checked[0];
             this.palmsService.selectedBunkExtension.set(event.checked[0]);
             setTimeout(() => {
-                if (this.bunkExtensionArrayElements?.length === 0) {
-                    const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
+                const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
 
-                    this.bunkExtensionArrayElements = [];
-                    for (let i = 1; i <= maxNumber; i++) {
-                        this.bunkExtensionArrayElements.push({ number: i });
-                        if (this.originalBunkExtension) {
-                            this.originalBunkExtension.name = this.originalBunkExtension?.name.replace(/\s\d+ db$/, '');
-                            this.originalBunkExtension.price = 0;
-                            this.palmsService._trailerPrice.update(
-                                (value) => Number(value) + Number(this.initialBunkExtensionPrice) * Number(this.initialBunkExtensionNumber)
-                            );
-                        }
+                this.bunkExtensionArrayElements = [];
+                for (let i = 1; i <= maxNumber; i++) {
+                    this.bunkExtensionArrayElements.push({ number: i });
+                    if (this.originalBunkExtension) {
+                        this.originalBunkExtension.name = this.originalBunkExtension?.name.replace(/\s\d+ db$/, '');
+                        this.originalBunkExtension.price = 0;
+                        this.palmsService._trailerPrice.update(
+                            (value) => Number(value) + Number(this.initialBunkExtensionPrice) * Number(this.initialBunkExtensionNumber)
+                        );
                     }
                 }
             }, 100);
@@ -1433,6 +1486,72 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         this.previousBunkExtensionNumber = number;
     }
 
+    onManualBunkExtensionChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            this.originalManualBunkExtensionPrice = Number(event.checked[0].price);
+            this.manualBunkExtensionChecked = true;
+            this.originalManualBunkExtension = event.checked[0];
+            this.palmsService.selectedManualBunkExtension.set(event.checked[0]);
+            setTimeout(() => {
+                let maxNumber = Number(this.originalStanchion?.code![1]) * 2;
+                if (this.trailer.id === 16) maxNumber = Number(this.originalStanchion?.code![1]) * 2 - 1;
+
+                this.manualBunkExtensionArrayElements = [];
+                for (let i = 1; i <= maxNumber; i++) {
+                    this.manualBunkExtensionArrayElements.push({ number: i });
+                    if (this.originalManualBunkExtension) {
+                        this.originalManualBunkExtension.name = this.originalManualBunkExtension?.name.replace(/\s\d+ db$/, '');
+                        this.originalManualBunkExtension.price = 0;
+                        this.palmsService._trailerPrice.update(
+                            (value) =>
+                                Number(value) + Number(this.initialManualBunkExtensionPrice) * Number(this.initialManualBunkExtensionNumber)
+                        );
+                    }
+                }
+            }, 100);
+        } else {
+            setTimeout(() => {
+                this.palmsService._trailerPrice.update(
+                    (value) => value - Number(this.initialManualBunkExtensionPrice) * Number(this.initialManualBunkExtensionNumber)
+                );
+                this.manualBunkExtensionChecked = false;
+                this.initialManualBunkExtensionNumber = 0;
+                this.previousManualBunkExtensionNumber = 0;
+                this.originalManualBunkExtension = undefined;
+                this.manualBunkExtensionArrayElements = [];
+                this.palmsService.selectedManualBunkExtension.set(undefined);
+            }, 50);
+        }
+    }
+
+    onManualBunkExtensionNumberChange(event: DropdownChangeEvent) {
+        this.manualBunkExtensionNumberSelected = true;
+        const number = Number(event.value.number);
+        this.initialManualBunkExtensionNumber = number;
+        const previousTotalPrice = Number(this.previousManualBunkExtensionNumber) * Number(this.initialManualBunkExtensionPrice);
+
+        if (this.originalManualBunkExtension) {
+            this.originalManualBunkExtension.name =
+                this.originalManualBunkExtension.name.replace(/\s\d+ db$/, '') + ' ' + this.initialManualBunkExtensionNumber + ' db';
+            this.originalManualBunkExtension.price = this.initialManualBunkExtensionPrice * this.initialManualBunkExtensionNumber;
+
+            this.palmsService._trailerPrice.update(
+                (value) =>
+                    value -
+                    previousTotalPrice +
+                    Number(this.initialManualBunkExtensionPrice) * Number(this.initialManualBunkExtensionNumber)
+            );
+        } else {
+            this.palmsService._trailerPrice.update(
+                (value) =>
+                    value +
+                    previousTotalPrice +
+                    Number(this.initialManualBunkExtensionPrice) * Number(this.initialManualBunkExtensionNumber)
+            );
+        }
+        this.previousManualBunkExtensionNumber = number;
+    }
+
     onFrameExtensionChange(event: CheckboxChangeEvent) {
         if (event.checked.length > 0) {
             const current = this.palmsService._trailerPrice();
@@ -1458,21 +1577,18 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
 
             this.palmsService.selectedStanchionExtension.set(event.checked[0]);
             setTimeout(() => {
-                if (this.stanchionExtensionArrayElements?.length === 0) {
-                    const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
+                const maxNumber = Number(this.originalStanchion?.code![1]) * 2;
 
-                    this.stanchionExtensionArrayElements = [];
-                    for (let i = 1; i <= maxNumber; i++) {
-                        this.stanchionExtensionArrayElements.push({ number: i });
-                        if (this.originalStanchionExtension) {
-                            this.originalStanchionExtension.name = this.originalStanchionExtension?.name.replace(/\s\d+ db$/, '');
-                            this.originalStanchionExtension.price = 0;
-                            this.palmsService._trailerPrice.update(
-                                (value) =>
-                                    Number(value) +
-                                    Number(this.initialStanchionExtensionPrice) * Number(this.initialStanchionExtensionNumber)
-                            );
-                        }
+                this.stanchionExtensionArrayElements = [];
+                for (let i = 1; i <= maxNumber; i++) {
+                    this.stanchionExtensionArrayElements.push({ number: i });
+                    if (this.originalStanchionExtension) {
+                        this.originalStanchionExtension.name = this.originalStanchionExtension?.name.replace(/\s\d+ db$/, '');
+                        this.originalStanchionExtension.price = 0;
+                        this.palmsService._trailerPrice.update(
+                            (value) =>
+                                Number(value) + Number(this.initialStanchionExtensionPrice) * Number(this.initialStanchionExtensionNumber)
+                        );
                     }
                 }
             }, 100);
@@ -1698,8 +1814,12 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         this.originalBunkAdapterPrice = 0;
         this.originalBunkExtension = undefined;
         this.originalBunkExtensionPrice = 0;
+        this.originalManualBunkExtension = undefined;
+        this.originalManualBunkExtensionPrice = 0;
         this.originalFrameExtension = undefined;
         this.originalFrameExtensionPrice = 0;
+        this.originalToolbox = undefined;
+        this.originalToolboxPrice = 0;
 
         this.woodSorterChecked = false;
         this.woodSorterNumberSelected = false;
@@ -1718,5 +1838,11 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         this.bunkExtensionArrayElements = [];
         this.initialBunkExtensionNumber = 0;
         this.previousBunkExtensionNumber = 0;
+
+        this.manualBunkExtensionChecked = false;
+        this.manualBunkExtensionNumberSelected = false;
+        this.manualBunkExtensionArrayElements = [];
+        this.initialManualBunkExtensionNumber = 0;
+        this.previousManualBunkExtensionNumber = 0;
     }
 }

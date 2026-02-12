@@ -336,6 +336,19 @@ export class PalmsTrailerConfigService {
         );
     }
 
+    getManualBunkExtension(id: number): Observable<ConfigurationItem | null> {
+        return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/manualbunkextension`).pipe(
+            map((manualBunkExtension: ConfigurationItem | null) => {
+                if (manualBunkExtension) {
+                    manualBunkExtension.namePrice = manualBunkExtension.name + ' ' + manualBunkExtension.price + '€';
+                    return manualBunkExtension;
+                } else {
+                    return null;
+                }
+            })
+        );
+    }
+
     getFrameExtension(id: number): Observable<ConfigurationItem | null> {
         return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/frameextension`).pipe(
             map((frameExtension: ConfigurationItem | null) => {

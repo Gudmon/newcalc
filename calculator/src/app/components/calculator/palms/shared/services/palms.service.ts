@@ -103,6 +103,8 @@ export class PalmsService {
     public selectedUnderrunProtection = signal<ConfigurationItem | undefined>(undefined);
     public selectedBunkAdapter = signal<ConfigurationItem | undefined>(undefined);
     public selectedBunkExtension = signal<ConfigurationItem | undefined>(undefined);
+    public selectedManualBunkExtension = signal<ConfigurationItem | undefined>(undefined);
+    public selectedManualBunkExtensionStd = signal<ConfigurationItem | undefined>(undefined);
     public selectedFrameExtension = signal<ConfigurationItem | undefined>(undefined);
     public selectedTrailerShipping = signal<ConfigurationItem | undefined>(undefined);
     public selectedMOT = signal<ConfigurationItem | undefined>(undefined);
@@ -130,11 +132,6 @@ export class PalmsService {
                 trailer.images = (trailer.imageUrls ?? []).map((imgUrl) =>
                     this.cld.image(imgUrl).delivery(format('auto')).delivery(quality('auto'))
                 );
-
-                for (const crane of trailer.cranes) {
-                    crane.imageUrl = `../../../../../assets/${crane.name}-1.svg`;
-                }
-
                 return trailer;
             })
         );
@@ -146,8 +143,6 @@ export class PalmsService {
                 craneOverViews.map((craneOverView) => {
                     craneOverView.image = this.cld.image(craneOverView.imageUrl).resize(fill().width(300).height(200));
                 });
-                console.log('crane ov', craneOverViews);
-
                 return craneOverViews;
             })
         );
@@ -159,18 +154,6 @@ export class PalmsService {
                 crane.images = (crane.imageUrls ?? []).map((imgUrl) =>
                     this.cld.image(imgUrl).delivery(format('auto')).delivery(quality('auto'))
                 );
-
-                for (const trailer of crane.trailers) {
-                    if (trailer.id === 8) trailer.imageUrl = `../../../../../assets/PALMS 10U-1.svg`;
-                    else if (trailer.id === 9 || trailer.id === 10) trailer.imageUrl = `../../../../../assets/PALMS 12U-1.svg`;
-                    else if (trailer.id === 11 || trailer.id === 12) trailer.imageUrl = `../../../../../assets/PALMS 15U-1.svg`;
-                    else {
-                        trailer.imageUrl = `../../../../../assets/${trailer.name}-1.svg`;
-                    }
-                }
-
-                console.log('imgs', crane.images);
-
                 return crane;
             })
         );
@@ -198,6 +181,8 @@ export class PalmsService {
         this.selectedUnderrunProtection.set(undefined);
         this.selectedBunkAdapter.set(undefined);
         this.selectedBunkExtension.set(undefined);
+        this.selectedManualBunkExtension.set(undefined);
+        this.selectedManualBunkExtensionStd.set(undefined);
         this.selectedFrameExtension.set(undefined);
         this.selectedTrailerShipping.set(undefined);
         this.selectedMOT.set(undefined);

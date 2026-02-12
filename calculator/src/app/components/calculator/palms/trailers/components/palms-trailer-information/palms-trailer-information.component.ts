@@ -31,7 +31,6 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     thumbnails: CloudinaryImage[] = [];
 
     imageSelected(image: CloudinaryImage, idx: number) {
-        console.log('selected', image);
         this.activeIndex = idx;
         this.displayBasic = true;
     }
