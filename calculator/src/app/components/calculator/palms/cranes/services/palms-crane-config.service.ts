@@ -325,6 +325,19 @@ export class PalmsCraneConfigService {
       })
     );
   }
+  
+  getSupportBracket(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/supportbracket`).pipe(
+      map((supportBracket: ConfigurationItem | null) => {
+        if (supportBracket) {
+          supportBracket.namePrice = supportBracket.name + " " + supportBracket.price + "€";
+          return supportBracket;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
 
   getShipping(id: number): Observable<ConfigurationItem | null> {
     return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/shipping`).pipe(

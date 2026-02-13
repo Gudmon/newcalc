@@ -67,14 +67,24 @@
                     ></p-listbox>
                 </div>
 
-                <!-- <div *ngIf="craneSelected && rotators.length > 0" class="justify-content-center my-4 py-4">
+                <div *ngIf="craneSelected && rotators.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Rotátor</span>
-                        <button (click)="toggleDialog('rotators', true)"><i class="fa-solid fa-circle-info"></i></button>  
-                        <app-rotators-dialog [rotators]="rotators" [rotatorsDialogVisible]="showRotatorsDialog" (dialogVisible)="toggleDialog('rotators', false)"></app-rotators-dialog>                    
+                        <button (click)="toggleDialog('rotators', true)"><i class="fa-solid fa-circle-info"></i></button>
+                        <app-rotators-dialog
+                            [rotators]="rotators"
+                            [rotatorsDialogVisible]="showRotatorsDialog"
+                            (dialogVisible)="toggleDialog('rotators', false)"
+                        ></app-rotators-dialog>
                     </div>
-                    <p-listbox optionDisabled="disabledOption" (onChange)="handleRotatorChange($event)" formControlName="selectedRotator" [options]="rotators" optionLabel="namePrice"></p-listbox>                   
-                </div> -->
+                    <p-listbox
+                        optionDisabled="disabledOption"
+                        (onChange)="handleRotatorChange($event)"
+                        formControlName="selectedRotator"
+                        [options]="rotators"
+                        optionLabel="namePrice"
+                    ></p-listbox>
+                </div>
 
                 <div *ngIf="craneSelected && grapples.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
@@ -534,6 +544,29 @@
                             inputId="LinkageSelected"
                         ></p-checkbox>
                         <label class="hover:cursor-pointer" for="LinkageSelected">{{ linkage.namePrice }}</label>
+                    </div>
+                </div>
+
+                <div *ngIf="craneSelected && supportBracket" class="justify-content-center my-4 py-4">
+                    <!-- <div class="mb-4">
+                        <button (click)="toggleDialog('turningDeviceCounterPlate', true)"><i class="fa-solid fa-circle-info"></i></button>
+                        <app-turning-counter-plate-dialog
+                            [turningDeviceCounterPlate]="turningDeviceCounterPlate"
+                            [turningDeviceCounterPlateDialogVisible]="showTurningDeviceCounterPlateDialog"
+                            (dialogVisible)="toggleDialog('turningDeviceCounterPlate', false)"
+                        ></app-turning-counter-plate-dialog>
+                    </div> -->
+                    <div class="flex gap-2">
+                        <p-checkbox
+                            #supportBracketCheckBox
+                            (onChange)="onSupportBracketChange($event)"
+                            [value]="supportBracket"
+                            formControlName="selectedSupportBracket"
+                            inputId="SupportBracketSelected"
+                        ></p-checkbox>
+                        <label class="hover:cursor-pointer" for="SupportBracketSelected"
+                            >{{ supportBracket.namePrice }} ({{ supportBracket.description }})</label
+                        >
                     </div>
                 </div>
 

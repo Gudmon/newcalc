@@ -79,6 +79,7 @@ export class PalmsService {
     public selectedCover = signal<ConfigurationItem | undefined>(undefined);
     public selectedWoodControl = signal<ConfigurationItem | undefined>(undefined);
     public selectedLinkage = signal<ConfigurationItem | undefined>(undefined);
+    public selectedSupportBracket = signal<ConfigurationItem | undefined>(undefined);
     public selectedCraneShipping = signal<ConfigurationItem | undefined>(undefined);
 
     // TRAILERS
@@ -216,6 +217,7 @@ export class PalmsService {
         this.selectedCover.set(undefined);
         this.selectedWoodControl.set(undefined);
         this.selectedLinkage.set(undefined);
+        this.selectedSupportBracket.set(undefined);
         this.selectedCraneShipping.set(undefined);
     }
 }

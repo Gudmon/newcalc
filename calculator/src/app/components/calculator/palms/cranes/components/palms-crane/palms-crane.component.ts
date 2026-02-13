@@ -163,6 +163,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     cover: ConfigurationItem | undefined = undefined;
     woodControl: ConfigurationItem | undefined = undefined;
     linkage: ConfigurationItem | undefined = undefined;
+    supportBracket: ConfigurationItem | undefined = undefined;
     craneShipping: ConfigurationItem | undefined = undefined;
 
     originalControlBlockPrice = 0;
@@ -190,6 +191,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalCoverPrice = 0;
     originalWoodControlPrice = 0;
     originalLinkagePrice = 0;
+    originalSupportBracketPrice = 0;
 
     originalCrane: ConfigurationItem | undefined = undefined;
     originalControlBlock: ConfigurationItem | undefined = undefined;
@@ -215,6 +217,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalCover: ConfigurationItem | undefined = undefined;
     originalWoodControl: ConfigurationItem | undefined = undefined;
     originalLinkage: ConfigurationItem | undefined = undefined;
+    originalSupportBracket: ConfigurationItem | undefined = undefined;
     originalShipping: ConfigurationItem | undefined = undefined;
 
     get selectedGrapples(): FormArray {
@@ -246,6 +249,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         selectedCover: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedWoodControl: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedLinkage: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedSupportBracket: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedShipping: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' })
     });
 
@@ -275,6 +279,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             selectedCover: [{ value: null, disabled: true }],
             selectedWoodControl: null,
             selectedLinkage: [{ value: null, disabled: true }],
+            selectedSupportBracket: null,
             selectedShipping: this.craneShipping
         });
     }
@@ -379,11 +384,13 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         const cover$ = this.palmsCraneConfigService.getCover(id);
         const woodControl$ = this.palmsCraneConfigService.getWoodControl(id);
         const linkage$ = this.palmsCraneConfigService.getLinkage(id);
+        const supportBracket$ = this.palmsCraneConfigService.getSupportBracket(id);
         const craneShipping$ = this.palmsCraneConfigService.getShipping(id);
 
         const request = forkJoin([
             controlBlocks$,
             frameTypes$,
+            rotators$,
             grapples$,
             winches$,
             protectionSleeves$,
@@ -403,6 +410,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             cover$,
             woodControl$,
             linkage$,
+            supportBracket$,
             craneShipping$
         ]);
 
@@ -411,6 +419,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                 ([
                     controlBlocks,
                     frameTypes,
+                    rotators,
                     grapples,
                     winches,
                     protectionSleeves,
@@ -430,6 +439,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                     cover,
                     woodControl,
                     linkage,
+                    supportBracket,
                     craneShipping
                 ]) => {
                     if (controlBlocks) {
@@ -440,9 +450,9 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                         this.frameTypes = frameTypes;
                     }
 
-                    // if(rotators){
-                    //     this.rotators = rotators;
-                    // }
+                    if (rotators) {
+                        this.rotators = rotators;
+                    }
 
                     if (grapples) {
                         this.grapples = grapples;
@@ -524,6 +534,10 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
                     if (linkage) {
                         this.linkage = linkage;
+                    }
+
+                    if (supportBracket) {
+                        this.supportBracket = supportBracket;
                     }
 
                     if (craneShipping) {
@@ -1328,6 +1342,23 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.craneFormGroup.get('selectedLinkage')?.disable();
     }
 
+    onSupportBracketChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current + Number(event.checked[0].price);
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalSupportBracketPrice = Number(event.checked[0].price);
+            this.originalSupportBracket = event.checked[0];
+            this.palmsService.selectedSupportBracket.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._cranePrice();
+            const newPrice = current - this.originalSupportBracketPrice;
+            this.palmsService._cranePrice.set(newPrice);
+            this.originalSupportBracket = undefined;
+            this.palmsService.selectedSupportBracket.set(undefined);
+        }
+    }
+
     selectTrailer(trailer: PalmsTrailerOverview) {
         this.palmsService._selectedTrailer.next(trailer);
     }
@@ -1380,6 +1411,8 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.originalWoodControlPrice = 0;
         this.originalLinkage = undefined;
         this.originalLinkagePrice = 0;
+        this.originalSupportBracket = undefined;
+        this.originalSupportBracketPrice = 0;
     }
 
     toggleDialog(dialogType: string, show: boolean) {

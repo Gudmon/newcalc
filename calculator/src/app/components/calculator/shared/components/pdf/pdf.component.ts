@@ -426,7 +426,6 @@ export class PdfComponent implements OnInit {
             this.addSingleOption(object, OptionGroup.Crane, craneOption);
             this.addSingleOption(object, OptionGroup.ControlBlock, this.palmsService.selectedControlBlock());
             this.addSingleOption(object, OptionGroup.FrameType, this.palmsService.selectedFrameType());
-            this.addSingleOption(object, OptionGroup.Rotator, this.palmsService.selectedRotator());
             this.addSingleOption(object, OptionGroup.Winch, this.palmsService.selectedWinch());
             this.addSingleOption(object, OptionGroup.ProtectionSleeves, this.palmsService.selectedProtectionSleeves());
             this.addSingleOption(object, OptionGroup.ElectricalFloating, this.palmsService.selectedElectricalFloating());
@@ -436,6 +435,7 @@ export class PdfComponent implements OnInit {
             this.addSingleOption(object, OptionGroup.OperatorSeat, this.palmsService.selectedOperatorSeat());
             this.addSingleOption(object, OptionGroup.HighPerformanceOilFilter, this.palmsService.selectedHighPerformanceOilFilter());
             this.addSingleOption(object, OptionGroup.CraneOilCooler, this.palmsService.selectedCraneOilCooler());
+            this.addSingleOption(object, OptionGroup.Rotator, this.palmsService.selectedRotator());
             this.addSingleOption(object, OptionGroup.RotatorBrake, this.palmsService.selectedRotatorBrake());
             this.addSingleOption(object, OptionGroup.JoystickHolder, this.palmsService.selectedJoystickHolder());
             this.addSingleOption(object, OptionGroup.HoseGuard, this.palmsService.selectedHoseGuard());
@@ -445,6 +445,7 @@ export class PdfComponent implements OnInit {
             this.addSingleOption(object, OptionGroup.Cover, this.palmsService.selectedCover());
             this.addSingleOption(object, OptionGroup.WoodControl, this.palmsService.selectedWoodControl());
             this.addSingleOption(object, OptionGroup.Linkage, this.palmsService.selectedLinkage());
+            this.addSingleOption(object, OptionGroup.SupportBracket, this.palmsService.selectedSupportBracket());
             const single = this.palmsService.selectedGrapple();
             const multi = this.palmsService.selectedGrapples;
             const allGrapples: ConfigurationItem[] = [...(single ? [single] : []), ...multi.filter((g): g is ConfigurationItem => !!g)];
@@ -609,6 +610,7 @@ interface PdfCraneModel {
     Cover?: ConfigurationItem | undefined;
     WoodControl?: ConfigurationItem | undefined;
     Linkage?: ConfigurationItem | undefined;
+    SupportBracket?: ConfigurationItem | undefined;
     CraneShipping?: ConfigurationItem | undefined;
 }
 
@@ -677,7 +679,6 @@ export enum OptionGroup {
     ControlBlock,
     FrameType,
     Grapple,
-    Rotator,
     Winch,
     ProtectionSleeves,
     ElectricalFloating,
@@ -687,6 +688,7 @@ export enum OptionGroup {
     OperatorSeat,
     HighPerformanceOilFilter,
     CraneOilCooler,
+    Rotator,
     RotatorBrake,
     JoystickHolder,
     HoseGuard,
@@ -696,5 +698,6 @@ export enum OptionGroup {
     Cover,
     WoodControl,
     Linkage,
+    SupportBracket,
     CraneShipping
 }
