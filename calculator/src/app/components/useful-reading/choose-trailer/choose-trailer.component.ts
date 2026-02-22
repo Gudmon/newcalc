@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { NavigationComponent } from "../../navigation/navigation.component";
-import { FooterComponent } from "../../footer/footer.component";
+import { NavigationComponent } from '../../navigation/navigation.component';
+import { FooterComponent } from '../../footer/footer.component';
 import { Router } from '@angular/router';
-import { PalmsTrailerOverviewHintsComponent } from "../../calculator/palms/trailers/components/palms-trailer-overview-hints/palms-trailer-overview-hints.component";
+import { PalmsTrailerOverviewHintsComponent } from '../../calculator/palms/trailers/components/palms-trailer-overview-hints/palms-trailer-overview-hints.component';
 
 @Component({
     selector: 'app-choose-trailer',
@@ -12,9 +12,9 @@ import { PalmsTrailerOverviewHintsComponent } from "../../calculator/palms/trail
     imports: [NavigationComponent, FooterComponent, PalmsTrailerOverviewHintsComponent]
 })
 export class ChooseTrailerComponent {
-    constructor(private readonly router: Router){}
+    constructor(private readonly router: Router) {}
 
-    navigateToCalculation(){
+    navigateToCalculation() {
         this.router.navigate(['calculator/palms']);
     }
 }

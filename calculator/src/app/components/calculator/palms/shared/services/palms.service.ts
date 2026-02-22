@@ -1,16 +1,17 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, computed, signal } from '@angular/core';
-import { BehaviorSubject, Observable, Subject, map } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { PalmsTrailerOverview } from '../../trailers/models/palms-trailer-overview';
 import { PalmsTrailer } from '../../trailers/models/palms-trailer';
 import { PalmsCraneOverview } from '../../cranes/models/palms-crane-overview';
 import { PalmsCrane } from '../../cranes/models/palms-crane';
 import { ConfigurationItem } from '../../../../../models/configuration-item';
 import { Cloudinary } from '@cloudinary/url-gen/instance/Cloudinary';
-import { CloudinaryImage } from '@cloudinary/url-gen/assets/CloudinaryImage';
-import { fill, thumbnail } from '@cloudinary/url-gen/actions/resize';
-import { autoGravity } from '@cloudinary/url-gen/qualifiers/gravity';
+import { fill } from '@cloudinary/url-gen/actions/resize';
 import { format, quality } from '@cloudinary/url-gen/actions/delivery';
+import { MachineType } from '../models/machine-type';
+import { ChassisType } from '../models/chassis-type';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -18,10 +19,10 @@ export class PalmsService {
     //private url = 'http://localhost:5140';
     private url = 'https://calculator-app-api.azurewebsites.net';
 
-    public _selectedMachineType = new BehaviorSubject<number | null>(null);
+    public _selectedMachineType = new BehaviorSubject<MachineType | null>(null);
     public selectedMachineType$ = this._selectedMachineType.asObservable();
 
-    public _selectedChassisType = new BehaviorSubject<number | null>(null);
+    public _selectedChassisType = new BehaviorSubject<ChassisType | null>(null);
     public selectedChassisType$ = this._selectedChassisType.asObservable();
 
     public _trailerPrice = signal<number>(0);
@@ -110,7 +111,8 @@ export class PalmsService {
     public selectedTrailerShipping = signal<ConfigurationItem | undefined>(undefined);
     public selectedMOT = signal<ConfigurationItem | undefined>(undefined);
     public selectedStanchionExtension = signal<ConfigurationItem | undefined>(undefined);
-    public selectedHydroPack = signal<ConfigurationItem | undefined>(undefined);
+    public selectedHydropack = signal<ConfigurationItem | undefined>(undefined);
+    public selectedHydropackControl = signal<ConfigurationItem | undefined>(undefined);
     public selectedSupplyFormat = signal<ConfigurationItem | undefined>(undefined);
     public selectedToolbox = signal<ConfigurationItem | undefined>(undefined);
 
@@ -188,7 +190,8 @@ export class PalmsService {
         this.selectedTrailerShipping.set(undefined);
         this.selectedMOT.set(undefined);
         this.selectedStanchionExtension.set(undefined);
-        this.selectedHydroPack.set(undefined);
+        this.selectedHydropack.set(undefined);
+        this.selectedHydropackControl.set(undefined);
         this.selectedSupplyFormat.set(undefined);
         this.selectedToolbox.set(undefined);
     }

@@ -96,7 +96,6 @@ import { PalmsCraneOverview } from '../../models/palms-crane-overview';
 })
 export class PalmsCraneComponent implements OnInit, OnDestroy {
     crane!: PalmsCrane;
-
     @Input() id?: number;
     availableCoverCodes: string[] = ['A2', 'A7', 'A12', 'A14'];
     craneSelected: boolean = false;
@@ -315,7 +314,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                         id: response.id,
                         name: response.name,
                         brutLiftingTorque190Bar: response.brutLiftingTorque190Bar,
-                        imageUrl: response.imgUrl,
+                        imageUrl: response.imageUrls?.at(0) ?? '',
                         maxReach: response.maxReach,
                         slewingCylinder: response.slewingCylinder,
                         brutLiftingTorque215Bar: response.brutLiftingTorque215Bar,

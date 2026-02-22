@@ -28,12 +28,11 @@ import { format, quality } from '@cloudinary/url-gen/actions/delivery';
     styleUrl: './palms-trailer-information.component.css'
 })
 export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
-    thumbnails: CloudinaryImage[] = [];
+    @Input({ required: true }) trailer!: PalmsTrailer;
+    @Output() craneSelected = new EventEmitter<number>();
+    @ViewChild('youTubePlayer') youTubePlayer!: ElementRef<HTMLDivElement>;
 
-    imageSelected(image: CloudinaryImage, idx: number) {
-        this.activeIndex = idx;
-        this.displayBasic = true;
-    }
+    thumbnails: CloudinaryImage[] = [];
     activeIndex: number = 0;
     displayBasic: boolean = false;
     images: any[] | undefined = [];
@@ -41,11 +40,8 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     videoHeight: number | undefined;
     videoWidth: number | undefined;
     galleryContainerStyle: any = {};
-    @Input({ required: true }) trailer!: PalmsTrailer;
-    @Output() craneSelected = new EventEmitter<number>();
-    @ViewChild('youTubePlayer') youTubePlayer!: ElementRef<HTMLDivElement>;
 
-    cld = new Cloudinary({
+    private cld = new Cloudinary({
         cloud: {
             cloudName: 'dhidgc7eu'
         }
@@ -67,6 +63,11 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
 
     ngAfterViewInit(): void {
         this.resize();
+    }
+
+    imageSelected(image: CloudinaryImage, idx: number) {
+        this.activeIndex = idx;
+        this.displayBasic = true;
     }
 
     resize(): void {
@@ -97,6 +98,7 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
             title: 'Trailer image'
         }));
     }
+
     private setResponsiveOptions() {
         this.responsiveOptions = [
             {

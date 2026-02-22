@@ -1,4 +1,4 @@
 export interface HintItem {
-  title?: string;
-  description?: string
+    title?: string;
+    description?: string;
 }

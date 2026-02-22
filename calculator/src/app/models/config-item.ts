@@ -1,4 +1,4 @@
 export interface ConfigItem {
-    name: string,
-    price: number
+    name: string;
+    price: number;
 }

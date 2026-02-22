@@ -1,23 +1,39 @@
-@if(comparisonStoreService.selectedVehicles$ | async; as vehicles){
-    @if(vehicles.length > 0){
+@if (comparisonStoreService.selectedVehicles$ | async; as vehicles) {
+    @if (vehicles.length > 0) {
         <p-accordion>
             <p-accordionTab>
                 <ng-template pTemplate="header" class="flex justify-around">
                     <div class="flex gap-2 w-full">
                         <p class="font-semibold">Összehasonlításra váró gépek</p>
-                        <button (click)="openComparisonTable(); $event.stopPropagation()" class="ml-auto px-2 py-1 bg-[--primary-color]  active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none">Összehasonlít</button>
-                        <button (click)="removeVehicles(); $event.stopPropagation()" class="ml-auto px-2 py-1 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
+                        <button
+                            (click)="openComparisonTable(); $event.stopPropagation()"
+                            class="ml-auto px-2 py-1 bg-[--primary-color] active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none"
+                        >
+                            Összehasonlít
+                        </button>
+                        <button
+                            (click)="removeVehicles(); $event.stopPropagation()"
+                            class="ml-auto px-2 py-1 bg-red-500 active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none"
+                        >
+                            Törlés
+                        </button>
                     </div>
                 </ng-template>
+
                 <div class="max-h-96 overflow-auto">
                     @for (vehicle of vehicles; track $index) {
                         <div class="flex gap-4 my-6">
                             <p>{{ vehicle.name }}</p>
-                            <button (click)="removeVehicle(vehicle); $event.stopPropagation()" class="ml-auto px-2 bg-red-500  active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none">Törlés</button>
+                            <button
+                                (click)="removeVehicle(vehicle); $event.stopPropagation()"
+                                class="ml-auto px-2 bg-red-500 active:bg-gray-700 text-sm font-bold uppercase rounded shadow hover:shadow-lg outline-none focus:outline-none"
+                            >
+                                Törlés
+                            </button>
                         </div>
                     }
-                </div>             
-            </p-accordionTab>     
-        </p-accordion>    
+                </div>
+            </p-accordionTab>
+        </p-accordion>
     }
-} 
+}

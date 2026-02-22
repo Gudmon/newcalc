@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { FooterComponent } from "../../footer/footer.component";
-import { NavigationComponent } from "../../navigation/navigation.component";
+import { FooterComponent } from '../../footer/footer.component';
+import { NavigationComponent } from '../../navigation/navigation.component';
 import { TableModule } from 'primeng/table';
 
 @Component({
@@ -11,11 +11,11 @@ import { TableModule } from 'primeng/table';
     imports: [FooterComponent, NavigationComponent, TableModule]
 })
 export class ImportantComponent implements OnInit {
-    products: any
+    products: any;
     public getScreenWidth: any;
     public getScreenHeight: any;
 
-    smallScreen(){
+    smallScreen() {
         return this.getScreenWidth < 645;
     }
 

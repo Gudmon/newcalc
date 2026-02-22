@@ -32,10 +32,6 @@ export interface PalmsCrane {
     recommendedOilFlow: string;
     trailers: PalmsTrailerOverview[];
     selectedTrailer?: PalmsTrailer;
-    imgUrls: string[];
-    imgUrl: string;
-    videoIds?: string[];
-
     imageUrls?: string[];
     images: CloudinaryImage[];
     videoUrls?: string[];

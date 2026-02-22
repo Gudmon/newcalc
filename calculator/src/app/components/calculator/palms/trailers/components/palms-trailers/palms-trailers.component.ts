@@ -1,81 +1,89 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule } from '@angular/forms';
-import { ConfigItem } from '../../../../../../models/config-item';
+import { FormsModule } from '@angular/forms';
 import { PalmsService } from '../../../shared/services/palms.service';
 import { CommonModule } from '@angular/common';
 import { CardModule } from 'primeng/card';
-import { FormatPricePipe } from "../../../../../pipes/format-price.pipe";
 import { Router } from '@angular/router';
 import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
 import { LoadingService } from '../../../../../../services/loading.service';
-import { PalmsTrailerOverviewHintsComponent } from "../palms-trailer-overview-hints/palms-trailer-overview-hints.component";
+import { PalmsTrailerOverviewHintsComponent } from '../palms-trailer-overview-hints/palms-trailer-overview-hints.component';
 import { InputSwitchModule } from 'primeng/inputswitch';
-import { PalmsTrailerCardsComponent } from "../palms-trailer-cards/palms-trailer-cards.component";
+import { PalmsTrailerCardsComponent } from '../palms-trailer-cards/palms-trailer-cards.component';
+import { MachineType } from '../../../shared/models/machine-type';
+import { ChassisType } from '../../../shared/models/chassis-type';
 
 @Component({
     selector: 'app-palms-trailers',
     standalone: true,
     templateUrl: './palms-trailers.component.html',
     styleUrl: './palms-trailers.component.css',
-    imports: [FormsModule, CommonModule, CardModule, FormatPricePipe, PalmsTrailerOverviewHintsComponent, InputSwitchModule, PalmsTrailerCardsComponent]
+    imports: [FormsModule, CommonModule, CardModule, PalmsTrailerOverviewHintsComponent, InputSwitchModule, PalmsTrailerCardsComponent]
 })
-
 export class PalmsTrailersComponent implements OnInit {
-  hintsChecked: boolean = true;
+    protected readonly ChassisType = ChassisType;
+    protected readonly MachineType = MachineType;
+    private originalTrailers: PalmsTrailerOverview[] = [];
 
-  originalTrailers: PalmsTrailerOverview[] = []
-  trailers: PalmsTrailerOverview[] = [];
+    hintsChecked: boolean = true;
+    trailers: PalmsTrailerOverview[] = [];
 
-  constructor(
-    readonly palmsService: PalmsService,
-    readonly loadingService: LoadingService,
-    readonly router: Router){}
+    constructor(
+        private readonly loadingService: LoadingService,
+        private readonly router: Router,
+        readonly palmsService: PalmsService
+    ) {}
 
-  
-  ngOnInit(): void {
-    this.loadingService.enableLoader();
-    this.palmsService.getTrailers().subscribe((resp) => {
-      this.palmsService._deleteTrailer.next(true);
-      this.palmsService._deleteCrane.next(true);
-      this.palmsService._trailerSelected.next(false);
-      this.palmsService._craneSelected.next(false);
-      this.palmsService._selectedTrailer.next(undefined);
-      this.palmsService._selectedCrane.next(undefined);
+    ngOnInit(): void {
+        this.loadingService.enableLoader();
+        this.palmsService
+            .getTrailers()
+            .subscribe({
+                next: (resp) => {
+                    this.palmsService._deleteTrailer.next(true);
+                    this.palmsService._deleteCrane.next(true);
+                    this.palmsService._trailerSelected.next(false);
+                    this.palmsService._craneSelected.next(false);
+                    this.palmsService._selectedTrailer.next(undefined);
+                    this.palmsService._selectedCrane.next(undefined);
 
-      this.trailers = resp as PalmsTrailerOverview[];
-      this.originalTrailers = resp as PalmsTrailerOverview[];
-    }).add(() => {
-      
-      this.loadingService.disableLoader();
-    })
+                    const trailerOverView = resp as PalmsTrailerOverview[];
+                    this.trailers = trailerOverView;
+                    this.originalTrailers = trailerOverView;
+                }
+            })
+            .add(() => {
+                this.loadingService.disableLoader();
+            });
 
-    this.palmsService.selectedChassisType$.pipe().subscribe((chassisType) => {
-
-      this.filterTrailers(chassisType!);
-    })
-  }
-
-  navigateToTrailer(trailer: PalmsTrailerOverview) {
-    this.router.navigate(['/calculator/palms/trailers', trailer.id]);
-  }
-
-  filterTrailers(chassisType: number) {
-    if (chassisType === 1) {
-        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Egyalvázas");
-    } else if (chassisType === 2) {
-        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Dupla alvázas");
-    } else if (chassisType === 3) {
-        this.trailers = this.originalTrailers.filter(trailer => trailer.beamType === "Unibody (Forwarder)");
-    } else {
-      this.trailers = this.originalTrailers;
+        this.palmsService.selectedChassisType$.pipe().subscribe((chassisType) => {
+            this.filterTrailers(chassisType!);
+        });
     }
-  } 
 
-  setSelectedChassisType(chassisType: number, event: Event){
-    if(this.palmsService._selectedChassisType.value === chassisType) this.palmsService._selectedChassisType.next(0);
+    navigateToTrailer(trailer: PalmsTrailerOverview) {
+        this.router.navigate(['/calculator/palms/trailers', trailer.id]);
+    }
 
-    else {
-        this.palmsService._selectedChassisType.next(chassisType);
-    }                
-}
+    setSelectedChassisType(chassisType: ChassisType, event: Event) {
+        this.palmsService._selectedChassisType.value === chassisType
+            ? this.palmsService._selectedChassisType.next(null)
+            : this.palmsService._selectedChassisType.next(chassisType);
+    }
+
+    private filterTrailers(chassisType: ChassisType) {
+        switch (chassisType) {
+            case ChassisType.Single:
+                this.trailers = this.originalTrailers.filter((trailer) => trailer.beamType === 'Egyalvázas');
+                break;
+            case ChassisType.Double:
+                this.trailers = this.originalTrailers.filter((trailer) => trailer.beamType === 'Dupla alvázas');
+                break;
+            case ChassisType.Unibody:
+                this.trailers = this.originalTrailers.filter((trailer) => trailer.beamType === 'Unibody (Forwarder)');
+                break;
+            default:
+                this.trailers = this.originalTrailers;
+                break;
+        }
+    }
 }

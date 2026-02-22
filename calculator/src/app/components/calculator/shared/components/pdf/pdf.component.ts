@@ -405,7 +405,8 @@ export class PdfComponent implements OnInit {
             this.addSingleOption(object, OptionGroup.ManualBunkExtension, newManualBunkExtension);
             this.addSingleOption(object, OptionGroup.TrailerLight, this.palmsService.selectedTrailerLight());
             this.addSingleOption(object, OptionGroup.SupportLeg, this.palmsService.selectedSupportLeg());
-            this.addSingleOption(object, OptionGroup.HydroPack, this.palmsService.selectedHydroPack());
+            this.addSingleOption(object, OptionGroup.HydroPack, this.palmsService.selectedHydropack());
+            this.addSingleOption(object, OptionGroup.HydroPackControl, this.palmsService.selectedHydropackControl());
             this.addSingleOption(object, OptionGroup.Tyre, this.palmsService.selectedTyre());
             this.addSingleOption(object, OptionGroup.TrailerShipping, this.palmsService.selectedTrailerShipping());
             this.addSingleOption(object, OptionGroup.MOT, this.palmsService.selectedMOT());
@@ -627,13 +628,11 @@ interface Country {
     code: string;
 }
 
-interface SinglePdfOption {
-    group: OptionGroup;
+interface SinglePdfOption extends PdfOption {
     option: PdfItem;
 }
 
-interface MultiplePdfOption {
-    group: OptionGroup;
+interface MultiplePdfOption extends PdfOption {
     options: PdfItem[];
 }
 
@@ -651,6 +650,7 @@ export enum OptionGroup {
     Drawbar,
     Platform,
     HydroPack,
+    HydroPackControl,
     OilPump,
     OilTank,
     TrailerOilCooler,

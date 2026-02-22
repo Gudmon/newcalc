@@ -107,7 +107,7 @@ import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
     ]
 })
 export class PalmsTrailerComponent implements OnInit, OnDestroy {
-    @Input() trailer!: PalmsTrailer;
+    trailer!: PalmsTrailer;
     craneId?: number;
     @Input() id?: number;
     fromCrane: boolean = false;
@@ -123,6 +123,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     manualBunkExtensionNumberSelected: boolean = false;
     stanchionExtensionChecked: boolean = false;
     stanchionExtensionNumberSelected: boolean = false;
+    hydropackControlVisible: boolean = false;
 
     b4TrailerIdsForEPropulsions = [1, 2, 3, 4];
     b4OrBAEUTrailerIdsForEPropulsions = [5, 6, 7, 8, 9, 10, 11, 12];
@@ -138,6 +139,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     @ViewChild('bunkExtensionDropdown') bunkExtensionDropdown!: Dropdown;
     @ViewChild('stanchionExtensionCheckBox') stanchionExtensionCheckBox!: Checkbox;
     @ViewChild('stanchionExtensionDropdown') stanchionExtensionDropdown!: Dropdown;
+    @ViewChild('hydropackControlCheckBox') hydropackControlCheckBox!: Checkbox;
 
     showBrakesDialog: boolean = false;
     showPropulsionsDialog: boolean = false;
@@ -194,6 +196,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     MOT: ConfigurationItem | undefined = undefined;
     stanchionExtension: ConfigurationItem | undefined = undefined;
     hydropacks: ConfigurationItem[] = [];
+    hydropackControl: ConfigurationItem | undefined = undefined;
     supplyFormats: ConfigurationItem[] = [];
     toolbox: ConfigurationItem | undefined = undefined;
 
@@ -223,7 +226,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     originalManualBunkExtensionPrice = 0;
     originalFrameExtensionPrice = 0;
     originalStanchionExtensionPrice = 0;
-    originalHydroPackPrice = 0;
+    originalHydropackPrice = 0;
+    originalHydropackControlPrice = 0;
     originalSupplyFormatPrice = 0;
     originalToolboxPrice = 0;
 
@@ -280,7 +284,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     originalMOT: ConfigurationItem | undefined = undefined;
     originalStanchionExtension: ConfigurationItem | undefined = undefined;
     stanchionExtensionArrayElements: any[] | undefined = [];
-    originalHydroPack: ConfigurationItem | undefined = undefined;
+    originalHydropack: ConfigurationItem | undefined = undefined;
+    originalHydropackControl: ConfigurationItem | undefined = undefined;
     originalSupplyFormat: ConfigurationItem | undefined = undefined;
     originalToolbox: ConfigurationItem | undefined = undefined;
 
@@ -313,7 +318,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         selectedShipping: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedMOT: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedStanchionExtension: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
-        selectedHydroPack: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedHydropack: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedHydropackControl: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedSupplyFormat: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedToolbox: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' })
     });
@@ -349,7 +355,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             selectedShipping: this.trailerShipping,
             selectedMOT: this.MOT,
             selectedStanchionExtension: null,
-            selectedHydroPack: null,
+            selectedHydropack: null,
+            selectedHydropackControl: null,
             selectedSupplyFormat: null,
             selectedToolbox: null
         });
@@ -357,11 +364,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     private destroy$ = new Subject<void>();
     constructor(
         readonly palmsService: PalmsService,
-        private palmsTrailerConfigService: PalmsTrailerConfigService,
-        readonly loadingService: LoadingService,
-        private activatedRoute: ActivatedRoute,
-        private fb: FormBuilder,
-        private router: Router
+        private readonly palmsTrailerConfigService: PalmsTrailerConfigService,
+        private readonly loadingService: LoadingService,
+        private readonly activatedRoute: ActivatedRoute,
+        private readonly fb: FormBuilder
     ) {}
 
     ngOnInit(): void {
@@ -465,6 +471,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             const MOT$ = this.palmsTrailerConfigService.getMOT(id);
             const stanchionExtension$ = this.palmsTrailerConfigService.getStanchionExtension(id);
             const hydropacks$ = this.palmsTrailerConfigService.getHydroPacks(id);
+            const hydropackControl$ = this.palmsTrailerConfigService.getHydroPackControl(id);
             const supplyFormats$ = this.palmsTrailerConfigService.getSupplyFormats(id);
             const toolbox$ = this.palmsTrailerConfigService.getToolbox(id);
 
@@ -496,6 +503,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                 MOT$,
                 stanchionExtension$,
                 hydropacks$,
+                hydropackControl$,
                 supplyFormats$,
                 toolbox$
             ]);
@@ -530,6 +538,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
                         MOT,
                         stanchionExtension,
                         hydropacks,
+                        hydropackControl,
                         supplyFormats,
                         toolbox
                     ]) => {
@@ -660,6 +669,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
 
                         if (hydropacks) {
                             this.hydropacks = hydropacks;
+                        }
+
+                        if (hydropackControl) {
+                            this.hydropackControl = hydropackControl;
                         }
 
                         if (supplyFormats) {
@@ -1631,10 +1644,10 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
         this.previousStanchionExtensionNumber = number;
     }
 
-    handleHydroPackChange(event: ListboxChangeEvent) {
-        const previousValue = this.originalHydroPackPrice;
-        this.originalHydroPackPrice = event.value ? event.value.price : 0;
-        const nextValue = this.originalHydroPackPrice;
+    handleHydropackChange(event: ListboxChangeEvent) {
+        const previousValue = this.originalHydropackPrice;
+        this.originalHydropackPrice = event.value ? event.value.price : 0;
+        const nextValue = this.originalHydropackPrice;
         const current = this.palmsService._trailerPrice();
 
         if (previousValue !== nextValue) {
@@ -1642,12 +1655,40 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             this.palmsService._trailerPrice.set(newPrice);
         }
 
+        const allowsControl = event.value?.code === 'HyP4+';
+        this.hydropackControlVisible = allowsControl;
+        if (!allowsControl && this.originalHydropackControl) {
+            const currentPrice = this.palmsService._trailerPrice();
+            const newPrice = currentPrice - Number(this.originalHydropackControl.price);
+            this.palmsService._trailerPrice.set(newPrice);
+            this.originalHydropackControl = undefined;
+            this.palmsService.selectedHydropackControl.set(undefined);
+            this.trailerFormGroup.get('selectedHydropackControl')?.setValue(false);
+        }
+
         if (event.value) {
-            this.originalHydroPack = event.value;
-            this.palmsService.selectedHydroPack.set(event.value);
+            this.originalHydropack = event.value;
+            this.palmsService.selectedHydropack.set(event.value);
         } else {
-            this.originalHydroPack = undefined;
-            this.palmsService.selectedHydroPack.set(undefined);
+            this.originalHydropack = undefined;
+            this.palmsService.selectedHydropack.set(undefined);
+        }
+    }
+
+    onHydropackControlChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const current = this.palmsService._trailerPrice();
+            const newPrice = Number(current) + Number(event.checked[0].price);
+            this.palmsService._trailerPrice.set(newPrice);
+            this.originalHydropackControlPrice = Number(event.checked[0].price);
+            this.originalHydropackControl = event.checked[0];
+            this.palmsService.selectedHydropackControl.set(event.checked[0]);
+        } else {
+            const current = this.palmsService._trailerPrice();
+            const newPrice = Number(current) - this.originalHydropackControlPrice;
+            this.palmsService._trailerPrice.set(newPrice);
+            this.originalHydropackControl = undefined;
+            this.palmsService.selectedHydropackControl.set(undefined);
         }
     }
 

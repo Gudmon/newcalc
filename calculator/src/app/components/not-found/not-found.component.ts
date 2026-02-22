@@ -11,7 +11,7 @@ import { FooterComponent } from "../footer/footer.component";
     imports: [NavigationComponent, FooterComponent]
 })
 export class NotFoundComponent {
-    constructor(readonly router: Router) {}
+    constructor(private readonly router: Router) {}
 
     navigateToHome(){
         this.router.navigate(['/']);

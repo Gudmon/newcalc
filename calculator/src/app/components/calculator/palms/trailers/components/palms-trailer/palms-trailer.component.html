@@ -126,11 +126,31 @@
                     </div>
                     <p-listbox
                         optionDisabled="disabledOption"
-                        (onChange)="handleHydroPackChange($event)"
-                        formControlName="selectedHydroPack"
+                        (onChange)="handleHydropackChange($event)"
+                        formControlName="selectedHydropack"
                         [options]="hydropacks"
                         optionLabel="namePrice"
                     ></p-listbox>
+                </div>
+
+                <div *ngIf="trailerSelected && hydropackControl && hydropackControlVisible" class="justify-content-center my-4 py-4">
+                    <!-- <div class="mb-4">
+                        <button (click)="toggleDialog('trailerOilCooler', true)"><i class="fa-solid fa-circle-info"></i></button>
+                        <app-oil-tank-cooler-dialog
+                            [trailerOilCoolerDialogVisible]="showTrailerOilCoolerDialog"
+                            (dialogVisible)="toggleDialog('trailerOilCooler', false)"
+                        ></app-oil-tank-cooler-dialog>
+                    </div> -->
+                    <div class="flex gap-2">
+                        <p-checkbox
+                            #hydropackControlCheckBox
+                            (onChange)="onHydropackControlChange($event)"
+                            [value]="hydropackControl"
+                            formControlName="selectedHydropackControl"
+                            inputId="trailerHydropackControlSelected"
+                        ></p-checkbox>
+                        <label class="hover:cursor-pointer" for="trailerHydropackControlSelected">{{ hydropackControl.namePrice }}</label>
+                    </div>
                 </div>
 
                 <div *ngIf="trailerSelected && oilPumps.length > 0" class="justify-content-center my-4 py-4">

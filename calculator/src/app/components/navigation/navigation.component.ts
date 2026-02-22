@@ -33,11 +33,6 @@ export class NavigationComponent implements OnInit {
                 label: 'Olvasmányok',
                 routerLink: '/useful-reading'
             }
-            // {
-            //     label: 'Pályázat',
-            //     routerLink: '/competition',
-            //     icon: 'pi pi-exclamation-circle'
-            // },
         ];
     }
 }

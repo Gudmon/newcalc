@@ -22,58 +22,61 @@ export class AppComponent implements OnInit {
 
     private clarityScriptLoaded: boolean = false;
     private clarityScriptTag: HTMLScriptElement | null = null;
+    private scriptLoaded = false;
+    private readonly scriptId = 'lxxyj7muce';
+    private readonly pageName = 'www.palmsmagyarorszag.hu';
 
     constructor(
         private readonly loadingService: LoadingService,
         private readonly router: Router
     ) {}
-    private scriptLoaded = false;
 
     initialize() {
-        if (typeof cookieconsent !== 'undefined') {
-            cookieconsent.run({
-                notice_banner_type: 'simple',
-                consent_type: 'express',
-                palette: 'dark',
-                language: 'hu',
-                page_load_consent_levels: ['strictly-necessary'],
-                notice_banner_reject_button_hide: false,
-                preferences_center_close_button_hide: false,
-                page_refresh_confirmation_buttons: false,
-                website_name: 'www.palmsmagyarorszag.hu',
-                callbacks: {
-                    notice_banner_loaded: () => {},
-                    i_agree_button_clicked: (consent: any) => {
-                        this.loadClarityScript('lxxyj7muce');
-                    },
-                    i_decline_button_clicked: () => {},
-                    change_my_preferences_button_clicked: () => {},
-                    scripts_all_loaded: () => {},
-                    user_consent_saved: (consent: Consent) => {
-                        // this.removeClarityScript("lxxyj7muce");
-                        // if(consent.tracking) {
-                        //     this.loadClarityScript("lxxyj7muce");
-                        // }
-                    },
-                    scripts_specific_loaded: (level: any) => {
-                        switch (level) {
-                            case 'strictly-necessary':
-                                break;
-                            case 'functionality':
-                                break;
-                            case 'tracking':
-                                this.loadClarityScript('lxxyj7muce');
-                                break;
-                            case 'targeting':
-                                break;
-                        }
+        if (typeof cookieconsent === 'undefined') {
+            console.error('Cookie Consent script not loaded.');
+            return;
+        }
+
+        cookieconsent.run({
+            notice_banner_type: 'simple',
+            consent_type: 'express',
+            palette: 'dark',
+            language: 'hu',
+            page_load_consent_levels: ['strictly-necessary'],
+            notice_banner_reject_button_hide: false,
+            preferences_center_close_button_hide: false,
+            page_refresh_confirmation_buttons: false,
+            website_name: this.pageName,
+            callbacks: {
+                notice_banner_loaded: () => {},
+                i_agree_button_clicked: (consent: any) => {
+                    this.loadClarityScript(this.scriptId);
+                },
+                i_decline_button_clicked: () => {},
+                change_my_preferences_button_clicked: () => {},
+                scripts_all_loaded: () => {},
+                user_consent_saved: (consent: Consent) => {
+                    this.removeClarityScript(this.scriptId);
+                    if (consent.tracking) {
+                        this.loadClarityScript(this.scriptId);
                     }
                 },
-                callbacks_force: true
-            });
-        } else {
-            console.error('Cookie Consent script not loaded.');
-        }
+                scripts_specific_loaded: (level: any) => {
+                    switch (level) {
+                        case 'strictly-necessary':
+                            break;
+                        case 'functionality':
+                            break;
+                        case 'tracking':
+                            this.loadClarityScript(this.scriptId);
+                            break;
+                        case 'targeting':
+                            break;
+                    }
+                }
+            },
+            callbacks_force: true
+        });
     }
 
     loadClarityScript(tagId: string): void {
@@ -112,20 +115,7 @@ export class AppComponent implements OnInit {
         document.head.appendChild(script);
     }
 
-    //TODO: add for images
-    img!: CloudinaryImage;
     ngOnInit() {
-        // const cld = new Cloudinary({
-        //     cloud: {
-        //         cloudName: 'demo'
-        //     }
-        // });
-
-        // // Use the image with public ID, 'bike'.
-        // const myImage = cld.image('bike');
-
-        //this.img = new CloudinaryImage('PALMS-6S-2', { cloudName: 'dhidgc7eu' });
-
         this.loadScript('https://www.termsfeed.com/public/cookie-consent/4.1.0/cookie-consent.js', this.initialize);
 
         this.items = [

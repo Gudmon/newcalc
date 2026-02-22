@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { FooterComponent } from "../../footer/footer.component";
-import { NavigationComponent } from "../../navigation/navigation.component";
+import { FooterComponent } from '../../footer/footer.component';
+import { NavigationComponent } from '../../navigation/navigation.component';
 
 @Component({
     selector: 'app-choose-crane',
@@ -11,9 +11,9 @@ import { NavigationComponent } from "../../navigation/navigation.component";
     imports: [FooterComponent, NavigationComponent]
 })
 export class ChooseCraneComponent {
-  constructor(private readonly router: Router){}
+    constructor(private readonly router: Router) {}
 
-  navigateToCalculation(){
-      this.router.navigate(['calculator/palms']);
-  }
+    navigateToCalculation() {
+        this.router.navigate(['calculator/palms']);
+    }
 }

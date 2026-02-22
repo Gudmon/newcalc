@@ -422,6 +422,19 @@ export class PalmsTrailerConfigService {
         );
     }
 
+    getHydroPackControl(id: number): Observable<ConfigurationItem | null> {
+        return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsTrailerConfig/trailers/${id}/hydropackcontrol`).pipe(
+            map((hydropackControl: ConfigurationItem | null) => {
+                if (hydropackControl) {
+                    hydropackControl.namePrice = hydropackControl.name + ' ' + hydropackControl.price + '€';
+                    return hydropackControl;
+                } else {
+                    return null;
+                }
+            })
+        );
+    }
+
     getSupplyFormats(id: number): Observable<ConfigurationItem[]> {
         return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/supplyformats`).pipe(
             map((supplyFormats: ConfigurationItem[]) => {

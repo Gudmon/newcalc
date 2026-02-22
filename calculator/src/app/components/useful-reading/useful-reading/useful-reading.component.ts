@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { NavigationComponent } from "../../navigation/navigation.component";
-import { FooterComponent } from "../../footer/footer.component";
+import { NavigationComponent } from '../../navigation/navigation.component';
+import { FooterComponent } from '../../footer/footer.component';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,25 +11,21 @@ import { Router } from '@angular/router';
     imports: [NavigationComponent, FooterComponent]
 })
 export class UsefulReadingComponent {
-    constructor(private readonly router: Router){}
+    constructor(private readonly router: Router) {}
 
-    navigateToImportant(){
+    navigateToImportant() {
         this.router.navigate(['useful-reading/important']);
     }
 
-    navigateToChooseTrailer(){
+    navigateToChooseTrailer() {
         this.router.navigate(['useful-reading/choose-trailer']);
     }
 
-    navigateToChooseCrane(){
+    navigateToChooseCrane() {
         this.router.navigate(['useful-reading/choose-crane']);
     }
 
-    navigateToChooseSupportLeg(){
+    navigateToChooseSupportLeg() {
         this.router.navigate(['useful-reading/choose-support-leg']);
-    }
-
-    navigateToChooseGrapple(){
-        this.router.navigate(['useful-reading/choose-grapple']);
     }
 }

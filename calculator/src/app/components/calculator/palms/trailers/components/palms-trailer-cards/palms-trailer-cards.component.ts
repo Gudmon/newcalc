@@ -20,11 +20,6 @@ import { fill } from '@cloudinary/url-gen/actions/resize';
     styleUrl: './palms-trailer-cards.component.css'
 })
 export class PalmsTrailerCardsComponent {
-    cld = new Cloudinary({
-        cloud: {
-            cloudName: 'dhidgc7eu'
-        }
-    });
     _trailers: PalmsTrailerOverview[] = [];
     @Input({ required: true }) set trailers(trailers: PalmsTrailerOverview[]) {
         trailers.map((trailer) => {
@@ -35,10 +30,16 @@ export class PalmsTrailerCardsComponent {
 
     @Output() buttonClickEmitter = new EventEmitter<PalmsTrailerOverview>();
 
+    private cld = new Cloudinary({
+        cloud: {
+            cloudName: 'dhidgc7eu'
+        }
+    });
+
     constructor(
         readonly palmsService: PalmsService,
-        readonly comparisonStoreService: ComparisonStoreService,
-        readonly loadingService: LoadingService
+        private readonly comparisonStoreService: ComparisonStoreService,
+        private readonly loadingService: LoadingService
     ) {}
 
     buttonClickEmit(trailer: PalmsTrailerOverview) {
@@ -49,7 +50,14 @@ export class PalmsTrailerCardsComponent {
         this.loadingService.enableLoader();
         this.palmsService
             .getTrailer(trailerOverView.id)
-            .subscribe((trailer) => this.comparisonStoreService.addVehicle(trailer))
+            .subscribe({
+                next: (resp) => {
+                    this.comparisonStoreService.addVehicle(resp);
+                },
+                error: (error) => {
+                    console.error('Error adding trailer to comparison:', error);
+                }
+            })
             .add(() => this.loadingService.disableLoader());
     }
 }
