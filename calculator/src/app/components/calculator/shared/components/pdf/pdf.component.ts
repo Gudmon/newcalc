@@ -325,7 +325,7 @@ export class PdfComponent implements OnInit {
         this.submitted = true;
 
         if (this.formGroup.valid) {
-            this.sendEmail();
+            this.handleEmailSending();
         }
     }
 
@@ -477,7 +477,7 @@ export class PdfComponent implements OnInit {
             .add(() => this.loadingService.disableLoader());
     }
 
-    sendEmail() {
+    handleEmailSending() {
         const subject = `Sikeres kalkuláció - ${this.pdfService.pdfId()}`;
         const blobName = this.pdfService.pdfId().toString();
 
@@ -491,7 +491,7 @@ export class PdfComponent implements OnInit {
                 this.formGroup.controls['name'].value,
                 this.formGroup.controls['countryCode'].value.code,
                 this.formGroup.controls['phoneNumber'].value.toString(),
-                blobName
+                blobName,
             )
             .subscribe({
                 next: () => {
@@ -582,6 +582,7 @@ interface PdfTrailerModel {
     MOT?: ConfigurationItem | undefined;
     StanchionExtension?: ConfigurationItem | undefined;
     HydroPack?: ConfigurationItem | undefined;
+    HydroPackControl?: ConfigurationItem | undefined;
     SupplyFormat?: ConfigurationItem | undefined;
     Toolbox?: ConfigurationItem | undefined;
 }

@@ -27,7 +27,6 @@ export class PalmsTrailerConfigService {
         return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsTrailerConfig/trailers/${id}/brakes`).pipe(
             map((brakes: ConfigurationItem[]) => {
                 for (const brake of brakes) {
-                    brake.namePrice = brake.name + ' ' + brake.price + '€';
                     if (brake.code === 'B1') brake.imgUrl = `../../../../assets/PALMS trailer-brake-1.jpg`;
                     if (brake.code === 'B2') brake.imgUrl = `../../../../assets/PALMS trailer-brake-2.jpg`;
                     if (brake.code === 'B3') brake.imgUrl = `../../../../assets/PALMS trailer-brake-3.jpg`;

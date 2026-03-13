@@ -162,6 +162,10 @@ export class PalmsService {
         );
     }
 
+    getTrailerConfigs(id: number) {
+        return this.httpClient.get<ConfigurationItem[]>(`${this.url}/Palms/trailers/${id}/configs`);
+    }
+
     deleteTrailer() {
         this.selectedStanchion.set(undefined);
         this.selectedBrake.set(undefined);

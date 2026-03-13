@@ -150,7 +150,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     valveBlock: ConfigurationItem | undefined = undefined;
     dampings: ConfigurationItem[] = [];
     light: ConfigurationItem | undefined = undefined;
-    operatorSeat: ConfigurationItem | undefined = undefined;
+    operatorSeat: ConfigurationItem | undefined | null = undefined;
     highPerformanceOilFilters: ConfigurationItem[] = [];
     oilCooler: ConfigurationItem | undefined = undefined;
     rotatorBrakes: ConfigurationItem[] = [];
@@ -484,9 +484,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                         this.light = light;
                     }
 
-                    if (operatorSeat) {
-                        this.operatorSeat = operatorSeat;
-                    }
+                    this.operatorSeat = operatorSeat;
 
                     if (highPerformanceOilFilters) {
                         this.highPerformanceOilFilters = highPerformanceOilFilters;
