@@ -470,28 +470,51 @@ export class PdfComponent implements OnInit {
             .subscribe((blob: Blob) => {
                 const link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
-                link.download = `${this.pdfService.pdfId()}.pdf`;
+                const parts: string[] = [];
+
+                if (this.palmsService._trailerSelected.value) {
+                    const trailer = this.cleanName(this.palmsService._selectedTrailer.value?.name);
+                    if (trailer) parts.push(trailer);
+                }
+
+                if (this.palmsService._craneSelected.value) {
+                    const crane = this.cleanName(this.palmsService._selectedCrane.value?.name);
+                    if (crane) parts.push(crane);
+                }
+
+                const equipment = parts.join(' + ');
+
+                link.download = `${equipment ? equipment + '-' : ''}${this.pdfService.pdfId()}.pdf`;
                 link.click();
                 this.pdfSaved = true;
             })
             .add(() => this.loadingService.disableLoader());
     }
 
+    private cleanName(name?: string): string | undefined {
+        if (!name) return undefined;
+
+        return name.replace(/^PALMS\s*/i, '').trim();
+    }
+
     handleEmailSending() {
-        const subject = `Sikeres kalkuláció - ${this.pdfService.pdfId()}`;
         const blobName = this.pdfService.pdfId().toString();
+        const trailerName = this.palmsService._trailerSelected.value ? this.cleanName(this.palmsService._selectedTrailer.value?.name) : '';
+        const craneName = this.palmsService._craneSelected.value ? this.cleanName(this.palmsService._selectedCrane.value?.name) : '';
 
         this.loadingService.enableLoader();
 
         this.emailService
             .sendEmail(
+                this.pdfService.pdfId(),
                 this.formGroup.controls['email'].value,
-                subject,
                 this.formGroup.controls['message'].value,
                 this.formGroup.controls['name'].value,
                 this.formGroup.controls['countryCode'].value.code,
                 this.formGroup.controls['phoneNumber'].value.toString(),
                 blobName,
+                trailerName,
+                craneName
             )
             .subscribe({
                 next: () => {

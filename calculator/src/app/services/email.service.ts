@@ -10,22 +10,26 @@ export class EmailService {
     constructor(private httpClient: HttpClient) {}
 
     sendEmail(
+        pdfId: string,
         fromEmail: string,
-        subject: string,
         body: string,
         name: string,
         countryCode: string,
         phoneNumber: string,
         blobName: string,
+        trailerName: string | undefined,
+        craneName: string | undefined
     ) {
         const email = {
+            PdfId: pdfId,
             FromEmail: fromEmail,
-            Subject: subject,
             Body: body,
             Name: name,
             CountryCode: countryCode,
             PhoneNumber: phoneNumber,
             BlobName: blobName,
+            TrailerName: trailerName,
+            CraneName: craneName
         };
 
         return this.httpClient.post<any>(`${this.url}/Email`, email).pipe();
