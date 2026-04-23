@@ -482,7 +482,7 @@ export class PdfComponent implements OnInit {
                     if (crane) parts.push(crane);
                 }
 
-                const equipment = parts.join(' + ');
+                const equipment = parts.join('+');
 
                 link.download = `${equipment ? equipment + '-' : ''}${this.pdfService.pdfId()}.pdf`;
                 link.click();
