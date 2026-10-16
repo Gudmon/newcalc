@@ -9,8 +9,8 @@ import { LoadingService } from '../../../../../../services/loading.service';
 import { AccordionModule } from 'primeng/accordion';
 import { ComparisonAccordionComponent } from '../../../comparison-accordion/comparison-accordion.component';
 import { CloudinaryModule } from '@cloudinary/ng';
-import { Cloudinary } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
+import { CloudinaryService } from '../../../../../../services/cloudinary.service';
 
 @Component({
     selector: 'app-palms-trailer-cards',
@@ -23,23 +23,18 @@ export class PalmsTrailerCardsComponent {
     _trailers: PalmsTrailerOverview[] = [];
     @Input({ required: true }) set trailers(trailers: PalmsTrailerOverview[]) {
         trailers.map((trailer) => {
-            trailer.image = this.cld.image(trailer.imageUrl).resize(fill().width(300).height(200));
+            trailer.image = this.cloudinaryService.cloudinary.image(trailer.imageUrl).resize(fill().width(300).height(200));
         });
         this._trailers = trailers;
     }
 
     @Output() buttonClickEmitter = new EventEmitter<PalmsTrailerOverview>();
 
-    private cld = new Cloudinary({
-        cloud: {
-            cloudName: 'dhidgc7eu'
-        }
-    });
-
     constructor(
         readonly palmsService: PalmsService,
         private readonly comparisonStoreService: ComparisonStoreService,
-        private readonly loadingService: LoadingService
+        private readonly loadingService: LoadingService,
+        private readonly cloudinaryService: CloudinaryService
     ) {}
 
     buttonClickEmit(trailer: PalmsTrailerOverview) {

@@ -17,8 +17,8 @@ import { ImageModule } from 'primeng/image';
 import { YouTubePlayerModule } from '@angular/youtube-player';
 import { CloudinaryModule } from '@cloudinary/ng';
 import { fill } from '@cloudinary/url-gen/actions/resize';
-import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen';
-import { format, quality } from '@cloudinary/url-gen/actions/delivery';
+import { CloudinaryImage } from '@cloudinary/url-gen';
+import { CloudinaryService } from '../../../../../../services/cloudinary.service';
 
 @Component({
     selector: 'app-palms-trailer-information',
@@ -41,13 +41,10 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     videoWidth: number | undefined;
     galleryContainerStyle: any = {};
 
-    private cld = new Cloudinary({
-        cloud: {
-            cloudName: 'dhidgc7eu'
-        }
-    });
-
-    constructor(private changeDetectorRef: ChangeDetectorRef) {}
+    constructor(
+        private changeDetectorRef: ChangeDetectorRef,
+        private cloudinaryService: CloudinaryService
+    ) {}
 
     @HostListener('document:keyup.escape', ['$event'])
     onKeyup() {
@@ -55,7 +52,9 @@ export class PalmsTrailerInformationComponent implements OnInit, AfterViewInit {
     }
 
     ngOnInit(): void {
-        this.thumbnails = (this.trailer.imageUrls ?? []).map((imgUrl) => this.cld.image(imgUrl).resize(fill().width(300).height(200)));
+        this.thumbnails = (this.trailer.imageUrls ?? []).map((imgUrl) =>
+            this.cloudinaryService.cloudinary.image(imgUrl).resize(fill().width(300).height(200))
+        );
         this.setResponsiveOptions();
         this.setImages();
         this.resize();

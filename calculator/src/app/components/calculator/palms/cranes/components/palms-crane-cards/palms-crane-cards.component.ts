@@ -8,8 +8,8 @@ import { ComparisonStoreService } from '../../../trailers/services/comparison-st
 import { LoadingService } from '../../../../../../services/loading.service';
 import { ComparisonAccordionComponent } from '../../../comparison-accordion/comparison-accordion.component';
 import { CloudinaryModule } from '@cloudinary/ng';
-import { Cloudinary } from '@cloudinary/url-gen';
 import { fill } from '@cloudinary/url-gen/actions/resize';
+import { CloudinaryService } from '../../../../../../services/cloudinary.service';
 
 @Component({
     selector: 'app-palms-crane-cards',
@@ -19,16 +19,10 @@ import { fill } from '@cloudinary/url-gen/actions/resize';
     styleUrl: './palms-crane-cards.component.css'
 })
 export class PalmsCraneCardsComponent {
-    cld = new Cloudinary({
-        cloud: {
-            cloudName: 'dhidgc7eu'
-        }
-    });
-
     _cranes: PalmsCraneOverview[] = [];
     @Input({ required: true }) set cranes(cranes: PalmsCraneOverview[]) {
         cranes.forEach((crane) => {
-            crane.image = this.cld.image(crane.imageUrl).resize(fill().width(300).height(200));
+            crane.image = this.cloudinaryService.cloudinary.image(crane.imageUrl).resize(fill().width(300).height(200));
         });
         this._cranes = cranes;
     }
@@ -37,7 +31,8 @@ export class PalmsCraneCardsComponent {
     constructor(
         readonly palmsService: PalmsService,
         readonly comparisonStoreService: ComparisonStoreService,
-        readonly loadingService: LoadingService
+        readonly loadingService: LoadingService,
+        private readonly cloudinaryService: CloudinaryService
     ) {}
 
     buttonClickEmit(crane: PalmsCraneOverview) {

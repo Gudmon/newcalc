@@ -6,11 +6,11 @@ import { PalmsTrailer } from '../../trailers/models/palms-trailer';
 import { PalmsCraneOverview } from '../../cranes/models/palms-crane-overview';
 import { PalmsCrane } from '../../cranes/models/palms-crane';
 import { ConfigurationItem } from '../../../../../models/configuration-item';
-import { Cloudinary } from '@cloudinary/url-gen/instance/Cloudinary';
 import { fill } from '@cloudinary/url-gen/actions/resize';
 import { format, quality } from '@cloudinary/url-gen/actions/delivery';
 import { MachineType } from '../models/machine-type';
 import { ChassisType } from '../models/chassis-type';
+import { CloudinaryService } from '../../../../../services/cloudinary.service';
 
 @Injectable({
     providedIn: 'root'
@@ -49,12 +49,6 @@ export class PalmsService {
     public trailerSelected$ = this._trailerSelected.asObservable();
 
     public _totalPrice = computed(() => this._trailerPrice() + this._cranePrice());
-
-    cld = new Cloudinary({
-        cloud: {
-            cloudName: 'dhidgc7eu'
-        }
-    });
 
     // CRANES
     public selectedControlBlock = signal<ConfigurationItem | undefined>(undefined);
@@ -116,13 +110,18 @@ export class PalmsService {
     public selectedSupplyFormat = signal<ConfigurationItem | undefined>(undefined);
     public selectedToolbox = signal<ConfigurationItem | undefined>(undefined);
 
-    constructor(private httpClient: HttpClient) {}
+    constructor(
+        private httpClient: HttpClient,
+        private cloudinaryService: CloudinaryService
+    ) {}
 
     getTrailers(): Observable<PalmsTrailerOverview[]> {
         return this.httpClient.get<PalmsTrailerOverview[]>(`${this.url}/Palms/trailers`).pipe(
             map((trailerOvewViews: PalmsTrailerOverview[]) => {
                 trailerOvewViews.map((trailerOvewView) => {
-                    trailerOvewView.image = this.cld.image(trailerOvewView.imageUrl).resize(fill().width(300).height(200));
+                    trailerOvewView.image = this.cloudinaryService.cloudinary
+                        .image(trailerOvewView.imageUrl)
+                        .resize(fill().width(300).height(200));
                 });
                 return trailerOvewViews;
             })
@@ -133,7 +132,7 @@ export class PalmsService {
         return this.httpClient.get<PalmsTrailer>(`${this.url}/Palms/trailers/${id}`).pipe(
             map((trailer: PalmsTrailer) => {
                 trailer.images = (trailer.imageUrls ?? []).map((imgUrl) =>
-                    this.cld.image(imgUrl).delivery(format('auto')).delivery(quality('auto'))
+                    this.cloudinaryService.cloudinary.image(imgUrl).delivery(format('auto')).delivery(quality('auto'))
                 );
                 return trailer;
             })
@@ -144,7 +143,9 @@ export class PalmsService {
         return this.httpClient.get<PalmsCraneOverview[]>(`${this.url}/Palms/cranes`).pipe(
             map((craneOverViews: PalmsCraneOverview[]) => {
                 craneOverViews.map((craneOverView) => {
-                    craneOverView.image = this.cld.image(craneOverView.imageUrl).resize(fill().width(300).height(200));
+                    craneOverView.image = this.cloudinaryService.cloudinary
+                        .image(craneOverView.imageUrl)
+                        .resize(fill().width(300).height(200));
                 });
                 return craneOverViews;
             })
@@ -155,7 +156,7 @@ export class PalmsService {
         return this.httpClient.get<PalmsCrane>(`${this.url}/Palms/cranes/${id}`).pipe(
             map((crane: PalmsCrane) => {
                 crane.images = (crane.imageUrls ?? []).map((imgUrl) =>
-                    this.cld.image(imgUrl).delivery(format('auto')).delivery(quality('auto'))
+                    this.cloudinaryService.cloudinary.image(imgUrl).delivery(format('auto')).delivery(quality('auto'))
                 );
                 return crane;
             })
