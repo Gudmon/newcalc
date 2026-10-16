@@ -40,8 +40,17 @@ export class PalmsCraneConfigService {
           if (frameType.id === 6 || frameType.id === 9 || frameType.id === 11){       
             frameType.imgUrl = `../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`
           } 
+          else if (frameType.id === 7){
+            frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.jpg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-2.jpg`] 
+          }
           else if (frameType.id === 8){
-            frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.jpg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`] 
+            frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`] 
+          }
+          else if (frameType.id === 9){
+            frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-2.jpg`] 
+          }
+          else if (frameType.id === 10){
+            frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`] 
           }
           else {
             frameType.imgUrls = [`../../../../../../assets/PALMS crane-frametype-${frameType.id}.svg`, `../../../../../../assets/PALMS crane-frametype-${frameType.id}-1.jpg`] 

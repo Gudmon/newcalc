@@ -6,7 +6,6 @@ import { LoadingService } from './services/loading.service';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { CommonModule } from '@angular/common';
 import { CloudinaryModule } from '@cloudinary/ng';
-import { Cloudinary, CloudinaryImage } from '@cloudinary/url-gen';
 
 declare var cookieconsent: any;
 @Component({
