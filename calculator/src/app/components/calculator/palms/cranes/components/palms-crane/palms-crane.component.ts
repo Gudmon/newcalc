@@ -447,6 +447,9 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
                     if (frameTypes) {
                         this.frameTypes = frameTypes;
+                        this.frameTypes = this.updateFrameTypesForControlBlock(
+                            this.originalControlBlock?.id
+                        );
                     }
 
                     if (rotators) {
@@ -577,14 +580,10 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             this.palmsService.selectedControlBlock.set(event.value);
 
             // frame types
-            if (event.value.id < 8) {
-                updatedFrameTypes = this.updateFrameTypesForControlBlock();
-            } else {
-                updatedFrameTypes = this.updateFrameTypesToEnabled();
-            }
+            updatedFrameTypes = this.updateFrameTypesForControlBlock(event.value.id);
 
             // winches and electrical floating
-            if (5 < event.value.id && event.value.id < 14) {
+            if (4 < event.value.id && event.value.id < 14) {
                 updatedWinches = this.updateWinchesToEnabled();
                 this.craneFormGroup.get('selectedElectricalFloating')?.enable();
             } else {
@@ -660,7 +659,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             this.originalControlBlock = undefined;
             this.palmsService.selectedControlBlock.set(undefined);
 
-            updatedFrameTypes = this.updateFrameTypesToEnabled();
+            updatedFrameTypes = this.updateFrameTypesForControlBlock();
             updatedWinches = this.updateWinchesForControlBlock();
             this.setElectricalFloatingDefault();
             this.palmsService.selectedElectricalFloating.set(undefined);
@@ -683,22 +682,31 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             }
         }
 
+        if (
+            this.originalFrameType &&
+            updatedFrameTypes.some(
+                (frameType) =>
+                    frameType.code === this.originalFrameType?.code && frameType.disabledOption
+            )
+        ) {
+            this.clearSelectedFrameType();
+        }
+
         this.frameTypes = updatedFrameTypes;
         this.winches = updatedWinches;
     }
 
-    updateFrameTypesForControlBlock(): FrameType[] {
-        return this.frameTypes.map((frameType) => ({
-            ...frameType,
-            disabledOption: frameType.code === 'B011' || frameType.code === 'B11'
-        }));
-    }
+    updateFrameTypesForControlBlock(controlBlockId?: number): FrameType[] {
+        return this.frameTypes.map((frameType) => {
+            const disabledOption =
+                frameType.code === 'B13'
+                    ? controlBlockId === undefined || controlBlockId < 5 || controlBlockId > 12
+                    : (frameType.code === 'B011' || frameType.code === 'B11') &&
+                      controlBlockId !== undefined &&
+                      controlBlockId < 8;
 
-    updateFrameTypesToEnabled(): FrameType[] {
-        return this.frameTypes.map((frameType) => ({
-            ...frameType,
-            disabledOption: false
-        }));
+            return { ...frameType, disabledOption };
+        });
     }
 
     updateWinchesForControlBlock(): ConfigurationItem[] {
@@ -734,11 +742,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             this.originalFrameType = event.value;
             this.palmsService.selectedFrameType.set(event.value);
 
-            if (event.value.code === 'B011' || event.value.code === 'B11') {
-                updatedControlBlocks = this.updateControlBlocksForFrameType();
-            } else {
-                updatedControlBlocks = this.updateControlBlocksToEnabled();
-            }
+            updatedControlBlocks = this.updateControlBlocksToEnabled();
 
             if (event.value.code === 'B3' || event.value.code === 'B6.1') {
                 updatedHoseGuardIds = [1];
@@ -759,23 +763,25 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                 this.setLinkageDefault();
             }
         } else {
-            this.originalFrameType = undefined;
-            this.palmsService.selectedFrameType.set(undefined);
+            this.clearSelectedFrameType();
             updatedControlBlocks = this.updateControlBlocksToEnabled();
             updatedHoseGuards = this.updateHoseGuardsToDisabled();
-            this.setHoseGuardToDefault();
-            this.setLinkageDefault();
         }
 
         this.controlBlocks = updatedControlBlocks;
         this.hoseGuards = updatedHoseGuards;
     }
 
-    updateControlBlocksForFrameType(): ConfigurationItem[] {
-        return this.controlBlocks.map((controlBlock) => ({
-            ...controlBlock,
-            disabledOption: controlBlock.id < 8
-        }));
+    private clearSelectedFrameType(): void {
+        this.palmsService._cranePrice.update(
+            (price) => price - Number(this.originalFrameTypePrice)
+        );
+        this.originalFrameTypePrice = 0;
+        this.originalFrameType = undefined;
+        this.palmsService.selectedFrameType.set(undefined);
+        this.craneFormGroup.get('selectedFrameType')?.setValue(undefined, { emitEvent: false });
+        this.setHoseGuardToDefault();
+        this.setLinkageDefault();
     }
 
     updateControlBlocksToEnabled(): ConfigurationItem[] {
