@@ -216,6 +216,17 @@ export class PalmsCraneConfigService {
     );
   }
 
+  getElectricOilCoolerKit(): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/electricoilcoolerkit`).pipe(
+      map((electricOilCoolerKit: ConfigurationItem | null) => {
+        if (electricOilCoolerKit) {
+          electricOilCoolerKit.namePrice = electricOilCoolerKit.name + " " + electricOilCoolerKit.price + "€";
+        }
+        return electricOilCoolerKit;
+      })
+    );
+  }
+
   getRotatorBrakes(id: number): Observable<ConfigurationItem[]>{
     return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/rotatorbrakes`).pipe(
       map((rotatorBrakes: ConfigurationItem[]) => {

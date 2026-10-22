@@ -355,6 +355,18 @@
                     </div>
                 </div>
 
+                <div *ngIf="craneSelected && electricOilCoolerKit" class="justify-content-center my-4 py-4">
+                    <div class="flex gap-2">
+                        <p-checkbox
+                            (onChange)="onElectricOilCoolerKitChange($event)"
+                            [value]="electricOilCoolerKit"
+                            formControlName="selectedElectricOilCoolerKit"
+                            inputId="ElectricOilCoolerKitSelected"
+                        ></p-checkbox>
+                        <label class="hover:cursor-pointer" for="ElectricOilCoolerKitSelected">{{ electricOilCoolerKit.namePrice }}</label>
+                    </div>
+                </div>
+
                 <div *ngIf="craneSelected && rotatorBrakes.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">
                         <span>Rotátor fék</span>

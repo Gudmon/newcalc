@@ -436,6 +436,7 @@ export class PdfComponent implements OnInit {
             this.addSingleOption(object, OptionGroup.OperatorSeat, this.palmsService.selectedOperatorSeat());
             this.addSingleOption(object, OptionGroup.HighPerformanceOilFilter, this.palmsService.selectedHighPerformanceOilFilter());
             this.addSingleOption(object, OptionGroup.CraneOilCooler, this.palmsService.selectedCraneOilCooler());
+            this.addSingleOption(object, OptionGroup.CraneElectricOilCoolerKit, this.palmsService.selectedCraneElectricOilCoolerKit());
             this.addSingleOption(object, OptionGroup.Rotator, this.palmsService.selectedRotator());
             this.addSingleOption(object, OptionGroup.RotatorBrake, this.palmsService.selectedRotatorBrake());
             this.addSingleOption(object, OptionGroup.JoystickHolder, this.palmsService.selectedJoystickHolder());
@@ -626,6 +627,7 @@ interface PdfCraneModel {
     HighPerformanceOilFilter?: ConfigurationItem | undefined;
     OperatorSeat?: ConfigurationItem | undefined;
     CraneOilCooler?: ConfigurationItem | undefined;
+    CraneElectricOilCoolerKit?: ConfigurationItem | undefined;
     RotatorBrake?: ConfigurationItem | undefined;
     JoystickHolder?: ConfigurationItem | undefined;
     HoseGuard?: ConfigurationItem | undefined;
@@ -723,5 +725,6 @@ export enum OptionGroup {
     WoodControl,
     Linkage,
     SupportBracket,
-    CraneShipping
+    CraneShipping,
+    CraneElectricOilCoolerKit
 }

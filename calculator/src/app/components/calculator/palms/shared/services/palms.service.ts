@@ -65,6 +65,7 @@ export class PalmsService {
     public selectedOperatorSeat = signal<ConfigurationItem | undefined>(undefined);
     public selectedHighPerformanceOilFilter = signal<ConfigurationItem | undefined>(undefined);
     public selectedCraneOilCooler = signal<ConfigurationItem | undefined>(undefined);
+    public selectedCraneElectricOilCoolerKit = signal<ConfigurationItem | undefined>(undefined);
     public selectedRotatorBrake = signal<ConfigurationItem | undefined>(undefined);
     public selectedJoystickHolder = signal<ConfigurationItem | undefined>(undefined);
     public selectedHoseGuard = signal<ConfigurationItem | undefined>(undefined);
@@ -216,6 +217,7 @@ export class PalmsService {
         this.selectedOperatorSeat.set(undefined);
         this.selectedHighPerformanceOilFilter.set(undefined);
         this.selectedCraneOilCooler.set(undefined);
+        this.selectedCraneElectricOilCoolerKit.set(undefined);
         this.selectedRotatorBrake.set(undefined);
         this.selectedJoystickHolder.set(undefined);
         this.selectedHoseGuard.set(undefined);

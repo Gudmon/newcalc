@@ -153,6 +153,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     operatorSeat: ConfigurationItem | undefined | null = undefined;
     highPerformanceOilFilters: ConfigurationItem[] = [];
     oilCooler: ConfigurationItem | undefined = undefined;
+    electricOilCoolerKit: ConfigurationItem | undefined = undefined;
     rotatorBrakes: ConfigurationItem[] = [];
     joystickHolder: ConfigurationItem | undefined = undefined;
     hoseGuards: ConfigurationItem[] = [];
@@ -181,6 +182,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalHighPerformanceOilFilterPrice = 0;
     originalUnderrunProtectionPrice = 0;
     originalOilCoolerPrice = 0;
+    originalElectricOilCoolerKitPrice = 0;
     originalRotatorBrakePrice = 0;
     originalJoystickHolderPrice = 0;
     originalHoseGuardPrice = 0;
@@ -207,6 +209,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalOperatorSeat: ConfigurationItem | undefined = undefined;
     originalHighPerformanceOilFilter: ConfigurationItem | undefined = undefined;
     originalOilCooler: ConfigurationItem | undefined = undefined;
+    originalElectricOilCoolerKit: ConfigurationItem | undefined = undefined;
     originalRotatorBrake: ConfigurationItem | undefined = undefined;
     originalJoystickHolder: ConfigurationItem | undefined = undefined;
     originalHoseGuard: ConfigurationItem | undefined = undefined;
@@ -239,6 +242,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         selectedOperatorSeat: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedHighPerformanceOilFilter: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedOilCooler: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedElectricOilCoolerKit: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedRotatorBrake: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedJoystickHolder: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedHoseGuard: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
@@ -269,6 +273,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             selectedOperatorSeat: [{ value: null, disabled: true }],
             selectedHighPerformanceOilFilter: null,
             selectedOilCooler: [],
+            selectedElectricOilCoolerKit: [],
             selectedRotatorBrake: [],
             selectedJoystickHolder: [{ value: null, disabled: true }],
             selectedHoseGuard: [],
@@ -374,6 +379,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         const operatorSeat$ = this.palmsCraneConfigService.getOperatorSeat(id);
         const highPerformanceOilFilters$ = this.palmsCraneConfigService.getHighPerformanceOilFilters(id);
         const oilCooler$ = this.palmsCraneConfigService.getOilCooler(id);
+        const electricOilCoolerKit$ = this.palmsCraneConfigService.getElectricOilCoolerKit();
         const rotatorBrakes$ = this.palmsCraneConfigService.getRotatorBrakes(id);
         const joystickHolder$ = this.palmsCraneConfigService.getJoystickHolder(id);
         const hoseguards$ = this.palmsCraneConfigService.getHoseGuards(id);
@@ -400,6 +406,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             operatorSeat$,
             highPerformanceOilFilters$,
             oilCooler$,
+            electricOilCoolerKit$,
             rotatorBrakes$,
             joystickHolder$,
             hoseguards$,
@@ -429,6 +436,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                     operatorSeat,
                     highPerformanceOilFilters,
                     oilCooler,
+                    electricOilCoolerKit,
                     rotatorBrakes,
                     joystickHolder,
                     hoseGuards,
@@ -496,6 +504,8 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                     if (oilCooler) {
                         this.oilCooler = oilCooler;
                     }
+
+                    this.electricOilCoolerKit = electricOilCoolerKit ?? undefined;
 
                     if (rotatorBrakes) {
                         this.rotatorBrakes = rotatorBrakes;
@@ -1155,6 +1165,21 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         }
     }
 
+    onElectricOilCoolerKitChange(event: CheckboxChangeEvent) {
+        if (event.checked.length > 0) {
+            const kit = event.checked[0];
+            this.palmsService._cranePrice.update((price) => price + Number(kit.price));
+            this.originalElectricOilCoolerKitPrice = Number(kit.price);
+            this.originalElectricOilCoolerKit = kit;
+            this.palmsService.selectedCraneElectricOilCoolerKit.set(kit);
+        } else {
+            this.palmsService._cranePrice.update((price) => price - this.originalElectricOilCoolerKitPrice);
+            this.originalElectricOilCoolerKitPrice = 0;
+            this.originalElectricOilCoolerKit = undefined;
+            this.palmsService.selectedCraneElectricOilCoolerKit.set(undefined);
+        }
+    }
+
     handleRotatorBrakeChange(event: ListboxChangeEvent) {
         const previousValue = this.originalRotatorBrakePrice;
         this.originalRotatorBrakePrice = event.value ? event.value.price : 0;
@@ -1396,6 +1421,8 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.originalHighPerformanceOilFilterPrice = 0;
         this.originalOilCooler = undefined;
         this.originalOilCoolerPrice = 0;
+        this.originalElectricOilCoolerKit = undefined;
+        this.originalElectricOilCoolerKitPrice = 0;
         this.originalRotatorBrake = undefined;
         this.originalRotatorBrakePrice = 0;
         this.originalJoystickHolder = undefined;
