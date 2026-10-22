@@ -47,6 +47,7 @@ import { PalmsCraneCalculatorHintsComponent } from '../palms-crane-calculator-hi
 import { InputSwitchModule } from 'primeng/inputswitch';
 import { HighPerformanceOilFilterDialogComponent } from '../dialogs/high-performance-oil-filter-dialog/high-performance-oil-filter-dialog.component';
 import { PalmsCraneOverview } from '../../models/palms-crane-overview';
+import { ElectricOilCoolerKitDialogComponent } from '../dialogs/electric-oil-cooler-kit-dialog/electric-oil-cooler-kit-dialog.component';
 
 @Component({
     selector: 'app-palms-crane',
@@ -91,7 +92,8 @@ import { PalmsCraneOverview } from '../../models/palms-crane-overview';
         PalmsTrailerComponent,
         PalmsTrailerCardsComponent,
         PalmsCraneCalculatorHintsComponent,
-        HighPerformanceOilFilterDialogComponent
+        HighPerformanceOilFilterDialogComponent,
+        ElectricOilCoolerKitDialogComponent
     ]
 })
 export class PalmsCraneComponent implements OnInit, OnDestroy {
@@ -127,6 +129,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     showOperatorSeatDialog: boolean = false;
     showHighPerformanceDialog: boolean = false;
     showOilCoolerDialog: boolean = false;
+    showElectricOilCoolerKitDialog = false;
     showRotatorBrakesDialog: boolean = false;
     showJoystickHolderDialog: boolean = false;
     showHoseGuardsDialog: boolean = false;
@@ -1496,6 +1499,9 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                 break;
             case 'oilCooler':
                 this.showOilCoolerDialog = show;
+                break;
+            case 'electricOilCoolerKit':
+                this.showElectricOilCoolerKitDialog = show;
                 break;
             case 'rotatorBrakes':
                 this.showRotatorBrakesDialog = show;
