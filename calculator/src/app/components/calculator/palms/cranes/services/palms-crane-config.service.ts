@@ -216,8 +216,8 @@ export class PalmsCraneConfigService {
     );
   }
 
-  getElectricOilCoolerKit(): Observable<ConfigurationItem | null> {
-    return this.httpClient.get<ConfigurationItem>(`${this.url}/electricoilcoolerkit`).pipe(
+  getElectricOilCoolerKit(id: number): Observable<ConfigurationItem | null> {
+    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/electricoilcoolerkit`).pipe(
       map((electricOilCoolerKit: ConfigurationItem | null) => {
         if (electricOilCoolerKit) {
           electricOilCoolerKit.namePrice = electricOilCoolerKit.name + " " + electricOilCoolerKit.price + "€";
@@ -308,7 +308,7 @@ export class PalmsCraneConfigService {
   }
 
   getCovers(id: number): Observable<ConfigurationItem[]> {
-    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/cover`).pipe(
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/covers`).pipe(
       map((covers: ConfigurationItem[]) => {
         for (const cover of covers) {
           cover.namePrice = cover.name + " " + cover.price + "€";

@@ -97,7 +97,8 @@ import { PalmsCraneOverview } from '../../models/palms-crane-overview';
 export class PalmsCraneComponent implements OnInit, OnDestroy {
     crane!: PalmsCrane;
     @Input() id?: number;
-    availableCoverCodes: string[] = ['A2', 'A7', 'A12', 'A14'];
+    coverTypeOneControlBlockCodes: string[] = ['A3.1', 'A4', 'A4.2', 'A7', 'A12', 'A14'];
+    coverTypeTwoControlBlockCodes: string[] = ['A19', 'A23', 'A235', 'A25.1', 'A26', 'A36', 'A36.1', 'A42'];
     craneSelected: boolean = false;
     frameTypeSelected: boolean = false;
     hintsChecked: boolean = true;
@@ -160,6 +161,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     supportLegCounterPlate: ConfigurationItem | undefined = undefined;
     boomGuard: ConfigurationItem | undefined = undefined;
     covers: ConfigurationItem[] = [];
+    availableCovers: ConfigurationItem[] = [];
     woodControl: ConfigurationItem | undefined = undefined;
     linkage: ConfigurationItem | undefined = undefined;
     supportBracket: ConfigurationItem | undefined = undefined;
@@ -247,7 +249,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         selectedTurningDeviceCounterPlate: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedSupportLegCounterPlate: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedBoomGuard: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
-        selectedCovers: new FormControl<ConfigurationItem[]>([]),
+        selectedCover: new FormControl<ConfigurationItem | null>(null),
         selectedWoodControl: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedLinkage: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedSupportBracket: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
@@ -278,7 +280,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             selectedTurningDeviceCounterPlate: null,
             selectedSupportLegCounterPlate: null,
             selectedBoomGuard: null,
-            selectedCovers: [{ value: [], disabled: true }],
+            selectedCover: [{ value: null, disabled: true }],
             selectedWoodControl: null,
             selectedLinkage: [{ value: null, disabled: true }],
             selectedSupportBracket: null,
@@ -377,7 +379,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         const operatorSeat$ = this.palmsCraneConfigService.getOperatorSeat(id);
         const highPerformanceOilFilters$ = this.palmsCraneConfigService.getHighPerformanceOilFilters(id);
         const oilCooler$ = this.palmsCraneConfigService.getOilCooler(id);
-        const electricOilCoolerKit$ = this.palmsCraneConfigService.getElectricOilCoolerKit();
+        const electricOilCoolerKit$ = this.palmsCraneConfigService.getElectricOilCoolerKit(id);
         const rotatorBrakes$ = this.palmsCraneConfigService.getRotatorBrakes(id);
         const joystickHolder$ = this.palmsCraneConfigService.getJoystickHolder(id);
         const hoseguards$ = this.palmsCraneConfigService.getHoseGuards(id);
@@ -553,6 +555,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                     }
 
                     this.initializeFormGroup();
+                    this.updateCoversForControlBlock(this.originalControlBlock);
                     this.craneSelected = true;
 
                     this.palmsService.selectedCrane$.subscribe((crane) => {
@@ -618,12 +621,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                 this.setJoystickHolderDefault();
             }
 
-            // cover
-            if (this.availableCoverCodes.includes(event.value.code)) {
-                this.craneFormGroup.get('selectedCovers')?.enable();
-            } else {
-                this.setCoverDefault();
-            }
+            this.updateCoversForControlBlock(event.value);
 
             // high performance oil filter
             if (event.value.id >= 4 && event.value.id < 15) {
@@ -675,8 +673,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             this.palmsService.selectedOperatorSeat.set(undefined);
             this.setJoystickHolderDefault();
             this.palmsService.selectedJoystickHolder.set(undefined);
-            this.setCoverDefault();
-            this.palmsService.selectedCovers.set([]);
+            this.updateCoversForControlBlock();
 
             this.controlBlockMoreThanA7 = false;
             this.controlBlockLessThanA7 = false;
@@ -1294,23 +1291,50 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         }
     }
 
-    onCoverChange(event: CheckboxChangeEvent) {
-        const covers: ConfigurationItem[] = Array.isArray(event.checked) ? event.checked : [];
-        const previousPrice = this.originalCovers.reduce((total, cover) => total + Number(cover.price), 0);
-        const selectedPrice = covers.reduce((total, cover) => total + Number(cover.price), 0);
+    onCoverChange(event: ListboxChangeEvent) {
+        const cover: ConfigurationItem | null = event.value ?? null;
+        const previousPrice = this.originalCovers.reduce((total, selectedCover) => total + Number(selectedCover.price), 0);
 
-        this.palmsService._cranePrice.update((price) => price - previousPrice + selectedPrice);
-        this.originalCovers = covers;
-        this.palmsService.selectedCovers.set(covers);
+        this.palmsService._cranePrice.update((price) => price - previousPrice + Number(cover?.price ?? 0));
+        this.originalCovers = cover ? [cover] : [];
+        this.palmsService.selectedCovers.set(this.originalCovers);
     }
 
-    setCoverDefault() {
+    private updateCoversForControlBlock(controlBlock?: ConfigurationItem) {
+        this.availableCovers = this.covers.map((cover) => ({
+            ...cover,
+            disabledOption: !!controlBlock && !this.isCoverCompatibleWithControlBlock(cover.id, controlBlock)
+        }));
+
+        const selectedCover = this.originalCovers[0];
+        if (controlBlock && selectedCover && !this.isCoverCompatibleWithControlBlock(selectedCover.id, controlBlock)) {
+            this.setCoverDefault();
+        }
+
+        if (this.availableCovers.length > 0) {
+            this.craneFormGroup.get('selectedCover')?.enable();
+        } else {
+            this.setCoverDefault();
+        }
+    }
+
+    private isCoverCompatibleWithControlBlock(coverId: number, controlBlock: ConfigurationItem): boolean {
+        if (coverId === 1) {
+            return this.coverTypeOneControlBlockCodes.includes(controlBlock.code);
+        }
+        if (coverId === 2) {
+            return this.coverTypeTwoControlBlockCodes.includes(controlBlock.code);
+        }
+        return false;
+    }
+
+    private setCoverDefault() {
         const selectedPrice = this.originalCovers.reduce((total, cover) => total + Number(cover.price), 0);
         this.palmsService._cranePrice.update((price) => price - selectedPrice);
         this.originalCovers = [];
         this.palmsService.selectedCovers.set([]);
-        this.craneFormGroup.get('selectedCovers')?.setValue([], { emitEvent: false });
-        this.craneFormGroup.get('selectedCovers')?.disable();
+        this.craneFormGroup.get('selectedCover')?.setValue(null, { emitEvent: false });
+        this.craneFormGroup.get('selectedCover')?.disable();
     }
 
     onWoodControlChange(event: CheckboxChangeEvent) {

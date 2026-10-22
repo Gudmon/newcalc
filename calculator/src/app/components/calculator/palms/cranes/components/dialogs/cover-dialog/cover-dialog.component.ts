@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { DialogModule } from 'primeng/dialog';
-import { ConfigurationItem } from '../../../../../../../models/configuration-item';
 
 @Component({
   selector: 'app-cover-dialog',
@@ -12,7 +11,7 @@ import { ConfigurationItem } from '../../../../../../../models/configuration-ite
 export class CoverDialogComponent {
   @Output() dialogVisible = new EventEmitter<void>()
   @Input({required: true}) coverDialogVisible: boolean = false;
-  @Input({required: true}) cover!: ConfigurationItem;
+  readonly imageIds = [1, 2];
 
   closeCoverDialog() {
     this.dialogVisible.emit();
