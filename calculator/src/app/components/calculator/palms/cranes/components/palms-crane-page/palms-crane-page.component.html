@@ -52,7 +52,9 @@
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedTurningDeviceCounterPlate()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedSupportLegCounterPlate()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedBoomGuard()"></app-accessory-item>
-                    <app-accessory-item [accessoryItem]="this.palmsService.selectedCover()"></app-accessory-item>
+                    @for (cover of this.palmsService.selectedCovers(); track cover.id) {
+                        <app-accessory-item [accessoryItem]="cover"></app-accessory-item>
+                    }
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedWoodControl()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedLinkage()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedSupportBracket()"></app-accessory-item>

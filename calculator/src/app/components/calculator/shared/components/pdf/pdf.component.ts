@@ -444,7 +444,7 @@ export class PdfComponent implements OnInit {
             this.addSingleOption(object, OptionGroup.TurningDeviceCounterPlate, this.palmsService.selectedTurningDeviceCounterPlate());
             this.addSingleOption(object, OptionGroup.SupportLegCounterPlate, this.palmsService.selectedSupportLegCounterPlate());
             this.addSingleOption(object, OptionGroup.BoomGuard, this.palmsService.selectedBoomGuard());
-            this.addSingleOption(object, OptionGroup.Cover, this.palmsService.selectedCover());
+            this.addMultipleOption(object, OptionGroup.Covers, this.palmsService.selectedCovers());
             this.addSingleOption(object, OptionGroup.WoodControl, this.palmsService.selectedWoodControl());
             this.addSingleOption(object, OptionGroup.Linkage, this.palmsService.selectedLinkage());
             this.addSingleOption(object, OptionGroup.SupportBracket, this.palmsService.selectedSupportBracket());
@@ -634,7 +634,7 @@ interface PdfCraneModel {
     TurningDeviceCounterPlate?: ConfigurationItem | undefined;
     SupportLegCounterPlate?: ConfigurationItem | undefined;
     BoomGuard?: ConfigurationItem | undefined;
-    Cover?: ConfigurationItem | undefined;
+    Covers?: ConfigurationItem[];
     WoodControl?: ConfigurationItem | undefined;
     Linkage?: ConfigurationItem | undefined;
     SupportBracket?: ConfigurationItem | undefined;
@@ -721,7 +721,7 @@ export enum OptionGroup {
     TurningDeviceCounterPlate,
     SupportLegCounterPlate,
     BoomGuard,
-    Cover,
+    Covers,
     WoodControl,
     Linkage,
     SupportBracket,

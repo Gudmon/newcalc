@@ -307,15 +307,13 @@ export class PalmsCraneConfigService {
     );
   }
 
-  getCover(id: number): Observable<ConfigurationItem | null> {
-    return this.httpClient.get<ConfigurationItem>(`${this.url}/PalmsCraneConfig/cranes/${id}/cover`).pipe(
-      map((cover: ConfigurationItem | null) => {
-        if (cover) {
+  getCovers(id: number): Observable<ConfigurationItem[]> {
+    return this.httpClient.get<ConfigurationItem[]>(`${this.url}/PalmsCraneConfig/cranes/${id}/cover`).pipe(
+      map((covers: ConfigurationItem[]) => {
+        for (const cover of covers) {
           cover.namePrice = cover.name + " " + cover.price + "€";
-          return cover;
-        } else {
-          return null;
         }
+        return covers;
       })
     );
   }

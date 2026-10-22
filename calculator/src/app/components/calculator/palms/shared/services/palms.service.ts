@@ -72,7 +72,7 @@ export class PalmsService {
     public selectedTurningDeviceCounterPlate = signal<ConfigurationItem | undefined>(undefined);
     public selectedSupportLegCounterPlate = signal<ConfigurationItem | undefined>(undefined);
     public selectedBoomGuard = signal<ConfigurationItem | undefined>(undefined);
-    public selectedCover = signal<ConfigurationItem | undefined>(undefined);
+    public selectedCovers = signal<ConfigurationItem[]>([]);
     public selectedWoodControl = signal<ConfigurationItem | undefined>(undefined);
     public selectedLinkage = signal<ConfigurationItem | undefined>(undefined);
     public selectedSupportBracket = signal<ConfigurationItem | undefined>(undefined);
@@ -224,7 +224,7 @@ export class PalmsService {
         this.selectedTurningDeviceCounterPlate.set(undefined);
         this.selectedSupportLegCounterPlate.set(undefined);
         this.selectedBoomGuard.set(undefined);
-        this.selectedCover.set(undefined);
+        this.selectedCovers.set([]);
         this.selectedWoodControl.set(undefined);
         this.selectedLinkage.set(undefined);
         this.selectedSupportBracket.set(undefined);

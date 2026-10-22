@@ -111,7 +111,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     @ViewChild('valveBlockCheckBox') valveBlockCheckBox!: Checkbox;
     @ViewChild('operatorSeatCheckBox') operatorSeatCheckBox!: Checkbox;
     @ViewChild('joystickHolderCheckBox') joystickHolderCheckBox!: Checkbox;
-    @ViewChild('coverCheckBox') coverCheckBox!: Checkbox;
     @ViewChild('linkageCheckBox') linkageCheckBox!: Checkbox;
 
     showControlBlocksDialog: boolean = false;
@@ -160,7 +159,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     turningDeviceCounterPlate: ConfigurationItem | undefined = undefined;
     supportLegCounterPlate: ConfigurationItem | undefined = undefined;
     boomGuard: ConfigurationItem | undefined = undefined;
-    cover: ConfigurationItem | undefined = undefined;
+    covers: ConfigurationItem[] = [];
     woodControl: ConfigurationItem | undefined = undefined;
     linkage: ConfigurationItem | undefined = undefined;
     supportBracket: ConfigurationItem | undefined = undefined;
@@ -189,7 +188,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalTurningDeviceCounterPlatePrice = 0;
     originalSupportLegCounterPlatePrice = 0;
     originalBoomguardPrice = 0;
-    originalCoverPrice = 0;
+    originalCovers: ConfigurationItem[] = [];
     originalWoodControlPrice = 0;
     originalLinkagePrice = 0;
     originalSupportBracketPrice = 0;
@@ -216,7 +215,6 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     originalTurningDeviceCounterPlate: ConfigurationItem | undefined = undefined;
     originalSupportLegCounterPlate: ConfigurationItem | undefined = undefined;
     originalBoomguard: ConfigurationItem | undefined = undefined;
-    originalCover: ConfigurationItem | undefined = undefined;
     originalWoodControl: ConfigurationItem | undefined = undefined;
     originalLinkage: ConfigurationItem | undefined = undefined;
     originalSupportBracket: ConfigurationItem | undefined = undefined;
@@ -249,7 +247,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         selectedTurningDeviceCounterPlate: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedSupportLegCounterPlate: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedBoomGuard: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
-        selectedCover: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
+        selectedCovers: new FormControl<ConfigurationItem[]>([]),
         selectedWoodControl: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedLinkage: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
         selectedSupportBracket: new FormControl<ConfigurationItem>({ id: 0, name: '', code: '', price: 0, namePrice: '' }),
@@ -280,7 +278,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             selectedTurningDeviceCounterPlate: null,
             selectedSupportLegCounterPlate: null,
             selectedBoomGuard: null,
-            selectedCover: [{ value: null, disabled: true }],
+            selectedCovers: [{ value: [], disabled: true }],
             selectedWoodControl: null,
             selectedLinkage: [{ value: null, disabled: true }],
             selectedSupportBracket: null,
@@ -386,7 +384,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         const turningDeviceCounterPlate$ = this.palmsCraneConfigService.getTurningDeviceCounterPlate(id);
         const supportLegCounterPlate$ = this.palmsCraneConfigService.getSupportLegCounterPlate(id);
         const boomGuard$ = this.palmsCraneConfigService.getBoomGuard(id);
-        const cover$ = this.palmsCraneConfigService.getCover(id);
+        const covers$ = this.palmsCraneConfigService.getCovers(id);
         const woodControl$ = this.palmsCraneConfigService.getWoodControl(id);
         const linkage$ = this.palmsCraneConfigService.getLinkage(id);
         const supportBracket$ = this.palmsCraneConfigService.getSupportBracket(id);
@@ -413,7 +411,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             turningDeviceCounterPlate$,
             supportLegCounterPlate$,
             boomGuard$,
-            cover$,
+            covers$,
             woodControl$,
             linkage$,
             supportBracket$,
@@ -443,7 +441,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                     turningDeviceCounterPlate,
                     supportLegCounterPlate,
                     boomGuard,
-                    cover,
+                    covers,
                     woodControl,
                     linkage,
                     supportBracket,
@@ -534,9 +532,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                         this.boomGuard = boomGuard;
                     }
 
-                    if (cover) {
-                        this.cover = cover;
-                    }
+                    this.covers = covers;
 
                     if (woodControl) {
                         this.woodControl = woodControl;
@@ -624,7 +620,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
 
             // cover
             if (this.availableCoverCodes.includes(event.value.code)) {
-                this.craneFormGroup.get('selectedCover')?.enable();
+                this.craneFormGroup.get('selectedCovers')?.enable();
             } else {
                 this.setCoverDefault();
             }
@@ -680,7 +676,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             this.setJoystickHolderDefault();
             this.palmsService.selectedJoystickHolder.set(undefined);
             this.setCoverDefault();
-            this.palmsService.selectedCover.set(undefined);
+            this.palmsService.selectedCovers.set([]);
 
             this.controlBlockMoreThanA7 = false;
             this.controlBlockLessThanA7 = false;
@@ -1299,30 +1295,22 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     }
 
     onCoverChange(event: CheckboxChangeEvent) {
-        if (event.checked.length > 0) {
-            const current = this.palmsService._cranePrice();
-            const newPrice = current + Number(event.checked[0].price);
-            this.palmsService._cranePrice.set(newPrice);
-            this.originalCoverPrice = Number(event.checked[0].price);
-            this.originalCover = event.checked[0];
-            this.palmsService.selectedCover.set(event.checked[0]);
-        } else {
-            const current = this.palmsService._cranePrice();
-            const newPrice = current - this.originalCoverPrice;
-            this.palmsService._cranePrice.set(newPrice);
-            this.originalCover = undefined;
-            this.palmsService.selectedCover.set(undefined);
-        }
+        const covers: ConfigurationItem[] = Array.isArray(event.checked) ? event.checked : [];
+        const previousPrice = this.originalCovers.reduce((total, cover) => total + Number(cover.price), 0);
+        const selectedPrice = covers.reduce((total, cover) => total + Number(cover.price), 0);
+
+        this.palmsService._cranePrice.update((price) => price - previousPrice + selectedPrice);
+        this.originalCovers = covers;
+        this.palmsService.selectedCovers.set(covers);
     }
 
     setCoverDefault() {
-        if (this.originalCover && this.originalCover.price) {
-            this.palmsService._cranePrice.update((value) => value - Number(this.originalCover?.price));
-            this.coverCheckBox.writeValue(undefined);
-            this.originalCover = undefined;
-            this.originalCoverPrice = 0;
-        }
-        this.craneFormGroup.get('selectedCover')?.disable();
+        const selectedPrice = this.originalCovers.reduce((total, cover) => total + Number(cover.price), 0);
+        this.palmsService._cranePrice.update((price) => price - selectedPrice);
+        this.originalCovers = [];
+        this.palmsService.selectedCovers.set([]);
+        this.craneFormGroup.get('selectedCovers')?.setValue([], { emitEvent: false });
+        this.craneFormGroup.get('selectedCovers')?.disable();
     }
 
     onWoodControlChange(event: CheckboxChangeEvent) {
@@ -1435,8 +1423,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         this.originalSupportLegCounterPlatePrice = 0;
         this.originalBoomguard = undefined;
         this.originalBoomguardPrice = 0;
-        this.originalCover = undefined;
-        this.originalCoverPrice = 0;
+        this.originalCovers = [];
         this.originalWoodControl = undefined;
         this.originalWoodControlPrice = 0;
         this.originalLinkage = undefined;
