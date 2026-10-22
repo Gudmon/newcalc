@@ -714,6 +714,7 @@ export enum OptionGroup {
     OperatorSeat,
     HighPerformanceOilFilter,
     CraneOilCooler,
+    CraneElectricOilCoolerKit,
     Rotator,
     RotatorBrake,
     JoystickHolder,
@@ -726,5 +727,4 @@ export enum OptionGroup {
     Linkage,
     SupportBracket,
     CraneShipping,
-    CraneElectricOilCoolerKit
 }
