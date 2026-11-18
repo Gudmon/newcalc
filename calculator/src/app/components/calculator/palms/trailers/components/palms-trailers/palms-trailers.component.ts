@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { PalmsService } from '../../../shared/services/palms.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
@@ -7,6 +7,7 @@ import { LoadingService } from '../../../../../../services/loading.service';
 import { PalmsTrailerCardsComponent } from '../palms-trailer-cards/palms-trailer-cards.component';
 import { MachineType } from '../../../shared/models/machine-type';
 import { ChassisType } from '../../../shared/models/chassis-type';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
     selector: 'app-palms-trailers',
@@ -15,12 +16,14 @@ import { ChassisType } from '../../../shared/models/chassis-type';
     styleUrl: './palms-trailers.component.css',
     imports: [CommonModule, PalmsTrailerCardsComponent]
 })
-export class PalmsTrailersComponent implements OnInit {
+export class PalmsTrailersComponent implements OnInit, OnDestroy {
     protected readonly ChassisType = ChassisType;
     protected readonly MachineType = MachineType;
     private originalTrailers: PalmsTrailerOverview[] = [];
 
     trailers: PalmsTrailerOverview[] = [];
+    loadError: string | null = null;
+    private readonly destroy$ = new Subject<void>();
 
     constructor(
         private readonly loadingService: LoadingService,
@@ -29,6 +32,19 @@ export class PalmsTrailersComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
+        this.loadTrailers();
+        this.palmsService.selectedChassisType$.pipe(takeUntil(this.destroy$)).subscribe((chassisType) => {
+            this.filterTrailers(chassisType);
+        });
+    }
+
+    ngOnDestroy(): void {
+        this.destroy$.next();
+        this.destroy$.complete();
+    }
+
+    loadTrailers() {
+        this.loadError = null;
         this.loadingService.enableLoader();
         this.palmsService
             .getTrailers()
@@ -42,17 +58,17 @@ export class PalmsTrailersComponent implements OnInit {
                     this.palmsService._selectedCrane.next(undefined);
 
                     const trailerOverView = resp as PalmsTrailerOverview[];
-                    this.trailers = trailerOverView;
                     this.originalTrailers = trailerOverView;
+                    this.filterTrailers(this.palmsService._selectedChassisType.value);
+                },
+                error: (error: unknown) => {
+                    console.error('Failed to load PALMS trailers.', error);
+                    this.loadError = 'A pótkocsik betöltése nem sikerült. Próbálja újra.';
                 }
             })
             .add(() => {
                 this.loadingService.disableLoader();
             });
-
-        this.palmsService.selectedChassisType$.pipe().subscribe((chassisType) => {
-            this.filterTrailers(chassisType!);
-        });
     }
 
     navigateToTrailer(trailer: PalmsTrailerOverview) {
@@ -65,7 +81,7 @@ export class PalmsTrailersComponent implements OnInit {
             : this.palmsService._selectedChassisType.next(chassisType);
     }
 
-    private filterTrailers(chassisType: ChassisType) {
+    private filterTrailers(chassisType: ChassisType | null) {
         switch (chassisType) {
             case ChassisType.Single:
                 this.trailers = this.originalTrailers.filter((trailer) => trailer.beamType === 'Egyalvázas');

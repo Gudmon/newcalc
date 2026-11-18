@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router, RouterOutlet } from '@angular/router';
+import { RouterOutlet } from '@angular/router';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api/menuitem';
 import { LoadingService } from './services/loading.service';
@@ -26,8 +26,7 @@ export class AppComponent implements OnInit {
     private readonly pageName = 'www.palmsmagyarorszag.hu';
 
     constructor(
-        private readonly loadingService: LoadingService,
-        private readonly router: Router
+        private readonly loadingService: LoadingService
     ) {}
 
     initialize() {
@@ -133,13 +132,6 @@ export class AppComponent implements OnInit {
                 ]
             }
         ];
-
-        this.router.events.subscribe((event) => {
-            if (!(event instanceof NavigationEnd)) {
-                return;
-            }
-            window.scrollTo(0, 0);
-        });
     }
 }
 

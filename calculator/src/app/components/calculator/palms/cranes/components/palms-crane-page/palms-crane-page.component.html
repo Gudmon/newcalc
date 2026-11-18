@@ -4,10 +4,13 @@
 <section class="palms-config-page-summary">
     <div class="palms-config-summary">
         <p-accordion
-            *ngIf="(palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)"
+            *ngIf="
+                ((palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)) ||
+                ((palmsService.selectedTrailer$ | async) && (palmsService.trailerSelected$ | async))
+            "
             [activeIndex]="this.palmsService._selectedAccordion()"
         >
-            <p-accordionTab>
+            <p-accordionTab *ngIf="(palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)">
                 <ng-template pTemplate="header" class="flex justify-around">
                     <div class="flex gap-2 w-full">
                         <p class="mr-auto text-sm lg:text-base">

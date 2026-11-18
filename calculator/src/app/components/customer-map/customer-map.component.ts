@@ -12,7 +12,6 @@ import { NavigationComponent } from '../navigation/navigation.component';
 export class CustomerMapComponent implements OnInit {
     zoom = 7;
     center!: google.maps.LatLngLiteral | google.maps.LatLng;
-    height: number = 0;
     markerPositions: { position: google.maps.LatLngLiteral; title: string; address: string; icon: any }[] = [];
     options: google.maps.MapOptions = {
         mapTypeId: 'hybrid',
@@ -52,8 +51,6 @@ export class CustomerMapComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.height = window.innerHeight - window.innerHeight * 0.11;
-
         this.center = {
             lat: 47.1801191,
             lng: 19.5014212

@@ -4,6 +4,10 @@
     (trailerSelected)="navigateToTrailer($event)"
 ></app-palms-crane-information>
 
+<div *ngIf="machineLoadError" class="palms-config-load-error" role="alert">
+    <span>{{ machineLoadError }}</span>
+</div>
+
 <div *ngIf="!fromTrailer && id" class="palms-calculation-start">
     <button
         type="button"
@@ -31,14 +35,19 @@
     <app-palms-crane-calculator-hints *ngIf="hintsChecked"></app-palms-crane-calculator-hints>
 </div>
 
+<div *ngIf="configurationLoadError" class="palms-config-load-error" role="alert">
+    <span>{{ configurationLoadError }}</span>
+    <button type="button" (click)="retryConfigurationLoad()">Újrapróbálom</button>
+</div>
+
 <form class="palms-configurator palms-configurator-crane" [formGroup]="craneFormGroup">
     <ng-container *ngIf="palmsService.craneSelected$ | async" class="bg-slate-200">
-        <header class="palms-config-section-heading">
+        <header #configElement class="palms-config-section-heading">
             <p class="palms-config-eyebrow">Személyre szabás</p>
             <h2>Válassza ki a felszereltséget</h2>
             <p>Az ár és a választott opciók a konfiguráció során folyamatosan frissülnek.</p>
         </header>
-        <section #configElement class="palms-config-area">
+        <section class="palms-config-area">
             <div class="palms-config-options-grid">
                 <div *ngIf="craneSelected && controlBlocks.length > 0" class="justify-content-center my-4 py-4">
                     <div class="flex gap-2">

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, DestroyRef, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationComponent } from '../../../../../navigation/navigation.component';
 import { FooterComponent } from '../../../../../footer/footer.component';
 import { CommonModule } from '@angular/common';
@@ -30,6 +31,7 @@ import { PalmsTrailerOverviewHintsComponent } from '../../../trailers/components
 export class PalmsOverviewComponent implements OnInit {
     protected readonly MachineType = MachineType;
     hintsChecked = true;
+    private readonly destroyRef = inject(DestroyRef);
 
     constructor(
         readonly palmsService: PalmsService,
@@ -38,12 +40,12 @@ export class PalmsOverviewComponent implements OnInit {
     ) {}
 
     ngOnInit(): void {
-        const machine = this.route.snapshot.queryParamMap.get('machine');
-        if (machine === 'trailer') {
-            this.palmsService._selectedMachineType.next(MachineType.Trailer);
-        } else if (machine === 'crane') {
-            this.palmsService._selectedMachineType.next(MachineType.Crane);
-        }
+        this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
+            const machineType = params.get('machine') === 'crane' ? MachineType.Crane : MachineType.Trailer;
+            if (this.palmsService._selectedMachineType.value !== machineType) {
+                this.palmsService._selectedMachineType.next(machineType);
+            }
+        });
     }
 
     setSelectedMachineType(machineType: MachineType) {

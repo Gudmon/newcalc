@@ -1,14 +1,18 @@
-<app-navigation></app-navigation>
-<google-map
-    class="block mt-24 p-0 h-[calc(10% - 1000px)]"
-    mapId="ad244940e0ece10e"
-    [height]="height"
-    width="100%"
-    [center]="center"
-    [zoom]="zoom"
->
-    @for (markerPosition of markerPositions; track markerPosition.position; let idx = $index) {
-        <map-marker #marker="mapMarker" [position]="markerPosition.position" (mapClick)="openInfoWindow(marker, idx)" />
-        <map-info-window>{{ markerPosition.address }}: {{ markerPosition.title }}</map-info-window>
-    }
-</google-map>
+<div class="customer-map-page">
+    <app-navigation></app-navigation>
+    <div class="customer-map-container">
+        <google-map
+            class="customer-map"
+            mapId="ad244940e0ece10e"
+            [height]="'100%'"
+            width="100%"
+            [center]="center"
+            [zoom]="zoom"
+        >
+            @for (markerPosition of markerPositions; track markerPosition.position; let idx = $index) {
+                <map-marker #marker="mapMarker" [position]="markerPosition.position" (mapClick)="openInfoWindow(marker, idx)" />
+                <map-info-window>{{ markerPosition.address }}: {{ markerPosition.title }}</map-info-window>
+            }
+        </google-map>
+    </div>
+</div>

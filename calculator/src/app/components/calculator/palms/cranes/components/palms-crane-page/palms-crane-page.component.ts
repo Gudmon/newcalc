@@ -33,14 +33,8 @@ export class PalmsCranePageComponent {
     this.palmsService._deleteCrane.next(true);
     this.palmsService.deleteCrane();
 
-    this.palmsService._deleteTrailer.next(true);
-    this.palmsService.deleteTrailer();
-
     this.palmsService._craneSelected.next(false);
-    this.palmsService._trailerSelected.next(false);
-
     this.palmsService._cranePrice.set(0);
-    this.palmsService._trailerPrice.set(0);
 
     this.palmsService._selectedAccordion.set(0);
   }
@@ -48,9 +42,19 @@ export class PalmsCranePageComponent {
   deleteTrailer() { 
     this.palmsService._deleteTrailer.next(true);
     this.palmsService.deleteTrailer();
+    this.palmsService._selectedTrailer.next(undefined);
     this.palmsService._trailerSelected.next(false);
     this.palmsService._trailerPrice.set(0);
 
     this.palmsService._selectedAccordion.set(0);
+    this.scrollToRecommendedPairing();
+  }
+
+  private scrollToRecommendedPairing() {
+    if (!window.matchMedia('(max-width: 700px)').matches) {
+      return;
+    }
+
+    document.querySelector<HTMLElement>('.palms-compatible-machines-heading')?.scrollIntoView({ behavior: 'auto', block: 'start' });
   }
 }

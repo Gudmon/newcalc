@@ -18,6 +18,7 @@ import { PalmsCraneCardsComponent } from '../palms-crane-cards/palms-crane-cards
 export class PalmsCranesComponent {
   originalCranes: PalmsCraneOverview[] = []
   cranes: PalmsCraneOverview[] = [];
+  loadError: string | null = null;
   rangeValues: number[] = [4.2, 10.1];
   min: number = 4.2
   max: number = 10.1
@@ -32,20 +33,34 @@ export class PalmsCranesComponent {
   }
   
   ngOnInit(): void {
+    this.loadCranes();
+  }
+
+  loadCranes() {
+    this.loadError = null;
     this.loadingService.enableLoader();
-    this.palmsService.getCranes().subscribe((resp) => {
-      this.palmsService._deleteCrane.next(true);
-      this.palmsService._deleteTrailer.next(true);
-      this.palmsService._craneSelected.next(false);
-      this.palmsService._trailerSelected.next(false);
-      this.palmsService._selectedCrane.next(undefined);
-      this.palmsService._selectedTrailer.next(undefined);
-      
-      this.cranes = resp as PalmsCraneOverview[];
-      this.originalCranes = resp as PalmsCraneOverview[]  
-    }).add(() => {
-      this.loadingService.disableLoader();
-    })
+    this.palmsService
+      .getCranes()
+      .subscribe({
+        next: (resp) => {
+          this.palmsService._deleteCrane.next(true);
+          this.palmsService._deleteTrailer.next(true);
+          this.palmsService._craneSelected.next(false);
+          this.palmsService._trailerSelected.next(false);
+          this.palmsService._selectedCrane.next(undefined);
+          this.palmsService._selectedTrailer.next(undefined);
+
+          this.cranes = resp;
+          this.originalCranes = resp;
+        },
+        error: (error: unknown) => {
+          console.error('Failed to load PALMS cranes.', error);
+          this.loadError = 'A daruk betöltése nem sikerült. Próbálja újra.';
+        }
+      })
+      .add(() => {
+        this.loadingService.disableLoader();
+      });
   }
 
   filterCranes(event: SliderSlideEndEvent) {

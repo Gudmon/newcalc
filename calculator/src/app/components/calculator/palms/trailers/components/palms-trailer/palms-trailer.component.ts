@@ -1,5 +1,5 @@
 import { PalmsCraneOverview } from './../../../cranes/models/palms-crane-overview';
-import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PalmsService } from '../../../shared/services/palms.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationComponent } from '../../../../../navigation/navigation.component';
@@ -112,6 +112,8 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     @Input() id?: number;
     fromCrane: boolean = false;
     trailerSelected: boolean = false;
+    machineLoadError: string | null = null;
+    configurationLoadError: string | null = null;
     hintsChecked: boolean = false;
     woodSorterChecked: boolean = false;
     woodSorterNumberSelected: boolean = false;
@@ -128,6 +130,16 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     b4TrailerIdsForEPropulsions = [1, 2, 3, 4];
     b4OrBAEUTrailerIdsForEPropulsions = [5, 6, 7, 8, 9, 10, 11, 12];
 
+    private configElementRef?: ElementRef<HTMLElement>;
+    private scrollToOptionsPending = false;
+
+    @ViewChild('configElement')
+    set configElement(element: ElementRef<HTMLElement> | undefined) {
+        this.configElementRef = element;
+        if (element && this.scrollToOptionsPending) {
+            this.scrollToConfigOptions(element.nativeElement);
+        }
+    }
     @ViewChild('oilCoolerCheckBox') oilCoolerCheckBox!: Checkbox;
     @ViewChild('woodSorterCheckBox') woodSorterCheckBox!: Checkbox;
     @ViewChild('woodSorterDropdown') woodSorterDropdown!: Dropdown;
@@ -377,43 +389,54 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
             this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'))!;
         }
 
+        this.machineLoadError = null;
         this.loadingService.enableLoader();
         this.palmsService
             .getTrailer(this.id)
             .pipe()
-            .subscribe((response) => {
-                if (!this.fromCrane) {
-                    this.palmsService._deleteTrailer.next(true);
-                    this.palmsService._deleteCrane.next(true);
-                    this.palmsService._trailerSelected.next(false);
-                    this.palmsService._craneSelected.next(false);
-                    this.palmsService._selectedTrailer.next(undefined);
-                    this.palmsService._selectedCrane.next(undefined);
-                    const trailer: PalmsTrailerOverview = {
-                        id: response.id,
-                        name: response.name,
-                        frame: response.frame,
-                        beamType: response.beamType,
-                        drawbarControlCylinders: response.drawbarControlCylinders,
-                        loadingAreaCross: response.loadingAreaCross,
-                        maxCraneSize: response.maxCraneSize,
-                        grossWeight: response.grossWeight,
-                        imageUrl: response.imageUrls?.at(0) ?? '',
-                        image: response.images[0]
-                    };
-                    this.palmsService._selectedTrailer.next(trailer);
-                }
+            .subscribe(
+                (response) => {
+                    if (!this.fromCrane) {
+                        this.palmsService._deleteTrailer.next(true);
+                        this.palmsService._deleteCrane.next(true);
+                        this.palmsService._trailerSelected.next(false);
+                        this.palmsService._craneSelected.next(false);
+                        this.palmsService._selectedTrailer.next(undefined);
+                        this.palmsService._selectedCrane.next(undefined);
+                        const trailer: PalmsTrailerOverview = {
+                            id: response.id,
+                            name: response.name,
+                            frame: response.frame,
+                            beamType: response.beamType,
+                            drawbarControlCylinders: response.drawbarControlCylinders,
+                            loadingAreaCross: response.loadingAreaCross,
+                            maxCraneSize: response.maxCraneSize,
+                            grossWeight: response.grossWeight,
+                            imageUrl: response.imageUrls?.at(0) ?? '',
+                            image: response.images[0]
+                        };
+                        this.palmsService._selectedTrailer.next(trailer);
+                    }
 
-                this.trailer = response as PalmsTrailer;
-            })
+                    this.trailer = response as PalmsTrailer;
+                },
+                (error: unknown) => {
+                    console.error('Failed to load trailer details.', error);
+                    this.machineLoadError = 'A pótkocsi adatait nem sikerült betölteni. Próbálja újra.';
+                }
+            )
             .add(() => {
                 this.loadingService.disableLoader();
             });
 
         if (this.fromCrane) {
             this.palmsService.selectedTrailer$.pipe(takeUntil(this.destroy$)).subscribe((trailer) => {
-                this.id = trailer?.id;
-                this.loadTrailerConfigurations(this.id!);
+                if (!trailer) {
+                    return;
+                }
+
+                this.id = trailer.id;
+                this.loadTrailerConfigurations(trailer.id);
                 this.palmsService._selectedAccordion.set(1);
             });
         } else {
@@ -443,6 +466,9 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
 
     loadTrailerConfigurations(id: number) {
         if (id) {
+            this.configurationLoadError = null;
+            this.trailerSelected = false;
+            this.palmsService._trailerSelected.next(false);
             this.loadingService.enableLoader();
             const stanchions$ = this.palmsTrailerConfigService.getStanchions(id);
             const brakes$ = this.palmsTrailerConfigService.getBrakes(id);
@@ -685,13 +711,41 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
 
                         this.trailerSelected = true;
                         this.initializeFormGroup();
+                        this.palmsService._trailerSelected.next(true);
+                        if (this.fromCrane) {
+                            this.scrollToConfigOptions();
+                        }
+                    },
+                    (error: unknown) => {
+                        console.error('Failed to load trailer configuration options.', error);
+                        this.configurationLoadError = 'A pótkocsi opcióit nem sikerült betölteni. Próbálja újra.';
                     }
                 )
                 .add(() => {
                     this.loadingService.disableLoader();
-                    this.palmsService._trailerSelected.next(true);
                 });
         }
+    }
+
+    retryConfigurationLoad() {
+        if (this.id !== undefined) {
+            this.loadTrailerConfigurations(this.id);
+        }
+    }
+
+    private scrollToConfigOptions(target?: HTMLElement) {
+        if (!window.matchMedia('(max-width: 700px)').matches) {
+            return;
+        }
+
+        const element = target ?? this.configElementRef?.nativeElement;
+        if (!element) {
+            this.scrollToOptionsPending = true;
+            return;
+        }
+
+        this.scrollToOptionsPending = false;
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
 
     handleStanchionChange(event: ListboxChangeEvent) {

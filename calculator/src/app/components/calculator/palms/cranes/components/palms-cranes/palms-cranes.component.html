@@ -22,4 +22,11 @@
     </div>
 </section>
 
+@if (loadError) {
+    <div class="machine-load-error" role="alert">
+        <span>{{ loadError }}</span>
+        <button type="button" (click)="loadCranes()">Újrapróbálom</button>
+    </div>
+}
+
 <app-palms-crane-cards [cranes]="cranes" (buttonClickEmitter)="navigateToCrane($event)"></app-palms-crane-cards>

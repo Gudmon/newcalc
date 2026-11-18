@@ -36,6 +36,11 @@
     </nav>
 </section>
 
+<div *ngIf="loadError" class="machine-load-error" role="alert">
+    <span>{{ loadError }}</span>
+    <button type="button" (click)="loadTrailers()">Újrapróbálom</button>
+</div>
+
 <app-palms-trailer-cards
     *ngIf="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
     [trailers]="trailers"

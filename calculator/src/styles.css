@@ -361,6 +361,38 @@ p-card.palms-machine-card {
     text-align: center;
 }
 
+.machine-load-error,
+.palms-config-load-error {
+    display: flex;
+    width: min(1320px, calc(100% - 3rem));
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    margin: 1rem auto;
+    border: 1px solid #f0c8c4;
+    border-radius: 0.75rem;
+    background: #fff7f6;
+    padding: 0.85rem 1rem;
+    color: #842018;
+}
+
+.machine-load-error button,
+.palms-config-load-error button {
+    flex-shrink: 0;
+    border: 0;
+    border-radius: 0.5rem;
+    background: #a32116;
+    padding: 0.6rem 0.85rem;
+    color: #fff;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.machine-load-error button:hover,
+.palms-config-load-error button:hover {
+    background: #841b12;
+}
+
 .comparison-panel {
     width: min(100%, 26rem);
     left: auto;
@@ -404,9 +436,20 @@ p-card.palms-machine-card {
 
 @media (max-width: 900px) {
     .palms-config-summary {
-        position: static;
-        width: 100%;
-        margin: 1.5rem auto;
+        position: fixed;
+        z-index: 60;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        width: auto;
+        margin: 0;
+        box-sizing: border-box;
+        padding: 0 0.5rem env(safe-area-inset-bottom);
+    }
+
+    .palms-config-summary .p-accordion {
+        max-height: min(65vh, 32rem);
+        overflow: hidden;
     }
 }
 
@@ -450,6 +493,7 @@ p-card.palms-machine-card {
 }
 
 .palms-machine-details-grid {
+    scroll-margin-top: 6rem;
     display: grid;
     grid-template-columns: minmax(0, 0.82fr) minmax(0, 1.18fr);
     align-items: start;
@@ -797,6 +841,21 @@ p-card.palms-machine-card {
 .palms-config-section-heading,
 .palms-compatible-machines-heading {
     margin: 2rem 0 1rem;
+}
+
+.palms-config-section-heading {
+    scroll-margin-top: 6rem;
+}
+
+.palms-compatible-machines-heading {
+    scroll-margin-top: 6rem;
+}
+
+@media (max-width: 600px) {
+    .palms-config-section-heading,
+    .palms-compatible-machines-heading {
+        scroll-margin-top: 4.5rem;
+    }
 }
 
 .palms-config-eyebrow {
@@ -1173,6 +1232,10 @@ p-card.palms-machine-card {
     .palms-hints-toggle,
     .palms-config-hints {
         width: calc(100% - 1.5rem);
+    }
+
+    .palms-configurator {
+        padding-bottom: calc(6rem + env(safe-area-inset-bottom));
     }
 
     .palms-config-options-grid,

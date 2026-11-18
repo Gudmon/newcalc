@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Input, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { NavigationComponent } from '../../../../../navigation/navigation.component';
 import { FooterComponent } from '../../../../../footer/footer.component';
 import { PalmsCraneInformationComponent } from '../palms-crane-information/palms-crane-information.component';
@@ -102,9 +102,22 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     coverTypeOneControlBlockCodes: string[] = ['A3.1', 'A4', 'A4.2', 'A7', 'A12', 'A14'];
     coverTypeTwoControlBlockCodes: string[] = ['A19', 'A23', 'A235', 'A25.1', 'A26', 'A36', 'A36.1', 'A42'];
     craneSelected: boolean = false;
+    machineLoadError: string | null = null;
+    configurationLoadError: string | null = null;
     frameTypeSelected: boolean = false;
     hintsChecked: boolean = false;
     fromTrailer: boolean = false;
+
+    private configElementRef?: ElementRef<HTMLElement>;
+    private scrollToOptionsPending = false;
+
+    @ViewChild('configElement')
+    set configElement(element: ElementRef<HTMLElement> | undefined) {
+        this.configElementRef = element;
+        if (element && this.scrollToOptionsPending) {
+            this.scrollToConfigOptions(element.nativeElement);
+        }
+    }
 
     @ViewChild('grappleListBox') grappleListBox!: Dropdown;
     @ViewChild('winchListBox') winchListBox!: Dropdown;
@@ -306,44 +319,55 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
             this.id = Number(this.activatedRoute.snapshot.paramMap.get('id'))!;
         }
 
+        this.machineLoadError = null;
         this.loadingService.enableLoader();
         this.palmsService
             .getCrane(this.id)
             .pipe()
-            .subscribe((response) => {
-                if (!this.fromTrailer) {
-                    this.palmsService._deleteCrane.next(true);
-                    this.palmsService._deleteTrailer.next(true);
-                    this.palmsService._craneSelected.next(false);
-                    this.palmsService._trailerSelected.next(false);
-                    this.palmsService._selectedCrane.next(undefined);
-                    this.palmsService._selectedTrailer.next(undefined);
-                    const crane: PalmsCraneOverview = {
-                        id: response.id,
-                        name: response.name,
-                        brutLiftingTorque190Bar: response.brutLiftingTorque190Bar,
-                        imageUrl: response.imageUrls?.at(0) ?? '',
-                        maxReach: response.maxReach,
-                        slewingCylinder: response.slewingCylinder,
-                        brutLiftingTorque215Bar: response.brutLiftingTorque215Bar,
-                        slewingTorque: response.slewingTorque,
-                        telescopeLength: response.telescopeLength,
-                        price: response.price,
-                        image: response.images[0]
-                    };
-                    this.palmsService._selectedCrane.next(crane);
-                }
+            .subscribe(
+                (response) => {
+                    if (!this.fromTrailer) {
+                        this.palmsService._deleteCrane.next(true);
+                        this.palmsService._deleteTrailer.next(true);
+                        this.palmsService._craneSelected.next(false);
+                        this.palmsService._trailerSelected.next(false);
+                        this.palmsService._selectedCrane.next(undefined);
+                        this.palmsService._selectedTrailer.next(undefined);
+                        const crane: PalmsCraneOverview = {
+                            id: response.id,
+                            name: response.name,
+                            brutLiftingTorque190Bar: response.brutLiftingTorque190Bar,
+                            imageUrl: response.imageUrls?.at(0) ?? '',
+                            maxReach: response.maxReach,
+                            slewingCylinder: response.slewingCylinder,
+                            brutLiftingTorque215Bar: response.brutLiftingTorque215Bar,
+                            slewingTorque: response.slewingTorque,
+                            telescopeLength: response.telescopeLength,
+                            price: response.price,
+                            image: response.images[0]
+                        };
+                        this.palmsService._selectedCrane.next(crane);
+                    }
 
-                this.crane = response as PalmsCrane;
-            })
+                    this.crane = response as PalmsCrane;
+                },
+                (error: unknown) => {
+                    console.error('Failed to load crane details.', error);
+                    this.machineLoadError = 'A daru adatait nem sikerült betölteni. Próbálja újra.';
+                }
+            )
             .add(() => {
                 this.loadingService.disableLoader();
             });
 
         if (this.fromTrailer) {
             this.palmsService.selectedCrane$.pipe(takeUntil(this.destroy$)).subscribe((crane) => {
-                this.id = crane?.id;
-                this.loadCraneConfigurations(this.id!);
+                if (!crane) {
+                    return;
+                }
+
+                this.id = crane.id;
+                this.loadCraneConfigurations(this.id);
                 this.palmsService._selectedAccordion.set(1);
             });
         } else {
@@ -368,6 +392,9 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     }
 
     loadCraneConfigurations(id: number) {
+        this.configurationLoadError = null;
+        this.craneSelected = false;
+        this.palmsService._craneSelected.next(false);
         this.loadingService.enableLoader();
         const controlBlocks$ = this.palmsCraneConfigService.getControlBlocks(id);
         const frameTypes$ = this.palmsCraneConfigService.getFrameTypes(id);
@@ -560,17 +587,45 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
                     this.initializeFormGroup();
                     this.updateCoversForControlBlock(this.originalControlBlock);
                     this.craneSelected = true;
+                    this.palmsService._craneSelected.next(true);
+                    if (this.fromTrailer) {
+                        this.scrollToConfigOptions();
+                    }
 
                     this.palmsService.selectedCrane$.subscribe((crane) => {
                         if (!crane) return;
                         this.palmsService._cranePrice.update((cranePrice) => cranePrice + Number(crane?.price));
                     });
+                },
+                (error: unknown) => {
+                    console.error('Failed to load crane configuration options.', error);
+                    this.configurationLoadError = 'A daru opcióit nem sikerült betölteni. Próbálja újra.';
                 }
             )
             .add(() => {
                 this.loadingService.disableLoader();
-                this.palmsService._craneSelected.next(true);
             });
+    }
+
+    retryConfigurationLoad() {
+        if (this.id !== undefined) {
+            this.loadCraneConfigurations(this.id);
+        }
+    }
+
+    private scrollToConfigOptions(target?: HTMLElement) {
+        if (!window.matchMedia('(max-width: 700px)').matches) {
+            return;
+        }
+
+        const element = target ?? this.configElementRef?.nativeElement;
+        if (!element) {
+            this.scrollToOptionsPending = true;
+            return;
+        }
+
+        this.scrollToOptionsPending = false;
+        element.scrollIntoView({ behavior: 'auto', block: 'start' });
     }
 
     handleControlBlockChange(event: ListboxChangeEvent) {
