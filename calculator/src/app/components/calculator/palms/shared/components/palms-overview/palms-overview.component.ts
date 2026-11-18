@@ -42,16 +42,19 @@ export class PalmsOverviewComponent implements OnInit {
     ngOnInit(): void {
         this.route.queryParamMap.pipe(takeUntilDestroyed(this.destroyRef)).subscribe((params) => {
             const machineType = params.get('machine') === 'crane' ? MachineType.Crane : MachineType.Trailer;
-            if (this.palmsService._selectedMachineType.value !== machineType) {
-                this.palmsService._selectedMachineType.next(machineType);
-            }
+            // if (this.palmsService._selectedMachineType.value !== machineType) {
+            //     this.palmsService._selectedMachineType.next(machineType);
+            // }
+            this.palmsService._selectedMachineType.next(machineType);
         });
     }
 
     setSelectedMachineType(machineType: MachineType) {
         this.palmsService._selectedMachineType.next(machineType);
-        this.router.navigate(['/configurator/palms'], {
+        this.router.navigate([], {
+            relativeTo: this.route,
             queryParams: { machine: machineType === MachineType.Trailer ? 'trailer' : 'crane' },
+            queryParamsHandling: 'merge',
             replaceUrl: true
         });
     }
