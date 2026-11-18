@@ -309,6 +309,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
         readonly palmsCraneConfigService: PalmsCraneConfigService,
         readonly loadingService: LoadingService,
         private activatedRoute: ActivatedRoute,
+        private readonly router: Router,
         private fb: FormBuilder
     ) {}
 
@@ -387,8 +388,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     }
 
     navigateToTrailer(trailerId: number) {
-        const url = `/configurator/palms/trailers/${trailerId}`;
-        window.open(url, '_blank');
+        this.router.navigate(['/configurator/palms/trailers', trailerId]);
     }
 
     loadCraneConfigurations(id: number) {
