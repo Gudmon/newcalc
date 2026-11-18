@@ -1,24 +1,20 @@
 <app-navigation></app-navigation>
 <main class="calculator-main">
-    <nav class="machine-selector" aria-label="Géptípus" role="tablist">
-        <button
-            (click)="setSelectedMachineType(MachineType.Trailer)"
+    <nav class="machine-selector" aria-label="Géptípus">
+        <a
+            href="/configurator/palms?machine=trailer"
             [class.active]="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
-            [attr.aria-selected]="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
-            type="button"
-            role="tab"
+            [attr.aria-current]="(palmsService.selectedMachineType$ | async) === MachineType.Trailer ? 'page' : null"
         >
             Pótkocsik
-        </button>
-        <button
-            (click)="setSelectedMachineType(MachineType.Crane)"
+        </a>
+        <a
+            href="/configurator/palms?machine=crane"
             [class.active]="(palmsService.selectedMachineType$ | async) === MachineType.Crane"
-            [attr.aria-selected]="(palmsService.selectedMachineType$ | async) === MachineType.Crane"
-            type="button"
-            role="tab"
+            [attr.aria-current]="(palmsService.selectedMachineType$ | async) === MachineType.Crane ? 'page' : null"
         >
             Daruk
-        </button>
+        </a>
     </nav>
 
     <div

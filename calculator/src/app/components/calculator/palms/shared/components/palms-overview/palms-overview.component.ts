@@ -1,5 +1,5 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationComponent } from '../../../../../navigation/navigation.component';
 import { FooterComponent } from '../../../../../footer/footer.component';
@@ -35,8 +35,7 @@ export class PalmsOverviewComponent implements OnInit {
 
     constructor(
         readonly palmsService: PalmsService,
-        private readonly route: ActivatedRoute,
-        private readonly router: Router
+        private readonly route: ActivatedRoute
     ) {}
 
     ngOnInit(): void {
@@ -49,13 +48,4 @@ export class PalmsOverviewComponent implements OnInit {
         });
     }
 
-    setSelectedMachineType(machineType: MachineType) {
-        this.palmsService._selectedMachineType.next(machineType);
-        this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { machine: machineType === MachineType.Trailer ? 'trailer' : 'crane' },
-            queryParamsHandling: 'merge',
-            replaceUrl: true
-        });
-    }
 }
