@@ -50,10 +50,8 @@ export class PalmsOverviewComponent implements OnInit {
 
     setSelectedMachineType(machineType: MachineType) {
         this.palmsService._selectedMachineType.next(machineType);
-        this.router.navigate([], {
-            relativeTo: this.route,
+        this.router.navigate(['/configurator/palms'], {
             queryParams: { machine: machineType === MachineType.Trailer ? 'trailer' : 'crane' },
-            queryParamsHandling: 'merge',
             replaceUrl: true
         });
     }

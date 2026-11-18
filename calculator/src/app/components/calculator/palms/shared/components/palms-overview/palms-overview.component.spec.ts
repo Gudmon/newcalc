@@ -10,10 +10,12 @@ describe('PalmsOverviewComponent', () => {
     let fixture: ComponentFixture<PalmsOverviewComponent>;
     let queryParamMap: BehaviorSubject<ReturnType<typeof convertToParamMap>>;
     let selectedMachineType: BehaviorSubject<MachineType | null>;
+    let navigate: jasmine.Spy;
 
     beforeEach(async () => {
         queryParamMap = new BehaviorSubject(convertToParamMap({}));
         selectedMachineType = new BehaviorSubject<MachineType | null>(null);
+        navigate = jasmine.createSpy('navigate');
 
         await TestBed.configureTestingModule({
             imports: [PalmsOverviewComponent],
@@ -29,7 +31,7 @@ describe('PalmsOverviewComponent', () => {
                     provide: ActivatedRoute,
                     useValue: { queryParamMap: queryParamMap.asObservable() }
                 },
-                { provide: Router, useValue: { navigate: jasmine.createSpy('navigate') } }
+                { provide: Router, useValue: { navigate } }
             ]
         })
             .overrideComponent(PalmsOverviewComponent, { set: { template: '' } })
@@ -48,5 +50,14 @@ describe('PalmsOverviewComponent', () => {
         queryParamMap.next(convertToParamMap({ machine: 'crane' }));
 
         expect(selectedMachineType.value).toBe(MachineType.Crane);
+    });
+
+    it('navigates to the absolute overview route when changing machine type', () => {
+        component.setSelectedMachineType(MachineType.Crane);
+
+        expect(navigate).toHaveBeenCalledWith(['/configurator/palms'], {
+            queryParams: { machine: 'crane' },
+            replaceUrl: true
+        });
     });
 });
