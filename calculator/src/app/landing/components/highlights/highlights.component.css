@@ -1,40 +1,93 @@
-.scroller {
-    max-width: 1000px;
-    margin: auto;
+:host {
+    display: block;
 }
 
-.scroller__inner {
-    padding-block: 1rem;
-    display:flex;
-    flex-wrap: wrap;
+.why-us {
+    max-width: 1320px;
+    margin: 0 auto;
 }
 
-.scroller[data-animated="true"] {
-    overflow: hidden;
-    -webkit-mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
-    mask: linear-gradient(90deg, transparent, white 20%, white 80%, transparent);
-}
-
-.scroller[data-animated="true"] .scroller__inner {
+.why-us > h2 {
+    position: relative;
     width: fit-content;
-    flex-wrap: nowrap;
-    animation: scroll 40s linear infinite;
+    margin: 0 auto 2rem;
+    padding-bottom: 0.7rem;
+    color: #172016;
+    font-size: clamp(1.65rem, 3vw, 2.25rem);
+    font-weight: 900;
+    text-align: center;
 }
 
-.scroller[data-direction="right"] {
-    --_animation-direction: reverse;
+.why-us > h2::after {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 3rem;
+    height: 0.22rem;
+    border-radius: 1rem;
+    background: #cf2026;
+    content: '';
+    transform: translateX(-50%);
 }
 
-.scroller[data-speed="slow"] {
-    --_animation-duration: 40s;
+.why-grid {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
 }
 
-.scroller[data-speed="fast"] {
-    --_animation-duration: 20s;
+.why-card {
+    padding: 0.35rem clamp(0.65rem, 1.5vw, 1.4rem);
+    border-right: 1px solid #e2e8de;
+    text-align: center;
 }
 
-@keyframes scroll {
-    to {
-        transform: translate(-100%);
+.why-card:last-child {
+    border-right: 0;
+}
+
+.why-card > i {
+    display: block;
+    margin-bottom: 0.8rem;
+    color: #69a923;
+    font-size: 1.8rem;
+}
+
+.why-card h3 {
+    margin: 0 0 0.45rem;
+    color: #1c2719;
+    font-size: 0.92rem;
+    font-weight: 800;
+}
+
+.why-card p {
+    margin: 0;
+    color: #566052;
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 900px) {
+    .why-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        row-gap: 1.5rem;
+    }
+
+    .why-card:nth-child(3n) {
+        border-right: 0;
+    }
+}
+
+@media (max-width: 540px) {
+    .why-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 1.25rem;
+    }
+
+    .why-card:nth-child(3n) {
+        border-right: 1px solid #e2e8de;
+    }
+
+    .why-card:nth-child(2n) {
+        border-right: 0;
     }
 }

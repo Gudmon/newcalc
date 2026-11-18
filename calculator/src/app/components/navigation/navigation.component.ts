@@ -21,8 +21,8 @@ export class NavigationComponent implements OnInit {
                 routerLink: '/'
             },
             {
-                label: 'Kalkulátor',
-                routerLink: '/calculator/palms',
+                label: 'Konfigurátor',
+                routerLink: '/configurator/palms',
                 styleClass: 'cta-item'
             },
             {

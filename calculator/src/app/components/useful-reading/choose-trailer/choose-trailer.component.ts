@@ -15,6 +15,6 @@ export class ChooseTrailerComponent {
     constructor(private readonly router: Router) {}
 
     navigateToCalculation() {
-        this.router.navigate(['calculator/palms']);
+        this.router.navigate(['configurator/palms']);
     }
 }

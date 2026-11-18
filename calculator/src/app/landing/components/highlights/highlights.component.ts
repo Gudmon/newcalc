@@ -1,49 +1,49 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { MapInfoWindow } from '@angular/google-maps';
+import { Component } from '@angular/core';
+
+interface Reason {
+    title: string;
+    description: string;
+    icon: string;
+}
 
 @Component({
-  selector: 'app-highlights',
-  standalone: true,
-  imports: [],
-  templateUrl: './highlights.component.html',
-  styleUrl: './highlights.component.css'
+    selector: 'app-highlights',
+    standalone: true,
+    imports: [],
+    templateUrl: './highlights.component.html',
+    styleUrl: './highlights.component.css'
 })
-export class HighlightsComponent implements OnInit, AfterViewInit  {
-  scrollers!: NodeListOf<Element>;
-
-  constructor() {
-    // Don't query the DOM in the constructor, wait until ngOnInit or ngAfterViewInit
-  }
-
-  ngOnInit(): void {
-    // Initialize or fetch data here
-  }
-
-  ngAfterViewInit(): void {
-    this.scrollers = document.querySelectorAll('.scroller');
-    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      this.addAnimation();
-    }
-  }
-
-  addAnimation() {
-    // Convert NodeList to an array using Array.from
-    Array.from(this.scrollers).forEach((scroller: Element) => {
-      scroller.setAttribute('data-animated', 'true');
-
-      const scrollerInner = scroller.querySelector('.scroller__inner');
-      const scrollerContent: Node[] = Array.from(scrollerInner!.children);
-
-      scrollerContent.forEach((item: Node) => {
-        const duplicatedItem = item.cloneNode(true) as HTMLElement;
-        duplicatedItem.setAttribute('aria-hidden', 'true');
-        scrollerInner!.appendChild(duplicatedItem);
-      });
-    });
-
-    // OR using the spread operator
-    // [...this.scrollers].forEach((scroller: Element) => {
-    //   scroller.setAttribute('data-animated', 'true');
-    // });
-  }
+export class HighlightsComponent {
+    readonly reasons: Reason[] = [
+        {
+            title: 'Ügyfélgondozás',
+            description: 'Segítünk a megfelelő gép kiválasztásában, és megkereséseire rövid időn belül válaszolunk.',
+            icon: 'pi-users'
+        },
+        {
+            title: 'Katalógusok',
+            description: 'Részletes termékleírások és műszaki információk a döntéshez.',
+            icon: 'pi-book'
+        },
+        {
+            title: 'Alkatrésztámogatás',
+            description: 'Gyors és megbízható alkatrészellátás a gépekhez.',
+            icon: 'pi-box'
+        },
+        {
+            title: 'Raktáron lévő gépek',
+            description: 'Előzetes egyeztetés után személyesen is megtekinthetők.',
+            icon: 'pi-home'
+        },
+        {
+            title: 'Konzultáció',
+            description: 'Személyre szabott tanácsadással segítjük a választást.',
+            icon: 'pi-comments'
+        },
+        {
+            title: 'Rendezvények',
+            description: 'Találkozzon velünk szakmai kiállításokon és eseményeken.',
+            icon: 'pi-calendar'
+        }
+    ];
 }

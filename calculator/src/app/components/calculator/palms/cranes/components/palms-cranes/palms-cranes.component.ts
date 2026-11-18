@@ -28,7 +28,7 @@ export class PalmsCranesComponent {
     readonly router: Router){}
 
   navigateToCrane(crane: PalmsCraneOverview) {
-    this.router.navigate(['/calculator/palms/cranes', crane.id]);
+    this.router.navigate(['/configurator/palms/cranes', crane.id]);
   }
   
   ngOnInit(): void {

@@ -103,7 +103,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     coverTypeTwoControlBlockCodes: string[] = ['A19', 'A23', 'A235', 'A25.1', 'A26', 'A36', 'A36.1', 'A42'];
     craneSelected: boolean = false;
     frameTypeSelected: boolean = false;
-    hintsChecked: boolean = true;
+    hintsChecked: boolean = false;
     fromTrailer: boolean = false;
 
     @ViewChild('grappleListBox') grappleListBox!: Dropdown;
@@ -363,7 +363,7 @@ export class PalmsCraneComponent implements OnInit, OnDestroy {
     }
 
     navigateToTrailer(trailerId: number) {
-        const url = `/calculator/palms/trailers/${trailerId}`;
+        const url = `/configurator/palms/trailers/${trailerId}`;
         window.open(url, '_blank');
     }
 

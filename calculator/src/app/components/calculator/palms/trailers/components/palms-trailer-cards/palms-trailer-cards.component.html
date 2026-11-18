@@ -1,49 +1,49 @@
-<section #addElement class="grid grid-cols-1 pb-8 gap-8 mx-5 md:grid-cols-2 md:mx-20 lg:grid-cols-3 lg:mx-20 xl:grid-cols-4 xl:mx-14">
+<section #addElement class="palms-machine-grid">
+    <div class="w-full fixed bottom-1 right-1 z-10 comparison-panel">
+        <app-comparison-accordion></app-comparison-accordion>
+    </div>
     @for (trailer of _trailers; track trailer.id) {
-        <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
-            <app-comparison-accordion></app-comparison-accordion>
-        </div>
-        <p-card class="mt-2 lg:mt-10 shadow-xl transition duration-300 ease-in-out hover:scale-105">
+        <p-card class="palms-machine-card">
             <ng-template pTemplate="header">
-                <div class="relative">
-                    <advanced-image class="flex hover:cursor-pointer" [cldImg]="trailer.image"></advanced-image>
+                <div class="machine-card-image">
+                    <advanced-image loading="lazy" [cldImg]="trailer.image"></advanced-image>
                 </div>
             </ng-template>
-            <div class="flex gap-2">
-                <p class="pb-4 text-base font-extrabold lg:text-xl text-[--palms-color]">
-                    {{ trailer.name }}
-                </p>
-                <p-tag *ngIf="trailer.name.includes('WD')" [style]="{ background: 'var(--palms-color)' }" value="Hajtással"></p-tag>
+            <div class="machine-card-body">
+                <div class="machine-card-heading">
+                    <h2 class="machine-card-title">{{ trailer.name }}</h2>
+                    <div class="machine-card-tags">
+                        <p-tag
+                            [value]="trailer.beamType"
+                            [pTooltip]="getTrailerTypeDescription(trailer.name, trailer.beamType)"
+                            tooltipPosition="top"
+                            class="machine-tag"
+                        ></p-tag>
+                        <p-tag *ngIf="trailer.name.includes('WD')" value="Hajtással" class="machine-tag machine-tag-drive"></p-tag>
+                    </div>
+                </div>
+                <dl class="machine-card-specs">
+                    <div><dt>Össztömeg</dt><dd>{{ trailer.grossWeight }} kg</dd></div>
+                    <div><dt>Alváz mérete</dt><dd>{{ trailer.frame }}</dd></div>
+                    <div><dt>Rakfelület</dt><dd>{{ trailer.loadingAreaCross }} m²</dd></div>
+                    <div><dt>Daru maximális bruttó emelési ereje</dt><dd>{{ trailer.maxCraneSize }} kNm</dd></div>
+                    <div><dt>Vonórúd-kormány henger(ek)</dt><dd>{{ trailer.drawbarControlCylinders }} db</dd></div>
+                </dl>
             </div>
-            <p class="block text-xs lg:text-base">
-                Össztömeg: <span class="font-bold">{{ trailer.grossWeight }}</span> kg
-            </p>
-            <p class="block text-xs lg:text-base">
-                Alváz mérete: <span class="font-bold">{{ trailer.frame }}</span>
-            </p>
-            <p class="block text-xs lg:text-base">
-                Rakfelület: <span class="font-bold">{{ trailer.loadingAreaCross }}</span> m2
-            </p>
-            <p class="block text-xs lg:text-base">
-                Maximális daruméret bruttó emelési ereje:
-                <span class="font-bold">{{ trailer.maxCraneSize }}</span> kNm
-            </p>
-            <p class="block text-xs lg:text-base">
-                Vonórúd kormány munkahengerek száma:
-                <span class="font-bold">{{ trailer.drawbarControlCylinders }}</span> db
-            </p>
             <ng-template pTemplate="footer">
-                <div class="grid gap-4">
+                <div class="machine-card-actions">
                     <button
+                        [disabled]="palmsService.trailerSelected$ | async"
+                        [ngClass]="{ disabled: palmsService.trailerSelected$ | async }"
                         (click)="buttonClickEmit(trailer)"
-                        class="rounded bg-[#8ac73c] text-black font-bold uppercase px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12"
+                        class="machine-action machine-action-primary"
                     >
                         Kiválaszt
                     </button>
                     @if (!(palmsService.craneSelected$ | async)) {
                         <button
                             (click)="addToComparison(trailer)"
-                            class="rounded bg-[#CECECE] text-black font-bold uppercase hover:opacity-80 px-2 pt-4 pb-3.5 text-xs lg:text-sm lg:px-4 xl:px-12"
+                            class="machine-action machine-action-secondary"
                         >
                             Összehasonlít
                         </button>
@@ -52,6 +52,6 @@
             </ng-template>
         </p-card>
     } @empty {
-        <p>Nem található pótkocsi</p>
+        <p class="machine-empty-state">Nem található pótkocsi</p>
     }
 </section>

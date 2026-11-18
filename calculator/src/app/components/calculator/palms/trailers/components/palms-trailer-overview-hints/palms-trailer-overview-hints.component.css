@@ -1,0 +1,57 @@
+.palms-trailer-overview-hints {
+    margin: -0.5rem 0 1.5rem;
+    padding: clamp(1rem, 2vw, 1.35rem);
+    border: 1px solid #e3eadc;
+    border-left: 3px solid #8ac73c;
+    border-radius: 0.85rem;
+    background: #fbfdf9;
+}
+
+.palms-trailer-overview-hints summary {
+    color: #34442e;
+    cursor: pointer;
+    font-size: 0.95rem;
+    font-weight: 700;
+}
+
+.palms-trailer-overview-hints-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.6rem;
+    margin: 1rem 0 0;
+}
+
+.palms-trailer-overview-hint {
+    display: grid;
+    grid-template-columns: 3.25rem minmax(0, 1fr);
+    align-items: start;
+    gap: 0.6rem;
+    padding: 0.65rem 0.75rem;
+    border: 1px solid #e8eee2;
+    border-radius: 0.6rem;
+    background: #fff;
+}
+
+.palms-trailer-overview-hint dt {
+    color: #4e7e1d;
+    font-weight: 800;
+}
+
+.palms-trailer-overview-hint dd {
+    margin: 0;
+    color: #5a6654;
+    font-size: 0.8rem;
+    line-height: 1.4;
+}
+
+@media (max-width: 900px) {
+    .palms-trailer-overview-hints-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .palms-trailer-overview-hints-grid {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}

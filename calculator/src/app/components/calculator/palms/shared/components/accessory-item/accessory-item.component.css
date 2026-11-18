@@ -1,0 +1,25 @@
+:host {
+    display: block;
+}
+
+.accessory-summary-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.55rem 0;
+    border-bottom: 1px solid #edf0e9;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+
+.accessory-summary-row span:first-child {
+    color: #43513d;
+}
+
+.accessory-summary-row span:last-child {
+    flex-shrink: 0;
+    color: #253321;
+    font-weight: 700;
+    white-space: nowrap;
+}

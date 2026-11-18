@@ -112,7 +112,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     @Input() id?: number;
     fromCrane: boolean = false;
     trailerSelected: boolean = false;
-    hintsChecked: boolean = true;
+    hintsChecked: boolean = false;
     woodSorterChecked: boolean = false;
     woodSorterNumberSelected: boolean = false;
     bunkAdapterChecked: boolean = false;
@@ -1730,7 +1730,7 @@ export class PalmsTrailerComponent implements OnInit, OnDestroy {
     }
 
     navigateToCrane(craneId: number) {
-        const url = `/calculator/palms/cranes/${craneId}`;
+        const url = `/configurator/palms/cranes/${craneId}`;
         window.open(url, '_blank');
     }
 

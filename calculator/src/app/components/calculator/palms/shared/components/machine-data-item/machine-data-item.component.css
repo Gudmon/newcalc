@@ -1,0 +1,23 @@
+:host {
+    display: block;
+}
+
+.machine-data-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.45rem 0;
+    border-bottom: 1px solid #edf0e9;
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.machine-data-row span {
+    color: #63705d;
+}
+
+.machine-data-row strong {
+    color: #283425;
+    font-weight: 700;
+    text-align: right;
+}

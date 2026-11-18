@@ -9,21 +9,22 @@ import { LoadingService } from '../../../../../../services/loading.service';
 import { AccordionModule } from 'primeng/accordion';
 import { ComparisonAccordionComponent } from '../../../comparison-accordion/comparison-accordion.component';
 import { CloudinaryModule } from '@cloudinary/ng';
-import { fill } from '@cloudinary/url-gen/actions/resize';
 import { CloudinaryService } from '../../../../../../services/cloudinary.service';
+import { TooltipModule } from 'primeng/tooltip';
+import { PALMS_TRAILER_MODEL_HINTS } from '../../../shared/models/palms-trailer-model-hints';
 
 @Component({
     selector: 'app-palms-trailer-cards',
     standalone: true,
-    imports: [CardModule, CommonModule, TagModule, AccordionModule, ComparisonAccordionComponent, CloudinaryModule],
+    imports: [CardModule, CommonModule, TagModule, AccordionModule, ComparisonAccordionComponent, CloudinaryModule, TooltipModule],
     templateUrl: './palms-trailer-cards.component.html',
     styleUrl: './palms-trailer-cards.component.css'
 })
 export class PalmsTrailerCardsComponent {
     _trailers: PalmsTrailerOverview[] = [];
     @Input({ required: true }) set trailers(trailers: PalmsTrailerOverview[]) {
-        trailers.map((trailer) => {
-            trailer.image = this.cloudinaryService.cloudinary.image(trailer.imageUrl).resize(fill().width(300).height(200));
+        trailers.forEach((trailer) => {
+            trailer.image = this.cloudinaryService.machinePreview(trailer.imageUrl);
         });
         this._trailers = trailers;
     }
@@ -39,6 +40,14 @@ export class PalmsTrailerCardsComponent {
 
     buttonClickEmit(trailer: PalmsTrailerOverview) {
         this.buttonClickEmitter.emit(trailer);
+    }
+
+    getTrailerTypeDescription(name: string, beamType: string): string {
+        const modelName = name.toUpperCase().replace(/^PALMS\s+/, '');
+        const modelType = PALMS_TRAILER_MODEL_HINTS.find((hint) =>
+            new RegExp(`(^|[^A-Z])${hint.title}($|[^A-Z])`).test(modelName)
+        );
+        return modelType?.description ?? beamType;
     }
 
     addToComparison(trailerOverView: PalmsTrailerOverview) {

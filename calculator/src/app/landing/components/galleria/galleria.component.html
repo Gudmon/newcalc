@@ -1,27 +1,39 @@
-<section class="card mt-44">
-    <div *ngIf="images" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-max mx-auto">
-        <div *ngFor="let image of images; let index = index" class="transition duration-300 ease-in-out hover:scale-105" key="index">
-            <div class="product-item">
-                <div class="product-item-content">
-                    <img loading="lazy" class="product-image" [src]="image.thumbnailImageSrc" [alt]="image.alt" style="cursor: pointer;" (click)="imageClick(index)" />
-                </div>
-            </div>
-        </div>
+<section class="gallery-section" aria-labelledby="gallery-title">
+    <div class="gallery-heading">
+        <span class="section-kicker">MUNKA KÖZBEN</span>
+        <h2 id="gallery-title">PALMS a terepen</h2>
     </div>
+
+    @if (images) {
+        <div class="gallery-grid">
+            @for (image of images; track image.itemImageSrc; let index = $index) {
+                <button
+                    type="button"
+                    class="gallery-item"
+                    [attr.aria-label]="image.alt + ' megnyitása'"
+                    (click)="imageClick(index)"
+                >
+                    <img loading="lazy" [src]="image.thumbnailImageSrc" [alt]="image.alt" />
+                    <span class="gallery-zoom" aria-hidden="true"><i class="pi pi-search-plus"></i></span>
+                </button>
+            }
+        </div>
+    }
+
     <p-galleria
         [value]="images"
-        [(visible)]="displayCustom!"
+        [(visible)]="displayCustom"
         [(activeIndex)]="activeIndex"
         [responsiveOptions]="responsiveOptions"
-        [containerStyle]="{ 'max-width': '850px' }"
-        [numVisible]="7"
+        [containerStyle]="{ 'max-width': '1000px' }"
+        [numVisible]="5"
         [circular]="true"
         [fullScreen]="true"
         [showItemNavigators]="true"
         [showThumbnails]="false"
     >
         <ng-template pTemplate="item" let-item>
-            <img loading="lazy" [src]="item.itemImageSrc" style="width: 100%; display: block;" />
+            <img class="gallery-full-image" [src]="item.itemImageSrc" [alt]="item.alt" />
         </ng-template>
     </p-galleria>
 </section>

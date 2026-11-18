@@ -1,23 +1,42 @@
-<section class="flex flex-wrap items-center mt-14 lg:mt-30 xl:mt-48">
-    <div class="w-full md:w-5/12 px-4 mr-auto ml-auto">
-      <h3 class="text-3xl mb-2 font-semibold leading-normal">
-         <span class="font-bold">Gyere el</span> és nézd meg raktáron levő gépeinket <span class="text-[#8ac73c] font-bold">a saját szemeddel</span>
-      </h3>
-      <p class="text-lg font-medium leading-relaxed mt-0 mb-4 text-gray-700">
-        Előzetes telefonos egyeztetés után - megtekinthetők <span class="font-bold">Alsónémediben.</span> (Somogyi B. u. 79.)
-      </p>
+<section class="visit-section" aria-labelledby="visit-title">
+    <div class="visit-copy">
+        <span class="section-kicker">HELYSZÍNI BEMUTATÓ</span>
+        <h2 id="visit-title">Gyere el és nézd meg raktáron lévő gépeinket a saját szemeddel!</h2>
+        <p>
+            Előzetes telefonos egyeztetés után személyesen is megtekintheted gépeinket Alsónémediben.
+        </p>
+
+        <div class="visit-address">
+            <i class="pi pi-map-marker" aria-hidden="true"></i>
+            <div>
+                <strong>Clear-globe Kft.</strong>
+                <span>2351 Alsónémedi, Somogyi B. u. 79.</span>
+            </div>
+        </div>
+
+        <a
+            class="visit-directions"
+            href="https://www.google.com/maps/search/?api=1&amp;query=2351%20Als%C3%B3n%C3%A9medi%2C%20Somogyi%20B.%20u.%2079."
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Útvonaltervezés
+            <i class="pi pi-arrow-right" aria-hidden="true"></i>
+        </a>
     </div>
-    <div class="w-full md:w-7/12 lg:w-7/12 px-4 mr-auto ml-auto">
-      <google-map
-        mapId="ad244940e0ece10e" 
-        height="500px"
-        width="100%"
-        [zoom]="zoom"
-        [center]="center"
-        [options]="options">
-        @for (marker of markerPositions; track $index) {
-          <map-advanced-marker [position]="marker.position" [title]="marker.title"></map-advanced-marker>
-        }
+
+    <div class="visit-map">
+        <google-map
+            mapId="ad244940e0ece10e"
+            height="100%"
+            width="100%"
+            [zoom]="zoom"
+            [center]="center"
+            [options]="options"
+        >
+            @for (marker of markerPositions; track $index) {
+                <map-advanced-marker [position]="marker.position" [title]="marker.title"></map-advanced-marker>
+            }
         </google-map>
     </div>
 </section>

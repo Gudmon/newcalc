@@ -1,17 +1,12 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { RouterLink } from '@angular/router';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-customer-map-feature',
   standalone: true,
-  imports: [],
+  imports: [ButtonModule, RouterLink],
   templateUrl: './customer-map-feature.component.html',
   styleUrl: './customer-map-feature.component.css'
 })
-export class CustomerMapFeatureComponent {
-  constructor(readonly router: Router){}
-
-  navigateToPalmsCustomerMap(){
-    this.router.navigate(['customer-map']);
-  }
-}
+export class CustomerMapFeatureComponent {}

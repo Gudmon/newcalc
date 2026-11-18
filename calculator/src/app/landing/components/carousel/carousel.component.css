@@ -1,100 +1,71 @@
-.image-holder img {
-    object-fit: cover;
-    object-position: 50% 55%;
-}
-
-.p-element.p-icon-wrapper.ng-star-inserted {
-    color: var(--primary-color) !important;
-    background-color: rgba(0, 0, 0, 0.9) red !important;
-    padding: 1rem;
-    border-radius: 50%;
-}
-
-button {
-    color: var(--primary-color) !important;
-    background-color: red !important;
-    padding: 1rem;
-    border-radius: 50%;
-}
-
-#next {
-    color: white !important;
-    background-color: var(--primary-color) !important;
-    border-radius: 0%;
-}
-
-.galleria-container {
-    position: relative;
-}
-
-.custom {
-    position: absolute;
-    top: 5%;
-    right: 5%;
-    left: auto;
-    transform: none;
-
-    text-align: center;
-    color: white;
-    background: rgba(0, 0, 0, 0.65);
-    padding: 20px;
-    border-radius: 8px;
-
-    width: 40%;
-    max-width: 600px;
-}
-
-.centered-img {
+:host {
     display: block;
-    margin: 0 auto;
+}
+
+.hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    background: #172216;
+}
+
+.hero-background,
+.hero-shade {
+    position: absolute;
+    inset: 0;
+}
+
+.hero-background {
+    z-index: -2;
+}
+
+.hero-shade {
+    z-index: -1;
+}
+
+.hero-background img {
+    position: absolute;
+    inset: 0;
     width: 100%;
-    max-width: 400px;
-    height: auto;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    animation: hero-background-cycle 18s infinite;
 }
 
-@media (max-width: 940px) {
-    .centered-img {
-        max-width: 325px;
+.hero-shade {
+    background: linear-gradient(90deg, rgba(10, 18, 8, 0.86), rgba(10, 18, 8, 0.72) 58%, rgba(10, 18, 8, 0.43));
+}
+
+.hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    min-height: min(760px, calc(100svh - 72px));
+    align-items: center;
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4.5rem) clamp(1.25rem, 4vw, 3rem);
+}
+
+@keyframes hero-background-cycle {
+    0%,
+    28% {
+        opacity: 1;
+    }
+
+    34%,
+    100% {
+        opacity: 0;
     }
 }
 
-@media (max-width: 768px) {
-    .centered-img {
-        max-width: 300px;
+@media (prefers-reduced-motion: reduce) {
+    .hero-background img {
+        animation: none;
     }
-}
 
-@media (max-width: 610px) {
-    .centered-img {
-        max-width: 250px;
-    }
-}
-
-@media (max-width: 480px) {
-    .centered-img {
-        max-width: 200px;
-    }
-}
-
-.cta-btn {
-    background-color: var(--primary-color) !important;
-    color: white !important;
-    padding: 14px 32px;
-    border-radius: 999px;
-    border: none;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.3s ease;
-}
-
-.cta-btn:hover {
-    transform: translateY(-1px);
-    opacity: 0.9;
-}
-
-@media (max-width: 768px) {
-    .cta-btn {
-        padding: 8px 18px;
-        font-size: 0.85rem;
+    .hero-background img:first-child {
+        opacity: 1;
     }
 }

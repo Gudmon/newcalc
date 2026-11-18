@@ -1,5 +1,252 @@
+:host {
+    display: block;
+}
+
 .disabled {
     opacity: 0.5;
     pointer-events: none;
     cursor: not-allowed;
+}
+
+.palms-pdf-section {
+    width: 100%;
+    margin: 2rem auto 4rem;
+}
+
+.palms-pdf-action {
+    display: flex;
+    justify-content: center;
+    margin: 0 0 1.5rem;
+}
+
+.palms-pdf-button {
+    display: inline-flex;
+    min-height: 2.8rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55rem;
+    padding: 0.7rem 1.2rem;
+    border: 0;
+    border-radius: 0.65rem;
+    background: #8ac73c;
+    color: #fff;
+    box-shadow: 0 4px 12px rgba(89, 140, 37, 0.2);
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition:
+        background-color 140ms ease,
+        box-shadow 140ms ease,
+        transform 140ms ease;
+}
+
+.palms-pdf-button:hover {
+    transform: translateY(-1px);
+    background: #75ad30;
+    box-shadow: 0 6px 16px rgba(89, 140, 37, 0.24);
+}
+
+.palms-pdf-button:focus-visible,
+.palms-contact-submit:focus-visible {
+    outline: 3px solid rgba(138, 199, 60, 0.35);
+    outline-offset: 3px;
+}
+
+.palms-contact-wrap {
+    display: flex;
+    justify-content: center;
+}
+
+.palms-contact-card {
+    width: 100%;
+    padding: clamp(1.25rem, 3vw, 2.25rem);
+    border: 1px solid #e3eadc;
+    border-top: 3px solid #8ac73c;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 8px 26px rgba(31, 48, 23, 0.08);
+}
+
+.palms-contact-content {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem 1.25rem;
+}
+
+.palms-contact-heading,
+.palms-contact-phone,
+.palms-contact-field-full,
+.palms-contact-actions,
+.palms-contact-note {
+    grid-column: 1 / -1;
+}
+
+.palms-contact-heading {
+    margin-bottom: 0.25rem;
+}
+
+.palms-contact-eyebrow {
+    margin: 0 0 0.4rem;
+    color: #6a9c31;
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.palms-contact-heading h2 {
+    margin: 0;
+    color: #283425;
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.palms-contact-heading > p:last-child {
+    margin: 0.45rem 0 0;
+    color: #63705d;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.palms-contact-field {
+    min-width: 0;
+}
+
+.palms-contact-label-row {
+    display: flex;
+    min-height: 1.4rem;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.25rem 0.6rem;
+    margin-bottom: 0.4rem;
+}
+
+.palms-contact-label {
+    color: #43533c;
+    font-size: 0.78rem;
+    font-weight: 700;
+}
+
+.palms-contact-label span {
+    margin-left: 0.15rem;
+    color: #a32116;
+}
+
+.palms-contact-error {
+    margin: 0;
+    color: #a32116;
+    font-size: 0.72rem;
+}
+
+.palms-contact-input {
+    display: block;
+    width: 100%;
+    min-height: 2.75rem;
+    padding: 0.7rem 0.8rem;
+    border: 1px solid #dce5d3;
+    border-radius: 0.55rem;
+    background: #fff;
+    color: #283425;
+    font-size: 0.88rem;
+    line-height: 1.45;
+    outline: none;
+    transition:
+        border-color 140ms ease,
+        box-shadow 140ms ease;
+}
+
+.palms-contact-input::placeholder {
+    color: #9aa493;
+}
+
+.palms-contact-input:focus {
+    border-color: #8ac73c;
+    box-shadow: 0 0 0 3px rgba(138, 199, 60, 0.18);
+}
+
+textarea.palms-contact-input {
+    min-height: 8rem;
+    resize: vertical;
+}
+
+.palms-contact-phone {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.25rem;
+}
+
+.palms-contact-dropdown {
+    width: 100%;
+    height: 2.75rem;
+}
+
+.palms-contact-actions {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.25rem;
+}
+
+.palms-contact-submit {
+    min-width: 7rem;
+    min-height: 2.65rem;
+    padding: 0.65rem 1.1rem;
+    border: 0;
+    border-radius: 0.55rem;
+    background: #8ac73c;
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.82rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    transition:
+        background-color 140ms ease,
+        opacity 140ms ease;
+}
+
+.palms-contact-submit:hover:not(:disabled) {
+    background: #75ad30;
+}
+
+.palms-contact-submit:disabled {
+    cursor: not-allowed;
+}
+
+.palms-contact-note {
+    margin: 0;
+    padding: 0.8rem 0.9rem;
+    border-radius: 0.55rem;
+    background: #f7faf4;
+    color: #63705d;
+    font-size: 0.78rem;
+    line-height: 1.5;
+}
+
+.palms-contact-note p {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin: 0;
+}
+
+.palms-contact-note i {
+    flex: 0 0 auto;
+    margin-top: 0.1rem;
+    color: #6a9c31;
+}
+
+@media (max-width: 640px) {
+    .palms-contact-content,
+    .palms-contact-phone {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .palms-contact-heading,
+    .palms-contact-phone,
+    .palms-contact-field-full,
+    .palms-contact-actions,
+    .palms-contact-note {
+        grid-column: 1;
+    }
 }

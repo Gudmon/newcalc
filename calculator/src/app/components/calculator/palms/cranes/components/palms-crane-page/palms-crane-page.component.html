@@ -1,8 +1,8 @@
 <app-navigation></app-navigation>
 <app-palms-crane></app-palms-crane>
 <app-palms-trailer *ngIf="palmsService.selectedTrailer$ | async" [id]="(palmsService.selectedTrailer$ | async)?.id"></app-palms-trailer>
-<section class="mx-10">
-    <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12 fixed bottom-1 right-1 z-10">
+<section class="palms-config-page-summary">
+    <div class="palms-config-summary">
         <p-accordion
             *ngIf="(palmsService.selectedCrane$ | async) && (palmsService.craneSelected$ | async)"
             [activeIndex]="this.palmsService._selectedAccordion()"
@@ -16,8 +16,8 @@
                         </p>
                         @if ((palmsService.craneSelected$ | async) && (palmsService.trailerSelected$ | async)) {
                             <p class="mr-auto text-sm lg:text-base">
-                                <span class="">Összesen: </span
-                                ><span class="font-extrabold text-lg">{{ palmsService._totalPrice() | formatPrice }}</span>
+                                <span>Összesen: </span>
+                                <span class="font-extrabold text-lg">{{ palmsService._totalPrice() | formatPrice }}</span>
                             </p>
                         }
                         <button
@@ -28,7 +28,7 @@
                         </button>
                     </div>
                 </ng-template>
-                <div class="max-h-96 overflow-auto">
+                <div>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedControlBlock()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedFrameType()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedRotator()"></app-accessory-item>
@@ -77,7 +77,7 @@
                         </button>
                     </div>
                 </ng-template>
-                <div class="max-h-96 overflow-auto">
+                <div>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedStanchion()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedBrake()"></app-accessory-item>
                     <app-accessory-item [accessoryItem]="this.palmsService.selectedPropulsion()"></app-accessory-item>

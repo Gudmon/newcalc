@@ -22,19 +22,18 @@ export class PalmsTrailerCalculatorHintsComponent {
 
     private setHints() {
         this.hints = [
-            { title: 'Pótkocsi konfigurálása', description: 'Válassza ki a kívánt elemeket' },
+            { title: 'Pótkocsi konfigurálása', description: 'Válassza ki a kívánt felszereltséget.' },
             {
                 title: 'Daru konfigurálása (opcionális)',
-                description:
-                    'Amennyiben szeretné, a pótkocsihoz illeszthető daru konfigurálását is elvégezheti a "Kiválaszt" gombra kattintva'
+                description: 'A kompatibilis daru kártyáján válassza a „Kiválaszt” gombot. A daruval is kezdheti.'
             },
             {
                 title: 'Információ az elemekről',
-                description: 'Az adott elem(ek)ről további infomációt találhat, amennyiben rákattint az "i" gombra'
+                description: 'Az „i” ikonra kattintva elolvashatja az adott felszereltség leírását.'
             },
-            { title: 'PDF mentés', description: 'Kalkulációját elmentheti a "Mentés PDF-ben" gombra kattintva' },
-            { title: 'Üzenet küldés', description: 'Sikeres PDF mentés után üzenhet nekünk' },
-            { title: 'Új konfiguráció', description: '"Törlés" gombra kattintva törölheti a pótkocsit vagy darut' }
+            { title: 'PDF mentése', description: 'A „Mentés PDF-ben” gomb letölti az összeállítás összefoglalóját.' },
+            { title: 'Üzenet küldése', description: 'Töltse ki az űrlapot; a mentett PDF-et csatoljuk az üzenethez.' },
+            { title: 'Új összeállítás', description: 'A „Törlés” gombbal eltávolíthatja a pótkocsit vagy a darut.' }
         ];
     }
 }

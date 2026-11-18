@@ -122,7 +122,7 @@ export class AppComponent implements OnInit {
                 label: 'Kezdőlap'
             },
             {
-                label: 'Kalkulátorok',
+                label: 'Konfigurátorok',
                 items: [
                     {
                         label: 'Krpan'

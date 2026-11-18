@@ -1,21 +1,3 @@
-#video-holder > youtube-player > iframe {
-    display: block;
-    width: 50%;
-}
-
-advanced-image {
-    display: flex !important;
-    width: 100% !important;
-    height: 100% !important;
-}
-
-advanced-image img {
-    width: 100% !important;
-    height: 100% !important;
-    object-fit: cover !important;
-    display: grid !important;
-}
-
 .p-galleria-mask {
     background: rgba(0, 0, 0, 0.95) !important;
 }

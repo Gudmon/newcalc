@@ -14,6 +14,6 @@ export class ChooseSupportLegComponent {
     constructor(private readonly router: Router) {}
 
     navigateToCalculation() {
-        this.router.navigate(['calculator/palms']);
+        this.router.navigate(['configurator/palms']);
     }
 }

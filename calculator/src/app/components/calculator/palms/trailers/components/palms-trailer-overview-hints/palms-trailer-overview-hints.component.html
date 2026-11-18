@@ -1,14 +1,13 @@
-<section class="my-10 mx-10">
-    @for (hint of hints; track $index) {
-        <ng-container>
-            <div class="grid grid-cols-12 gap-8 my-6">
-                <div class="col-span-5 justify-self-start sm:col-span-6 sm:justify-self-end">
-                    <p class="text-md lg:text-lg font-bold">{{ hint.title }}</p>
+<section class="palms-trailer-overview-hints">
+    <details open>
+        <summary>Mit jelentenek a pótkocsi jelölései?</summary>
+        <dl class="palms-trailer-overview-hints-grid">
+            @for (hint of hints; track hint.title) {
+                <div class="palms-trailer-overview-hint">
+                    <dt>{{ hint.title }}</dt>
+                    <dd>{{ hint.description }}</dd>
                 </div>
-                <div class="col-span-5 justify-self-start mt-1">
-                    <p class="text-sm lg:text-md font-normal">{{ hint.description }}</p>
-                </div>
-            </div>
-        </ng-container>
-    }
+            }
+        </dl>
+    </details>
 </section>

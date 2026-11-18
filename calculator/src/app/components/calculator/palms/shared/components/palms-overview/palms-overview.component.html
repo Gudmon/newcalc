@@ -1,35 +1,45 @@
 <app-navigation></app-navigation>
-<div #topElement class="grid gap-3 pt-28 md:pt-32 lg:pt-36 md:flex md:justify-around lg:align-middle rounded-3xl">
-    <div class="md:rounded-2xl">
-        <nav class="flex flex-col md:flex-row mx-auto rounded-xl xl:gap- bg-[rgba(0,0,0,.7)]" aria-label="Tabs" role="tablist">
-            <button
-                (click)="setSetelectedMachineType(MachineType.Trailer, $event)"
-                [ngClass]="{ 'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedMachineType$ | async) === MachineType.Trailer }"
-                type="button"
-                class="md:rounded-xl font-semibold py-4 px-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-white"
-                id="horizontal-alignment-item-1"
-            >
-                Pótkocsik
-            </button>
-            <button
-                (click)="setSetelectedMachineType(MachineType.Crane, $event)"
-                [ngClass]="{ 'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedMachineType$ | async) === MachineType.Crane }"
-                type="button"
-                class="md:rounded-xl font-semibold py-4 px-10 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-[rgb(255,255,255)]"
-                id="horizontal-alignment-item-2"
-            >
-                Daruk
-            </button>
-        </nav>
+<main class="calculator-main">
+    <nav class="machine-selector" aria-label="Géptípus" role="tablist">
+        <button
+            (click)="setSelectedMachineType(MachineType.Trailer)"
+            [class.active]="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
+            [attr.aria-selected]="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
+            type="button"
+            role="tab"
+        >
+            Pótkocsik
+        </button>
+        <button
+            (click)="setSelectedMachineType(MachineType.Crane)"
+            [class.active]="(palmsService.selectedMachineType$ | async) === MachineType.Crane"
+            [attr.aria-selected]="(palmsService.selectedMachineType$ | async) === MachineType.Crane"
+            type="button"
+            role="tab"
+        >
+            Daruk
+        </button>
+    </nav>
+
+    <div
+        *ngIf="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
+        class="palms-overview-hints-toggle"
+    >
+        <label for="trailer-model-hints-switch">Tippek</label>
+        <p-inputSwitch
+            inputId="trailer-model-hints-switch"
+            [(ngModel)]="hintsChecked"
+        ></p-inputSwitch>
     </div>
-</div>
+    <app-palms-trailer-overview-hints
+        *ngIf="(palmsService.selectedMachineType$ | async) === MachineType.Trailer && hintsChecked"
+    ></app-palms-trailer-overview-hints>
 
-<div *ngIf="(palmsService.selectedMachineType$ | async) === null" class="h-dvh"></div>
-
-<app-palms-trailers
-    *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === MachineType.Trailer"
-></app-palms-trailers>
-<app-palms-cranes
-    *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === MachineType.Crane"
-></app-palms-cranes>
+    <app-palms-trailers
+        *ngIf="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
+    ></app-palms-trailers>
+    <app-palms-cranes
+        *ngIf="(palmsService.selectedMachineType$ | async) === MachineType.Crane"
+    ></app-palms-cranes>
+</main>
 <app-footer></app-footer>

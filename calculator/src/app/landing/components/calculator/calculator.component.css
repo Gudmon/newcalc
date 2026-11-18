@@ -1,12 +1,143 @@
-@media (prefers-reduced-motion: no-preference){
-    .image-holder button {
-        transition: transform 1000ms;
+:host {
+    display: block;
+}
+
+.calculator-heading {
+    max-width: 54rem;
+    margin: 0 0 1.75rem;
+    color: #fff;
+}
+
+.section-kicker {
+    color: #c4e79a;
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.calculator-heading h1 {
+    margin: 0.45rem 0 0.65rem;
+    color: #fff;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+}
+
+.calculator-heading p {
+    margin: 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: clamp(0.95rem, 1.5vw, 1.1rem);
+    line-height: 1.6;
+}
+
+.workflow-steps {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: stretch;
+    gap: clamp(0.5rem, 1.2vw, 1rem);
+}
+
+.workflow-step {
+    display: flex;
+    min-height: 14rem;
+    flex-direction: column;
+    border: 1px solid rgba(255, 255, 255, 0.72);
+    border-radius: 0.75rem;
+    background: rgba(255, 255, 255, 0.94);
+    padding: clamp(0.85rem, 1.5vw, 1.25rem);
+    color: #1d2819;
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.12);
+}
+
+.step-number {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 50%;
+    background: #cf2026;
+    color: #fff;
+    font-weight: 800;
+}
+
+.step-visual {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 0.85rem;
+}
+
+.step-icon {
+    color: #69a923;
+    font-size: 1.5rem;
+}
+
+.workflow-step h2 {
+    margin: 0 0 0.45rem;
+    color: #1d2819;
+    font-size: clamp(0.9rem, 1.15vw, 1rem);
+    font-weight: 800;
+}
+
+.workflow-step p {
+    margin: 0;
+    color: #596353;
+    font-size: 0.8rem;
+    line-height: 1.5;
+}
+
+.workflow-connector {
+    align-self: center;
+    color: #c4e79a;
+    font-size: 1rem;
+}
+
+.calculator-cta {
+    display: flex;
+    width: min(100%, 26rem);
+    min-height: 3.5rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    margin: 2rem auto 0;
+    border: 0;
+    border-radius: 0.5rem;
+    background: #cf2026;
+    padding: 1.1rem 2rem;
+    color: #fff;
+    font-size: clamp(1.05rem, 1.5vw, 1.25rem);
+    font-weight: 800;
+    text-decoration: none;
+    box-shadow: 0 8px 20px rgba(80, 8, 8, 0.3);
+}
+
+.calculator-cta i {
+    font-size: 1.1rem;
+}
+
+@media (max-width: 900px) {
+    .workflow-steps {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .image-holder button:hover,
-    .image-holder button:focus-visible {
-        /* transform: translateY(-.5rem);
-        transition: transform 250ms; */
-        opacity: 80%;
+    .workflow-step {
+        min-height: 13rem;
+    }
+
+    .workflow-connector {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .workflow-steps {
+        grid-auto-flow: column;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-rows: repeat(2, minmax(0, 1fr));
+    }
+
+    .workflow-step {
+        min-height: 12rem;
+        padding: 0.75rem;
     }
 }

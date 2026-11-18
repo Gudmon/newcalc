@@ -52,7 +52,7 @@ export class PdfComponent implements OnInit {
     private initializeFormGroup(): void {
         this.formGroup = this.fb.group({
             name: ['', Validators.required],
-            email: ['', Validators.required],
+            email: ['', [Validators.required, Validators.email]],
             countryCode: [null, Validators.required],
             phoneNumber: ['', Validators.required],
             message: ['', Validators.required]

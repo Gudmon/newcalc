@@ -1,16 +1,92 @@
-:host ::ng-deep {
-    .product-item {
-        .product-item-content {
-            border: 1px solid var(--surface-d);
-            border-radius: 3px;
-            margin: .3rem;
-            text-align: center;
-            padding: 2rem 0;
-        }
-    
-        .product-image {
-            width: 50%;
-            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)
-        }
+:host {
+    display: block;
+}
+
+.gallery-section {
+    max-width: 1320px;
+    margin: 0 auto;
+}
+
+.gallery-heading {
+    margin-bottom: 1.25rem;
+    text-align: center;
+}
+
+.section-kicker {
+    color: #69a923;
+    font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.gallery-heading h2 {
+    margin: 0.35rem 0 0;
+    color: #172016;
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 900;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 0.7rem;
+}
+
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+    border: 0;
+    border-radius: 0.55rem;
+    padding: 0;
+    background: #edf2e8;
+    cursor: pointer;
+}
+
+.gallery-item img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1.55 / 1;
+    object-fit: cover;
+    transition: transform 300ms ease;
+}
+
+.gallery-zoom {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: rgba(17, 26, 13, 0);
+    color: #fff;
+    opacity: 0;
+    transition: background 200ms ease, opacity 200ms ease;
+}
+
+.gallery-item:hover img,
+.gallery-item:focus-visible img {
+    transform: scale(1.04);
+}
+
+.gallery-item:hover .gallery-zoom,
+.gallery-item:focus-visible .gallery-zoom {
+    background: rgba(17, 26, 13, 0.35);
+    opacity: 1;
+}
+
+.gallery-item:focus-visible {
+    outline: 3px solid #69a923;
+    outline-offset: 2px;
+}
+
+.gallery-full-image {
+    display: block;
+    max-width: min(90vw, 1000px);
+    max-height: 82vh;
+    margin: auto;
+    object-fit: contain;
+}
+
+@media (max-width: 760px) {
+    .gallery-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }

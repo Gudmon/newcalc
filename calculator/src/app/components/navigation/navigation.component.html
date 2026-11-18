@@ -1,27 +1,21 @@
-<div class="nav card sticky top-0 z-50 w-full">
-    <p-menubar [model]="items" class="mx-auto text-5xl">
+<header class="nav sticky top-0 z-50 w-full">
+    <p-menubar [model]="items" class="mx-auto">
         <ng-template pTemplate="start">
-            <a href="https://www.clear-globe.com/" target="_blank">
-                <img loading="eager" class="h-14 w-auto" src="../assets/clear_globe_icon_80x60.png" />
+            <a class="brand-link" href="https://www.clear-globe.com/" target="_blank" rel="noopener noreferrer">
+                <img loading="eager" class="brand-logo" src="../assets/clear_globe_icon_80x60.png" alt="ClearGlobe" />
             </a>
         </ng-template>
         <ng-template pTemplate="end" class="flex">
-            <div class="sm:flex gap-0 sm:gap-6 ml-6">
-                <a class="flex gap-2" href="tel:+36306811948">
-                    <i class="pi pi-phone"></i>
-                    <p class="text-xs lg:text-sm">
-                        <span class="text-xs lg:text-sm underline xl:no-underline">+36 30 681 1948</span
-                        ><span class="text-primary-color bold text-xs lg:text-sm"> - GÉPEK</span>
-                    </p>
+            <div class="nav-contacts">
+                <a href="tel:+36306811948">
+                    <i class="pi pi-phone" aria-hidden="true"></i>
+                    <span>+36 30 681 1948 <b>- GÉPEK</b></span>
                 </a>
-                <a class="flex gap-2" href="tel:+36703373334">
-                    <i class="pi pi-phone"></i>
-                    <p class="text-xs lg:text-sm">
-                        <span class="text-xs lg:text-sm underline xl:no-underline">+36 70 337 3334</span
-                        ><span class="text-primary-color bold text-xs lg:text-sm"> - IRODA</span>
-                    </p>
+                <a href="tel:+36703373334">
+                    <i class="pi pi-phone" aria-hidden="true"></i>
+                    <span>+36 70 337 3334 <b>- IRODA</b></span>
                 </a>
             </div>
         </ng-template>
     </p-menubar>
-</div>
+</header>

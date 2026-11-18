@@ -13,9 +13,12 @@ import { ImportantComponent } from './components/useful-reading/important/import
 
 export const routes: Routes = [
     { path: '', component: LandingComponent },
-    { path: 'calculator/palms', component: PalmsOverviewComponent },
-    { path: 'calculator/palms/trailers/:id', component: PalmsTrailerPageComponent },
-    { path: 'calculator/palms/cranes/:id', component: PalmsCranePageComponent },
+    { path: 'configurator/palms', component: PalmsOverviewComponent },
+    { path: 'configurator/palms/trailers/:id', component: PalmsTrailerPageComponent },
+    { path: 'configurator/palms/cranes/:id', component: PalmsCranePageComponent },
+    { path: 'calculator/palms', redirectTo: 'configurator/palms', pathMatch: 'full' },
+    { path: 'calculator/palms/trailers/:id', redirectTo: 'configurator/palms/trailers/:id', pathMatch: 'full' },
+    { path: 'calculator/palms/cranes/:id', redirectTo: 'configurator/palms/cranes/:id', pathMatch: 'full' },
     { path: 'customer-map', component: CustomerMapComponent },
     { path: 'useful-reading', component: UsefulReadingComponent },
     { path: 'useful-reading/choose-trailer', component: ChooseTrailerComponent },

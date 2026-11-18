@@ -1,13 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
 import { PalmsService } from '../../../shared/services/palms.service';
 import { CommonModule } from '@angular/common';
-import { CardModule } from 'primeng/card';
 import { Router } from '@angular/router';
 import { PalmsTrailerOverview } from '../../models/palms-trailer-overview';
 import { LoadingService } from '../../../../../../services/loading.service';
-import { PalmsTrailerOverviewHintsComponent } from '../palms-trailer-overview-hints/palms-trailer-overview-hints.component';
-import { InputSwitchModule } from 'primeng/inputswitch';
 import { PalmsTrailerCardsComponent } from '../palms-trailer-cards/palms-trailer-cards.component';
 import { MachineType } from '../../../shared/models/machine-type';
 import { ChassisType } from '../../../shared/models/chassis-type';
@@ -17,14 +13,13 @@ import { ChassisType } from '../../../shared/models/chassis-type';
     standalone: true,
     templateUrl: './palms-trailers.component.html',
     styleUrl: './palms-trailers.component.css',
-    imports: [FormsModule, CommonModule, CardModule, PalmsTrailerOverviewHintsComponent, InputSwitchModule, PalmsTrailerCardsComponent]
+    imports: [CommonModule, PalmsTrailerCardsComponent]
 })
 export class PalmsTrailersComponent implements OnInit {
     protected readonly ChassisType = ChassisType;
     protected readonly MachineType = MachineType;
     private originalTrailers: PalmsTrailerOverview[] = [];
 
-    hintsChecked: boolean = true;
     trailers: PalmsTrailerOverview[] = [];
 
     constructor(
@@ -61,7 +56,7 @@ export class PalmsTrailersComponent implements OnInit {
     }
 
     navigateToTrailer(trailer: PalmsTrailerOverview) {
-        this.router.navigate(['/calculator/palms/trailers', trailer.id]);
+        this.router.navigate(['/configurator/palms/trailers', trailer.id]);
     }
 
     setSelectedChassisType(chassisType: ChassisType, event: Event) {

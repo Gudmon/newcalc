@@ -1,26 +1,16 @@
-<div class="">
-    <p-galleria
-        class="image-holder"
-        [value]="images"
-        [numVisible]="5"
-        [autoPlay]="true"
-        [circular]="true"
-        [showItemNavigators]="true"
-        [showThumbnails]="false"
-        [responsiveOptions]="responsiveOptions"
-        [containerStyle]="{ 'max-height': '100dvh' }"
-    >
-        <ng-template class="relative" pTemplate="item" let-item>
-            <img loading="eager" class="image" [src]="item.itemImageSrc" style="width: 100%; max-height: 100dvh" />
-            <div class="custom grid sm:gap-2 md:gap-4 lg:gap-8 xl:gap-10">
-                <h1 class="font-bold text-xs md:text-sm lg:text-lg xl:text-3xl text-[--primary-color]">Ne maradjon le!</h1>
-                <h1 class="font-bold text-xs md:text-sm lg:text-lg xl:text-3xl text-[--primary-color]">
-                    <span class="text-white">A hamarosan megjelenő</span>
-                    <span> KAP-RD40_RD12-1-25 </span>
-                    <span class="text-white">erdészeti gépbeszerzési pályázat ügyében keresse pályázatíróját.</span>
-                </h1>
-                <button class="cta-btn" (click)="navigateToKAP()">Érdekel</button>
-            </div>
-        </ng-template>
-    </p-galleria>
-</div>
+<section class="hero" aria-label="PALMS gépkonfigurátor">
+    <div class="hero-background" aria-hidden="true">
+        @for (image of backgroundImages; track image; let index = $index) {
+            <img
+                [src]="image"
+                alt=""
+                [style.animation-delay]="index * 6 + 's'"
+                [attr.fetchpriority]="index === 0 ? 'high' : 'auto'"
+            />
+        }
+    </div>
+    <div class="hero-shade"></div>
+    <div class="hero-content">
+        <app-calculator></app-calculator>
+    </div>
+</section>

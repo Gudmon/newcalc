@@ -8,7 +8,6 @@ import { ComparisonStoreService } from '../../../trailers/services/comparison-st
 import { LoadingService } from '../../../../../../services/loading.service';
 import { ComparisonAccordionComponent } from '../../../comparison-accordion/comparison-accordion.component';
 import { CloudinaryModule } from '@cloudinary/ng';
-import { fill } from '@cloudinary/url-gen/actions/resize';
 import { CloudinaryService } from '../../../../../../services/cloudinary.service';
 
 @Component({
@@ -22,7 +21,7 @@ export class PalmsCraneCardsComponent {
     _cranes: PalmsCraneOverview[] = [];
     @Input({ required: true }) set cranes(cranes: PalmsCraneOverview[]) {
         cranes.forEach((crane) => {
-            crane.image = this.cloudinaryService.cloudinary.image(crane.imageUrl).resize(fill().width(300).height(200));
+            crane.image = this.cloudinaryService.machinePreview(crane.imageUrl);
         });
         this._cranes = cranes;
     }

@@ -1,55 +1,43 @@
-<section class="mt-14 w-full">
-    <div class="w-full h-full flex justify-center items-center mt-8 mb-2">
-        <p>Tippek</p>
+<section class="machine-list-panel">
+    <div class="machine-list-copy">
+        <p class="machine-list-eyebrow">Válasszon gépet</p>
+        <h1 class="machine-list-title">Erdészeti pótkocsik</h1>
+        <p class="machine-list-description">Szűrés alvázkialakítás szerint.</p>
     </div>
-    <div class="w-full h-full flex justify-center items-center">
-        <p-inputSwitch [(ngModel)]="hintsChecked"></p-inputSwitch>
-    </div>
-    <div class="mx-auto">
-        <app-palms-trailer-overview-hints *ngIf="hintsChecked"></app-palms-trailer-overview-hints>
-    </div>
-</section>
 
-<div class="ml-2 md:ml-10 lg:ml-14 my-10">
-    <p class="text-xl font-bold">Erdészeti pótkocsik szűrése alváz típus szerint</p>
-</div>
-
-<section class="grid gap-3 md:flex rounded-3xl">
-    <div class="md:rounded-2xl md:ml-10 lg:ml-14 mb-6 md:mb-0">
-        <nav class="flex flex-col md:flex-row mx-auto rounded-xl bg-[rgba(0,0,0,.7)]" aria-label="Tabs" role="tablist">
-            <button
-                (click)="setSelectedChassisType(ChassisType.Single, $event)"
-                [ngClass]="{ 'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === ChassisType.Single }"
-                type="button"
-                class="md:rounded-xl font-semibold py-2 px-6 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-white"
-                id="horizontal-alignment-item-1"
-            >
-                Egy
-            </button>
-            <button
-                (click)="setSelectedChassisType(ChassisType.Double, $event)"
-                [ngClass]="{ 'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === ChassisType.Double }"
-                type="button"
-                class="md:rounded-xl font-semibold py-2 px-6 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-[rgb(255,255,255)]"
-                id="horizontal-alignment-item-2"
-            >
-                Dupla
-            </button>
-            <button
-                (click)="setSelectedChassisType(ChassisType.Unibody, $event)"
-                [ngClass]="{ 'bg-primary-color text-[rgb(0,0,0)]': (palmsService.selectedChassisType$ | async) === ChassisType.Unibody }"
-                type="button"
-                class="md:rounded-xl font-semibold py-2 px-6 inline-flex items-center gap-x-2 border-b-2 border-transparent text-sm lg:text-lg xl:text-xl whitespace-nowrap text-[rgb(255,255,255)]"
-                id="horizontal-alignment-item-2"
-            >
-                Unibody
-            </button>
-        </nav>
-    </div>
+    <nav class="machine-filter-tabs" aria-label="Pótkocsi alváz típusa" role="tablist">
+        <button
+            (click)="setSelectedChassisType(ChassisType.Single, $event)"
+            [class.active]="(palmsService.selectedChassisType$ | async) === ChassisType.Single"
+            [attr.aria-selected]="(palmsService.selectedChassisType$ | async) === ChassisType.Single"
+            type="button"
+            role="tab"
+        >
+            Egyalvázas
+        </button>
+        <button
+            (click)="setSelectedChassisType(ChassisType.Double, $event)"
+            [class.active]="(palmsService.selectedChassisType$ | async) === ChassisType.Double"
+            [attr.aria-selected]="(palmsService.selectedChassisType$ | async) === ChassisType.Double"
+            type="button"
+            role="tab"
+        >
+            Dupla alvázas
+        </button>
+        <button
+            (click)="setSelectedChassisType(ChassisType.Unibody, $event)"
+            [class.active]="(palmsService.selectedChassisType$ | async) === ChassisType.Unibody"
+            [attr.aria-selected]="(palmsService.selectedChassisType$ | async) === ChassisType.Unibody"
+            type="button"
+            role="tab"
+        >
+            Unibody
+        </button>
+    </nav>
 </section>
 
 <app-palms-trailer-cards
-    *ngIf="palmsService.selectedMachineType$ !== null && (palmsService.selectedMachineType$ | async) === MachineType.Trailer"
+    *ngIf="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
     [trailers]="trailers"
     (buttonClickEmitter)="navigateToTrailer($event)"
 ></app-palms-trailer-cards>

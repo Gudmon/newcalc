@@ -1,32 +1,46 @@
-<section class="xl:mt-60 xl:mb-60">
-    <div class="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-20">
-        <div class="grid items-center gap-8 sm:gap-20 lg:grid-cols-2">
-            <div>
-                <div class="flex gap-2">
-                    <span class="text-palms-color text-3xl font-bold tracking-tight md:text-3xl xl:text-5xl">Termékek</span>
-                </div>
-                <div class="my-10">
-                    <p class="text-lg font-medium leading-loose mt-0 mb-4">
-                        Napjainkban a PALMS az erdészeti pótkocsik és daruk legnagyobb gyártója Európában. A PALMS négy alapvető értékre
-                        épül:
-                        <b class=""> elhivatottság,</b>
-                        <b class=""> innováció,</b>
-                        <b class=""> magas termékminőség,</b>
-                        <b class=""> tartós ügyfélkapcsolatok értéke</b>. Csatlakozzon a PALMS családhoz és válasszon igényeinek megfelelő,
-                        megbízható terméket.
-                    </p>
-                </div>
-                <a href="https://www.clear-globe.com/wp-content/uploads/2020/02/Palms_2020_A4_HU_LOWRES_sample.pdf" target="_blank">
-                    <button
-                        class="mb-2 rounded bg-palms-color text-white px-2 pt-4 pb-3.5 text-sm font-semibold uppercase md:mr-2 md:mb-0 xl:px-20 hover:opacity-85"
-                    >
-                        Katalógus
-                    </button>
-                </a>
-            </div>
-            <div>
-                <img src="../../assets/palms_brochure.png" alt="" class="mx-auto inline-block h-full w-full max-w-2xl" />
-            </div>
-        </div>
+<section id="products" class="products-section" aria-labelledby="products-title">
+    <div class="products-intro">
+        <span class="section-kicker">PALMS TERMÉKEK</span>
+        <h2 id="products-title">Termékek</h2>
+        <p>
+            Ismerje meg az európai erdészeti pótkocsik és daruk egyik vezető gyártójának megbízható gépeit. Válasszon az
+            igényeinek megfelelő konfigurációt.
+        </p>
+        <a
+            pButton
+            class="catalog-button"
+            href="https://www.clear-globe.com/wp-content/uploads/2020/02/Palms_2020_A4_HU_LOWRES_sample.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            Katalógus megnyitása
+            <i class="pi pi-external-link" aria-hidden="true"></i>
+        </a>
+    </div>
+
+    <div class="product-cards">
+        <a
+            pButton
+            routerLink="/configurator/palms"
+            [queryParams]="{ machine: 'trailer' }"
+            class="product-card trailer-card"
+        >
+            <img src="../../assets/PALMS%20HMWD3.2-4.jpg" alt="PALMS HMWD 3.2-4 erdészeti pótkocsi" loading="lazy" />
+            <span class="product-card-shade"></span>
+            <span class="product-card-title">Pótkocsik</span>
+            <i class="pi pi-arrow-right product-card-arrow" aria-hidden="true"></i>
+        </a>
+
+        <a
+            pButton
+            routerLink="/configurator/palms"
+            [queryParams]="{ machine: 'crane' }"
+            class="product-card crane-card"
+        >
+            <img src="../../assets/palms_default13.png" alt="PALMS erdészeti daru" loading="lazy" />
+            <span class="product-card-shade"></span>
+            <span class="product-card-title">Daruk</span>
+            <i class="pi pi-arrow-right product-card-arrow" aria-hidden="true"></i>
+        </a>
     </div>
 </section>

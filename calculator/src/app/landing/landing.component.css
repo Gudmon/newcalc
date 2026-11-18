@@ -1,0 +1,17 @@
+:host {
+    display: block;
+}
+
+.landing-page {
+    background: #fff;
+}
+
+.landing-sections {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 6vw, 5rem);
+    width: calc(100% - clamp(2.5rem, 8vw, 8rem));
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: clamp(2rem, 4vw, 4rem) 0 5rem;
+}

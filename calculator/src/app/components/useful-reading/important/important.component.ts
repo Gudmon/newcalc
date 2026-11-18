@@ -1,32 +1,19 @@
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FooterComponent } from '../../footer/footer.component';
 import { NavigationComponent } from '../../navigation/navigation.component';
-import { TableModule } from 'primeng/table';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-important',
     standalone: true,
     templateUrl: './important.component.html',
     styleUrl: './important.component.css',
-    imports: [FooterComponent, NavigationComponent, TableModule]
+    imports: [FooterComponent, NavigationComponent]
 })
-export class ImportantComponent implements OnInit {
-    products: any;
-    public getScreenWidth: any;
-    public getScreenHeight: any;
+export class ImportantComponent {
+    constructor(private readonly router: Router) {}
 
-    smallScreen() {
-        return this.getScreenWidth < 645;
-    }
-
-    ngOnInit() {
-        this.getScreenWidth = window.innerWidth;
-        this.getScreenHeight = window.innerHeight;
-    }
-
-    @HostListener('window:resize', ['$event'])
-    onWindowResize() {
-        this.getScreenWidth = window.innerWidth;
-        this.getScreenHeight = window.innerHeight;
+    navigateToCalculation() {
+        this.router.navigate(['configurator/palms']);
     }
 }

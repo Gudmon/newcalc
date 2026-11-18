@@ -1,75 +1,125 @@
-.card .p-menubar .p-menuitem-text {
-    color: white;
+.nav {
+    background: rgba(255, 255, 255, 0.97);
+    box-shadow: 0 2px 14px rgba(20, 35, 18, 0.1);
+    backdrop-filter: blur(12px);
+}
+
+.nav .p-menubar {
+    min-height: 4.5rem;
+    width: min(1320px, calc(100% - 3rem));
+    max-width: 1320px;
+    margin: 0 auto;
+    padding: 0.45rem 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    color: #172016;
+}
+
+.nav .brand-link {
+    display: inline-flex;
+    align-items: center;
+    margin-right: clamp(1.25rem, 4vw, 3.5rem);
+}
+
+.nav .brand-logo {
+    display: block;
+    width: 5rem;
+    height: 3.75rem;
+    object-fit: contain;
+}
+
+.nav .p-menubar .p-menuitem-link {
+    position: relative;
+    padding: 1.1rem 0.9rem;
+    color: #172016;
+}
+
+.nav .p-menubar .p-menuitem-text {
+    color: inherit;
+    font-size: 0.95rem;
     font-weight: 700;
-    font-size: large;
 }
 
-.card .p-menubar {
-    background-color: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    border-radius: 0% !important;
-}
-
-.nav svg {
-    color: white;
-    background-color: transparent;
-    width: 1.5rem;
-    height: 1.5rem;
-}
-
-/* .p-menubar-button.ng-star-inserted {
-    background-color: red;
-    padding: 50px;
-} */
-
-.p-menubar-button.ng-star-inserted {
-    margin-left: 2rem;
-}
-
-/* .p-element.p-icon-wrapper.ng-star-inserted {
+.nav .p-menubar .p-menuitem-link:not(.p-disabled):hover {
+    background: transparent;
     color: var(--primary-color);
-    background-color: rgba(0,0,0,.9);
-    padding: 1rem;
-    border-radius: 50%;
-}    */
+}
 
-/* .p-menubar.p-component.p-menubar-mobile-active{
-    background-color: aqua;
-    color: blue;
-} */
+.nav .p-menubar .p-menuitem-link:focus {
+    box-shadow: inset 0 0 0 2px var(--primary-color);
+}
 
-@media screen and (max-width: 960px) {
-    .p-menubar ul {
-        background-color: rgba(0, 0, 0, 0.9);
-        color: #fff;
+.nav .nav-contacts {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 1.75rem);
+    margin-left: 1.25rem;
+}
+
+.nav .nav-contacts a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #253321;
+    font-size: 0.78rem;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.nav .nav-contacts i,
+.nav .nav-contacts b {
+    color: #69a923;
+}
+
+@media (max-width: 960px) {
+    .nav .p-menubar {
+        flex-wrap: wrap;
+        gap: 0.25rem 1rem;
+    }
+
+    .nav .p-menubar-root-list {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+    }
+
+    .nav .p-menubar-end {
+        margin-left: auto;
+    }
+
+    .nav .nav-contacts {
+        gap: 0.65rem;
+        margin-left: 0;
     }
 }
 
-.p-menubar li > *:hover,
-.p-menubar li > *:active {
-    background-color: #8ac73c;
-}
-
-@keyframes softPulse {
-    0% {
-        box-shadow: 0 0 0 0 rgba(138, 199, 60, 0.6);
+@media (max-width: 600px) {
+    .nav .p-menubar {
+        min-height: 4rem;
+        padding: 0.25rem 0;
     }
-    70% {
-        box-shadow: 0 0 0 8px rgba(138, 199, 60, 0);
-    }
-    100% {
-        box-shadow: 0 0 0 0 rgba(138, 199, 60, 0);
-    }
-}
-.p-menuitem-content {
-    background-color: transparent;
-}
 
-.p-submenu-list {
-    background-color: black;
-}
+    .nav .brand-logo {
+        width: 3.75rem;
+        height: 3rem;
+    }
 
-.pi-exclamation-circle {
-    font-size: 1.5rem;
-    color: cornflowerblue;
+    .nav .p-menubar-root-list {
+        justify-content: flex-start;
+    }
+
+    .nav .p-menubar .p-menuitem-link {
+        padding: 0.75rem 0.6rem;
+    }
+
+    .nav .nav-contacts {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.15rem;
+    }
+
+    .nav .nav-contacts a {
+        font-size: 0.66rem;
+    }
 }
