@@ -1,5 +1,5 @@
 import { Component, DestroyRef, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationComponent } from '../../../../../navigation/navigation.component';
 import { FooterComponent } from '../../../../../footer/footer.component';
@@ -19,6 +19,7 @@ import { PalmsTrailerOverviewHintsComponent } from '../../../trailers/components
     styleUrl: './palms-overview.component.css',
     imports: [
         NavigationComponent,
+        RouterLink,
         FooterComponent,
         PalmsTrailersComponent,
         CommonModule,

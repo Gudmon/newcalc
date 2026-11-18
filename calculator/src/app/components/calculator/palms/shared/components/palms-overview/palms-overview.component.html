@@ -2,14 +2,16 @@
 <main class="calculator-main">
     <nav class="machine-selector" aria-label="Géptípus">
         <a
-            href="/configurator/palms?machine=trailer"
+            routerLink="/configurator/palms"
+            [queryParams]="{ machine: 'trailer' }"
             [class.active]="(palmsService.selectedMachineType$ | async) === MachineType.Trailer"
             [attr.aria-current]="(palmsService.selectedMachineType$ | async) === MachineType.Trailer ? 'page' : null"
         >
             Pótkocsik
         </a>
         <a
-            href="/configurator/palms?machine=crane"
+            routerLink="/configurator/palms"
+            [queryParams]="{ machine: 'crane' }"
             [class.active]="(palmsService.selectedMachineType$ | async) === MachineType.Crane"
             [attr.aria-current]="(palmsService.selectedMachineType$ | async) === MachineType.Crane ? 'page' : null"
         >

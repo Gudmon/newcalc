@@ -21,7 +21,8 @@
     <div class="product-cards">
         <a
             pButton
-            href="/configurator/palms?machine=trailer"
+            routerLink="/configurator/palms"
+            [queryParams]="{ machine: 'trailer' }"
             class="product-card trailer-card"
         >
             <img src="../../assets/PALMS%20HMWD3.2-4.jpg" alt="PALMS HMWD 3.2-4 erdészeti pótkocsi" loading="lazy" />
@@ -32,7 +33,8 @@
 
         <a
             pButton
-            href="/configurator/palms?machine=crane"
+            routerLink="/configurator/palms"
+            [queryParams]="{ machine: 'crane' }"
             class="product-card crane-card"
         >
             <img src="../../assets/palms_default13.png" alt="PALMS erdészeti daru" loading="lazy" />
